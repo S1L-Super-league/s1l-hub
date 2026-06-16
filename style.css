@@ -80,6 +80,8 @@ details[open]>summary::before{ content:"▾ "; }
 #gate input{ width:100%; padding:14px; font-size:1.05rem; border:2px solid var(--line); border-radius:12px; background:var(--bg); color:var(--ink); }
 #gate button{ width:100%; margin-top:12px; padding:14px; font-size:1.05rem; font-weight:700; border:0; border-radius:12px; background:var(--c-duell); color:#fff; cursor:pointer; }
 #gate .err{ color:#c0392b; min-height:1.2em; margin-top:8px; font-size:.95rem; }
+.btn{ display:inline-block; padding:12px 18px; font-weight:700; text-decoration:none; border-radius:12px; background:var(--c-duell); color:#fff; }
+.btn:hover, .btn:focus-visible{ filter:brightness(1.08); }
 a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
 #content[hidden]{ display:none; }
 footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px solid var(--line); padding-top:14px; }

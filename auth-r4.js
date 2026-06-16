@@ -1,18 +1,19 @@
-/* ============ S1L Info-Hub — Login (Name + Passwort) ============
-   EINZIGE Stelle zum Passwort-Wechsel: die Liste ALLOWED unten + das Passwort,
-   das du den Mitgliedern SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
+/* ============ S1L Info-Hub — R4-Bereich Login (zweites Passwort) ============
+   EIGENES Tor für den R4-/Offiziers-Bereich — getrennt vom Mitglieder-Login (auth.js)
+   UND vom Verwaltungs-Login. EINZIGE Stelle zum Passwort-Wechsel: die Liste R4_ALLOWED unten
+   + das R4-Passwort, das du SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
    Jeder Eintrag = SHA-256 von "spielername:passwort" (Name klein geschrieben).
-   Stand 16.06.2026: nur Trusted-/R4-Kern (8). Reguläre Mitglieder folgen später.
+   Stand 16.06.2026: Trusted-/R4-Kern (8). Löst die alte Verwaltungsseite ab.
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
-var ALLOWED = [
-  "20190cb49f0f98986058d7455677476483f192d8127f1be4d43dce944e893b76", // kingeder
-  "7ecf15a56f22c2b95d32e226f36b2d58c47b9736d9f1cccb9284d2293d181442", // crexoog
-  "9779e3666efcb17845f3c4cbcfaaec04f58038c75223ff4abaad13229375d993", // hmx
-  "4d410cf3c325d8c6afb65484493f64c3a8566995757b32a5fcf0f0f00da02b85", // lady m
-  "bd03e23e28fc26de743d94aaadb2d3864d9a1b46a32bfc00037996c9006ebe4f", // jac
-  "67f2a9ca42c82eef8330c4ac4651787fc345268acfe12e98c4925c9f8320d4e2", // ghob
-  "3548f4358ff559bce66bedfc514208c57b7720a5c5600b30a2245021d112c3bc", // војвода
-  "f90af8f51d816847e69e7833e0ee65c9146568b584ea8ea587d5aabf20441bdd"  // bismillah
+var R4_ALLOWED = [
+  "75ed960ca7e896a38a50d2891bac3459549dd6eaf293515a2d30d78f28c89050", // kingeder
+  "1d0699ca996b6f9adca85a0f56e3e6253cdbb3233826be2c9b97673c51cb8c8c", // crexoog
+  "8457c1ae37818feea5e95c93189caedaf303f8d8ed593c36959d14a1ad9a31c1", // hmx
+  "cf49f54e52510e0ab21747c81d1d743f450f80ac5392421e3f242cec7f8e2031", // lady m
+  "922b0b521d77f22836dfe466705119ed26b2342115887ec0c1a32ba86c03dfa3", // jac
+  "4fe571b256cf12da1da3932f914271e400b9cd3aee7593cefd0714c03381ac4c", // ghob
+  "17f474f68eeed2734ac8a5dd6519d65c54f01093cfc748cc5dbc169245bb082f", // војвода
+  "de750a08180c542b94f846dbb42e214770caa0329b42c82ef08f79dd0896fd77"  // bismillah
 ];
 
 function sha256js(ascii){
@@ -45,20 +46,20 @@ async function hashInput(s){
   return sha256js(unescape(encodeURIComponent(s)));
 }
 function reveal(){ var g=document.getElementById('gate'), c=document.getElementById('content'); if(g) g.style.display='none'; if(c) c.hidden=false; }
-function s1lInit(){
-  if(sessionStorage.getItem('s1l_ok')==='1'){ reveal(); return; }
+function r4Init(){
+  if(sessionStorage.getItem('s1l_r4_ok')==='1'){ reveal(); return; }
   var go=document.getElementById('go'); if(!go) return;
   var nm=document.getElementById('nm'), pw=document.getElementById('pw'), err=document.getElementById('err');
   async function tryOpen(){
     var n=nm.value.trim().toLowerCase(), p=pw.value;
-    if(!n||!p){ err.textContent='Bitte Name und Passwort eingeben.'; return; }
+    if(!n||!p){ err.textContent='Bitte Name und R4-Passwort eingeben.'; return; }
     var hsh=await hashInput(n+':'+p);
-    if(ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_ok','1'); reveal(); }
-    else { err.textContent='Name oder Passwort stimmt nicht.'; pw.value=''; pw.focus(); }
+    if(R4_ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_r4_ok','1'); sessionStorage.setItem('s1l_r4_name', nm.value.trim()); reveal(); }
+    else { err.textContent='Kein R4-Zugriff (Name oder Passwort stimmt nicht).'; pw.value=''; pw.focus(); }
   }
   go.addEventListener('click', tryOpen);
   pw.addEventListener('keydown', function(e){ if(e.key==='Enter') tryOpen(); });
   nm.addEventListener('keydown', function(e){ if(e.key==='Enter') pw.focus(); });
   nm.focus();
 }
-if(document.readyState!=='loading') s1lInit(); else document.addEventListener('DOMContentLoaded', s1lInit);
+if(document.readyState!=='loading') r4Init(); else document.addEventListener('DOMContentLoaded', r4Init);

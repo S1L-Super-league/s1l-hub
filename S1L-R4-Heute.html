@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R4 — Aktueller Tag — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ R4-Bereich</h1>
+    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <header>
+    <h1>⭐ Aktueller Tag — R4</h1>
+    <p class="lead">Tagesplan / Marschbefehl für die Offiziere. Pflegt <b>Alex</b> (Template unten).</p>
+  </header>
+
+  <div class="today">
+    <h2>⭐ HEUTE — TT.MM.JJJJ</h2>
+    <div class="row"><span class="ic">🗓️</span><div><b>Was läuft:</b> … <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">🎯</span><div><b>R4-Fokus heute:</b> …</div></div>
+    <div class="row"><span class="ic">💎</span><div><b>Golden Window:</b> … UTC / … DE</div></div>
+    <div class="row"><span class="ic">📣</span><div><b>Ansage an die Allianz:</b> …</div></div>
+  </div>
+
+  <h2 class="section">📝 Für Alex</h2>
+  <div class="card">
+    <p>Hier liegt das <b>Tages-Template</b> für R4. Den Block oben füllst du täglich (oder rollst das Datum), Stufe-1-Infos. Aufbau bewusst gleich wie der HEUTE-Block auf dem Haupt-Hub, nur mit R4-Fokus/Ansagen.</p>
+    <p class="lead">Platzhalter „TT.MM.JJJJ" und „…" ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</p>
+  </div>
+
+  <footer>S1L Info-Hub · R4 · Aktueller Tag · Daten unsensibel (Gamertags). Schutz bewusst leicht.</footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R4-Bereich — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- R4-Tor: zweites Passwort, getrennt vom Mitglieder-Login (auth-r4.js) -->
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ R4-Bereich</h1>
+    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig (nicht das Mitglieder-Login).</p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>🛡️ R4-Bereich</h1>
+    <p class="lead">Arbeitsbereich für R4 / Offiziere. Eigenes Passwort, getrennt vom Mitglieder-Login.</p>
+  </header>
+
+  <h2 class="section">Bereiche</h2>
+  <div class="grid two">
+    <a class="cardlink" href="S1L-R4-Kommunikation.html"><div class="card admin"><h3>💬 Kommunikation</h3><p>R4-Pinnwand: schreiben, Bilder posten, bleibt sichtbar. Discord als Option.</p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="S1L-R4-Heute.html"><div class="card heute"><h3>⭐ Aktueller Tag</h3><p>Tagesplan/Marschbefehl für R4. Templates von Alex.</p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="S1L-R4-Raid.html"><div class="card raid"><h3>🚨 Raid-Ankündigungen</h3><p>Raids ansagen & planen. Templates von Alex.</p><p class="go">Öffnen →</p></div></a>
+  </div>
+
+  <footer>S1L Info-Hub · R4-Bereich · Daten unsensibel (Gamertags). Schutz bewusst leicht (clientseitig).</footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+</body>
+</html>

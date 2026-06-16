@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R4 — Kommunikation — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ R4-Bereich</h1>
+    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <header>
+    <h1>💬 R4-Kommunikation</h1>
+    <p class="lead">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</p>
+  </header>
+
+  <!-- ===== Die Pinnwand (In-Hub, Firebase) ===== -->
+  <h2 class="section">📌 R4-Pinnwand</h2>
+  <div class="card admin">
+    <div id="fb-status" class="lead">Verbinde…</div>
+    <form id="postform" style="display:none; margin-top:6px">
+      <input id="p-name" type="text" placeholder="Dein Name"
+        style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)">
+      <textarea id="p-text" rows="3" placeholder="Nachricht an die R4…"
+        style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-family:inherit"></textarea>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:5px 0">
+        <label style="font-size:.9rem">📎 Bild: <input id="p-img" type="file" accept="image/*"></label>
+        <button class="btn" id="p-send" type="submit">Posten</button>
+      </div>
+    </form>
+  </div>
+  <div id="posts" style="margin-top:12px"></div>
+
+  <!-- ===== Discord als Option ===== -->
+  <h2 class="section">💬 Lieber Discord? (Option)</h2>
+  <div class="card">
+    <p>Wer lieber Discord nutzt, kann das weiterhin tun — die Pinnwand oben ist für alle gedacht, die <b>kein</b> Discord/Insta wollen.</p>
+    <p style="margin:12px 0"><a class="btn" href="DISCORD-EINLADUNGSLINK-HIER" target="_blank" rel="noopener">➡️ R4-Discord öffnen</a></p>
+    <p class="lead">Hinweis: Sicherheit bewusst leicht (clientseitig). Bitte nichts Sensibles posten — nur Spiel-/Allianz-Themen.</p>
+  </div>
+
+  <footer>S1L Info-Hub · R4 · Kommunikation · Daten unsensibel (Gamertags). Schutz bewusst leicht.</footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== R4-Pinnwand (Firestore) =====
+   Trage unten die ÖFFENTLICHE Firebase-Web-Config ein (siehe
+   deploy/README-R4-Chat-Firebase.md). Der apiKey hier ist bei Firebase
+   bewusst öffentlich (kein Geheimnis) — Schutz kommt aus den Firestore-Rules. */
+var firebaseConfig = {
+  apiKey: "AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18",
+  authDomain: "s1l-hub.firebaseapp.com",
+  projectId: "s1l-hub",
+  storageBucket: "s1l-hub.firebasestorage.app",
+  messagingSenderId: "761448020039",
+  appId: "1:761448020039:web:b65a7e1c1bac2f31831962"
+};
+var PRUNE_DAYS = 14;   // Beiträge älter als X Tage werden automatisch gelöscht
+var MAX_SHOW   = 60;   // so viele neueste Beiträge anzeigen
+
+function esc(t){ var e=document.createElement('div'); e.textContent=(t==null?'':t); return e.innerHTML; }
+
+function shrinkImage(file, cb){            // Bild klein rechnen -> spart Daten
+  var fr=new FileReader();
+  fr.onload=function(){ var img=new Image();
+    img.onload=function(){
+      var max=900, w=img.width, h=img.height;
+      if(w>max||h>max){ if(w>h){ h=Math.round(h*max/w); w=max; } else { w=Math.round(w*max/h); h=max; } }
+      var c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      cb(c.toDataURL('image/jpeg',0.7));
+    };
+    img.onerror=function(){ cb(''); }; img.src=fr.result;
+  };
+  fr.onerror=function(){ cb(''); }; fr.readAsDataURL(file);
+}
+
+function boardInit(){
+  var status=document.getElementById('fb-status'),
+      form=document.getElementById('postform'),
+      postsEl=document.getElementById('posts');
+  if(!firebaseConfig.apiKey || firebaseConfig.apiKey.indexOf('DEIN')===0){
+    status.innerHTML='⚠️ Pinnwand noch nicht scharf — die Firebase-Config fehlt. Anleitung: <code>deploy/README-R4-Chat-Firebase.md</code>.';
+    return;
+  }
+  try{
+    firebase.initializeApp(firebaseConfig);
+    var col=firebase.firestore().collection('r4posts');
+    var nm=sessionStorage.getItem('s1l_r4_name'); if(nm) document.getElementById('p-name').value=nm;
+    form.style.display='block'; status.textContent='';
+
+    // Auto-Pruning: alte Beiträge entfernen
+    var cutoff=Date.now()-PRUNE_DAYS*864e5;
+    col.where('tms','<',cutoff).get().then(function(s){ s.forEach(function(d){ d.ref.delete(); }); }).catch(function(){});
+
+    // Live-Anzeige
+    col.orderBy('tms','desc').limit(MAX_SHOW).onSnapshot(function(snap){
+      if(snap.empty){ postsEl.innerHTML='<p class="lead">Noch keine Beiträge — schreib den ersten.</p>'; return; }
+      var html='';
+      snap.forEach(function(doc){
+        var p=doc.data(), when=p.tms?new Date(p.tms).toLocaleString('de-DE'):'';
+        html+='<div class="card"><p><b>'+esc(p.name)+'</b> <span class="lead" style="font-size:.78em">'+when+'</span></p>';
+        if(p.text) html+='<p>'+esc(p.text).replace(/\n/g,'<br>')+'</p>';
+        if(p.img)  html+='<p><img src="'+p.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>';
+        html+='<p><a href="#" class="del" data-id="'+doc.id+'" style="color:var(--c-admin);font-size:.82em;text-decoration:none">🗑 löschen</a></p></div>';
+      });
+      postsEl.innerHTML=html;
+      var dels=postsEl.getElementsByClassName('del');
+      for(var i=0;i<dels.length;i++){ dels[i].addEventListener('click', function(e){
+        e.preventDefault(); if(confirm('Beitrag löschen?')) col.doc(this.getAttribute('data-id')).delete();
+      }); }
+    }, function(err){ status.textContent='Verbindungsfehler: '+(err.code||err.message); });
+
+    // Posten
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name=(document.getElementById('p-name').value.trim()||'R4'),
+          text=document.getElementById('p-text').value.trim(),
+          file=document.getElementById('p-img').files[0],
+          btn=document.getElementById('p-send');
+      if(!text && !file) return;
+      btn.disabled=true; btn.textContent='…';
+      function save(imgData){
+        col.add({ name:name, text:text, img:imgData||'', tms:Date.now() }).then(function(){
+          document.getElementById('p-text').value=''; document.getElementById('p-img').value='';
+          btn.disabled=false; btn.textContent='Posten';
+        }).catch(function(err){ btn.disabled=false; btn.textContent='Posten'; alert('Fehler: '+(err.code||err.message)); });
+      }
+      if(file) shrinkImage(file, save); else save('');
+    });
+  }catch(err){ status.textContent='Init-Fehler: '+err.message; }
+}
+if(document.readyState!=='loading') boardInit(); else document.addEventListener('DOMContentLoaded', boardInit);
+</script>
+</body>
+</html>
