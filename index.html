@@ -11,12 +11,12 @@
 <div id="gate" role="dialog" aria-label="Anmelden">
   <div class="box">
     <h1>🔒 S1L Info-Hub</h1>
-    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <p><span class="lng-de">Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</span><span class="lng-en">For [S1L] members only. Please enter your in-game name and password.</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
-    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername / Your name">
     <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
-    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
-    <button id="go" type="button">Anmelden</button>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort / Password" style="margin-top:10px">
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
@@ -25,86 +25,86 @@
 <div class="wrap">
   <header>
     <h1>📋 S1L Info-Hub</h1>
-    <p>Alles Wichtige auf einen Blick. Reihenfolge: HEUTE → Woche → Events → Saison → Tipps.</p>
+    <p><span class="lng-de">Alles Wichtige auf einen Blick. Reihenfolge: HEUTE → Woche → Events → Saison → Tipps.</span><span class="lng-en">Everything important at a glance. Order: TODAY → Week → Events → Season → Tips.</span></p>
   </header>
 
   <div style="border:2px solid #c0392b; background:rgba(192,57,43,.08); border-radius:14px; padding:12px 16px; margin:14px 0;">
-    <h2 style="color:#c0392b; margin:.1em 0 .4em; font-size:1.15rem;">🔒 Sicherheit — wie geschützt sind unsere Infos?</h2>
-    <p style="color:#c0392b; margin:.2em 0;"><b>Kurz &amp; ehrlich:</b> Kein Kanal ist 100 % geheim — überall kann theoretisch jemand mitlesen. Darum überall dasselbe: <b>nichts wirklich Privates posten</b> (echte Namen, Adressen, Passwörter).</p>
+    <h2 style="color:#c0392b; margin:.1em 0 .4em; font-size:1.15rem;"><span class="lng-de">🔒 Sicherheit — wie geschützt sind unsere Infos?</span><span class="lng-en">🔒 Security — how protected is our info?</span></h2>
+    <p style="color:#c0392b; margin:.2em 0;"><span class="lng-de"><b>Kurz &amp; ehrlich:</b> Kein Kanal ist 100 % geheim — überall kann theoretisch jemand mitlesen. Darum überall dasselbe: <b>nichts wirklich Privates posten</b> (echte Namen, Adressen, Passwörter).</span><span class="lng-en"><b>Short &amp; honest:</b> No channel is 100% private — in theory someone could always read along. So the same rule everywhere: <b>post nothing truly private</b> (real names, addresses, passwords).</span></p>
     <ul style="color:#c0392b; margin:.3em 0; padding-left:1.2em;">
-      <li><b>Allianz-Chat (im Spiel — alle lesen):</b> liegt verschlüsselt auf FunPlus-Servern, aber FunPlus <b>moderiert/liest mit</b>. Leserkreis: ganze Allianz + FunPlus.</li>
-      <li><b>R4-/Verwaltungs-Chat (im Spiel — nur Rat liest):</b> gleiche FunPlus-Server, nur <b>engerer Leserkreis</b> (Rat). FunPlus liest weiter mit.</li>
-      <li><b>Dieser Hub (GitHub Pages):</b> per HTTPS verschlüsselt übertragen; der Login ist <b>clientseitig</b> (Passwort steckt im Code) → ein Profi käme mit Mühe rein. Aber hier stehen <b>nur unsensible Spielinfos</b> (Gamertags, Events, Strategie) — nichts Privates. Passwort wechselt wöchentlich.</li>
+      <li><span class="lng-de"><b>Allianz-Chat (im Spiel — alle lesen):</b> liegt verschlüsselt auf FunPlus-Servern, aber FunPlus <b>moderiert/liest mit</b>. Leserkreis: ganze Allianz + FunPlus.</span><span class="lng-en"><b>Alliance chat (in-game — everyone reads):</b> stored encrypted on FunPlus servers, but FunPlus <b>moderates/reads along</b>. Audience: the whole alliance + FunPlus.</span></li>
+      <li><span class="lng-de"><b>R4-/Verwaltungs-Chat (im Spiel — nur Rat liest):</b> gleiche FunPlus-Server, nur <b>engerer Leserkreis</b> (Rat). FunPlus liest weiter mit.</span><span class="lng-en"><b>R4/management chat (in-game — only the council reads):</b> same FunPlus servers, just a <b>smaller audience</b> (council). FunPlus still reads along.</span></li>
+      <li><span class="lng-de"><b>Dieser Hub (GitHub Pages):</b> per HTTPS verschlüsselt übertragen; der Login ist <b>clientseitig</b> (Passwort steckt im Code) → ein Profi käme mit Mühe rein. Aber hier stehen <b>nur unsensible Spielinfos</b> (Gamertags, Events, Strategie) — nichts Privates. Passwort wechselt wöchentlich.</span><span class="lng-en"><b>This hub (GitHub Pages):</b> transferred encrypted via HTTPS; the login is <b>client-side</b> (password sits in the code) → a pro could get in with effort. But it only holds <b>non-sensitive game info</b> (gamertags, events, strategy) — nothing private. The password changes weekly.</span></li>
     </ul>
-    <p style="color:#c0392b; margin:.2em 0;"><b>Fazit:</b> Für öffentliche Spielinfos ist der Hub sicher genug — selbst „gehackt" gäbe es nichts Sensibles zu holen. Sensibles bleibt überall draußen.</p>
+    <p style="color:#c0392b; margin:.2em 0;"><span class="lng-de"><b>Fazit:</b> Für öffentliche Spielinfos ist der Hub sicher genug — selbst „gehackt" gäbe es nichts Sensibles zu holen. Sensibles bleibt überall draußen.</span><span class="lng-en"><b>Bottom line:</b> For public game info the hub is secure enough — even if "hacked" there'd be nothing sensitive to grab. Keep sensitive things out everywhere.</span></p>
   </div>
 
   <div class="legend" aria-label="Bedeutung der Labels">
-    <span class="badge tier-fix">FIX — so machen</span>
-    <span class="badge tier-prob">WAHRSCHEINLICH richtig</span>
-    <span class="badge tier-test">NOCH TESTEN</span>
+    <span class="badge tier-fix"><span class="lng-de">FIX — so machen</span><span class="lng-en">FIX — do this</span></span>
+    <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH richtig</span><span class="lng-en">LIKELY correct</span></span>
+    <span class="badge tier-test"><span class="lng-de">NOCH TESTEN</span><span class="lng-en">STILL TESTING</span></span>
   </div>
 
   <!-- ========== 1. HEUTE ========== -->
   <div class="today">
-    <h2>⭐ HEUTE — 16.06.2026</h2>
-    <div class="row"><span class="ic">🗓️</span><div><b>Was läuft:</b> Allianzduell Tag 2 (Basisbau) vs [LEG] LEGEON · Rüstungswettlauf Tag 4 · Turbo-Schildkröte Phase 2/7 · Ghulöwe</div></div>
-    <div class="row"><span class="ic">🏆</span><div><b>Stand Duell:</b> wir führen 54 % (S1L) : 46 % (LEGEON) · Wochenstand 0:1</div></div>
-    <div class="row"><span class="ic">💎</span><div><b>Golden Window Bau: OFFEN JETZT bis 20:00 UTC / 22:00 DE</b> — gebunkerte Bau-Speedups einsetzen <span class="badge tier-fix">FIX</span></div></div>
-    <div class="row"><span class="ic">✅</span><div><b>FIX tun:</b> Basisbau-Tagesaufgaben — S-Stufe „Schwierige Entsendung" +105.000 · LKW (Klasse A) +70.000 · Tagesaufgaben abräumen <span class="badge tier-fix">FIX</span></div></div>
-    <div class="row"><span class="ic">⛔</span><div><b>NICHT tun:</b> ALLIANZ GEHT VOR — Turbo-Schildkröte nur nebenbei; KEINE Bau-Speedups/Fetzen für die Schildkröte verbrennen <span class="badge tier-fix">FIX</span></div></div>
+    <h2><span class="lng-de">⭐ HEUTE — 16.06.2026</span><span class="lng-en">⭐ TODAY — 16 June 2026</span></h2>
+    <div class="row"><span class="ic">🗓️</span><div><span class="lng-de"><b>Was läuft:</b> Allianzduell Tag 2 (Basisbau) vs [LEG] LEGEON · Rüstungswettlauf Tag 4 · Turbo-Schildkröte Phase 2/7 · Ghulöwe</span><span class="lng-en"><b>What's on:</b> Alliance Duel Day 2 (Base Building) vs [LEG] LEGEON · Power Play Day 4 · Turbo Turtle Phase 2/7 · Ghoulion</span></div></div>
+    <div class="row"><span class="ic">🏆</span><div><span class="lng-de"><b>Stand Duell:</b> wir führen 54 % (S1L) : 46 % (LEGEON) · Wochenstand 0:1</span><span class="lng-en"><b>Duel status:</b> we lead 54% (S1L) : 46% (LEGEON) · weekly score 0:1</span></div></div>
+    <div class="row"><span class="ic">💎</span><div><span class="lng-de"><b>Golden Window Bau: OFFEN JETZT bis 20:00 UTC / 22:00 DE</b> — gebunkerte Bau-Speedups einsetzen</span><span class="lng-en"><b>Golden Window Build: OPEN NOW until 20:00 UTC / 22:00 DE</b> — use your stockpiled build speedups</span> <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">✅</span><div><span class="lng-de"><b>FIX tun:</b> Basisbau-Tagesaufgaben — S-Stufe „Schwierige Entsendung" +105.000 · LKW (Klasse A) +70.000 · Tagesaufgaben abräumen</span><span class="lng-en"><b>FIX do:</b> base-building daily tasks — S-tier "Difficult Dispatch" +105,000 · Truck (Class A) +70,000 · clear the daily tasks</span> <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">⛔</span><div><span class="lng-de"><b>NICHT tun:</b> ALLIANZ GEHT VOR — Turbo-Schildkröte nur nebenbei; KEINE Bau-Speedups/Fetzen für die Schildkröte verbrennen</span><span class="lng-en"><b>DO NOT:</b> ALLIANCE FIRST — Turbo Turtle only on the side; DO NOT burn build speedups/scraps on the Turtle</span> <span class="badge tier-fix">FIX</span></div></div>
   </div>
 
   <!-- ========== 2. WOCHENKALENDER ========== -->
-  <h2 class="section">📆 Eventkalender der Woche</h2>
+  <h2 class="section"><span class="lng-de">📆 Eventkalender der Woche</span><span class="lng-en">📆 This week's event calendar</span></h2>
   <table class="cal">
-    <tr><th>Tag</th><th>Aktiv</th><th>Golden Window (UTC)</th></tr>
-    <tr><td>Mo 15.</td><td>Duell T1 Radar · RW · Ghulöwe</td><td>Fetzen 08:00 (vorbei)</td></tr>
-    <tr><td>Di 16.</td><td>Duell T2 Basisbau (vs LEG)</td><td>Bau-Speedups 16:00 ✓ (offen bis 20:00)</td></tr>
-    <tr><td>Mi 17.</td><td>Duell T3 Technologie</td><td>Forschungs-Speedups 20:00 ✓</td></tr>
-    <tr><td>Do 18.</td><td>Duell T4 Helden</td><td>Helden-EP/Splitter 04:00 ✓</td></tr>
-    <tr><td>Fr 19.</td><td>Duell T5 Schlachtvorb.</td><td>Truppen-Training 08:00 ✓</td></tr>
-    <tr><td>Sa 20.</td><td>Duell T6 Kampf · Belagerung</td><td>Kämpfen (nur Duell)</td></tr>
+    <tr><th><span class="lng-de">Tag</span><span class="lng-en">Day</span></th><th><span class="lng-de">Aktiv</span><span class="lng-en">Active</span></th><th>Golden Window (UTC)</th></tr>
+    <tr><td><span class="lng-de">Mo 15.</span><span class="lng-en">Mon 15</span></td><td><span class="lng-de">Duell T1 Radar · RW · Ghulöwe</span><span class="lng-en">Duel D1 Radar · PP · Ghoulion</span></td><td><span class="lng-de">Fetzen 08:00 (vorbei)</span><span class="lng-en">Scraps 08:00 (past)</span></td></tr>
+    <tr><td><span class="lng-de">Di 16.</span><span class="lng-en">Tue 16</span></td><td><span class="lng-de">Duell T2 Basisbau (vs LEG)</span><span class="lng-en">Duel D2 Base Building (vs LEG)</span></td><td><span class="lng-de">Bau-Speedups 16:00 ✓ (offen bis 20:00)</span><span class="lng-en">Build speedups 16:00 ✓ (open until 20:00)</span></td></tr>
+    <tr><td><span class="lng-de">Mi 17.</span><span class="lng-en">Wed 17</span></td><td><span class="lng-de">Duell T3 Technologie</span><span class="lng-en">Duel D3 Technology</span></td><td><span class="lng-de">Forschungs-Speedups 20:00 ✓</span><span class="lng-en">Research speedups 20:00 ✓</span></td></tr>
+    <tr><td><span class="lng-de">Do 18.</span><span class="lng-en">Thu 18</span></td><td><span class="lng-de">Duell T4 Helden</span><span class="lng-en">Duel D4 Heroes</span></td><td><span class="lng-de">Helden-EP/Splitter 04:00 ✓</span><span class="lng-en">Hero XP/shards 04:00 ✓</span></td></tr>
+    <tr><td><span class="lng-de">Fr 19.</span><span class="lng-en">Fri 19</span></td><td><span class="lng-de">Duell T5 Schlachtvorb.</span><span class="lng-en">Duel D5 Battle Prep</span></td><td><span class="lng-de">Truppen-Training 08:00 ✓</span><span class="lng-en">Troop training 08:00 ✓</span></td></tr>
+    <tr><td><span class="lng-de">Sa 20.</span><span class="lng-en">Sat 20</span></td><td><span class="lng-de">Duell T6 Kampf · Belagerung</span><span class="lng-en">Duel D6 Combat · Siege</span></td><td><span class="lng-de">Kämpfen (nur Duell)</span><span class="lng-en">Fight (Duel only)</span></td></tr>
   </table>
-  <p class="lead">Golden Windows aus dem Rüstungswettlauf-Kalender bestätigt (16.06.). <span class="badge tier-fix">FIX</span></p>
+  <p class="lead"><span class="lng-de">Golden Windows aus dem Rüstungswettlauf-Kalender bestätigt (16.06.).</span><span class="lng-en">Golden Windows confirmed from the Power Play calendar (16 June).</span> <span class="badge tier-fix">FIX</span></p>
 
   <!-- ========== 3. EVENTS ========== -->
-  <h2 class="section">🎮 Einzelne Events — tippen für Details</h2>
+  <h2 class="section"><span class="lng-de">🎮 Einzelne Events — tippen für Details</span><span class="lng-en">🎮 Individual events — tap for details</span></h2>
   <div class="grid two">
-    <a class="cardlink" href="S1L-Event-Allianzduell.html"><div class="card duell"><h3>⚔️ Allianzduell</h3><p>6 Tage, Tag 6 entscheidet. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
-    <a class="cardlink" href="S1L-Event-Reservoir-Raid.html"><div class="card raid"><h3>🐟 Reservoir Raid</h3><p>30v30, Wasser halten. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
-    <a class="cardlink" href="S1L-Event-Ghuloewe.html"><div class="card loewe"><h3>🦁 Ghulöwe-Verfolgung</h3><p>Boss-Rally, 30 Min, Schaden. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
-    <a class="cardlink" href="#"><div class="card bela"><h3>👑 Allianzbelagerung</h3><p>Arcadia + 4 Türme (Sa). <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Folgt →</p></div></a>
-    <a class="cardlink" href="#"><div class="card ress"><h3>🌪️ Turbo-Schildkröte</h3><p>Gear-Upgrades doppelt. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
-    <a class="cardlink" href="#"><div class="card raid"><h3>💰 Unterird. Goldmine</h3><p>Gather/PvP, Lvl 1–6. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
-    <a class="cardlink" href="#"><div class="card raid"><h3>🦂 Cave / Burrow</h3><p>Tiles/Höhlen halten. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
-    <a class="cardlink" href="#"><div class="card loewe"><h3>👾 Verlorene Grenze</h3><p>Schwierigkeiten durch. <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Folgt →</p></div></a>
-    <a class="cardlink" href="#"><div class="card duell"><h3>👊 Rüstungswettlauf</h3><p>Solo-Rang, 6 rotierende 4-h-Runden (engl. „Power Play"). <span class="badge tier-fix">FIX</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="S1L-Event-Allianzduell.html"><div class="card duell"><h3><span class="lng-de">⚔️ Allianzduell</span><span class="lng-en">⚔️ Alliance Duel</span></h3><p><span class="lng-de">6 Tage, Tag 6 entscheidet.</span><span class="lng-en">6 days, Day 6 decides.</span> <span class="badge tier-fix">FIX</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
+    <a class="cardlink" href="S1L-Event-Reservoir-Raid.html"><div class="card raid"><h3>🐟 Reservoir Raid</h3><p><span class="lng-de">30v30, Wasser halten.</span><span class="lng-en">30v30, hold the water.</span> <span class="badge tier-fix">FIX</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
+    <a class="cardlink" href="S1L-Event-Ghuloewe.html"><div class="card loewe"><h3><span class="lng-de">🦁 Ghulöwe-Verfolgung</span><span class="lng-en">🦁 Ghoulion Pursuit</span></h3><p><span class="lng-de">Boss-Rally, 30 Min, Schaden.</span><span class="lng-en">Boss rally, 30 min, damage.</span> <span class="badge tier-fix">FIX</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card bela"><h3><span class="lng-de">👑 Allianzbelagerung</span><span class="lng-en">👑 Arcadian Conquest</span></h3><p><span class="lng-de">Arcadia + 4 Türme (Sa).</span><span class="lng-en">Arcadia + 4 towers (Sat).</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card ress"><h3><span class="lng-de">🌪️ Turbo-Schildkröte</span><span class="lng-en">🌪️ Turbo Turtle</span></h3><p><span class="lng-de">Gear-Upgrades doppelt.</span><span class="lng-en">Gear upgrades count double.</span> <span class="badge tier-test"><span class="lng-de">TESTEN</span><span class="lng-en">TESTING</span></span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card raid"><h3><span class="lng-de">💰 Unterird. Goldmine</span><span class="lng-en">💰 Underground Gold Mine</span></h3><p><span class="lng-de">Gather/PvP, Lvl 1–6.</span><span class="lng-en">Gather/PvP, Lvl 1–6.</span> <span class="badge tier-test"><span class="lng-de">TESTEN</span><span class="lng-en">TESTING</span></span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card raid"><h3>🦂 Cave / Burrow</h3><p><span class="lng-de">Tiles/Höhlen halten.</span><span class="lng-en">Hold tiles/burrows.</span> <span class="badge tier-test"><span class="lng-de">TESTEN</span><span class="lng-en">TESTING</span></span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card loewe"><h3><span class="lng-de">👾 Verlorene Grenze</span><span class="lng-en">👾 Lost Frontier</span></h3><p><span class="lng-de">Schwierigkeiten durch.</span><span class="lng-en">Clear the difficulties.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card duell"><h3><span class="lng-de">👊 Rüstungswettlauf</span><span class="lng-en">👊 Power Play</span></h3><p><span class="lng-de">Solo-Rang, 6 rotierende 4-h-Runden (engl. „Power Play").</span><span class="lng-en">Solo ranking, 6 rotating 4h rounds.</span> <span class="badge tier-fix">FIX</span></p><p class="go"><span class="lng-de">Folgt →</span><span class="lng-en">Coming →</span></p></div></a>
   </div>
-  <p class="lead">Täglich nebenbei: Wandering Infected · Hero Arena · Terror Purge · Dire Dispatch · Honor Expedition.</p>
+  <p class="lead"><span class="lng-de">Täglich nebenbei: Wandering Infected · Hero Arena · Terror Purge · Dire Dispatch · Honor Expedition.</span><span class="lng-en">Daily on the side: Wandering Infected · Hero Arena · Terror Purge · Dire Dispatch · Honor Expedition.</span></p>
 
   <!-- ========== 4. SAISON ========== -->
-  <h2 class="section">🏆 Saison & Saison-Events</h2>
-  <a class="cardlink" href="S1L-Saison.html"><div class="card season"><h3>🏆 Saison-Übersicht (Season 3?)</h3><p>Copper Clash (Fraktionen, Top-8) · Oil Clash · Turbulent Tides. Saison-Mechanik & Belohnungen. <span class="badge tier-test">TESTEN — im Client bestätigen</span></p><p class="go">Öffnen →</p></div></a>
+  <h2 class="section"><span class="lng-de">🏆 Saison & Saison-Events</span><span class="lng-en">🏆 Season & season events</span></h2>
+  <a class="cardlink" href="S1L-Saison.html"><div class="card season"><h3><span class="lng-de">🏆 Saison-Übersicht (Season 3?)</span><span class="lng-en">🏆 Season overview (Season 3?)</span></h3><p><span class="lng-de">Copper Clash (Fraktionen, Top-8) · Oil Clash · Turbulent Tides. Saison-Mechanik & Belohnungen.</span><span class="lng-en">Copper Clash (factions, top 8) · Oil Clash · Turbulent Tides. Season mechanics & rewards.</span> <span class="badge tier-test"><span class="lng-de">TESTEN — im Client bestätigen</span><span class="lng-en">TESTING — confirm in client</span></span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
 
   <!-- ========== 5. TIPPS & GLOSSAR ========== -->
-  <h2 class="section">🧠 Tipps & 📖 Glossar</h2>
+  <h2 class="section"><span class="lng-de">🧠 Tipps & 📖 Glossar</span><span class="lng-en">🧠 Tips & 📖 Glossary</span></h2>
   <div class="grid two">
-    <a class="cardlink" href="howto.html"><div class="card howto"><h3>📖 How-to-Glossar</h3><p>Begriffe & Knöpfe: <a class="term" href="howto.html#marker">Marker</a>, <a class="term" href="howto.html#schild">Schutzschild</a>, <a class="term" href="howto.html#rally">Rally</a>… Schritt für Schritt.</p><p class="go">Öffnen →</p></div></a>
-    <a class="cardlink" href="#"><div class="card howto"><h3>🧠 Tipps & Tricks</h3><p>Golden Window, Doppelnutzung, „Stärke verstärken". <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Eigene Seite folgt →</p></div></a>
+    <a class="cardlink" href="howto.html"><div class="card howto"><h3><span class="lng-de">📖 How-to-Glossar</span><span class="lng-en">📖 How-to glossary</span></h3><p><span class="lng-de">Begriffe & Knöpfe: <a class="term" href="howto.html#marker">Marker</a>, <a class="term" href="howto.html#schild">Schutzschild</a>, <a class="term" href="howto.html#rally">Rally</a>… Schritt für Schritt.</span><span class="lng-en">Terms & buttons: <a class="term" href="howto.html#marker">Marker</a>, <a class="term" href="howto.html#schild">Shield</a>, <a class="term" href="howto.html#rally">Rally</a>… step by step.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
+    <a class="cardlink" href="#"><div class="card howto"><h3><span class="lng-de">🧠 Tipps & Tricks</span><span class="lng-en">🧠 Tips & Tricks</span></h3><p><span class="lng-de">Golden Window, Doppelnutzung, „Stärke verstärken".</span><span class="lng-en">Golden Window, double-dipping, "boost your power".</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p><p class="go"><span class="lng-de">Eigene Seite folgt →</span><span class="lng-en">Own page coming →</span></p></div></a>
   </div>
 
   <!-- ========== 5b. R4-BEREICH ========== -->
-  <h2 class="section">🛡️ Nur für R4 / Offiziere</h2>
-  <a class="cardlink" href="S1L-R4.html"><div class="card duell"><h3>🛡️ R4-Bereich (eigenes Passwort)</h3><p>Kommunikation (Discord) · aktueller Tag · Raid-Ankündigungen. Nur mit R4-Passwort.</p><p class="go">Öffnen →</p></div></a>
+  <h2 class="section"><span class="lng-de">🛡️ Nur für R4 / Offiziere</span><span class="lng-en">🛡️ R4 / officers only</span></h2>
+  <a class="cardlink" href="S1L-R4.html"><div class="card duell"><h3><span class="lng-de">🛡️ R4-Bereich (eigenes Passwort)</span><span class="lng-en">🛡️ R4 area (separate password)</span></h3><p><span class="lng-de">Kommunikation (Discord) · aktueller Tag · Raid-Ankündigungen. Nur mit R4-Passwort.</span><span class="lng-en">Communication (Discord) · current day · raid announcements. R4 password required.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
 
   <footer>
-    S1L Info-Hub · Stand 15.06.2026 · Nur öffentliche Spiel-Infos (Gamertags), keine privaten Daten.<br>
-    Redaktion: Alex. Labels: FIX = bestätigt · wahrscheinlich · noch testen.
+    <span class="lng-de">S1L Info-Hub · Stand 15.06.2026 · Nur öffentliche Spiel-Infos (Gamertags), keine privaten Daten.<br>Redaktion: Alex. Labels: FIX = bestätigt · wahrscheinlich · noch testen.</span><span class="lng-en">S1L Info-Hub · as of 15 June 2026 · Public game info only (gamertags), no private data.<br>Editor: Alex. Labels: FIX = confirmed · likely · still testing.</span>
   </footer>
 </div>
 </div>
 
 <script src="auth.js"></script>
+<script src="lang.js"></script>
 </body>
 </html>

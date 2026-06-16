@@ -85,3 +85,12 @@ details[open]>summary::before{ content:"▾ "; }
 a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
 #content[hidden]{ display:none; }
 footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px solid var(--line); padding-top:14px; }
+
+/* ===== Globaler Sprach-Umschalter (DE/EN) ===== */
+#langtoggle{ position:fixed; top:10px; right:12px; z-index:30; display:inline-flex;
+  border:2px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:var(--shadow); }
+#langtoggle button{ border:0; background:var(--card); color:var(--ink); padding:6px 11px; font-weight:800; cursor:pointer; font-size:.85rem; }
+#langtoggle button.on{ background:var(--c-duell); color:#fff; }
+#langtoggle button:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+html[data-lang="de"] .lng-en{ display:none !important; }
+html[data-lang="en"] .lng-de{ display:none !important; }
