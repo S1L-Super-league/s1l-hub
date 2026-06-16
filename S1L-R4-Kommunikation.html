@@ -10,51 +10,51 @@
 
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ R4-Bereich</h1>
-    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</p>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</span><span class="lng-en">For R4 / officers only. Your own R4 password is required.</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Name</label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
     <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button">Anmelden</button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to the R4 area</span></a>
   <header>
-    <h1>💬 R4-Kommunikation</h1>
-    <p class="lead">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</p>
+    <h1>💬 <span class="lng-de">R4-Kommunikation</span><span class="lng-en">R4 Communication</span></h1>
+    <p class="lead"><span class="lng-de">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</span><span class="lng-en">Write & post images — stays visible for all R4. Older posts are cleaned up automatically.</span></p>
   </header>
 
   <!-- ===== Die Pinnwand (In-Hub, Firebase) ===== -->
-  <h2 class="section">📌 R4-Pinnwand</h2>
+  <h2 class="section">📌 <span class="lng-de">R4-Pinnwand</span><span class="lng-en">R4 board</span></h2>
   <div class="card admin">
-    <div id="fb-status" class="lead">Verbinde…</div>
+    <div id="fb-status" class="lead"><span class="lng-de">Verbinde…</span><span class="lng-en">Connecting…</span></div>
     <form id="postform" style="display:none; margin-top:6px">
       <input id="p-name" type="text" placeholder="Dein Name"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)">
       <textarea id="p-text" rows="3" placeholder="Nachricht an die R4…"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-family:inherit"></textarea>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:5px 0">
-        <label style="font-size:.9rem">📎 Bild: <input id="p-img" type="file" accept="image/*"></label>
-        <button class="btn" id="p-send" type="submit">Posten</button>
+        <label style="font-size:.9rem">📎 <span class="lng-de">Bild:</span><span class="lng-en">Image:</span> <input id="p-img" type="file" accept="image/*"></label>
+        <button class="btn" id="p-send" type="submit"><span class="lng-de">Posten</span><span class="lng-en">Post</span></button>
       </div>
     </form>
   </div>
   <div id="posts" style="margin-top:12px"></div>
 
   <!-- ===== Discord als Option ===== -->
-  <h2 class="section">💬 Lieber Discord? (Option)</h2>
+  <h2 class="section">💬 <span class="lng-de">Lieber Discord? (Option)</span><span class="lng-en">Prefer Discord? (Option)</span></h2>
   <div class="card">
-    <p>Wer lieber Discord nutzt, kann das weiterhin tun — die Pinnwand oben ist für alle gedacht, die <b>kein</b> Discord/Insta wollen.</p>
-    <p style="margin:12px 0"><a class="btn" href="DISCORD-EINLADUNGSLINK-HIER" target="_blank" rel="noopener">➡️ R4-Discord öffnen</a></p>
-    <p class="lead">Hinweis: Sicherheit bewusst leicht (clientseitig). Bitte nichts Sensibles posten — nur Spiel-/Allianz-Themen.</p>
+    <p><span class="lng-de">Wer lieber Discord nutzt, kann das weiterhin tun — die Pinnwand oben ist für alle gedacht, die <b>kein</b> Discord/Insta wollen.</span><span class="lng-en">Anyone who prefers Discord can keep using it — the board above is meant for everyone who does <b>not</b> want Discord/Insta.</span></p>
+    <p style="margin:12px 0"><a class="btn" href="DISCORD-EINLADUNGSLINK-HIER" target="_blank" rel="noopener">➡️ <span class="lng-de">R4-Discord öffnen</span><span class="lng-en">Open R4 Discord</span></a></p>
+    <p class="lead"><span class="lng-de">Hinweis: Sicherheit bewusst leicht (clientseitig). Bitte nichts Sensibles posten — nur Spiel-/Allianz-Themen.</span><span class="lng-en">Note: security is deliberately light (client-side). Please post nothing sensitive — only game/alliance topics.</span></p>
   </div>
 
-  <footer>S1L Info-Hub · R4 · Kommunikation · Daten unsensibel (Gamertags). Schutz bewusst leicht.</footer>
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Kommunikation · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Communication · Data non-sensitive (gamertags). Protection deliberately light.</span></footer>
 </div>
 </div>
 
@@ -151,5 +151,6 @@ function boardInit(){
 }
 if(document.readyState!=='loading') boardInit(); else document.addEventListener('DOMContentLoaded', boardInit);
 </script>
+<script src="lang.js"></script>
 </body>
 </html>

@@ -10,43 +10,44 @@
 
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ R4-Bereich</h1>
-    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</p>
-    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 Area</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</span><span class="lng-en">R4 / officers only. Your own R4 password is required.</span></p>
+    <label for="nm" style="position:absolute;left:-9999px"><span class="lng-de">Name</span><span class="lng-en">Name</span></label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
-    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">R4-Passwort</span><span class="lng-en">R4 password</span></label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button">Anmelden</button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <a class="back" href="S1L-R4.html">← <span class="lng-de">Zurück zum R4-Bereich</span><span class="lng-en">Back to the R4 area</span></a>
   <header>
-    <h1>⭐ Aktueller Tag — R4</h1>
-    <p class="lead">Tagesplan / Marschbefehl für die Offiziere. Pflegt <b>Alex</b> (Template unten).</p>
+    <h1>⭐ <span class="lng-de">Aktueller Tag — R4</span><span class="lng-en">Current Day — R4</span></h1>
+    <p class="lead"><span class="lng-de">Tagesplan / Marschbefehl für die Offiziere. Pflegt <b>Alex</b> (Template unten).</span><span class="lng-en">Day plan / march orders for the officers. Maintained by <b>Alex</b> (template below).</span></p>
   </header>
 
   <div class="today">
-    <h2>⭐ HEUTE — TT.MM.JJJJ</h2>
-    <div class="row"><span class="ic">🗓️</span><div><b>Was läuft:</b> … <span class="badge tier-fix">FIX</span></div></div>
-    <div class="row"><span class="ic">🎯</span><div><b>R4-Fokus heute:</b> …</div></div>
-    <div class="row"><span class="ic">💎</span><div><b>Golden Window:</b> … UTC / … DE</div></div>
-    <div class="row"><span class="ic">📣</span><div><b>Ansage an die Allianz:</b> …</div></div>
+    <h2>⭐ <span class="lng-de">HEUTE — TT.MM.JJJJ</span><span class="lng-en">TODAY — TT.MM.JJJJ</span></h2>
+    <div class="row"><span class="ic">🗓️</span><div><b><span class="lng-de">Was läuft:</span><span class="lng-en">What's on:</span></b> … <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">🎯</span><div><b><span class="lng-de">R4-Fokus heute:</span><span class="lng-en">R4 focus today:</span></b> …</div></div>
+    <div class="row"><span class="ic">💎</span><div><b><span class="lng-de">Golden Window:</span><span class="lng-en">Golden Window:</span></b> … UTC / … DE</div></div>
+    <div class="row"><span class="ic">📣</span><div><b><span class="lng-de">Ansage an die Allianz:</span><span class="lng-en">Announcement to the alliance:</span></b> …</div></div>
   </div>
 
-  <h2 class="section">📝 Für Alex</h2>
+  <h2 class="section">📝 <span class="lng-de">Für Alex</span><span class="lng-en">For Alex</span></h2>
   <div class="card">
-    <p>Hier liegt das <b>Tages-Template</b> für R4. Den Block oben füllst du täglich (oder rollst das Datum), Stufe-1-Infos. Aufbau bewusst gleich wie der HEUTE-Block auf dem Haupt-Hub, nur mit R4-Fokus/Ansagen.</p>
-    <p class="lead">Platzhalter „TT.MM.JJJJ" und „…" ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</p>
+    <p><span class="lng-de">Hier liegt das <b>Tages-Template</b> für R4. Den Block oben füllst du täglich (oder rollst das Datum), Stufe-1-Infos. Aufbau bewusst gleich wie der HEUTE-Block auf dem Haupt-Hub, nur mit R4-Fokus/Ansagen.</span><span class="lng-en">This is the <b>day template</b> for R4. You fill the block above daily (or roll the date), tier-1 info. The structure is intentionally the same as the TODAY block on the main hub, just with R4 focus/announcements.</span></p>
+    <p class="lead"><span class="lng-de">Platzhalter „TT.MM.JJJJ" und „…" ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</span><span class="lng-en">Replace the placeholders "TT.MM.JJJJ" and "…". Publish only with Jacqueline's OK (<code>deploy.sh</code>).</span></p>
   </div>
 
-  <footer>S1L Info-Hub · R4 · Aktueller Tag · Daten unsensibel (Gamertags). Schutz bewusst leicht.</footer>
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Aktueller Tag · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Current Day · Data non-sensitive (gamertags). Protection intentionally light.</span></footer>
 </div>
 </div>
 
 <script src="auth-r4.js"></script>
+<script src="lang.js"></script>
 </body>
 </html>

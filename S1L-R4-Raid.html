@@ -10,54 +10,55 @@
 
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ R4-Bereich</h1>
-    <p>Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</p>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 Area</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</span><span class="lng-en">R4 / officers only. Your own R4 password required.</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Name</label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
     <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button">Anmelden</button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span></a>
   <header>
-    <h1>🚨 Raid-Ankündigungen</h1>
-    <p class="lead">Raids ansagen & planen. Templates pflegt <b>Alex</b> (unten).</p>
+    <h1>🚨 <span class="lng-de">Raid-Ankündigungen</span><span class="lng-en">Raid announcements</span></h1>
+    <p class="lead"><span class="lng-de">Raids ansagen & planen. Templates pflegt <b>Alex</b> (unten).</span><span class="lng-en">Announce & plan raids. Templates maintained by <b>Alex</b> (below).</span></p>
   </header>
 
-  <h2 class="section">🚨 Nächster Raid</h2>
+  <h2 class="section">🚨 <span class="lng-de">Nächster Raid</span><span class="lng-en">Next raid</span></h2>
   <div class="card raid">
-    <h3>Raid: … (Ziel)</h3>
-    <div class="row"><span class="ic">🕒</span><div><b>Zeit:</b> TT.MM. · … UTC / … DE</div></div>
-    <div class="row"><span class="ic">📍</span><div><b>Sammelpunkt:</b> …</div></div>
-    <div class="row"><span class="ic">🧱</span><div><b>Aufstellung / Formation:</b> …</div></div>
-    <div class="row"><span class="ic">✅</span><div><b>Mitbringen / Vorbereitung:</b> … <span class="badge tier-fix">FIX</span></div></div>
-    <div class="row"><span class="ic">📣</span><div><b>Ansage-Text (kopierfertig für Chat):</b> …</div></div>
+    <h3><span class="lng-de">Raid: … (Ziel)</span><span class="lng-en">Raid: … (target)</span></h3>
+    <div class="row"><span class="ic">🕒</span><div><b><span class="lng-de">Zeit:</span><span class="lng-en">Time:</span></b> TT.MM. · … UTC / … DE</div></div>
+    <div class="row"><span class="ic">📍</span><div><b><span class="lng-de">Sammelpunkt:</span><span class="lng-en">Rally point:</span></b> …</div></div>
+    <div class="row"><span class="ic">🧱</span><div><b><span class="lng-de">Aufstellung / Formation:</span><span class="lng-en">Line-up / formation:</span></b> …</div></div>
+    <div class="row"><span class="ic">✅</span><div><b><span class="lng-de">Mitbringen / Vorbereitung:</span><span class="lng-en">Bring / preparation:</span></b> … <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">📣</span><div><b><span class="lng-de">Ansage-Text (kopierfertig für Chat):</span><span class="lng-en">Announcement text (ready to copy for chat):</span></b> …</div></div>
   </div>
 
-  <h2 class="section">🗒️ Kommende / vergangene Raids</h2>
+  <h2 class="section">🗒️ <span class="lng-de">Kommende / vergangene Raids</span><span class="lng-en">Upcoming / past raids</span></h2>
   <div class="card">
-    <p>Liste der angekündigten Raids (neueste oben). Alex trägt ein:</p>
+    <p><span class="lng-de">Liste der angekündigten Raids (neueste oben). Alex trägt ein:</span><span class="lng-en">List of announced raids (newest on top). Alex fills in:</span></p>
     <table class="cal">
-      <tr><th>Datum</th><th>Ziel</th><th>Ergebnis</th></tr>
+      <tr><th><span class="lng-de">Datum</span><span class="lng-en">Date</span></th><th><span class="lng-de">Ziel</span><span class="lng-en">Target</span></th><th><span class="lng-de">Ergebnis</span><span class="lng-en">Result</span></th></tr>
       <tr><td>TT.MM.</td><td>…</td><td>—</td></tr>
     </table>
   </div>
 
-  <h2 class="section">📝 Für Alex</h2>
+  <h2 class="section">📝 <span class="lng-de">Für Alex</span><span class="lng-en">For Alex</span></h2>
   <div class="card">
-    <p>Hier liegen die <b>Raid-Templates</b>. „Nächster Raid" füllst du je Ansage; die kopierfertige Ansage gibt Jacqueline dann in den Spiel-/Discord-Chat (Alex sendet nicht selbst). Nur Stufe-1-Infos.</p>
-    <p class="lead">Platzhalter „…" / „TT.MM." ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</p>
+    <p><span class="lng-de">Hier liegen die <b>Raid-Templates</b>. „Nächster Raid" füllst du je Ansage; die kopierfertige Ansage gibt Jacqueline dann in den Spiel-/Discord-Chat (Alex sendet nicht selbst). Nur Stufe-1-Infos.</span><span class="lng-en">The <b>raid templates</b> live here. You fill in "Next raid" per announcement; Jacqueline then posts the ready-to-copy announcement into the game/Discord chat (Alex does not send it herself). Tier-1 info only.</span></p>
+    <p class="lead"><span class="lng-de">Platzhalter „…" / „TT.MM." ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</span><span class="lng-en">Replace placeholders "…" / "TT.MM.". Publish only on Jacqueline's OK (<code>deploy.sh</code>).</span></p>
   </div>
 
-  <footer>S1L Info-Hub · R4 · Raid-Ankündigungen · Daten unsensibel (Gamertags). Schutz bewusst leicht.</footer>
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Raid-Ankündigungen · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Raid announcements · Non-sensitive data (gamertags). Protection deliberately light.</span></footer>
 </div>
 </div>
 
 <script src="auth-r4.js"></script>
+<script src="lang.js"></script>
 </body>
 </html>

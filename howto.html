@@ -11,89 +11,90 @@
 <div id="gate" role="dialog" aria-label="Anmelden">
   <div class="box">
     <h1>🔒 S1L Info-Hub</h1>
-    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
-    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <p><span class="lng-de">Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</span><span class="lng-en">For [S1L] members only. Please enter your player name and password.</span></p>
+    <label for="nm" style="position:absolute;left:-9999px"><span class="lng-de">Spielername</span><span class="lng-en">Player name</span></label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
-    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">Passwort</span><span class="lng-en">Password</span></label>
     <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
-    <button id="go" type="button">Anmelden</button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <a class="back" href="index.html"><span class="lng-de">← Zurück zum Hub</span><span class="lng-en">← Back to the Hub</span></a>
   <header>
-    <h1>🛠️ How-to — Begriffe & Knöpfe</h1>
-    <p>Kurz erklärt: was ein Begriff bedeutet und wo du den Knopf findest. Diese Begriffe sind im ganzen Hub verlinkt.</p>
+    <h1>🛠️ <span class="lng-de">How-to — Begriffe & Knöpfe</span><span class="lng-en">How-to — Terms & Buttons</span></h1>
+    <p><span class="lng-de">Kurz erklärt: was ein Begriff bedeutet und wo du den Knopf findest. Diese Begriffe sind im ganzen Hub verlinkt.</span><span class="lng-en">Briefly explained: what a term means and where you find the button. These terms are linked throughout the Hub.</span></p>
   </header>
-  <p class="lead" style="margin:6px 0 0">Status der Erklärungen: <span class="badge tier-fix">FIX = bestätigt</span> · <span class="badge tier-prob">wahrscheinlich</span> · <span class="badge tier-test">noch testen</span></p>
+  <p class="lead" style="margin:6px 0 0"><span class="lng-de">Status der Erklärungen:</span><span class="lng-en">Status of the explanations:</span> <span class="badge tier-fix"><span class="lng-de">FIX = bestätigt</span><span class="lng-en">FIX = confirmed</span></span> · <span class="badge tier-prob"><span class="lng-de">wahrscheinlich</span><span class="lng-en">likely</span></span> · <span class="badge tier-test"><span class="lng-de">noch testen</span><span class="lng-en">still testing</span></span></p>
 
-  <h2 class="section">📍 Karte & Bewegung</h2>
+  <h2 class="section">📍 <span class="lng-de">Karte & Bewegung</span><span class="lng-en">Map & Movement</span></h2>
   <div class="card howto glos" id="marker">
-    <h3>Marker (Allianz-Marker)</h3>
-    <p>Ein Punkt auf der Karte, den der Anführer setzt, damit alle wissen, wo gesammelt/angegriffen wird. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
-    <p><b>So machst du's:</b> Karte öffnen → Stelle gedrückt halten → „Marker setzen" / „Versammeln". Tipp-zu-bestätigen folgt im Client.</p>
+    <h3><span class="lng-de">Marker (Allianz-Marker)</span><span class="lng-en">Marker (alliance marker)</span></h3>
+    <p><span class="lng-de">Ein Punkt auf der Karte, den der Anführer setzt, damit alle wissen, wo gesammelt/angegriffen wird.</span><span class="lng-en">A point on the map that the leader sets so everyone knows where to gather/attack.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
+    <p><b><span class="lng-de">So machst du's:</span><span class="lng-en">How to do it:</span></b> <span class="lng-de">Karte öffnen → Stelle gedrückt halten → „Marker setzen" / „Versammeln". Tipp-zu-bestätigen folgt im Client.</span><span class="lng-en">Open the map → hold down a spot → "Set marker" / "Rally". A tap-to-confirm follows in the client.</span></p>
   </div>
   <div class="card howto glos" id="versetzen">
-    <h3>Versetzen / Teleport</h3>
-    <p>Deine Stadt an einen anderen Ort der Karte bewegen (z. B. zum <a class="term" href="#sammelpunkt">Sammelpunkt</a> oder zur Gegner-Allianz). <span class="badge tier-test">TESTEN</span></p>
-    <p><b>So machst du's:</b> Stadt antippen → Versetzen → Random- oder Gezielt-Teleport wählen. In manchen Events ist die Angriffs-Versetzung gratis.</p>
+    <h3><span class="lng-de">Versetzen / Teleport</span><span class="lng-en">Relocate / Teleport</span></h3>
+    <p><span class="lng-de">Deine Stadt an einen anderen Ort der Karte bewegen (z. B. zum <a class="term" href="#sammelpunkt">Sammelpunkt</a> oder zur Gegner-Allianz).</span><span class="lng-en">Relocate your city to another spot on the map (e.g. to the <a class="term" href="#sammelpunkt">rally point</a> or to the enemy alliance).</span> <span class="badge tier-test"><span class="lng-de">TESTEN</span><span class="lng-en">TESTING</span></span></p>
+    <p><b><span class="lng-de">So machst du's:</span><span class="lng-en">How to do it:</span></b> <span class="lng-de">Stadt antippen → Versetzen → Random- oder Gezielt-Teleport wählen. In manchen Events ist die Angriffs-Versetzung gratis.</span><span class="lng-en">Tap your city → Relocate → choose a random or targeted teleport. In some events the attack relocation is free.</span></p>
   </div>
 
-  <h2 class="section">🛡️ Schutz</h2>
+  <h2 class="section">🛡️ <span class="lng-de">Schutz</span><span class="lng-en">Protection</span></h2>
   <div class="card howto glos" id="schild">
-    <h3>Schutzschild</h3>
-    <p>Macht deine Stadt für eine bestimmte Zeit unangreifbar. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
-    <p><b>So machst du's:</b> Gegenstände/Rucksack → Schutzschild → Dauer wählen → aktivieren. Wichtig am Kampftag (siehe <a class="term" href="#friedenskuppel">Friedenskuppel</a>).</p>
+    <h3><span class="lng-de">Schutzschild</span><span class="lng-en">Shield</span></h3>
+    <p><span class="lng-de">Macht deine Stadt für eine bestimmte Zeit unangreifbar.</span><span class="lng-en">Makes your city un-attackable for a set period of time.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
+    <p><b><span class="lng-de">So machst du's:</span><span class="lng-en">How to do it:</span></b> <span class="lng-de">Gegenstände/Rucksack → Schutzschild → Dauer wählen → aktivieren. Wichtig am Kampftag (siehe <a class="term" href="#friedenskuppel">Friedenskuppel</a>).</span><span class="lng-en">Items/Backpack → Shield → choose duration → activate. Important on battle day (see <a class="term" href="#friedenskuppel">Peace Shield</a>).</span></p>
   </div>
   <div class="card howto glos" id="friedenskuppel">
-    <h3>Friedenskuppel (Peace Shield)</h3>
-    <p>Spezielles Schild, das am Kampftag (Allianzduell Tag 6) entscheidend ist — Schwache ungeschützt = Killpunkte für den Gegner. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <h3><span class="lng-de">Friedenskuppel (Peace Shield)</span><span class="lng-en">Peace Shield</span></h3>
+    <p><span class="lng-de">Spezielles Schild, das am Kampftag (Allianzduell Tag 6) entscheidend ist — Schwache ungeschützt = Killpunkte für den Gegner.</span><span class="lng-en">A special shield that is decisive on battle day (Alliance Duel day 6) — weak players left unshielded = kill points for the enemy.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
   </div>
   <div class="card howto glos" id="feldlazarett">
-    <h3>Feldlazarett (Hospital)</h3>
-    <p>Verletzte Truppen landen hier statt zu sterben und werden geheilt. In manchen Events (z. B. <a class="term" href="S1L-Event-Reservoir-Raid.html">Reservoir Raid</a>) gratis & unbegrenzt. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <h3><span class="lng-de">Feldlazarett (Hospital)</span><span class="lng-en">Hospital</span></h3>
+    <p><span class="lng-de">Verletzte Truppen landen hier statt zu sterben und werden geheilt. In manchen Events (z. B. <a class="term" href="S1L-Event-Reservoir-Raid.html">Reservoir Raid</a>) gratis & unbegrenzt.</span><span class="lng-en">Wounded troops end up here instead of dying and are healed. In some events (e.g. <a class="term" href="S1L-Event-Reservoir-Raid.html">Reservoir Raid</a>) free & unlimited.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
   </div>
 
-  <h2 class="section">⚔️ Angriff & Truppen</h2>
+  <h2 class="section">⚔️ <span class="lng-de">Angriff & Truppen</span><span class="lng-en">Attack & Troops</span></h2>
   <div class="card howto glos" id="rally">
-    <h3>Rally (Sammelangriff)</h3>
-    <p>Mehrere Spieler greifen gemeinsam ein Ziel an. Du <strong>startest</strong> eine Rally oder <strong>trittst</strong> einer bei. Nur so machst du z. B. beim <a class="term" href="#garnison">Boss</a> Schaden. <span class="badge tier-fix">FIX</span></p>
-    <p><b>So machst du's:</b> Ziel antippen → „Rally starten" (Vorlaufzeit wählen) oder bei laufender Rally → „Beitreten".</p>
+    <h3><span class="lng-de">Rally (Sammelangriff)</span><span class="lng-en">Rally (joint attack)</span></h3>
+    <p><span class="lng-de">Mehrere Spieler greifen gemeinsam ein Ziel an. Du <strong>startest</strong> eine Rally oder <strong>trittst</strong> einer bei. Nur so machst du z. B. beim <a class="term" href="#garnison">Boss</a> Schaden.</span><span class="lng-en">Several players attack a target together. You <strong>start</strong> a Rally or <strong>join</strong> one. Only this way do you deal damage to e.g. the <a class="term" href="#garnison">boss</a>.</span> <span class="badge tier-fix">FIX</span></p>
+    <p><b><span class="lng-de">So machst du's:</span><span class="lng-en">How to do it:</span></b> <span class="lng-de">Ziel antippen → „Rally starten" (Vorlaufzeit wählen) oder bei laufender Rally → „Beitreten".</span><span class="lng-en">Tap the target → "Start Rally" (choose lead time) or, on a running Rally → "Join".</span></p>
   </div>
   <div class="card howto glos" id="garnison">
-    <h3>Garnison</h3>
-    <p>Truppen, die an einem Ort „geparkt" sind — zum Verteidigen oder als Sammel-Wartepunkt einer Rally. Beim Rally-Beitreten warten deine Truppen erst hier, dann marschieren alle zusammen los. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <h3><span class="lng-de">Garnison</span><span class="lng-en">Garrison</span></h3>
+    <p><span class="lng-de">Truppen, die an einem Ort „geparkt" sind — zum Verteidigen oder als Sammel-Wartepunkt einer Rally. Beim Rally-Beitreten warten deine Truppen erst hier, dann marschieren alle zusammen los.</span><span class="lng-en">Troops that are "parked" at a location — for defending or as a gathering waiting point for a Rally. When you join a Rally your troops wait here first, then everyone marches off together.</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
   </div>
   <div class="card howto glos" id="spaehposten">
-    <h3>Spähposten (Intel Post)</h3>
-    <p>Naher Punkt für Spionage-Missionen — und zum gezielten Truppen-Abbauen (schwache Rally absichtlich verlieren, kostet keine Ausdauer). <span class="badge tier-test">TESTEN</span></p>
+    <h3><span class="lng-de">Spähposten (Intel Post)</span><span class="lng-en">Intel Post</span></h3>
+    <p><span class="lng-de">Naher Punkt für Spionage-Missionen — und zum gezielten Truppen-Abbauen (schwache Rally absichtlich verlieren, kostet keine Ausdauer).</span><span class="lng-en">A nearby point for scouting missions — and for deliberately reducing troops (intentionally losing a weak Rally, costs no stamina).</span> <span class="badge tier-test"><span class="lng-de">TESTEN</span><span class="lng-en">TESTING</span></span></p>
   </div>
   <div class="card howto glos" id="sammelpunkt">
-    <h3>Sammelpunkt</h3>
-    <p>Der Ort, an dem sich die Allianz vor einem Kampf/Event versammelt (oft geheim gehalten). <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <h3><span class="lng-de">Sammelpunkt</span><span class="lng-en">Rally point</span></h3>
+    <p><span class="lng-de">Der Ort, an dem sich die Allianz vor einem Kampf/Event versammelt (oft geheim gehalten).</span><span class="lng-en">The spot where the alliance gathers before a battle/event (often kept secret).</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
   </div>
 
-  <h2 class="section">🏠 Basis & Ressourcen</h2>
+  <h2 class="section">🏠 <span class="lng-de">Basis & Ressourcen</span><span class="lng-en">Base & Resources</span></h2>
   <div class="card howto glos" id="kraftwerk">
-    <h3>Kraftwerk (Power Plant)</h3>
-    <p>Kern-Gebäude; sein Level bestimmt deine Stufe. Für manche Events Mindest-Level nötig (z. B. Lv.12+ bei Reservoir Raid). <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <h3><span class="lng-de">Kraftwerk (Power Plant)</span><span class="lng-en">Power Plant</span></h3>
+    <p><span class="lng-de">Kern-Gebäude; sein Level bestimmt deine Stufe. Für manche Events Mindest-Level nötig (z. B. Lv.12+ bei Reservoir Raid).</span><span class="lng-en">Core building; its level determines your tier. Some events require a minimum level (e.g. Lv.12+ for Reservoir Raid).</span> <span class="badge tier-prob"><span class="lng-de">WAHRSCHEINLICH</span><span class="lng-en">LIKELY</span></span></p>
   </div>
   <div class="card howto glos" id="ausruestungsfetzen">
-    <h3>Ausrüstungsfetzen (Gear Scraps)</h3>
-    <p>Material zum Aufwerten der Ausrüstung. Verbrauchen bringt in bestimmten Events viele Punkte → <strong>aufheben</strong> und im richtigen Fenster (doppelt) einsetzen. <span class="badge tier-fix">FIX</span></p>
+    <h3><span class="lng-de">Ausrüstungsfetzen (Gear Scraps)</span><span class="lng-en">Gear Scraps</span></h3>
+    <p><span class="lng-de">Material zum Aufwerten der Ausrüstung. Verbrauchen bringt in bestimmten Events viele Punkte → <strong>aufheben</strong> und im richtigen Fenster (doppelt) einsetzen.</span><span class="lng-en">Material for upgrading your gear. Spending them earns lots of points in certain events → <strong>save them up</strong> and use them in the right window (double).</span> <span class="badge tier-fix">FIX</span></p>
   </div>
   <div class="card howto glos" id="golden-window">
     <h3>Golden Window</h3>
-    <p>Das eine Zeitfenster, in dem mehrere Events dieselbe Aktion gleichzeitig belohnen → Ressourcen dann ausgeben = doppelt/dreifach Punkte. <span class="badge tier-fix">FIX</span></p>
+    <p><span class="lng-de">Das eine Zeitfenster, in dem mehrere Events dieselbe Aktion gleichzeitig belohnen → Ressourcen dann ausgeben = doppelt/dreifach Punkte.</span><span class="lng-en">The one time window in which several events reward the same action at once → spending resources then = double/triple points.</span> <span class="badge tier-fix">FIX</span></p>
   </div>
 
-  <footer>S1L Info-Hub · How-to · Stand 15.06.2026 · Begriffe werden ergänzt. Unklares im Client gegenprüfen.</footer>
+  <footer><span class="lng-de">S1L Info-Hub · How-to · Stand 15.06.2026 · Begriffe werden ergänzt. Unklares im Client gegenprüfen.</span><span class="lng-en">S1L Info-Hub · How-to · As of 15.06.2026 · Terms are being added. Verify anything unclear in the client.</span></footer>
 </div>
 </div>
 
 <script src="auth.js"></script>
+<script src="lang.js"></script>
 </body>
 </html>
