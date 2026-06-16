@@ -185,7 +185,25 @@ var store={ mode:"local", cache:{}, col:null,
     if(this.col){ this.col.doc(id).set({status:val,tms:Date.now()}).catch(function(){ store.mode="local"; store.col=null; setFb(); }); }
     render(); }
 };
-function setFb(){ var e=document.getElementById("fbState"); if(!e)return; e.textContent= store.mode==="firebase"? "Status: geteilt (Firebase)":"Status: lokal"; e.style.color= store.mode==="firebase"? "#0f9d58":"var(--muted)"; }
+function setFb(){ var e=document.getElementById("fbState"); if(!e)return; var shared=(store.mode==="firebase"||rstore.mode==="firebase"); e.textContent= shared? "Geteilt (Firebase)":"Lokal"; e.style.color= shared? "#0f9d58":"var(--muted)"; }
+
+/* Geteilte Rallys (Firebase-Collection 'tplrallies'; Fallback: lokal/in-memory) */
+var rstore={ mode:"local", col:null,
+  init:function(){
+    try{ if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
+      if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+      this.col=firebase.firestore().collection("tplrallies");
+      var self=this;
+      this.col.orderBy("su").onSnapshot(function(snap){
+        state.rallies=[]; snap.forEach(function(d){ var x=d.data()||{}; state.rallies.push({id:d.id,ev:x.ev,su:x.su,eu:x.eu||""}); });
+        self.mode="firebase"; setFb(); render();
+      }, function(){ self.mode="local"; self.col=null; setFb(); });
+    }}catch(e){ this.mode="local"; this.col=null; }
+    setFb();
+  },
+  add:function(r){ if(this.col){ this.col.add({ev:r.ev,su:r.su,eu:r.eu,tms:Date.now()}).catch(function(){ rstore.mode="local"; rstore.col=null; state.rallies.push(r); setFb(); render(); }); } else { state.rallies.push(r); render(); } },
+  remove:function(item,idx){ if(this.col && item && item.id){ this.col.doc(item.id).delete().catch(function(){}); } else { state.rallies.splice(idx,1); render(); } }
+};
 
 /* ===== Events ===== */
 var EV={ brief:{name:"Tages-Briefing",emo:"📅"}, duell:{name:"Allianzduell",emo:"⚔️"}, loewe:{name:"Ghulöwe",emo:"🦁"},
@@ -396,7 +414,7 @@ function renderRallyList(){ var el=document.getElementById("rallyList"); if(!el)
 function bind(){
   document.querySelectorAll(".copybtn[data-copy]").forEach(function(b){ b.onclick=function(){ var m=allMsgs().filter(function(x){return x.id===b.getAttribute("data-copy");})[0]; copyClip(buildText(m),b); }; });
   document.querySelectorAll(".rev[data-rev]").forEach(function(b){ b.onclick=function(){ var id=b.getAttribute("data-rev"); var m=allMsgs().filter(function(x){return x.id===id;})[0]; var cur=store.get(id,m.rev); store.set(id,REV[(REV.indexOf(cur)+1)%REV.length]); }; });
-  document.querySelectorAll(".rm[data-rm]").forEach(function(b){ b.onclick=function(){ state.rallies.splice(parseInt(b.getAttribute("data-rm"),10),1); render(); }; });
+  document.querySelectorAll(".rm[data-rm]").forEach(function(b){ b.onclick=function(){ var i=parseInt(b.getAttribute("data-rm"),10); rstore.remove(state.rallies[i],i); }; });
 }
 function copyClip(text,btn){ function ok(){ if(btn){var o=btn.textContent;btn.classList.add("ok");btn.textContent="✓ Kopiert";setTimeout(function(){btn.classList.remove("ok");btn.textContent=o;},1300);} }
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fb);}else fb();
@@ -410,10 +428,11 @@ function genUpdate(){ var s=document.getElementById("gStart").value||"00:00", e=
 function gwUpdate(){ document.getElementById("gwZones").innerHTML=zonesCompact("20:00","00:00"); }
 function addRally(){ var ev=document.getElementById("rEv").value, s=document.getElementById("rStart").value||"18:00", e=document.getElementById("rEnd").value;
   var base=document.querySelector("#rBase button.on").getAttribute("data-base");
-  state.rallies.push({ ev:ev, su:baseToUtc(s,base), eu:e?baseToUtc(e,base):"" }); render(); }
+  rstore.add({ ev:ev, su:baseToUtc(s,base), eu:e?baseToUtc(e,base):"" }); }
 
 function boot(){
   store.init(render);
+  rstore.init();
   genUpdate(); gwUpdate();
   document.getElementById("gStart").addEventListener("input",genUpdate);
   document.getElementById("gEnd").addEventListener("input",genUpdate);
