@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R4 — Templates & Timeline — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .controls{ position:sticky; top:0; z-index:5; background:var(--bg);
+    border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; margin:10px 0 18px;
+    display:flex; flex-wrap:wrap; gap:14px 18px; align-items:center; box-shadow:var(--shadow); }
+  .controls .grp{ display:flex; gap:6px; align-items:center; }
+  .controls label{ font-weight:700; font-size:.88rem; }
+  .seg{ display:inline-flex; border:2px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg button{ border:0; background:var(--card); color:var(--ink); padding:6px 11px; font-weight:700; cursor:pointer; font-size:.86rem; }
+  .seg button.on{ background:var(--c-duell); color:#fff; }
+  #fbState{ font-size:.78rem; padding:3px 9px; border-radius:999px; border:1.5px solid var(--line); color:var(--muted); }
+  .gen-grid{ display:grid; gap:14px; grid-template-columns:1fr; }
+  @media(min-width:680px){ .gen-grid{ grid-template-columns:1fr 1fr; } }
+  .gen-card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; box-shadow:var(--shadow); }
+  .gen-card h3{ margin:.1em 0 .5em; }
+  .gen-card .field{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:6px 0; font-size:.9rem; }
+  .gen-card input[type=time]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
+  .gen-card select{ padding:7px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.9rem; }
+  .okbtn{ border:0; background:var(--t-fix); color:#fff; font-weight:700; padding:7px 14px; border-radius:9px; cursor:pointer; font-size:.86rem; }
+  pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:6px 0;
+    white-space:pre-wrap; word-break:break-word; font-family:"SF Mono",ui-monospace,Consolas,monospace; font-size:.9rem; line-height:1.55; }
+  .copybtn{ border:0; background:var(--c-duell); color:#fff; font-weight:700; padding:7px 13px; border-radius:9px; cursor:pointer; font-size:.85rem; }
+  .copybtn.ok{ background:var(--t-fix); }
+
+  /* Bestätigte Rallys / Golden Window — NORMAL formatiert (kein Code) */
+  .conf{ background:rgba(15,157,88,.08); border:1px solid var(--t-fix); border-radius:10px; padding:8px 11px; margin:6px 0;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:.92rem; }
+  .conf b{ font-weight:800; }
+  .conf .z{ color:var(--muted); }
+  .conf .rm{ margin-left:auto; border:0; background:transparent; color:var(--c-admin); font-weight:800; cursor:pointer; font-size:1rem; }
+  .gw-box{ background:rgba(202,138,4,.10); border:2px solid var(--c-season); border-radius:var(--radius); padding:11px 14px; margin:10px 0; }
+  .gw-box .zones{ font-size:1rem; font-weight:700; margin-top:4px; } .gw-box .zones span{ margin-right:14px; white-space:nowrap; } .gw-box .zones .u{ color:var(--c-season); }
+
+  .rev{ border:0; cursor:pointer; font-size:.78rem; font-weight:800; border-radius:999px; padding:3px 11px; }
+  .rev::before{ margin-right:4px; }
+  .rev-falsch{ background:#dc2626; color:#fff; } .rev-falsch::before{ content:"\25CF"; }
+  .rev-unsicher{ background:#eab308; color:#1a2233; } .rev-unsicher::before{ content:"\25CF"; }
+  .rev-bereit{ background:#0f9d58; color:#fff; } .rev-bereit::before{ content:"\25CF"; }
+  .rev-frei{ background:#fff; color:#1a2233; border:1.5px solid #b9c2d0; } .rev-frei::before{ content:"\2713"; color:#0f9d58; }
+
+  .prio{ font-size:.76rem; font-weight:800; border-radius:999px; padding:2px 9px; border:1.5px solid; }
+  .pr-P1{ color:#fff; background:#dc2626; border-color:#dc2626; }
+  .pr-P2{ color:#1a2233; background:#eab308; border-color:#eab308; }
+  .pr-P3{ color:#fff; background:#2563eb; border-color:#2563eb; }
+  .pr-opt{ color:#fff; background:#6b7280; border-color:#6b7280; }
+
+  .msg{ background:var(--card); border:1px solid var(--line); border-left:7px solid var(--c-duell); border-radius:var(--radius); padding:12px 14px; box-shadow:var(--shadow); }
+  .msg-head{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
+  .msg .ev{ font-weight:800; }
+  .msg .typ{ font-size:.8rem; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:2px 9px; }
+
+  .tl-row{ display:grid; grid-template-columns:96px 1fr; gap:12px; align-items:start; position:relative; padding-bottom:16px; }
+  .tl-time{ text-align:right; font-weight:800; font-size:.92rem; padding-top:10px; color:var(--c-duell); }
+  .tl-time small{ display:block; font-weight:600; color:var(--muted); font-size:.74rem; }
+  .tl{ position:relative; } .tl-line{ position:absolute; left:96px; top:0; bottom:0; width:2px; background:var(--line); transform:translateX(5px); }
+  .tl-row::before{ content:""; position:absolute; left:96px; top:14px; width:12px; height:12px; border-radius:50%; background:var(--c-duell); border:2px solid var(--bg); z-index:1; }
+  details.ev-group > summary{ font-size:1.1rem; }
+</style>
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ R4 — Templates</h1>
+    <p>Nur für R4 / Offiziere. R4-Passwort nötig (nicht das Mitglieder-Login).</p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="S1L-R4.html">← Zurück zum R4-Bereich</a>
+  <header>
+    <h1>📋 R4 — Templates & Timeline</h1>
+    <p class="lead">Fertige Chat-Texte zum Kopieren. Zeiten eingeben → Block füllt sich; Rallys hinzufügen → landen in Timeline + Briefing. <b>Entwürfe — senden macht Jac.</b> Probe-Tag <b>Mi 17.06</b> (Duell Tag 3 Technologie).</p>
+  </header>
+
+  <div class="controls">
+    <div class="grp"><label>Sprache:</label>
+      <span class="seg" id="segLang"><button data-lang="de" class="on">Deutsch</button><button data-lang="en">English</button></span></div>
+    <div class="grp"><label>Ansicht:</label>
+      <span class="seg" id="segView"><button data-view="code" class="on"># Codes</button><button data-view="emoji">Emoji</button></span></div>
+    <div class="grp"><label>Duell-Stand:</label>
+      <span class="seg" id="segStand"><button data-st="lead" class="on">Wir führen</button><button data-st="close">Knapp</button><button data-st="behind">Wir verlieren</button></span></div>
+    <div class="grp"><span id="fbState">Status: …</span></div>
+  </div>
+
+  <div class="legend" aria-label="Status">
+    <span class="rev rev-falsch">falsch</span><span class="rev rev-unsicher">unsicher</span>
+    <span class="rev rev-bereit">bereit zur Prüfung</span><span class="rev rev-frei">freigegeben</span>
+    <span class="lead" style="font-size:.82rem">— Kopfzeile je Karte anklicken zum Weiterschalten. „freigegeben" setzen nur R4.</span>
+  </div>
+
+  <!-- GENERATOREN (vor den Event-Templates) -->
+  <h2 class="section">🛠️ Generatoren</h2>
+  <div class="gen-grid">
+    <div class="gen-card">
+      <h3>🕒 Zeitzonen-Block</h3>
+      <div class="field">Start <input type="time" id="gStart" value="20:00">
+        Ende <input type="time" id="gEnd" value="00:00">
+        <span class="seg" id="gBase"><button data-base="utc" class="on">UTC</button><button data-base="de">DE-Zeit</button></span></div>
+      <p class="lead" style="margin:.2em 0">Zeit zuerst, dann Länder. <b>DE = UTC + 2 h.</b> Ende leer = nur Start.</p>
+      <pre class="block" id="gOut"></pre>
+      <button class="copybtn" id="gCopy">📋 Block kopieren</button>
+    </div>
+    <div class="gen-card">
+      <h3>⚔️ Rallys hinzufügen (mehrere möglich)</h3>
+      <div class="field">Event
+        <select id="rEv">
+          <option value="loewe">🦁 Ghulöwe</option>
+          <option value="reservoir">🐟 Reservoir Raid</option>
+          <option value="stadt">🌃 Stadtkampf</option>
+          <option value="duell">⚔️ Allianzduell-Rally</option>
+        </select></div>
+      <div class="field">Start <input type="time" id="rStart" value="18:00">
+        Ende <input type="time" id="rEnd" value="18:30">
+        <span class="seg" id="rBase"><button data-base="utc" class="on">UTC</button><button data-base="de">DE-Zeit</button></span>
+        <button class="okbtn" id="rAdd">+ OK</button></div>
+      <p class="lead" style="margin:.2em 0">Nach „OK" erscheint unten ein Kästchen — und die Rally wandert in Timeline + Tagesbriefing.</p>
+      <div id="rallyList"></div>
+    </div>
+  </div>
+
+  <!-- GOLDEN WINDOW -->
+  <h2 class="section">💎 Golden Window — Mi 17.06</h2>
+  <div class="gw-box">
+    <div><b>Golden Window (Forschung): 20:00 – 00:00 UTC.</b> Forschungs-Speedups dumpen (dreifach). Damit R4 ohne Rechnen lesen:</div>
+    <div class="zones" id="gwZones"></div>
+  </div>
+
+  <!-- TIMELINE -->
+  <h2 class="section">📅 Timeline — Mittwoch 17.06</h2>
+  <p class="lead">Nur die wichtigsten Nachrichten (P1/P2), chronologisch nach <b>Sendezeit</b>. Bestätigte Rallys erscheinen automatisch.</p>
+  <div class="tl" id="timeline"><div class="tl-line"></div></div>
+
+  <!-- NACH EVENT -->
+  <h2 class="section">🎮 Alle Templates nach Event</h2>
+  <div id="byEvent"></div>
+
+  <footer>
+    S1L Info-Hub · R4 · Templates & Timeline · Probe 17.06.2026 · Pflegt: Alex.<br>
+    Prio (Wichtigkeit heute): <b>P1</b> wichtigste · <b>P2</b> wichtig · <b>P3</b> nachrangig · <b>opt</b> optional. Nur Entwürfe — Versand durch Jac.
+  </footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== Firebase (geteilter Status; Fallback: lokal) =====
+   Öffentliche Config (kein Geheimnis), gleiches Projekt wie R4-Pinnwand.
+   Geteilter Status braucht eine Firestore-Regel für die Collection 'tplstatus'
+   (Admin/Console). Fehlt sie -> automatisch lokaler Speicher. */
+var FB_CONFIG={ apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
+var store={ mode:"local", cache:{}, col:null,
+  loadLocal:function(){ try{ Object.assign(this.cache, JSON.parse(localStorage.getItem("s1l_rev")||"{}")); }catch(e){} },
+  saveLocal:function(){ try{ localStorage.setItem("s1l_rev", JSON.stringify(this.cache)); }catch(e){} },
+  init:function(onChange){
+    this.loadLocal();
+    try{
+      if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
+        if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+        this.col=firebase.firestore().collection("tplstatus");
+        var self=this;
+        this.col.onSnapshot(function(snap){ snap.forEach(function(d){ self.cache[d.id]=(d.data()||{}).status; }); self.mode="firebase"; setFb(); onChange(); },
+          function(){ self.mode="local"; self.col=null; setFb(); });
+      }
+    }catch(e){ this.mode="local"; this.col=null; }
+    setFb();
+  },
+  get:function(id,def){ return this.cache[id]||def; },
+  set:function(id,val){ this.cache[id]=val; this.saveLocal();
+    if(this.col){ this.col.doc(id).set({status:val,tms:Date.now()}).catch(function(){ store.mode="local"; store.col=null; setFb(); }); }
+    render(); }
+};
+function setFb(){ var e=document.getElementById("fbState"); if(!e)return; e.textContent= store.mode==="firebase"? "Status: geteilt (Firebase)":"Status: lokal"; e.style.color= store.mode==="firebase"? "#0f9d58":"var(--muted)"; }
+
+/* ===== Events ===== */
+var EV={ brief:{name:"Tages-Briefing",emo:"📅"}, duell:{name:"Allianzduell",emo:"⚔️"}, loewe:{name:"Ghulöwe",emo:"🦁"},
+  reservoir:{name:"Reservoir Raid",emo:"🐟"}, stadt:{name:"Stadtkampf",emo:"🌃"}, wand:{name:"Wandering Infected",emo:"👻"},
+  power:{name:"Rüstungswettlauf",emo:"👊"}, turbo:{name:"Turbo-Schildkröte",emo:"🌪️"} };
+var RMARK={loewe:"#098",reservoir:"#117",stadt:"#169",duell:"#176"};
+function rName(ev,lang){ return {loewe:lang==="de"?"GHULÖWE":"GHOULION",reservoir:"RESERVOIR RAID",stadt:lang==="de"?"STADTKAMPF":"CITY BATTLE",duell:lang==="de"?"ALLIANZDUELL-RALLY":"DUEL RALLY"}[ev]; }
+
+/* ===== Feste Nachrichten ===== */
+var MSGS=[
+{ id:"brief", ev:"brief", typ:"Full Day Briefing", prio:"P1", rev:"unsicher", tl:true, tmin:0, send:"00:00–08:00",
+ de:`#190 ***** HEUTE - Mi 17. Juni ***** #190
+———
+#163 FOKUS heute:
+#080 Allianzduell Tag 3 Technologie
+#080 Golden Window Forschung 20:00-00:00 UTC: Forschungs-Speedups dumpen (dreifach)
+———
+#188 NICHT TUN:
+#080 Forschungs-Speedups bis zum Golden Window SPAREN, NICHT EINZELN VERBRAUCHEN
+#080 Fetzen NICHT bei Turbo verbrennen
+———
+#176 RALLYS HEUTE:
+{RALLYS}
+———
+#074 FREI: Wandering Infected, Minispiele
+———
+#078 Gemeinsam sind wir stark!`,
+ en:`#190 ***** TODAY - Wed 17 June ***** #190
+———
+#163 FOCUS today:
+#080 Alliance Duel Day 3 Technology
+#080 Golden Window research 20:00-00:00 UTC: dump research speedups (triple)
+———
+#188 DO NOT:
+#080 Research speedups: SAVE for the Golden Window, DO NOT SPEND ONE BY ONE
+#080 Gear scraps: DO NOT burn on Turbo Turtle
+———
+#176 RALLIES TODAY:
+{RALLYS}
+———
+#074 FREE: Wandering Infected, mini games
+———
+#078 Together we are stronger!` },
+
+{ id:"wand", ev:"wand", typ:"Reminder (täglich)", prio:"P2", rev:"bereit", tl:true, tmin:600, send:"tagsüber",
+ de:`#190 #069 WANDERING INFECTED - BELOHNUNGSMONSTER
+———
+#080 Erster Sieg des Tages gegen ein Wandering Infected gibt eine Belohnung.
+#080 Mindestens Level 2 angreifen. Höher = bessere Belohnung.
+#080 Rally beitreten oder selbst starten zählt beides.
+———
+Hol dir jeden Tag einen guten Sieg. #074 #189`,
+ en:`#190 #069 WANDERING INFECTED - REWARD MONSTER
+———
+#080 First win of the day against a Wandering Infected gives a reward.
+#080 Attack at least Level 2. Higher = better reward.
+#080 Joining a raid or starting your own both count.
+———
+So grab one good win each day. #074 #189` },
+
+{ id:"gwSoon", ev:"duell", typ:"~30 Min vorher", prio:"P1", rev:"bereit", tl:true, tmin:1170, send:"19:30 UTC", win:{s:"20:00",e:"00:00"},
+ de:`#190 #176 GOLDEN WINDOW GLEICH - FORSCHUNG
+———
+{TZBLOCK}
+———
+#080 Forschungs-Speedups bereitlegen. Lange Forschung IM Fenster fertig werden lassen.
+#078 Dreifach: Duell + Rüstungswettlauf + echter Fortschritt.`,
+ en:`#190 #176 GOLDEN WINDOW SOON - RESEARCH
+———
+{TZBLOCK}
+———
+#080 Get research speedups ready. Finish a long research INSIDE the window.
+#078 Triple: Duel + Power Play + real progress.` },
+
+{ id:"gwNow", ev:"duell", typ:"Jetzt geht's los", prio:"P2", rev:"bereit", tl:true, tmin:1200, send:"20:00 UTC", win:{s:"20:00",e:"00:00"},
+ de:`#190 #176 GOLDEN WINDOW - JETZT OFFEN
+———
+{TZBLOCK}
+———
+#176 Forschungs-Speedups jetzt einsetzen. Lange Forschung im Fenster abschließen.
+#078 Los geht's! #163`,
+ en:`#190 #176 GOLDEN WINDOW - OPEN NOW
+———
+{TZBLOCK}
+———
+#176 Spend your research speedups now. Finish a long research inside the window.
+#078 Let's go! #163` },
+
+{ id:"nacht", ev:"duell", typ:"Nachteulen-News + Spar-Plan", prio:"P2", rev:"unsicher", tl:true, tmin:1260, send:"21:00–23:00", standing:true,
+ de:`#190 #176 ALLIANZDUELL - TAG 3: TECHNOLOGIE (Nachteulen)
+———
+{STANDING}
+———
+#078 JETZT NOCH MACHBAR:
+#080 Forschungs-Speedups - wiederholbar, der Haupt-Hebel
+#080 Forschungstimer beschleunigen
+#080 Ungeheuer-Zellen + Spionagemissionen - meist nur wenige da, heute einsetzen
+———
+#167 FÜR DEN PASSENDEN TAG AUFHEBEN:
+#080 Heldenfragmente + Rekrutierungen - TAG 4 Helden (morgen)
+———
+#163 Ihr wart heute großartig. Gute Nacht!`,
+ en:`#190 #176 ALLIANCE DUEL - DAY 3: TECHNOLOGY (night owls)
+———
+{STANDING}
+———
+#078 STILL DOABLE NOW:
+#080 Research speedups - repeatable, the main lever
+#080 Research timer speedups
+#080 Monster Cells + Spy Missions - usually only a few, use them today
+———
+#167 SAVE FOR THE MATCHING DAY:
+#080 Hero fragments + recruits - DAY 4 Heroes (tomorrow)
+———
+#163 You were all amazing. Good night!` },
+
+{ id:"power", ev:"power", typ:"Info (situativ)", prio:"opt", rev:"unsicher", tl:false,
+ de:`#190 #076 RÜSTUNGSWETTLAUF - läuft nebenbei
+———
+#080 Solo-Event, alle 4 h ein Thema. Keine eigene Ansage nötig.
+#080 Das Golden Window deckt es ab: nur einsetzen, was heute auch ein anderes Event braucht. Sonst alles aufheben.`,
+ en:`#190 #076 POWER PLAY - runs in the background
+———
+#080 Solo event, a theme every 4 h. No separate announcement needed.
+#080 The Golden Window covers it: only spend what another event also needs today. Otherwise save everything.` },
+
+{ id:"turbo", ev:"turbo", typ:"Info (optional)", prio:"opt", rev:"unsicher", tl:false,
+ de:`#190 #133 TURBO-SCHILDKRÖTE - Phase 3/7 (optional)
+———
+#080 Ausrüstungs-Upgrades zählen hier doppelt - aber ALLIANZ GEHT VOR.
+#080 KEINE Fetzen verbrennen, die fürs Duell gebraucht werden.`,
+ en:`#190 #133 TURBO TURTLE - Phase 3/7 (optional)
+———
+#080 Gear upgrades score double here - but ALLIANCE FIRST.
+#080 DO NOT burn gear scraps needed for the Duel.` } ];
+
+/* ===== Emoji ===== */
+var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#080":"🤘","#078":"💪","#079":"🙏","#074":"👍","#073":"👏","#186":"❤️","#173":"💎","#122":"🤝","#170":"🏙️","#098":"🦁","#133":"🌪️","#076":"👊","#069":"👻","#117":"🐟","#169":"🌃","#093":"👑","#165":"👾" };
+function toEmoji(t){ return t.replace(/#\d{3}/g,function(c){return EMO[c]||c;}); }
+
+/* ===== Zeit ===== */
+function pad(n){return (n<10?"0":"")+n;}
+function toMin(h){var p=h.split(":");return parseInt(p[0],10)*60+parseInt(p[1],10);}
+function fmtMin(m){m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+":"+pad(m%60);}
+function addH(h,n){var p=h.split(":");return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1];}
+function tzBlock(s,e){
+  var z=[["UTC",0],["UK / Ireland / Portugal",1],["Germany / Austria / France / Italy / Spain / Poland / Netherlands",2],["Finland / Greece / Romania / Ukraine / Russia / Turkey",3]];
+  var out=["#167 Start:"];
+  z.forEach(function(p){ var t=addH(s,p[1]); out.push((e?t+" - "+addH(e,p[1]):t)+"  "+p[0]); });
+  return out.join("\n");
+}
+function zonesCompact(s,e){ /* normal, ein Land je Zone */
+  var z=[["UTC",0,"u"],["UK",1,""],["Deutschland",2,""],["Russia",3,""]];
+  return z.map(function(p){ var t=addH(s,p[1]); return '<span class="'+p[2]+'">'+p[0]+' '+(e?t+'–'+addH(e,p[1]):t)+'</span>'; }).join("");
+}
+
+/* ===== Zustand ===== */
+var state={ lang:"de", view:"code", standing:"lead", rallies:[] };  // rallies: {ev,su,eu}
+function baseToUtc(t,base){ return base==="de"?addH(t,-2):t; }
+
+function standingLine(){ var L={de:{lead:"#163 Wir führen - locker halten, Vorsprung sichern.",close:"#167 Es ist knapp - heute zählt jeder Punkt.",behind:"#188 Wir liegen zurück - jetzt die Top-Aufgaben pushen, aufholen."},en:{lead:"#163 We lead - hold it, keep the lead.",close:"#167 It's close - every point counts tonight.",behind:"#188 We're behind - push the top tasks now to catch up."}}; return L[state.lang][state.standing]; }
+function rallyBriefLines(){ if(!state.rallies.length) return state.lang==="de"?"#080 (noch keine Rally bestätigt)":"#080 (no rally confirmed yet)";
+  return state.rallies.map(function(r){ return "#080 "+EV[r.ev].emo+" "+EV[r.ev].name+" "+r.su+" UTC ("+addH(r.su,2)+" DE)"; }).join("\n"); }
+
+/* Rally -> Timeline-Nachrichten */
+function rallyMsgs(){ var arr=[]; state.rallies.forEach(function(r,i){
+  arr.push({ id:"r"+i+"_ann", ev:r.ev, typ:"Ankündigung (Rally)", prio:"P2", rev:"bereit", tl:true, tmin:toMin(r.su)-30, send:fmtMin(toMin(r.su)-30)+" UTC", win:{s:r.su,e:r.eu},
+    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - RALLY HEUTE\n———\n{TZBLOCK}\n———\n#080 Mit stärkstem Team beitreten.\n#078 Mehr Schaden mit Verbündeten = größere Belohnung.`,
+    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - RALLY TODAY\n———\n{TZBLOCK}\n———\n#080 Join with your strongest team.\n#078 More damage with allies = bigger rewards.` });
+  arr.push({ id:"r"+i+"_now", ev:r.ev, typ:"Jetzt geht's los", prio:"P2", rev:"bereit", tl:true, tmin:toMin(r.su), send:r.su+" UTC",
+    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - STARTET JETZT\n———\n#176 Rally läuft - jetzt mit stärkstem Team beitreten!`,
+    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - STARTS NOW\n———\n#176 Rally is live - join now with your strongest team!` });
+}); return arr; }
+function allMsgs(){ return MSGS.concat(rallyMsgs()); }
+
+/* ===== Text ===== */
+function buildText(m){ var t=m[state.lang];
+  if(m.win) t=t.replace("{TZBLOCK}",tzBlock(m.win.s,m.win.e));
+  if(m.standing) t=t.replace("{STANDING}",standingLine());
+  t=t.replace("{RALLYS}",rallyBriefLines());
+  return t; }
+function shown(m){ var t=buildText(m); return state.view==="emoji"?toEmoji(t):t; }
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+var REV=["falsch","unsicher","bereit","frei"], REVLBL={falsch:"falsch",unsicher:"unsicher",bereit:"bereit zur Prüfung",frei:"freigegeben"};
+function head(m){ var rv=store.get(m.id,m.rev);
+  return '<div class="msg-head"><button class="rev rev-'+rv+'" data-rev="'+m.id+'" title="Status weiterschalten">'+REVLBL[rv]+'</button>'
+   +'<span class="ev">'+EV[m.ev].emo+' '+EV[m.ev].name+'</span><span class="typ">'+m.typ+'</span><span class="prio pr-'+m.prio+'">'+m.prio+'</span></div>'; }
+function card(m){ return '<div class="msg">'+head(m)+'<pre class="block">'+esc(shown(m))+'</pre><button class="copybtn" data-copy="'+m.id+'">📋 Kopieren ('+(state.lang==="de"?"DE":"EN")+')</button></div>'; }
+
+function render(){
+  var msgs=allMsgs();
+  var tl=msgs.filter(function(m){return m.tl;}).sort(function(a,b){return (a.tmin)-(b.tmin);});
+  var html='<div class="tl-line"></div>';
+  tl.forEach(function(m){ html+='<div class="tl-row"><div class="tl-time">'+(m.send||"")+'<small>Sendezeit</small></div><div>'+card(m)+'</div></div>'; });
+  document.getElementById("timeline").innerHTML=html;
+  var be=""; Object.keys(EV).forEach(function(k){ var list=msgs.filter(function(m){return m.ev===k;}); if(!list.length)return;
+    be+='<details class="ev-group" '+(k==="duell"?"open":"")+'><summary>'+EV[k].emo+' '+EV[k].name+' ('+list.length+')</summary>'+list.map(card).join("")+'</details>'; });
+  document.getElementById("byEvent").innerHTML=be;
+  renderRallyList();
+  bind();
+}
+function renderRallyList(){ var el=document.getElementById("rallyList"); if(!el)return;
+  if(!state.rallies.length){ el.innerHTML='<p class="lead" style="margin:.3em 0">Noch keine Rally hinzugefügt.</p>'; return; }
+  el.innerHTML=state.rallies.map(function(r,i){
+    return '<div class="conf"><b>'+EV[r.ev].emo+' '+EV[r.ev].name+'</b> <span class="z">Start '+r.su+' UTC ('+addH(r.su,2)+' DE)'+(r.eu?' · Ende '+r.eu+' UTC':'')+'</span><button class="rm" data-rm="'+i+'" title="entfernen">✕</button></div>';
+  }).join("");
+}
+function bind(){
+  document.querySelectorAll(".copybtn[data-copy]").forEach(function(b){ b.onclick=function(){ var m=allMsgs().filter(function(x){return x.id===b.getAttribute("data-copy");})[0]; copyClip(buildText(m),b); }; });
+  document.querySelectorAll(".rev[data-rev]").forEach(function(b){ b.onclick=function(){ var id=b.getAttribute("data-rev"); var m=allMsgs().filter(function(x){return x.id===id;})[0]; var cur=store.get(id,m.rev); store.set(id,REV[(REV.indexOf(cur)+1)%REV.length]); }; });
+  document.querySelectorAll(".rm[data-rm]").forEach(function(b){ b.onclick=function(){ state.rallies.splice(parseInt(b.getAttribute("data-rm"),10),1); render(); }; });
+}
+function copyClip(text,btn){ function ok(){ if(btn){var o=btn.textContent;btn.classList.add("ok");btn.textContent="✓ Kopiert";setTimeout(function(){btn.classList.remove("ok");btn.textContent=o;},1300);} }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fb);}else fb();
+  function fb(){var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);ok();} }
+function seg(id,attr,cb){ var box=document.getElementById(id); box.querySelectorAll("button").forEach(function(b){ b.onclick=function(){ box.querySelectorAll("button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); cb(b.getAttribute(attr)); }; }); }
+
+/* Generatoren */
+function genUpdate(){ var s=document.getElementById("gStart").value||"00:00", e=document.getElementById("gEnd").value;
+  var base=document.querySelector("#gBase button.on").getAttribute("data-base");
+  document.getElementById("gOut").textContent=tzBlock(baseToUtc(s,base), e?baseToUtc(e,base):null); }
+function gwUpdate(){ document.getElementById("gwZones").innerHTML=zonesCompact("20:00","00:00"); }
+function addRally(){ var ev=document.getElementById("rEv").value, s=document.getElementById("rStart").value||"18:00", e=document.getElementById("rEnd").value;
+  var base=document.querySelector("#rBase button.on").getAttribute("data-base");
+  state.rallies.push({ ev:ev, su:baseToUtc(s,base), eu:e?baseToUtc(e,base):"" }); render(); }
+
+function boot(){
+  store.init(render);
+  genUpdate(); gwUpdate();
+  document.getElementById("gStart").addEventListener("input",genUpdate);
+  document.getElementById("gEnd").addEventListener("input",genUpdate);
+  seg("gBase","data-base",genUpdate);
+  document.getElementById("gCopy").onclick=function(){copyClip(document.getElementById("gOut").textContent,this);};
+  document.getElementById("rAdd").onclick=addRally;
+  seg("rBase","data-base",function(){});
+  seg("segLang","data-lang",function(v){state.lang=v;genUpdate();render();});
+  seg("segView","data-view",function(v){state.view=v;render();});
+  seg("segStand","data-st",function(v){state.standing=v;render();});
+  render();
+}
+function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){boot();return;} setTimeout(waitContent,200); }
+if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
+</script>
+</body>
+</html>
