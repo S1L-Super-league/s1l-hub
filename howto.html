@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How-to — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>🛠️ How-to — Begriffe & Knöpfe</h1>
+    <p>Kurz erklärt: was ein Begriff bedeutet und wo du den Knopf findest. Diese Begriffe sind im ganzen Hub verlinkt.</p>
+  </header>
+  <p class="lead" style="margin:6px 0 0">Status der Erklärungen: <span class="badge tier-fix">FIX = bestätigt</span> · <span class="badge tier-prob">wahrscheinlich</span> · <span class="badge tier-test">noch testen</span></p>
+
+  <h2 class="section">📍 Karte & Bewegung</h2>
+  <div class="card howto glos" id="marker">
+    <h3>Marker (Allianz-Marker)</h3>
+    <p>Ein Punkt auf der Karte, den der Anführer setzt, damit alle wissen, wo gesammelt/angegriffen wird. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <p><b>So machst du's:</b> Karte öffnen → Stelle gedrückt halten → „Marker setzen" / „Versammeln". Tipp-zu-bestätigen folgt im Client.</p>
+  </div>
+  <div class="card howto glos" id="versetzen">
+    <h3>Versetzen / Teleport</h3>
+    <p>Deine Stadt an einen anderen Ort der Karte bewegen (z. B. zum <a class="term" href="#sammelpunkt">Sammelpunkt</a> oder zur Gegner-Allianz). <span class="badge tier-test">TESTEN</span></p>
+    <p><b>So machst du's:</b> Stadt antippen → Versetzen → Random- oder Gezielt-Teleport wählen. In manchen Events ist die Angriffs-Versetzung gratis.</p>
+  </div>
+
+  <h2 class="section">🛡️ Schutz</h2>
+  <div class="card howto glos" id="schild">
+    <h3>Schutzschild</h3>
+    <p>Macht deine Stadt für eine bestimmte Zeit unangreifbar. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+    <p><b>So machst du's:</b> Gegenstände/Rucksack → Schutzschild → Dauer wählen → aktivieren. Wichtig am Kampftag (siehe <a class="term" href="#friedenskuppel">Friedenskuppel</a>).</p>
+  </div>
+  <div class="card howto glos" id="friedenskuppel">
+    <h3>Friedenskuppel (Peace Shield)</h3>
+    <p>Spezielles Schild, das am Kampftag (Allianzduell Tag 6) entscheidend ist — Schwache ungeschützt = Killpunkte für den Gegner. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+  <div class="card howto glos" id="feldlazarett">
+    <h3>Feldlazarett (Hospital)</h3>
+    <p>Verletzte Truppen landen hier statt zu sterben und werden geheilt. In manchen Events (z. B. <a class="term" href="S1L-Event-Reservoir-Raid.html">Reservoir Raid</a>) gratis & unbegrenzt. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <h2 class="section">⚔️ Angriff & Truppen</h2>
+  <div class="card howto glos" id="rally">
+    <h3>Rally (Sammelangriff)</h3>
+    <p>Mehrere Spieler greifen gemeinsam ein Ziel an. Du <strong>startest</strong> eine Rally oder <strong>trittst</strong> einer bei. Nur so machst du z. B. beim <a class="term" href="#garnison">Boss</a> Schaden. <span class="badge tier-fix">FIX</span></p>
+    <p><b>So machst du's:</b> Ziel antippen → „Rally starten" (Vorlaufzeit wählen) oder bei laufender Rally → „Beitreten".</p>
+  </div>
+  <div class="card howto glos" id="garnison">
+    <h3>Garnison</h3>
+    <p>Truppen, die an einem Ort „geparkt" sind — zum Verteidigen oder als Sammel-Wartepunkt einer Rally. Beim Rally-Beitreten warten deine Truppen erst hier, dann marschieren alle zusammen los. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+  <div class="card howto glos" id="spaehposten">
+    <h3>Spähposten (Intel Post)</h3>
+    <p>Naher Punkt für Spionage-Missionen — und zum gezielten Truppen-Abbauen (schwache Rally absichtlich verlieren, kostet keine Ausdauer). <span class="badge tier-test">TESTEN</span></p>
+  </div>
+  <div class="card howto glos" id="sammelpunkt">
+    <h3>Sammelpunkt</h3>
+    <p>Der Ort, an dem sich die Allianz vor einem Kampf/Event versammelt (oft geheim gehalten). <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <h2 class="section">🏠 Basis & Ressourcen</h2>
+  <div class="card howto glos" id="kraftwerk">
+    <h3>Kraftwerk (Power Plant)</h3>
+    <p>Kern-Gebäude; sein Level bestimmt deine Stufe. Für manche Events Mindest-Level nötig (z. B. Lv.12+ bei Reservoir Raid). <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+  <div class="card howto glos" id="ausruestungsfetzen">
+    <h3>Ausrüstungsfetzen (Gear Scraps)</h3>
+    <p>Material zum Aufwerten der Ausrüstung. Verbrauchen bringt in bestimmten Events viele Punkte → <strong>aufheben</strong> und im richtigen Fenster (doppelt) einsetzen. <span class="badge tier-fix">FIX</span></p>
+  </div>
+  <div class="card howto glos" id="golden-window">
+    <h3>Golden Window</h3>
+    <p>Das eine Zeitfenster, in dem mehrere Events dieselbe Aktion gleichzeitig belohnen → Ressourcen dann ausgeben = doppelt/dreifach Punkte. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <footer>S1L Info-Hub · How-to · Stand 15.06.2026 · Begriffe werden ergänzt. Unklares im Client gegenprüfen.</footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

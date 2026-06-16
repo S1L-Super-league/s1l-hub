@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reservoir Raid — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>💧 Reservoir Raid</h1>
+    <p class="lead">30 gegen 30, Cross-State. <strong>Wasser halten gewinnt — nicht töten.</strong> <span class="badge tier-fix">FIX</span></p>
+  </header>
+
+  <!-- ===== EBENE 2: Das Wichtigste (in-game-Niveau) ===== -->
+  <h2 class="section">📌 Das Wichtigste</h2>
+  <div class="card raid">
+    <p class="fact"><b>🎯 Ziel:</b> Die Allianz mit dem meisten <em>Allianz-Reinwasser</em> bei Timer-Ende gewinnt. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>🏆 Belohnung:</b> persönliches Wasser → Solo-Rang + Meilenstein-Truhen; Allianz-Sieg → reiche Allianz-Belohnungen + Top-Mitglieder extra. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⚙️ Mechanik:</b> Wasser kommt aus (1) <em>Erstkontrolle</em> eines Gebäudes (einmaliger Brocken) und (2) <em>Halten</em> (Einkommen pro Minute). Kills geben NUR persönliches Wasser, kein Allianz-Wasser. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>🩹 Gut zu wissen:</b> Truppen sterben nicht (nur verletzt → <a class="term" href="howto.html#feldlazarett">Feldlazarett</a>, gratis). Also aggressiv angreifen. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <h2 class="section">✅ Was heute zu tun ist</h2>
+  <div class="card raid">
+    <p class="fact"><b>Tun:</b> Hochwert-Gebäude <strong>halten</strong> (Central Reservoir &gt; große Komplexe &gt; kleine Anlagen). Eurer Lane/Rolle folgen. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⛔ NICHT tun:</b> nur Solo-Wasser jagen (kostet den Allianz-Sieg) · den Canyon mitten im Raid verlassen (10-Min-Sperre). <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>Vor Start:</b> alle Märsche zu Hause · <a class="term" href="howto.html#kraftwerk">Kraftwerk</a> Lv.12+ · 1 Gratis-<a class="term" href="howto.html#versetzen">Teleport</a> pro 10 Min für Flips sparen. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <h2 class="section">🗺️ Unser Plan heute</h2>
+  <div class="card raid">
+    <p><em>(Hier trägt Alex/der Anführer den Tagesplan ein — Lanes, wer welches Gebäude, Anker/Capper/Flanker.)</em></p>
+    <p class="fact"><b>Beispiel:</b> Stärkste → Central Reservoir, dann 2 große Komplexe · Mittlere → 4 kleine Anlagen · Kleine → Solar+Helipad (Mobilität) + Munitions (Buff) · 3–4 Starke = Floating-Reserve für umkämpfte Punkte. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <!-- ===== EBENE 3: tiefer, ausklappbar (Progressive Disclosure) ===== -->
+  <details>
+    <summary>🧠 Bevorzugte Strategie — warum & wie genau</summary>
+    <p><b>Leitsatz:</b> <strong>Halten gewinnt, nicht Töten.</strong> Allianz-Wasser kommt nur aus Erstkontrolle + Halten; Kills bringen nur dir persönlich Wasser. Wer nur jagt, kann den Allianz-Sieg kosten.</p>
+    <p><b>Lineup nach Gebäudewert:</b> Teams nach Wasser/Min gewichten — die wertvollsten Punkte (Central Reservoir 1.800/Min) bekommen die stärksten Spieler und die meiste Verteidigung.</p>
+    <p><b>Rollen ~von 30:</b> 10–12 Capper · 10–12 Anker/Verteidiger · 4–6 Flanker · Rest früh Solo sammeln. Plus die 10 Reserven als Floating-Reserve.</p>
+    <p><b>Teleports:</b> 1 Gratis-Teleport/10 Min, jeder weitere teurer → für Flips und Endphase sparen. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </details>
+
+  <details>
+    <summary>💡 Tipps, Tricks & Synergien</summary>
+    <ul>
+      <li>Aggressiv kämpfen: Truppen sterben nicht (<a class="term" href="howto.html#feldlazarett">Feldlazarett</a>) → Druck halten lohnt immer.</li>
+      <li>Registrierung schließt ~2 Tage vorher (30 Spieler + 10 Reserven, nur Leader/R4 setzen) → rechtzeitig melden.</li>
+      <li>Bonus-Gebäude: Munitions Factory = +20% Angriff/Verteidigung für alle · Dev Compound schwächt Gegner-Verteidiger.</li>
+      <li>Eigene Event-Garnison füllt sich automatisch (siehe <a class="term" href="howto.html#garnison">Garnison</a>).</li>
+    </ul>
+    <p class="lead">Offene Punkte (noch im Client bestätigen): exakte Phasen-Zeiten auf S1L-Server. <span class="badge tier-test">TESTEN</span></p>
+  </details>
+
+  <footer>S1L Info-Hub · Reservoir Raid · Stand 15.06.2026 · Quelle: Wissensdatenbank §11.2.</footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

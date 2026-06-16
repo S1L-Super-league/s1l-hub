@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saison — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>🏆 Saison & Saison-Events</h1>
+    <p class="lead">Über den Wochen-Events liegt eine <strong>Saison</strong> mit eigenen Groß-Events.</p>
+  </header>
+  <p class="lead" style="margin:6px 0 14px"><span class="badge tier-test">TESTEN</span> Alles hier ist aus Web-Guides — <strong>welche Saison/Events bei uns aktiv sind, bitte im Client bestätigen.</strong></p>
+
+  <h2 class="section">🟡 Copper Clash (Season 3, Fraktionen)</h2>
+  <div class="card season">
+    <p class="fact"><b>🎯 Ziel:</b> Ab Woche 2 treten die <strong>Top-8-Allianzen</strong> in <em>Fraktionen</em> (mehrere Allianzen zusammen) an und sammeln <strong>Copper</strong>. <span class="badge tier-test">TESTEN</span></p>
+    <p class="fact"><b>⚙️ Copper aus:</b> (1) KvK-Siege · (2) eroberte Städte (Copper pro Stunde für die ganze Fraktion) · (3) dem Copper-Clash-Event selbst. <span class="badge tier-test">TESTEN</span></p>
+    <p class="fact"><b>Event-Kacheln:</b> <strong>Lairs</strong> = Punkte pro erfolgreichem Angriff (schnell weiterziehen) · <strong>Mines</strong> = Punkte pro Minute Halten (S/M/L/XXL, XXL am wertvollsten) · <strong>Merit</strong> = persönlich fürs Töten, täglich Reset. <span class="badge tier-test">TESTEN</span></p>
+    <p class="fact"><b>Wichtig:</b> begrenzte Aktionspunkte → Ziele gut wählen. Ab Tag 5 Angriffe aus dem Fraktions-Kern. <span class="badge tier-test">TESTEN</span></p>
+  </div>
+
+  <h2 class="section">🛢️ Oil Clash</h2>
+  <div class="card season">
+    <p>Punkte durch <strong>Ressourcen verbrennen, Speedups zünden, Marschstärke</strong> hochfahren. Ab Woche 2 für Top-Allianzen. Klingt nah an unserem „Krafteinsatz" — <strong>im Client prüfen, ob gleich oder eigen.</strong> <span class="badge tier-test">TESTEN</span></p>
+  </div>
+
+  <h2 class="section">🌊 Turbulent Tides</h2>
+  <div class="card season">
+    <p>Dreht sich um <strong>Heldenfragmente verbrennen + Ausrüstung aufwerten</strong> (Fokus in Season I). Synergie mit unserer „Turbo-Schildkröte"/Gear-Strategie. <span class="badge tier-test">TESTEN</span></p>
+  </div>
+
+  <h2 class="section">🏰 Arcadian Conquest</h2>
+  <div class="card season">
+    <p>Das ist unsere <a class="term" href="index.html">Allianzbelagerung</a> (Arcadia + 4 Türme halten). Schon als Event-Steckbrief vorhanden. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <details>
+    <summary>🧠 Was das für uns heißt</summary>
+    <p>Die Saison belohnt <strong>Koordination über mehrere Allianzen</strong> (Fraktion) und das <strong>Halten von Städten</strong> (Dauer-Copper). Für S1L heißt das: Diplomatie/NAP pflegen, Städte gemeinsam halten, und Ressourcen-Dumps in die Saison-Fenster legen.</p>
+    <p class="lead">Sobald du Screenshots vom Saison-Screen schickst, baue ich hier die echten Zahlen/Termine ein und stufe die Labels hoch.</p>
+  </details>
+
+  <footer>S1L Info-Hub · Saison · Stand 15.06.2026 · Quelle: Web-Guides (LootBar/Clashiverse) — im Client bestätigen.</footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

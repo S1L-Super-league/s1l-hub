@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <header>
+    <h1>📋 S1L Info-Hub</h1>
+    <p>Alles Wichtige auf einen Blick. Reihenfolge: HEUTE → Woche → Events → Saison → Tipps.</p>
+  </header>
+
+  <div class="legend" aria-label="Bedeutung der Labels">
+    <span class="badge tier-fix">FIX — so machen</span>
+    <span class="badge tier-prob">WAHRSCHEINLICH richtig</span>
+    <span class="badge tier-test">NOCH TESTEN</span>
+  </div>
+
+  <!-- ========== 1. HEUTE ========== -->
+  <div class="today">
+    <h2>⭐ HEUTE — 15.06.2026</h2>
+    <div class="row"><span class="ic">🗓️</span><div><b>Was läuft:</b> Allianzduell Tag 1 (Radar-Training) · Rüstungswettlauf · Ghulöwe · abends City Battle</div></div>
+    <div class="row"><span class="ic">✅</span><div><b>FIX tun:</b> 1 Spionagemission · 1 Kommandantenausdauer · Tagesaufgaben abräumen <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">🤔</span><div><b>Vielleicht:</b> Nachteulen — kurzer Radar-Push nach dem City Battle (Tag 1 zählt nur 1 Punkt)</div></div>
+    <div class="row"><span class="ic">⛔</span><div><b>NICHT tun:</b> Ausrüstungsfetzen verbrauchen — aufheben (Dreifach-Fenster heute vorbei) <span class="badge tier-fix">FIX</span></div></div>
+    <div class="row"><span class="ic">⏳</span><div><b>Nächstes Golden Window:</b> 16.06. ~16:00 UTC — Bau-Speedups</div></div>
+  </div>
+
+  <!-- ========== 2. WOCHENKALENDER ========== -->
+  <h2 class="section">📆 Eventkalender der Woche</h2>
+  <table class="cal">
+    <tr><th>Tag</th><th>Aktiv</th><th>Golden Window (UTC)</th></tr>
+    <tr><td>Mo 15.</td><td>Duell T1 Radar · RW · Ghulöwe</td><td>Fetzen 08:00 (vorbei)</td></tr>
+    <tr><td>Di 16.</td><td>Duell T2 Basisbau</td><td>Bau-Speedups ~16:00</td></tr>
+    <tr><td>Mi 17.</td><td>Duell T3 Technologie</td><td>Forschungs-Speedups ~20:00</td></tr>
+    <tr><td>Do 18.</td><td>Duell T4 Helden</td><td>Helden-EP/Splitter ~04:00</td></tr>
+    <tr><td>Fr 19.</td><td>Duell T5 Schlachtvorb.</td><td>Truppen-Training ~08:00</td></tr>
+    <tr><td>Sa 20.</td><td>Duell T6 Kampf · Belagerung</td><td>Kämpfen (nur Duell)</td></tr>
+  </table>
+  <p class="lead">Aktualisiert Alex aus euren Screenshots. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+
+  <!-- ========== 3. EVENTS ========== -->
+  <h2 class="section">🎮 Einzelne Events — tippen für Details</h2>
+  <div class="grid two">
+    <a class="cardlink" href="S1L-Event-Allianzduell.html"><div class="card duell"><h3>⚔️ Allianzduell</h3><p>6 Tage, Tag 6 entscheidet. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="S1L-Event-Reservoir-Raid.html"><div class="card raid"><h3>💧 Reservoir Raid</h3><p>30v30, Wasser halten. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="S1L-Event-Ghuloewe.html"><div class="card loewe"><h3>🦁 Ghulöwe-Verfolgung</h3><p>Boss-Rally, 30 Min, Schaden. <span class="badge tier-fix">FIX</span></p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="#"><div class="card bela"><h3>🏰 Allianzbelagerung</h3><p>Arcadia + 4 Türme (Sa). <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card ress"><h3>🏗️ Krafteinsatz</h3><p>Bau/Forschung in Fenstern. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card ress"><h3>🐢 Turbo-Schildkröte</h3><p>Gear-Upgrades doppelt. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card raid"><h3>⛏️ Unterird. Goldmine</h3><p>Gather/PvP, Lvl 1–6. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card raid"><h3>🕳️ Cave / Burrow</h3><p>Tiles/Höhlen halten. <span class="badge tier-test">TESTEN</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card loewe"><h3>🗺️ Verlorene Grenze</h3><p>Schwierigkeiten durch. <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Folgt →</p></div></a>
+    <a class="cardlink" href="#"><div class="card duell"><h3>🛡️ Rüstungswettlauf</h3><p>Solo-Rang, 4-h-Runden. <span class="badge tier-fix">FIX</span></p><p class="go">Folgt →</p></div></a>
+  </div>
+  <p class="lead">Täglich nebenbei: Wandering Infected · Hero Arena · Terror Purge · Dire Dispatch · Honor Expedition.</p>
+
+  <!-- ========== 4. SAISON ========== -->
+  <h2 class="section">🏆 Saison & Saison-Events</h2>
+  <a class="cardlink" href="S1L-Saison.html"><div class="card season"><h3>🏆 Saison-Übersicht (Season 3?)</h3><p>Copper Clash (Fraktionen, Top-8) · Oil Clash · Turbulent Tides. Saison-Mechanik & Belohnungen. <span class="badge tier-test">TESTEN — im Client bestätigen</span></p><p class="go">Öffnen →</p></div></a>
+
+  <!-- ========== 5. TIPPS & GLOSSAR ========== -->
+  <h2 class="section">🧠 Tipps & 📖 Glossar</h2>
+  <div class="grid two">
+    <a class="cardlink" href="howto.html"><div class="card howto"><h3>📖 How-to-Glossar</h3><p>Begriffe & Knöpfe: <a class="term" href="howto.html#marker">Marker</a>, <a class="term" href="howto.html#schild">Schutzschild</a>, <a class="term" href="howto.html#rally">Rally</a>… Schritt für Schritt.</p><p class="go">Öffnen →</p></div></a>
+    <a class="cardlink" href="#"><div class="card howto"><h3>🧠 Tipps & Tricks</h3><p>Golden Window, Doppelnutzung, „Stärke verstärken". <span class="badge tier-prob">WAHRSCHEINLICH</span></p><p class="go">Eigene Seite folgt →</p></div></a>
+  </div>
+
+  <!-- ========== 6. VERWALTUNG ========== -->
+  <h2 class="section">🔐 Nur für die Verwaltung</h2>
+  <a class="cardlink" href="S1L-Verwaltung.html"><div class="card admin"><h3>🔐 Verwaltung (eigenes Passwort)</h3><p>Wer hat Zugriff (= Login-Liste) · Pinnwand fürs Rat-Team. Nur mit Rat-Passwort.</p><p class="go">Öffnen →</p></div></a>
+
+  <footer>
+    S1L Info-Hub · Stand 15.06.2026 · Nur öffentliche Spiel-Infos (Gamertags), keine privaten Daten.<br>
+    Redaktion: Alex. Labels: FIX = bestätigt · wahrscheinlich · noch testen.
+  </footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

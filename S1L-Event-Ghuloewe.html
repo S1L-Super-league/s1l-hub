@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghulöwe-Verfolgung — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>🦁 Ghulöwe-Verfolgung</h1>
+    <p class="lead">Allianz-Boss. <strong>30 Minuten, dein Schaden zählt.</strong> <span class="badge tier-fix">FIX</span></p>
+  </header>
+
+  <h2 class="section">📌 Das Wichtigste</h2>
+  <div class="card loewe">
+    <p class="fact"><b>🎯 Ziel:</b> In 30 Min so viel <em>persönlichen Schaden</em> wie möglich → höhere Schadens-Bracket → bessere Belohnung. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>🏆 Belohnung:</b> vor allem <strong>Adhesives</strong> (Pflicht-Material Chief-Gear Lila→Orange) + Building Speedups. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⚙️ Mechanik:</b> Boss per <a class="term" href="howto.html#rally">Rally</a> angreifen (starten oder beitreten). Patch: nur noch 30 Min (statt 24 h), <strong>kein Rally-Limit</strong>. Schaden zählt, nicht Kills. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <h2 class="section">✅ Was tun / ⛔ NICHT tun</h2>
+  <div class="card loewe">
+    <p class="fact"><b>Tun:</b> Wer eine Rally führen kann, führt eine <strong>eigene</strong> (Selbst-Rally) statt zu warten → maximale Schläge pro Minute. Auf Boss-Schaden-Helden + Signature Weapons + Schadens-Gear umrüsten. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⛔ NICHT:</b> Buffs/Attack-Consumables an normalen Tagen verschwenden — nur in diesen 30 Min zünden. Nicht zu spät anfangen. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <h2 class="section">🗺️ Unser Plan heute</h2>
+  <div class="card loewe">
+    <p><em>(Alex/Anführer trägt ein: Startzeit, wer zuerst Rally aufmacht.)</em></p>
+    <p class="fact"><b>Standard:</b> Alle gleichzeitig zu Start, Buffs sofort, nie Leerlauf — Rally mit kurzer Vorlaufzeit, sofort der nächste Zyklus. <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
+  </div>
+
+  <details>
+    <summary>🧠 Bevorzugte Strategie — warum & wie</summary>
+    <p><b>Vorbereitung schlägt Panik:</b> vorher Helden + Signature Weapons hochziehen und Buffs horten. Wer erst während des Events anfängt, ist zu spät.</p>
+    <p><b>Selbst-Rally:</b> Kein Rally-Limit → jeder Rally-Fähige macht selbst eine auf, kürzeste sinnvolle Vorlaufzeit → mehr Schläge/Minute für die ganze Allianz.</p>
+  </details>
+
+  <details>
+    <summary>💡 Tipps, Tricks & Synergien</summary>
+    <ul>
+      <li><b>Ausdauer dreifach:</b> Kommandantenausdauer zählt im Ghulöwe + (am Duell-Radartag) im Duell + in der Rüstungswettlauf-Ungeheuer-Runde. Im richtigen <a class="term" href="howto.html#golden-window">Golden Window</a> = dreifach.</li>
+      <li>Ghulöwe = das „Ungeheuer" für die RW-Ungeheuer-Wachstum-Runde → Monster-Aktionen ins Fenster legen.</li>
+      <li>Tank-Gear runter, Schadens-Gear rauf — hier zählt nur Schaden.</li>
+    </ul>
+  </details>
+
+  <footer>S1L Info-Hub · Ghulöwe-Verfolgung · Stand 15.06.2026 · Quelle: Kriegshandbuch §3 + Wissensdatenbank §11.6.</footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

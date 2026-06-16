@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allianzduell — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p>Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</p>
+    <label for="nm" style="position:absolute;left:-9999px">Spielername</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button">Anmelden</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html">← Zurück zum Hub</a>
+  <header>
+    <h1>⚔️ Allianzduell</h1>
+    <p class="lead">6-Tage-Duell Allianz gegen Allianz, 1 Thema pro Tag. Tag 6 entscheidet. <span class="badge tier-fix">FIX</span></p>
+  </header>
+
+  <h2 class="section">📌 Das Wichtigste</h2>
+  <div class="card duell">
+    <p class="fact"><b>🎯 Ziel:</b> Mehr Tagespunkte als der Gegner → Tag gewinnen. 13 Punkte gesamt, 7 zum Sieg. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>🏆 Belohnung:</b> Tagesaufgaben → persönliche Meilenstein-Truhen (immer, sieg-unabhängig) + Allianz-Sieg = reiche Truhen. <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⚙️ Mechanik:</b> Jeder Tag ein Thema mit Gewicht. Tag 6 „Gegner besiegen" zählt 4 → da fällt die Entscheidung. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <h2 class="section">📅 Die 6 Tage</h2>
+  <div class="grid three">
+    <div class="card duell"><h3>📡 Tag 1</h3><p><b>Radar-Training</b> (1)</p><p>Top: <a class="term" href="howto.html#ausruestungsfetzen">Ausrüstungsfetzen</a> +385.830, Spionage +61.875</p></div>
+    <div class="card duell"><h3>🏗️ Tag 2</h3><p><b>Basisbau</b> (2)</p><p>Top: Schwierige Entsendung +75.000, LKW A +50.000</p></div>
+    <div class="card duell"><h3>🔬 Tag 3</h3><p><b>Technologie</b> (2)</p><p>Top: Spionage +30.000, Ungeheuer-Zelle +12.000</p></div>
+    <div class="card duell"><h3>🦸 Tag 4</h3><p><b>Helden</b> (2)</p><p>Top: legendäres Fragment +15.200, Wunsch-Rekrut +13.400</p></div>
+    <div class="card duell"><h3>🎯 Tag 5</h3><p><b>Schlachtvorb.</b> (2)</p><p>Top: Spionage +37.500, Truppen trainieren</p></div>
+    <div class="card duell"><h3>🏆 Tag 6</h3><p><b>Gegner besiegen</b> (4)</p><p>Pflicht: <a class="term" href="howto.html#friedenskuppel">Friedenskuppeln</a>. Entscheidender Tag!</p></div>
+  </div>
+
+  <h2 class="section">✅ Was tun / ⛔ NICHT tun</h2>
+  <div class="card duell">
+    <p class="fact"><b>Tun:</b> jeden Tag die Tagesaufgaben abräumen (garantierte Meilenstein-Truhen). <span class="badge tier-fix">FIX</span></p>
+    <p class="fact"><b>⛔ NICHT:</b> seltene Ressourcen an niedrig gewichteten Tagen verbrennen — für den passenden Tag / das <a class="term" href="howto.html#golden-window">Golden Window</a> aufheben. <span class="badge tier-fix">FIX</span></p>
+  </div>
+
+  <details>
+    <summary>🧠 Bevorzugte Strategie — warum & wie</summary>
+    <p>Der Sieg-Einsatz gehört auf hoch gewichtete, <em>gewinnbare</em> Tage — vor allem <strong>Tag 6</strong> (Gewicht 4, Gratis-Versetzung). Persönliche Belohnungen kommen aus eigenen Punkten und sind sieg-unabhängig → Tagesaufgaben lohnen immer. Eine Niederlage kostet nur eine kleinere Truhe, keine Ressourcen-Strafe.</p>
+  </details>
+
+  <details>
+    <summary>💾 Spar-Plan — was für welchen Tag aufheben</summary>
+    <ul>
+      <li><a class="term" href="howto.html#ausruestungsfetzen">Ausrüstungsfetzen</a> → Rüstungswettlauf-Ausrüstungsrunde / Turbo-Schildkröte (doppelt)</li>
+      <li>Bau-Speedups → Tag 2 · Forschungs-Speedups + Ungeheuer-Zellen → Tag 3</li>
+      <li>Heldenfragmente + Rekrut-Marken → Tag 4 · Truppen-Training → Tag 5</li>
+      <li><a class="term" href="howto.html#friedenskuppel">Friedenskuppeln</a> → Tag 6</li>
+    </ul>
+  </details>
+
+  <footer>S1L Info-Hub · Allianzduell · Stand 15.06.2026 · Quelle: Wissensdatenbank §11.3.</footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>
