@@ -350,13 +350,13 @@ function toMin(h){var p=h.split(":");return parseInt(p[0],10)*60+parseInt(p[1],1
 function fmtMin(m){m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+":"+pad(m%60);}
 function addH(h,n){var p=h.split(":");return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1];}
 function tzBlock(s,e){
-  var z=[["UTC",0],["UK / Ireland / Portugal",1],["Germany / Austria / France / Italy / Spain / Poland / Netherlands",2],["Finland / Greece / Romania / Ukraine / Russia / Turkey",3]];
+  var z=[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
   var out=["#167 Start:"];
   z.forEach(function(p){ var t=addH(s,p[1]); out.push((e?t+" - "+addH(e,p[1]):t)+"  "+p[0]); });
   return out.join("\n");
 }
 function zonesCompact(s,e){ /* normal, ein Land je Zone */
-  var z=[["UTC",0,"u"],["UK",1,""],["Deutschland",2,""],["Russia",3,""]];
+  var z=[["UTC",0,"u"],["UK/IE/PT",1,""],["DE/AT/FR/IT/ES",2,""],["FI/GR/UA/RU/TR",3,""]];
   return z.map(function(p){ var t=addH(s,p[1]); return '<span class="'+p[2]+'">'+p[0]+' '+(e?t+'–'+addH(e,p[1]):t)+'</span>'; }).join("");
 }
 

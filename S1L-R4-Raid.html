@@ -138,9 +138,9 @@ var STRAT={
   reservoir:[ { id:"res-halten", prio:true, tags:["Halten","Lineup"],
     de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Lineup nach Gebaeudewert, Staerkste aufs Central Reservoir. Nicht nur Solo-Wasser jagen.",
     en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
-  stadt:[ { id:"stadt-erobern", prio:false, tags:["Stadt"],
-    de:"Alle gemeinsam draufhauen bis die Stadt uns gehoert, dann Truppen rein und 30 Min besetzen. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht.",
-    en:"Everyone hits together until the city is ours, then send troops in and hold 30 min. Only first capture gives instant points, recapture does not." } ],
+  stadt:[ { id:"stadt-standard", prio:true, tags:["Standard-Raid","Kleine zuerst","Nur auf R4-Ansage"],
+    de:"Standard-Raid: Auf R4-Aufforderung SOFORT zum Sammelpunkt versetzen und sammeln, dann genau nach Ansage handeln. KLEINE Staedte zuerst - alle gemeinsam draufhauen, dann Truppen rein und halten. Die GROSSE / neue Stadt NUR angreifen wenn R4 es sagt. Bei 75 / 50 / 25 % spawnen neue kleine Staedte. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - dafuer keine Gems verbrennen.",
+    en:"Standard raid: on the R4 call, relocate to the rally point IMMEDIATELY and gather, then act exactly as announced. SMALL cities first - everyone hits together, then send troops in and hold. Attack the BIG / new city ONLY if R4 says so. At 75 / 50 / 25 % new small cities spawn. Only first capture gives instant points, recapture does not - do not burn gems for it." } ],
   belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
     de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
     en:"Hold Arcadia + 4 towers: relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction). 60 sec held = 10,000 points -> continuous occupation beats kills. Shield discipline; empty hospital/enlistment beforehand." } ]
@@ -155,13 +155,13 @@ function pad(n){return (n<10?"0":"")+n;}
 function addH(h,n){ if(!h)return ""; var p=h.split(":"); return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1]; }
 function tzBlock(s,e){
   if(!s) return "";
-  var z=[["UTC",0],["UK / Ireland / Portugal",1],["Germany / Austria / France / Italy / Spain / Poland / Netherlands",2],["Finland / Greece / Romania / Ukraine / Russia / Turkey",3]];
+  var z=[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
   return z.map(function(p){ var t=addH(s,p[1]); return (e?t+" - "+addH(e,p[1]):t)+"  "+p[0]; }).join("\n");
 }
 
 /* ===== Zustand ===== */
 var ST={ lang:"de", view:"code", ev:"duell", rev:"unsicher",
-  f:{ zeit:{on:true,utc:"18:00",ende:""}, sammel:{on:true,txt:""}, kdt:{on:true,name:""}, mit:{on:false,txt:""}, strat:{on:false,sel:"",frei:""} } };
+  f:{ zeit:{on:true,utc:"18:00",ende:""}, sammel:{on:true,txt:""}, kdt:{on:true,list:[],sel:"",frei:""}, mit:{on:false,txt:""}, strat:{on:false,sel:"",frei:""} } };
 
 function L(de,en){ return ST.lang==="de"?de:en; }
 
@@ -180,12 +180,14 @@ function fieldsHtml(){
   stratOpts+='<option value="__frei"'+(f.strat.sel==="__frei"?" selected":"")+'>'+L("Freitext…","Free text…")+'</option>';
 
   var kdtOpts='<option value="">'+L("— wählen —","— choose —")+'</option>';
-  R4.forEach(function(n){ kdtOpts+='<option'+(f.kdt.name===n?" selected":"")+'>'+n+'</option>'; });
+  R4.forEach(function(n){ kdtOpts+='<option value="'+esc(n)+'"'+(f.kdt.sel===n?" selected":"")+'>'+n+'</option>'; });
+  kdtOpts+='<option value="__frei"'+(f.kdt.sel==="__frei"?" selected":"")+'>'+L("— R3 / Freitext —","— R3 / free text —")+'</option>';
+  var kchips=f.kdt.list.map(function(n,i){ return '<span class="tag" style="font-size:.85rem">'+esc(n)+' <b data-krm="'+i+'" style="cursor:pointer">✕</b></span>'; }).join("")||'<span class="hint">'+L("noch niemand hinzugefügt","nobody added yet")+'</span>';
 
   return ''
   +'<div class="fld">'+head(f.zeit.on,"zeit","#167 ZEIT / TIME")+(f.zeit.on?'<div class="bd two"><input type="time" data-fz="utc" value="'+f.zeit.utc+'"><input type="time" data-fz="ende" value="'+f.zeit.ende+'" placeholder="Ende"></div><p class="hint">UTC. Ende optional. Block: UTC + alle Zonen.</p>':'')+'</div>'
   +'<div class="fld">'+head(f.sammel.on,"sammel","#170 SAMMELPUNKT / RALLY POINT")+(f.sammel.on?'<div class="bd"><input type="text" data-ft="sammel" value="'+esc(f.sammel.txt)+'" placeholder="'+L("z. B. K123 X:456 Y:789","e.g. K123 X:456 Y:789")+'"></div>':'')+'</div>'
-  +'<div class="fld">'+head(f.kdt.on,"kdt","#093 KOMMANDANT / COMMANDER")+(f.kdt.on?'<div class="bd"><select data-fk="kdt">'+kdtOpts+'</select></div>':'')+'</div>'
+  +'<div class="fld">'+head(f.kdt.on,"kdt","#093 KOMMANDANT / COMMANDER")+(f.kdt.on?'<div class="bd"><div class="two"><select data-fk="sel">'+kdtOpts+'</select><button type="button" data-kadd="1" class="copybtn" style="flex:0 0 auto">+ '+L("hinzufügen","add")+'</button></div>'+(f.kdt.sel==="__frei"?'<input type="text" data-kfrei="1" value="'+esc(f.kdt.frei)+'" placeholder="'+L("R3 / anderer Name","R3 / other name")+'" style="margin-top:6px">':'')+'<div style="margin-top:8px">'+kchips+'</div><p class="hint">'+L("R4 wählen → + hinzufügen. Mehrere möglich. R3-Ausnahme über R3 / Freitext.","Pick R4 → + add. Multiple possible. R3 exception via R3/free text.")+'</p></div>':'')+'</div>'
   +'<div class="fld">'+head(f.mit.on,"mit","#189 MITBRINGEN / BRING")+(f.mit.on?'<div class="bd"><input type="text" data-ft="mit" value="'+esc(f.mit.txt)+'" placeholder="'+L("z. B. Fallen spenden beim Ghulöwen","e.g. donate traps at Ghoulion")+'"></div>':'')+'</div>'
   +'<div class="fld">'+head(f.strat.on,"strat","#176 STRATEGIE / STRATEGY")+(f.strat.on?'<div class="bd"><select data-fs="sel">'+stratOpts+'</select>'+(f.strat.sel==="__frei"?'<textarea data-ft="strat" rows="3" placeholder="'+L("Strategie als Freitext…","strategy free text…")+'" style="margin-top:6px">'+esc(f.strat.frei)+'</textarea>':"")+'</div>':'')+'</div>';
 }
@@ -198,7 +200,7 @@ function build(){
   out.push("#080 "+L("Ziel: ","Target: ")+ev.ziel[L2]);
   if(f.zeit.on && f.zeit.utc){ out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167", tzBlock(f.zeit.utc, f.zeit.ende)); }
   if(f.sammel.on && f.sammel.txt){ out.push("———","#170 ***** "+L("SAMMELPUNKT","RALLY POINT")+" ***** #170","#080 "+f.sammel.txt); }
-  if(f.kdt.on && f.kdt.name){ out.push("———","#093 ***** "+L("KOMMANDANT","COMMANDER")+" ***** #093","#080 "+f.kdt.name); }
+  if(f.kdt.on && f.kdt.list.length){ out.push("———","#093 ***** "+L("KOMMANDANT","COMMANDER")+" ***** #093"); f.kdt.list.forEach(function(n){ out.push("#080 "+n); }); }
   if(f.mit.on && f.mit.txt){ out.push("———","#189 ***** "+L("MITBRINGEN","BRING")+" ***** #189","#080 "+f.mit.txt); }
   var st=stratText();
   if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
@@ -213,7 +215,7 @@ function renderOut(){ var t=build(); document.getElementById("out").textContent=
 function renderStratLib(){
   var h=""; Object.keys(EV).forEach(function(k){ var list=STRAT[k]||[];
     h+='<details class="card"'+(k===ST.ev?" open":"")+'><summary style="cursor:pointer;font-weight:700">'+EV[k].emo+' '+EV[k].name[ST.lang]+' ('+list.length+')</summary>';
-    if(!list.length){ h+='<p class="hint">'+L("Noch keine Strategie hinterlegt — im Baukasten „keine Strategie" oder Freitext.","No strategy yet — use \\"no strategy\\" or free text in the builder.")+'</p>'; }
+    if(!list.length){ h+='<p class="hint">'+L("Noch keine Strategie hinterlegt — im Baukasten keine Strategie oder Freitext.","No strategy yet — use \"no strategy\" or free text in the builder.")+'</p>'; }
     list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+x.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+x[ST.lang]+'</div></div>'; });
     h+='</details>';
   });
@@ -237,14 +239,17 @@ function renderRaids(){
 }
 
 function renderFoot(){ document.getElementById("footAlex").innerHTML =
-  L("S1L Info-Hub · R4 · Raid-Ankündigungen · Baukasten gepflegt von Alex. Strategien je Event, eine kann Prio sein; fehlende Events bekommen schrittweise Strategien (sonst „keine Strategie/Freitext"). Raids + Ergebnisse geteilt über Firebase. Nur Entwürfe — Versand durch Jacqueline. Daten unsensibel (Gamertags).",
+  L("S1L Info-Hub · R4 · Raid-Ankündigungen · Baukasten gepflegt von Alex. Strategien je Event, eine kann Prio sein; fehlende Events bekommen schrittweise Strategien (sonst keine Strategie/Freitext). Raids + Ergebnisse geteilt über Firebase. Nur Entwürfe — Versand durch Jacqueline. Daten unsensibel (Gamertags).",
     "S1L Info Hub · R4 · Raid announcements · Builder maintained by Alex. Strategies per event, one can be priority; missing events get strategies over time (else \"no strategy/free text\"). Raids + results shared via Firebase. Drafts only — Jacqueline sends. Non-sensitive data (gamertags)."); }
 
 function bindFields(){
   document.querySelectorAll("[data-fon]").forEach(function(c){ c.onchange=function(){ ST.f[c.getAttribute("data-fon")].on=c.checked; renderFields(); }; });
   document.querySelectorAll("[data-fz]").forEach(function(i){ i.oninput=function(){ ST.f.zeit[i.getAttribute("data-fz")]=i.value; renderOut(); }; });
   document.querySelectorAll("[data-ft]").forEach(function(i){ i.oninput=function(){ var k=i.getAttribute("data-ft"); if(k==="strat"){ST.f.strat.frei=i.value;}else{ST.f[k].txt=i.value;} renderOut(); }; });
-  var k=document.querySelector("[data-fk]"); if(k) k.onchange=function(){ ST.f.kdt.name=k.value; renderOut(); };
+  var ks=document.querySelector("[data-fk]"); if(ks) ks.onchange=function(){ ST.f.kdt.sel=ks.value; renderFields(); };
+  var kf=document.querySelector("[data-kfrei]"); if(kf) kf.oninput=function(){ ST.f.kdt.frei=kf.value; };
+  var ka=document.querySelector("[data-kadd]"); if(ka) ka.onclick=function(){ var v=ST.f.kdt.sel==="__frei"?(ST.f.kdt.frei||"").trim():ST.f.kdt.sel; if(v && ST.f.kdt.list.indexOf(v)<0){ ST.f.kdt.list.push(v); ST.f.kdt.frei=""; if(ST.f.kdt.sel==="__frei") ST.f.kdt.sel=""; renderFields(); } };
+  document.querySelectorAll("[data-krm]").forEach(function(b){ b.onclick=function(){ ST.f.kdt.list.splice(parseInt(b.getAttribute("data-krm"),10),1); renderFields(); }; });
   var s=document.querySelector("[data-fs]"); if(s) s.onchange=function(){ ST.f.strat.sel=s.value; renderFields(); };
 }
 function renderFields(){ document.getElementById("fields").innerHTML=fieldsHtml(); bindFields(); renderOut(); }
