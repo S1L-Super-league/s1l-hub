@@ -60,6 +60,14 @@ table.cal td:first-child{ font-weight:700; white-space:nowrap; }
 .tier-test{ color:var(--t-test); border-color:var(--t-test); } .tier-test::before{ content:"\26AA  "; }
 .legend{ display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 4px; }
 
+/* EINZIGES Label-System: Informations-Prüfung (falsch/unsicher/bereit/freigegeben) — von review.js gerendert */
+.rev{ display:inline-block; border:0; font-size:.78rem; font-weight:800; border-radius:999px; padding:3px 11px; vertical-align:middle; white-space:nowrap; }
+.rev[data-rev]{ cursor:pointer; }
+.rev-falsch{ background:#dc2626; color:#fff; } .rev-falsch::before{ content:"\25CF  "; }
+.rev-unsicher{ background:#eab308; color:#1a2233; } .rev-unsicher::before{ content:"\25CF  "; }
+.rev-bereit{ background:#0f9d58; color:#fff; } .rev-bereit::before{ content:"\25CF  "; }
+.rev-frei{ background:#fff; color:#1a2233; border:1.5px solid #b9c2d0; } .rev-frei::before{ content:"\2713  "; color:#0f9d58; }
+
 .fact{ margin:.5em 0; }
 .fact b{ display:inline-block; min-width:8.5em; }
 a.term{ color:var(--c-howto); font-weight:700; text-decoration:underline dotted; }
