@@ -371,11 +371,11 @@ function rallyBriefLines(){ if(!state.rallies.length) return state.lang==="de"?"
 /* Rally -> Timeline-Nachrichten */
 function rallyMsgs(){ var arr=[]; state.rallies.forEach(function(r,i){
   arr.push({ id:"r"+i+"_ann", ev:r.ev, typ:"Ankündigung (Rally)", prio:"P2", rev:"bereit", tl:true, tmin:toMin(r.su)-30, send:fmtMin(toMin(r.su)-30)+" UTC", win:{s:r.su,e:r.eu},
-    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - RALLY HEUTE\n———\n{TZBLOCK}\n———\n#080 Mit stärkstem Team beitreten.\n#078 Mehr Schaden mit Verbündeten = größere Belohnung.`,
-    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - RALLY TODAY\n———\n{TZBLOCK}\n———\n#080 Join with your strongest team.\n#078 More damage with allies = bigger rewards.` });
+    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - RALLY HEUTE\n———\n{TZBLOCK}\n———\n#080 Kommt zur Rally dazu - jeder Trupp zählt.\n#078 Zusammen sind wir stärker.`,
+    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - RALLY TODAY\n———\n{TZBLOCK}\n———\n#080 Come join the rally - every troop counts.\n#078 Together we are stronger.` });
   arr.push({ id:"r"+i+"_now", ev:r.ev, typ:"Jetzt geht's los", prio:"P2", rev:"bereit", tl:true, tmin:toMin(r.su), send:r.su+" UTC",
-    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - STARTET JETZT\n———\n#176 Rally läuft - jetzt mit stärkstem Team beitreten!`,
-    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - STARTS NOW\n———\n#176 Rally is live - join now with your strongest team!` });
+    de:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"de")+` - ES GEHT LOS\n———\n#176 Die Rally läuft - kommt gern dazu!`,
+    en:`#190 `+RMARK[r.ev]+` `+rName(r.ev,"en")+` - IT IS ON\n———\n#176 The rally is live - come join in!` });
 }); return arr; }
 function allMsgs(){ return MSGS.concat(rallyMsgs()); }
 
