@@ -109,7 +109,7 @@
       <h3>🕒 Zeitzonen-Block</h3>
       <div class="field">Start <input type="time" id="gStart" value="20:00">
         Ende <input type="time" id="gEnd" value="00:00">
-        <span class="seg" id="gBase"><button data-base="utc" class="on">UTC</button><button data-base="de">DE-Zeit</button></span></div>
+        <span class="seg" id="gBase"><button data-base="utc">UTC</button><button data-base="uk">UK</button><button data-base="de" class="on">DE</button><button data-base="ru">RU</button></span></div>
       <p class="lead" style="margin:.2em 0">Zeit zuerst, dann Länder. <b>DE = UTC + 2 h.</b> Ende leer = nur Start.</p>
       <pre class="block" id="gOut"></pre>
       <button class="copybtn" id="gCopy">📋 Block kopieren</button>
@@ -125,7 +125,7 @@
         </select></div>
       <div class="field">Start <input type="time" id="rStart" value="18:00">
         Ende <input type="time" id="rEnd" value="18:30">
-        <span class="seg" id="rBase"><button data-base="utc" class="on">UTC</button><button data-base="de">DE-Zeit</button></span>
+        <span class="seg" id="rBase"><button data-base="utc">UTC</button><button data-base="uk">UK</button><button data-base="de" class="on">DE</button><button data-base="ru">RU</button></span>
         <button class="okbtn" id="rAdd">+ OK</button></div>
       <p class="lead" style="margin:.2em 0">Nach „OK" erscheint unten ein Kästchen — und die Rally wandert in Timeline + Tagesbriefing.</p>
       <div id="rallyList"></div>
@@ -362,7 +362,7 @@ function zonesCompact(s,e){ /* normal, ein Land je Zone */
 
 /* ===== Zustand ===== */
 var state={ lang:"de", view:"code", standing:"lead", rallies:[] };  // rallies: {ev,su,eu}
-function baseToUtc(t,base){ return base==="de"?addH(t,-2):t; }
+function baseToUtc(t,base){ var o={utc:0,uk:1,de:2,ru:3}[base]; if(o===undefined)o=0; return addH(t,-o); }
 
 function standingLine(){ var L={de:{lead:"#163 Wir führen - locker halten, Vorsprung sichern.",close:"#167 Es ist knapp - heute zählt jeder Punkt.",behind:"#188 Wir liegen zurück - jetzt die Top-Aufgaben pushen, aufholen."},en:{lead:"#163 We lead - hold it, keep the lead.",close:"#167 It's close - every point counts tonight.",behind:"#188 We're behind - push the top tasks now to catch up."}}; return L[state.lang][state.standing]; }
 function rallyBriefLines(){ if(!state.rallies.length) return state.lang==="de"?"#080 (noch keine Rally bestätigt)":"#080 (no rally confirmed yet)";

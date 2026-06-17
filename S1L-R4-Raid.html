@@ -110,7 +110,7 @@ function fbInit(){
   try{ if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
     if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
     fb.db=firebase.firestore(); fb.mode="firebase"; setFbState();
-    fb.db.collection("tplrallies").orderBy("su").onSnapshot(function(s){ fb.rallies=[]; s.forEach(function(d){ var x=d.data()||{}; fb.rallies.push({id:d.id,ev:x.ev,su:x.su,eu:x.eu||"",tms:x.tms||0}); }); renderRaids(); }, function(){ fb.mode="local"; setFbState(); });
+    fb.db.collection("tplrallies").orderBy("su").onSnapshot(function(s){ fb.rallies=[]; s.forEach(function(d){ var x=d.data()||{}; fb.rallies.push({id:d.id,ev:x.ev,su:x.su,eu:x.eu||"",tms:x.tms||0}); }); renderRaids(); applyTimelineDefault(); if(!ST.f.zeit.touched){ renderFields(); } else { renderOut(); } }, function(){ fb.mode="local"; setFbState(); });
     fb.db.collection("raidresults").onSnapshot(function(s){ fb.results={}; s.forEach(function(d){ fb.results[d.id]=(d.data()||{}).r; }); renderRaids(); }, function(){});
   } }catch(e){ fb.mode="local"; setFbState(); }
   setFbState();
@@ -138,9 +138,14 @@ var STRAT={
   reservoir:[ { id:"res-halten", prio:true, tags:["Halten","Lineup"],
     de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Lineup nach Gebaeudewert, Staerkste aufs Central Reservoir. Nicht nur Solo-Wasser jagen.",
     en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
-  stadt:[ { id:"stadt-standard", prio:true, tags:["Standard-Raid","Kleine zuerst","Nur auf R4-Ansage"],
-    de:"Standard-Raid: Auf R4-Aufforderung SOFORT zum Sammelpunkt versetzen und sammeln, dann genau nach Ansage handeln. KLEINE Staedte zuerst - alle gemeinsam draufhauen, dann Truppen rein und halten. Die GROSSE / neue Stadt NUR angreifen wenn R4 es sagt. Bei 75 / 50 / 25 % spawnen neue kleine Staedte. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - dafuer keine Gems verbrennen.",
-    en:"Standard raid: on the R4 call, relocate to the rally point IMMEDIATELY and gather, then act exactly as announced. SMALL cities first - everyone hits together, then send troops in and hold. Attack the BIG / new city ONLY if R4 says so. At 75 / 50 / 25 % new small cities spawn. Only first capture gives instant points, recapture does not - do not burn gems for it." } ],
+  stadt:[
+    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Grosses Monster mittig","Kleine zuerst"],
+    de:"Stadt MIT Monster: In der Mitte der Metropole sitzt EIN grosses Monster, aussen herum kleine. Die kleinen kann man schon VOR dem Event killen. Bei 75 / 50 / 25 % spawnen neue kleine nach. PLAN: 1-3 Starke gehen aufs GROSSE Monster, alle anderen NUR die kleinen. Ab 25 % duerfen ALLE aufs grosse drauf - ab da kommen keine kleinen mehr. So lange ein Monster drin sitzt, gilt diese Reihenfolge. Auf R4-Aufforderung sofort versetzen + sammeln.",
+    en:"City WITH monster: ONE big monster sits in the center of the metropolis, small ones around it. You can kill the small ones already BEFORE the event. At 75 / 50 / 25 % new small ones spawn. PLAN: 1-3 strong hit the BIG monster, everyone else ONLY the small ones. From 25 % EVERYONE may hit the big one - no more small ones spawn after that. This order holds as long as a monster sits inside. On the R4 call relocate + gather immediately." },
+    { id:"stadt-allianz", prio:false, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
+    de:"Stadt MIT feindlicher Allianz: Alle gemeinsam draufhauen bis die Stadt UNS gehoert, dann schicken ALLE ihre Truppen fuer 30 Min in die Stadt zur Verteidigung - danach gehoert sie uns. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - keine Gems verbrennen. Auf R4-Aufforderung sofort versetzen + sammeln.",
+    en:"City held by ENEMY alliance: everyone hits together until the city is OURS, then EVERYONE sends their troops into the city for 30 min to defend - then it is ours. Only first capture gives instant points, recapture does not - do not burn gems. On the R4 call relocate + gather immediately." }
+  ],
   belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
     de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
     en:"Hold Arcadia + 4 towers: relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction). 60 sec held = 10,000 points -> continuous occupation beats kills. Shield discipline; empty hospital/enlistment beforehand." } ]
@@ -158,10 +163,21 @@ function tzBlock(s,e){
   var z=[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
   return z.map(function(p){ var t=addH(s,p[1]); return (e?t+" - "+addH(e,p[1]):t)+"  "+p[0]; }).join("\n");
 }
+/* ===== Zonen-Schalter: je Zone groesstes Land; DE = Projekt-Standard ===== */
+var ZONES=[["UTC",0],["UK",1],["DE",2],["RU",3]];
+function zOff(k){ for(var i=0;i<ZONES.length;i++){ if(ZONES[i][0]===k) return ZONES[i][1]; } return 0; }
+function baseToUtc(v,base){ return v?addH(v,-zOff(base)):v; }
+function utcToBase(v,base){ return v?addH(v,zOff(base)):v; }
+function addMin(hhmm,mins){ var p=(hhmm||"0:0").split(":"); var t=parseInt(p[0],10)*60+parseInt(p[1],10)+mins; t=((t%1440)+1440)%1440; return pad(Math.floor(t/60))+":"+pad(t%60); }
+function nowUtcHHMM(){ var d=new Date(); return pad(d.getUTCHours())+":"+pad(d.getUTCMinutes()); }
+function zoneOpts(sel){ return ZONES.map(function(z){ return '<option value="'+z[0]+'"'+(sel===z[0]?" selected":"")+'>'+z[0]+'</option>'; }).join(""); }
+/* Default-Zeit aus geteilter Zeitleiste (tplrallies) fuer das gewaehlte Event */
+function pickRallyUtc(ev){ var list=(fb.rallies||[]).filter(function(r){return r.ev===ev && r.su;}); if(!list.length) return ""; list.sort(function(a,b){ return (b.tms||0)-(a.tms||0); }); return list[0].su; }
+function applyTimelineDefault(){ var ref=pickRallyUtc(ST.ev); ST.f.zeit.ref=ref||""; if(ref && !ST.f.zeit.touched){ ST.f.zeit.val=utcToBase(ref,ST.f.zeit.base); } }
 
 /* ===== Zustand ===== */
 var ST={ lang:"de", view:"code", ev:"duell", rev:"unsicher",
-  f:{ zeit:{on:true,utc:"18:00",ende:""}, sammel:{on:true,txt:""}, kdt:{on:true,list:[],sel:"",frei:""}, mit:{on:false,txt:""}, strat:{on:false,sel:"",frei:""} } };
+  f:{ zeit:{on:true,mode:"time",base:"DE",val:"20:00",ende:"",relN:"15",relU:"min",ref:"",touched:false}, sammel:{on:true,mode:"allianz",txt:""}, kdt:{on:true,list:[],sel:"",frei:""}, mit:{on:false,txt:""}, strat:{on:false,sel:"",frei:""} } };
 
 function L(de,en){ return ST.lang==="de"?de:en; }
 
@@ -171,6 +187,30 @@ function renderEvTiles(){
   document.getElementById("zielHint").textContent=L("Ziel (automatisch aus Event): ","Target (auto from event): ")+EV[ST.ev].ziel[ST.lang];
 }
 
+function zBodyHtml(f){
+  var z=f.zeit, m=z.mode, h='<div class="bd">';
+  h+='<select data-zmode="1">'
+    +'<option value="time"'+(m==="time"?" selected":"")+'>'+L("Uhrzeit","Clock time")+'</option>'
+    +'<option value="rel"'+(m==="rel"?" selected":"")+'>'+L("in X (min/h)","in X (min/h)")+'</option>'
+    +'<option value="now"'+(m==="now"?" selected":"")+'>'+L("Jetzt","Now")+'</option>'
+   +'</select>';
+  if(m==="time"){
+    h+='<div class="two" style="margin-top:6px"><select data-zbase="1" title="Zone">'+zoneOpts(z.base)+'</select>'
+      +'<input type="time" data-zval="1" value="'+z.val+'">'
+      +'<input type="time" data-zende="1" value="'+z.ende+'" placeholder="'+L("Ende","End")+'"></div>'
+      +'<p class="hint">'+L("Zeit in gewaehlter Zone (Standard DE). Ausgabe = UTC + alle Zonen. Ende optional.","Time in chosen zone (default DE). Output = UTC + all zones. End optional.")+'</p>';
+    if(z.ref){ var u=baseToUtc(z.val,z.base);
+      if(u!==z.ref) h+='<p class="hint" style="color:#dc2626;font-weight:700">'+L("Abweichung vom Zeitplan (Plan ","Differs from timeline (planned ")+z.ref+' UTC) - '+L("Hinweis kommt in die Ansage.","note added to announcement.")+'</p>';
+      else h+='<p class="hint" style="color:#0f9d58">'+L("entspricht dem Zeitplan.","matches timeline.")+'</p>';
+    } else h+='<p class="hint">'+L("Keine Zeitleisten-Zeit fuer dieses Event gefunden - frei eintragen.","No timeline time for this event - enter manually.")+'</p>';
+  } else if(m==="rel"){
+    h+='<div class="two" style="margin-top:6px"><input type="number" data-zreln="1" min="1" value="'+esc(z.relN)+'" style="max-width:120px"><select data-zrelu="1"><option value="min"'+(z.relU==="min"?" selected":"")+'>'+L("Minuten","minutes")+'</option><option value="h"'+(z.relU==="h"?" selected":"")+'>'+L("Stunden","hours")+'</option></select></div>'
+      +'<p class="hint">'+L("Start relativ ab jetzt. Ausgabe zeigt in X plus errechnete Zonen.","Start relative to now. Output shows in X plus computed zones.")+'</p>';
+  } else {
+    h+='<p class="hint" style="margin-top:6px">'+L("Ausgabe: JETZT - sofort sammeln.","Output: NOW - gather now.")+'</p>';
+  }
+  return h+'</div>';
+}
 function fieldsHtml(){
   var f=ST.f;
   function head(on,id,label){ return '<div class="hd"><input type="checkbox" data-fon="'+id+'"'+(on?" checked":"")+'> '+label+'</div>'; }
@@ -185,8 +225,8 @@ function fieldsHtml(){
   var kchips=f.kdt.list.map(function(n,i){ return '<span class="tag" style="font-size:.85rem">'+esc(n)+' <b data-krm="'+i+'" style="cursor:pointer">✕</b></span>'; }).join("")||'<span class="hint">'+L("noch niemand hinzugefügt","nobody added yet")+'</span>';
 
   return ''
-  +'<div class="fld">'+head(f.zeit.on,"zeit","#167 ZEIT / TIME")+(f.zeit.on?'<div class="bd two"><input type="time" data-fz="utc" value="'+f.zeit.utc+'"><input type="time" data-fz="ende" value="'+f.zeit.ende+'" placeholder="Ende"></div><p class="hint">UTC. Ende optional. Block: UTC + alle Zonen.</p>':'')+'</div>'
-  +'<div class="fld">'+head(f.sammel.on,"sammel","#170 SAMMELPUNKT / RALLY POINT")+(f.sammel.on?'<div class="bd"><input type="text" data-ft="sammel" value="'+esc(f.sammel.txt)+'" placeholder="'+L("z. B. K123 X:456 Y:789","e.g. K123 X:456 Y:789")+'"></div>':'')+'</div>'
+  +'<div class="fld">'+head(f.zeit.on,"zeit","#167 ZEIT / TIME")+(f.zeit.on?zBodyHtml(f):'')+'</div>'
+  +'<div class="fld">'+head(f.sammel.on,"sammel","#170 SAMMELPUNKT / RALLY POINT")+(f.sammel.on?'<div class="bd"><select data-fsm="mode"><option value="allianz"'+(f.sammel.mode==="allianz"?" selected":"")+'>'+L("Allianzsammelpunkt","Alliance rally point")+'</option><option value="marker"'+(f.sammel.mode==="marker"?" selected":"")+'>'+L("Marker (folgt)","Marker (TBD)")+'</option><option value="frei"'+(f.sammel.mode==="frei"?" selected":"")+'>'+L("Freitext","Free text")+'</option></select>'+((f.sammel.mode==="marker"||f.sammel.mode==="frei")?'<input type="text" data-ft="sammel" value="'+esc(f.sammel.txt)+'" placeholder="'+L("z. B. K123 X:456 Y:789 (Marker optional)","e.g. K123 X:456 Y:789 (marker optional)")+'" style="margin-top:6px">':'')+'</div>':'')+'</div>'
   +'<div class="fld">'+head(f.kdt.on,"kdt","#093 KOMMANDANT / COMMANDER")+(f.kdt.on?'<div class="bd"><div class="two"><select data-fk="sel">'+kdtOpts+'</select><button type="button" data-kadd="1" class="copybtn" style="flex:0 0 auto">+ '+L("hinzufügen","add")+'</button></div>'+(f.kdt.sel==="__frei"?'<input type="text" data-kfrei="1" value="'+esc(f.kdt.frei)+'" placeholder="'+L("R3 / anderer Name","R3 / other name")+'" style="margin-top:6px">':'')+'<div style="margin-top:8px">'+kchips+'</div><p class="hint">'+L("R4 wählen → + hinzufügen. Mehrere möglich. R3-Ausnahme über R3 / Freitext.","Pick R4 → + add. Multiple possible. R3 exception via R3/free text.")+'</p></div>':'')+'</div>'
   +'<div class="fld">'+head(f.mit.on,"mit","#189 MITBRINGEN / BRING")+(f.mit.on?'<div class="bd"><input type="text" data-ft="mit" value="'+esc(f.mit.txt)+'" placeholder="'+L("z. B. Fallen spenden beim Ghulöwen","e.g. donate traps at Ghoulion")+'"></div>':'')+'</div>'
   +'<div class="fld">'+head(f.strat.on,"strat","#176 STRATEGIE / STRATEGY")+(f.strat.on?'<div class="bd"><select data-fs="sel">'+stratOpts+'</select>'+(f.strat.sel==="__frei"?'<textarea data-ft="strat" rows="3" placeholder="'+L("Strategie als Freitext…","strategy free text…")+'" style="margin-top:6px">'+esc(f.strat.frei)+'</textarea>':"")+'</div>':'')+'</div>';
@@ -198,8 +238,23 @@ function build(){
   out.push("#190 "+ev.mark+" "+ev.name[L2]+" - "+L("RALLY","RALLY"));
   out.push("———");
   out.push("#080 "+L("Ziel: ","Target: ")+ev.ziel[L2]);
-  if(f.zeit.on && f.zeit.utc){ out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167", tzBlock(f.zeit.utc, f.zeit.ende)); }
-  if(f.sammel.on && f.sammel.txt){ out.push("———","#170 ***** "+L("SAMMELPUNKT","RALLY POINT")+" ***** #170","#080 "+f.sammel.txt); }
+  if(f.zeit.on){
+    if(f.zeit.mode==="now"){
+      out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167","#080 "+L("JETZT - SOFORT SAMMELN","NOW - GATHER NOW"));
+    } else if(f.zeit.mode==="rel"){
+      var mins=(f.zeit.relU==="h"?(parseInt(f.zeit.relN,10)||0)*60:(parseInt(f.zeit.relN,10)||0));
+      var su=addMin(nowUtcHHMM(),mins), relTxt=(f.zeit.relU==="h"?(f.zeit.relN+" h"):(f.zeit.relN+" min"));
+      out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167","#080 "+L("Start in ","Start in ")+relTxt, tzBlock(su,""));
+    } else {
+      var uS=baseToUtc(f.zeit.val,f.zeit.base), uE=f.zeit.ende?baseToUtc(f.zeit.ende,f.zeit.base):"";
+      if(f.zeit.ref && uS!==f.zeit.ref){ out.push("———","#188 ***** "+L("ACHTUNG: ZEIT VERSCHOBEN","NOTE: TIME CHANGED")+" ***** #188","#080 "+L("Plan war ","Planned was ")+f.zeit.ref+" UTC"); }
+      if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167", tzBlock(uS,uE));
+    }
+  }
+  if(f.sammel.on){ var sp = f.sammel.mode==="allianz" ? L("Allianzsammelpunkt","Alliance rally point")
+      : f.sammel.mode==="marker" ? L("Marker","Marker")+(f.sammel.txt?": "+f.sammel.txt:" "+L("(folgt)","(TBD)"))
+      : (f.sammel.txt||"");
+    if(sp){ out.push("———","#170 ***** "+L("SAMMELPUNKT","RALLY POINT")+" ***** #170","#080 "+sp); } }
   if(f.kdt.on && f.kdt.list.length){ out.push("———","#093 ***** "+L("KOMMANDANT","COMMANDER")+" ***** #093"); f.kdt.list.forEach(function(n){ out.push("#080 "+n); }); }
   if(f.mit.on && f.mit.txt){ out.push("———","#189 ***** "+L("MITBRINGEN","BRING")+" ***** #189","#080 "+f.mit.txt); }
   var st=stratText();
@@ -244,8 +299,14 @@ function renderFoot(){ document.getElementById("footAlex").innerHTML =
 
 function bindFields(){
   document.querySelectorAll("[data-fon]").forEach(function(c){ c.onchange=function(){ ST.f[c.getAttribute("data-fon")].on=c.checked; renderFields(); }; });
-  document.querySelectorAll("[data-fz]").forEach(function(i){ i.oninput=function(){ ST.f.zeit[i.getAttribute("data-fz")]=i.value; renderOut(); }; });
+  var zm=document.querySelector("[data-zmode]"); if(zm) zm.onchange=function(){ ST.f.zeit.mode=zm.value; renderFields(); };
+  var zb=document.querySelector("[data-zbase]"); if(zb) zb.onchange=function(){ ST.f.zeit.base=zb.value; ST.f.zeit.touched=true; renderFields(); };
+  var zv=document.querySelector("[data-zval]"); if(zv) zv.oninput=function(){ ST.f.zeit.val=zv.value; ST.f.zeit.touched=true; renderFields(); };
+  var ze=document.querySelector("[data-zende]"); if(ze) ze.oninput=function(){ ST.f.zeit.ende=ze.value; renderOut(); };
+  var zrn=document.querySelector("[data-zreln]"); if(zrn) zrn.oninput=function(){ ST.f.zeit.relN=zrn.value; renderOut(); };
+  var zru=document.querySelector("[data-zrelu]"); if(zru) zru.onchange=function(){ ST.f.zeit.relU=zru.value; renderOut(); };
   document.querySelectorAll("[data-ft]").forEach(function(i){ i.oninput=function(){ var k=i.getAttribute("data-ft"); if(k==="strat"){ST.f.strat.frei=i.value;}else{ST.f[k].txt=i.value;} renderOut(); }; });
+  var sm=document.querySelector("[data-fsm]"); if(sm) sm.onchange=function(){ ST.f.sammel.mode=sm.value; renderFields(); };
   var ks=document.querySelector("[data-fk]"); if(ks) ks.onchange=function(){ ST.f.kdt.sel=ks.value; renderFields(); };
   var kf=document.querySelector("[data-kfrei]"); if(kf) kf.oninput=function(){ ST.f.kdt.frei=kf.value; };
   var ka=document.querySelector("[data-kadd]"); if(ka) ka.onclick=function(){ var v=ST.f.kdt.sel==="__frei"?(ST.f.kdt.frei||"").trim():ST.f.kdt.sel; if(v && ST.f.kdt.list.indexOf(v)<0){ ST.f.kdt.list.push(v); ST.f.kdt.frei=""; if(ST.f.kdt.sel==="__frei") ST.f.kdt.sel=""; renderFields(); } };
@@ -262,7 +323,7 @@ function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.i
 function boot(){
   fbInit();
   renderEvTiles(); renderFields(); renderStratLib(); renderRaids(); renderFoot();
-  document.getElementById("evtiles").onclick=function(e){ var b=e.target.closest("[data-ev]"); if(!b)return; ST.ev=b.getAttribute("data-ev"); ST.f.strat.sel=""; renderEvTiles(); renderFields(); renderStratLib(); };
+  document.getElementById("evtiles").onclick=function(e){ var b=e.target.closest("[data-ev]"); if(!b)return; ST.ev=b.getAttribute("data-ev"); ST.f.strat.sel=""; ST.f.zeit.touched=false; applyTimelineDefault(); renderEvTiles(); renderFields(); renderStratLib(); };
   seg("segLang","data-lang",function(v){ ST.lang=v; renderEvTiles(); renderFields(); renderStratLib(); renderRaids(); renderFoot(); });
   seg("segView","data-view",function(v){ ST.view=v; renderOut(); });
   var REV=["falsch","unsicher","bereit","frei"];
