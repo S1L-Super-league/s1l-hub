@@ -140,11 +140,11 @@ var STRAT={
     en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
   stadt:[
     { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Grosses Monster mittig","Kleine zuerst"],
-    de:"Stadt MIT Monster: In der Mitte der Metropole sitzt EIN grosses Monster, aussen herum kleine. Die kleinen kann man schon VOR dem Event killen. Bei 75 / 50 / 25 % spawnen neue kleine nach. PLAN: 1-3 Starke gehen aufs GROSSE Monster, alle anderen NUR die kleinen. Ab 25 % duerfen ALLE aufs grosse drauf - ab da kommen keine kleinen mehr. So lange ein Monster drin sitzt, gilt diese Reihenfolge. Auf R4-Aufforderung sofort versetzen + sammeln.",
-    en:"City WITH monster: ONE big monster sits in the center of the metropolis, small ones around it. You can kill the small ones already BEFORE the event. At 75 / 50 / 25 % new small ones spawn. PLAN: 1-3 strong hit the BIG monster, everyone else ONLY the small ones. From 25 % EVERYONE may hit the big one - no more small ones spawn after that. This order holds as long as a monster sits inside. On the R4 call relocate + gather immediately." },
+    de:"Stadt MIT Monster: In der Mitte der Metropole sitzt EIN grosses Monster, aussen herum kleine. Die kleinen kann man schon VOR dem Event killen. Bei 75 / 50 / 25 % spawnen neue kleine nach. PLAN: 1-3 Starke gehen aufs GROSSE Monster, alle anderen NUR die kleinen. Ab 25 % duerfen ALLE aufs grosse drauf - ab da kommen keine kleinen mehr. So lange ein Monster drin sitzt, gilt diese Reihenfolge. Auf R4-Aufforderung zum Sammelpunkt kommen.",
+    en:"City WITH monster: ONE big monster sits in the center of the metropolis, small ones around it. You can kill the small ones already BEFORE the event. At 75 / 50 / 25 % new small ones spawn. PLAN: 1-3 strong hit the BIG monster, everyone else ONLY the small ones. From 25 % EVERYONE may hit the big one - no more small ones spawn after that. This order holds as long as a monster sits inside. On the R4 call, come to the rally point." },
     { id:"stadt-allianz", prio:false, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
-    de:"Stadt MIT feindlicher Allianz: Alle gemeinsam draufhauen bis die Stadt UNS gehoert, dann schicken ALLE ihre Truppen fuer 30 Min in die Stadt zur Verteidigung - danach gehoert sie uns. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - keine Gems verbrennen. Auf R4-Aufforderung sofort versetzen + sammeln.",
-    en:"City held by ENEMY alliance: everyone hits together until the city is OURS, then EVERYONE sends their troops into the city for 30 min to defend - then it is ours. Only first capture gives instant points, recapture does not - do not burn gems. On the R4 call relocate + gather immediately." }
+    de:"Stadt MIT feindlicher Allianz: Alle gemeinsam draufhauen bis die Stadt UNS gehoert, dann schicken ALLE ihre Truppen fuer 30 Min in die Stadt zur Verteidigung - danach gehoert sie uns. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - keine Gems verbrennen. Auf R4-Aufforderung zum Sammelpunkt kommen.",
+    en:"City held by ENEMY alliance: everyone hits together until the city is OURS, then EVERYONE sends their troops into the city for 30 min to defend - then it is ours. Only first capture gives instant points, recapture does not - do not burn gems. On the R4 call, come to the rally point." }
   ],
   belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
     de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
@@ -153,6 +153,10 @@ var STRAT={
 
 /* ===== R4 Kommandanten (Stufe-1-Gamertags) ===== */
 var R4=["Kingeder","CrexoOG","HMX","Lady M","Jac","ghob","Војвода","bismillah"];
+
+/* ===== Standardsatz auf JEDER Ansage (Strategien koennen sich spontan aendern) ===== */
+var STDNOTE={ de:"#080 Auf den Allianz-Chat achten - Strategie kann sich spontan aendern, R4 sagt Bescheid.", en:"#080 Watch the alliance chat - strategy can change at any time, R4 will tell you." };
+var STDNOTE_TXT={ de:"Auf den Allianz-Chat achten - Strategie kann sich spontan aendern, R4 sagt Bescheid.", en:"Watch the alliance chat - strategy can change at any time, R4 will tell you." };
 
 var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#170":"📍","#093":"👑","#098":"🦁","#117":"🐟","#169":"🌃","#080":"🤘","#078":"💪","#079":"🙏","#074":"👍" };
 function toEmoji(t){ return t.replace(/#\d{3}/g,function(c){return EMO[c]||c;}); }
@@ -259,7 +263,7 @@ function build(){
   if(f.mit.on && f.mit.txt){ out.push("———","#189 ***** "+L("MITBRINGEN","BRING")+" ***** #189","#080 "+f.mit.txt); }
   var st=stratText();
   if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
-  out.push("———","#078 "+L("Mit staerkstem Team beitreten - gemeinsam sind wir stark!","Join with your strongest team - together we are stronger!"));
+  out.push("———", STDNOTE[ST.lang]);
   return out.join("\n");
 }
 function stratText(){ var f=ST.f; if(f.strat.sel==="__frei") return f.strat.frei||""; var s=(STRAT[ST.ev]||[]).filter(function(x){return x.id===f.strat.sel;})[0]; return s?s[ST.lang]:""; }
@@ -271,7 +275,7 @@ function renderStratLib(){
   var h=""; Object.keys(EV).forEach(function(k){ var list=STRAT[k]||[];
     h+='<details class="card"'+(k===ST.ev?" open":"")+'><summary style="cursor:pointer;font-weight:700">'+EV[k].emo+' '+EV[k].name[ST.lang]+' ('+list.length+')</summary>';
     if(!list.length){ h+='<p class="hint">'+L("Noch keine Strategie hinterlegt — im Baukasten keine Strategie oder Freitext.","No strategy yet — use \"no strategy\" or free text in the builder.")+'</p>'; }
-    list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+x.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+x[ST.lang]+'</div></div>'; });
+    list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+x.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+x[ST.lang]+'</div><div class="hint" style="margin-top:5px;font-weight:700">↪ '+STDNOTE_TXT[ST.lang]+'</div></div>'; });
     h+='</details>';
   });
   document.getElementById("stratlib").innerHTML=h;
