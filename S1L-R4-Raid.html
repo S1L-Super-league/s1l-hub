@@ -139,9 +139,9 @@ var STRAT={
     de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Lineup nach Gebaeudewert, Staerkste aufs Central Reservoir. Nicht nur Solo-Wasser jagen.",
     en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
   stadt:[
-    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Grosses Monster mittig","Kleine zuerst"],
-    de:"Stadt MIT Monster: In der Mitte der Metropole sitzt EIN grosses Monster, aussen herum kleine. Die kleinen kann man schon VOR dem Event killen. Bei 75 / 50 / 25 % spawnen neue kleine nach. PLAN: 1-3 Starke gehen aufs GROSSE Monster, alle anderen NUR die kleinen. Ab 25 % duerfen ALLE aufs grosse drauf - ab da kommen keine kleinen mehr. So lange ein Monster drin sitzt, gilt diese Reihenfolge. Auf R4-Aufforderung zum Sammelpunkt kommen.",
-    en:"City WITH monster: ONE big monster sits in the center of the metropolis, small ones around it. You can kill the small ones already BEFORE the event. At 75 / 50 / 25 % new small ones spawn. PLAN: 1-3 strong hit the BIG monster, everyone else ONLY the small ones. From 25 % EVERYONE may hit the big one - no more small ones spawn after that. This order holds as long as a monster sits inside. On the R4 call, come to the rally point." },
+    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Nur kleine","Gross+mittel auf Befehl"],
+    de:"Stadt mit Monster: ALLE nur die KLEINEN - jeder schickt 1 Trupp auf einen FREIEN kleinen, damit jeder Punkte bekommt. Das GROSSE (Zentrum) und die MITTLEREN nur auf BEFEHL DES COMMANDERS. Ist das grosse nur noch bei 25 %, gehen ALLE aufs grosse. Auf R4-Aufforderung zum Sammelpunkt kommen.",
+    en:"City with monster: EVERYONE on the SMALL ones only - each sends 1 troop to a FREE small one so everyone gets points. The BIG one (center) and the MEDIUM ones only on the COMMANDER'S ORDER. When the big one is at 25 %, EVERYONE goes for the big one. On the R4 call, come to the rally point." },
     { id:"stadt-allianz", prio:false, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
     de:"Stadt MIT feindlicher Allianz: Alle gemeinsam draufhauen bis die Stadt UNS gehoert, dann schicken ALLE ihre Truppen fuer 30 Min in die Stadt zur Verteidigung - danach gehoert sie uns. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - keine Gems verbrennen. Auf R4-Aufforderung zum Sammelpunkt kommen.",
     en:"City held by ENEMY alliance: everyone hits together until the city is OURS, then EVERYONE sends their troops into the city for 30 min to defend - then it is ours. Only first capture gives instant points, recapture does not - do not burn gems. On the R4 call, come to the rally point." }
@@ -242,6 +242,8 @@ function build(){
   out.push("#190 "+ev.mark+" "+ev.name[L2]+" - "+L("RALLY","RALLY"));
   out.push("———");
   out.push("#080 "+L("Ziel: ","Target: ")+ev.ziel[L2]);
+  var st=stratText();
+  if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
   if(f.zeit.on){
     if(f.zeit.mode==="now"){
       out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167","#080 "+L("JETZT - SOFORT SAMMELN","NOW - GATHER NOW"));
@@ -261,8 +263,6 @@ function build(){
     if(sp){ out.push("———","#170 ***** "+L("SAMMELPUNKT","RALLY POINT")+" ***** #170","#080 "+sp); } }
   if(f.kdt.on && f.kdt.list.length){ out.push("———","#093 ***** "+L("KOMMANDANT","COMMANDER")+" ***** #093"); f.kdt.list.forEach(function(n){ out.push("#080 "+n); }); }
   if(f.mit.on && f.mit.txt){ out.push("———","#189 ***** "+L("MITBRINGEN","BRING")+" ***** #189","#080 "+f.mit.txt); }
-  var st=stratText();
-  if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
   out.push("———", STDNOTE[ST.lang]);
   return out.join("\n");
 }
