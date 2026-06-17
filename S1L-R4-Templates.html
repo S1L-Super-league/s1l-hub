@@ -217,15 +217,15 @@ var MSGS=[
 { id:"brief", ev:"brief", typ:"Full Day Briefing", prio:"P1", rev:"unsicher", tl:true, tmin:0, send:"00:00–08:00",
  de:`#190 ***** HEUTE - Mi 17. Juni ***** #190
 ———
-#163 FOKUS heute:
+#163 ***** FOKUS ***** #163
 #080 Allianzduell Tag 3 Technologie
 #080 Golden Window Forschung 20:00-00:00 UTC: Forschungs-Speedups dumpen (dreifach)
 ———
-#188 NICHT TUN:
+#188 ***** NICHT TUN ***** #188
 #080 Forschungs-Speedups bis zum Golden Window SPAREN, NICHT EINZELN VERBRAUCHEN
 #080 Fetzen NICHT bei Turbo verbrennen
 ———
-#176 RALLYS HEUTE:
+#176 ***** RALLYS HEUTE ***** #176
 {RALLYS}
 ———
 #074 FREI: Wandering Infected, Minispiele
@@ -233,15 +233,15 @@ var MSGS=[
 #078 Gemeinsam sind wir stark!`,
  en:`#190 ***** TODAY - Wed 17 June ***** #190
 ———
-#163 FOCUS today:
+#163 ***** FOCUS ***** #163
 #080 Alliance Duel Day 3 Technology
 #080 Golden Window research 20:00-00:00 UTC: dump research speedups (triple)
 ———
-#188 DO NOT:
+#188 ***** DO NOT ***** #188
 #080 Research speedups: SAVE for the Golden Window, DO NOT SPEND ONE BY ONE
 #080 Gear scraps: DO NOT burn on Turbo Turtle
 ———
-#176 RALLIES TODAY:
+#176 ***** RALLIES TODAY ***** #176
 {RALLYS}
 ———
 #074 FREE: Wandering Infected, mini games
@@ -297,12 +297,12 @@ So grab one good win each day. #074 #189` },
 ———
 {STANDING}
 ———
-#078 JETZT NOCH MACHBAR:
+#078 ***** JETZT NOCH MACHBAR ***** #078
 #080 Forschungs-Speedups - wiederholbar, der Haupt-Hebel
 #080 Forschungstimer beschleunigen
 #080 Ungeheuer-Zellen + Spionagemissionen - meist nur wenige da, heute einsetzen
 ———
-#167 FÜR DEN PASSENDEN TAG AUFHEBEN:
+#167 ***** FÜR DEN PASSENDEN TAG AUFHEBEN ***** #167
 #080 Heldenfragmente + Rekrutierungen - TAG 4 Helden (morgen)
 ———
 #163 Ihr wart heute großartig. Gute Nacht!`,
@@ -310,12 +310,12 @@ So grab one good win each day. #074 #189` },
 ———
 {STANDING}
 ———
-#078 STILL DOABLE NOW:
+#078 ***** STILL DOABLE NOW ***** #078
 #080 Research speedups - repeatable, the main lever
 #080 Research timer speedups
 #080 Monster Cells + Spy Missions - usually only a few, use them today
 ———
-#167 SAVE FOR THE MATCHING DAY:
+#167 ***** SAVE FOR THE MATCHING DAY ***** #167
 #080 Hero fragments + recruits - DAY 4 Heroes (tomorrow)
 ———
 #163 You were all amazing. Good night!` },
@@ -366,7 +366,7 @@ function baseToUtc(t,base){ return base==="de"?addH(t,-2):t; }
 
 function standingLine(){ var L={de:{lead:"#163 Wir führen - locker halten, Vorsprung sichern.",close:"#167 Es ist knapp - heute zählt jeder Punkt.",behind:"#188 Wir liegen zurück - jetzt die Top-Aufgaben pushen, aufholen."},en:{lead:"#163 We lead - hold it, keep the lead.",close:"#167 It's close - every point counts tonight.",behind:"#188 We're behind - push the top tasks now to catch up."}}; return L[state.lang][state.standing]; }
 function rallyBriefLines(){ if(!state.rallies.length) return state.lang==="de"?"#080 (noch keine Rally bestätigt)":"#080 (no rally confirmed yet)";
-  return state.rallies.map(function(r){ return "#080 "+EV[r.ev].emo+" "+EV[r.ev].name+" "+r.su+" UTC ("+addH(r.su,2)+" DE)"; }).join("\n"); }
+  return state.rallies.map(function(r){ return "#080 "+(RMARK[r.ev]||"")+" "+EV[r.ev].name+" "+r.su+" UTC ("+addH(r.su,2)+" DE)"; }).join("\n"); }
 
 /* Rally -> Timeline-Nachrichten */
 function rallyMsgs(){ var arr=[]; state.rallies.forEach(function(r,i){
