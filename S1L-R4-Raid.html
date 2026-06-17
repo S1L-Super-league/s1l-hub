@@ -5,6 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>R4 — Raid-Ankündigungen — S1L Info-Hub</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .controls{ position:sticky; top:0; z-index:5; background:var(--bg); border:1px solid var(--line); border-radius:var(--radius);
+    padding:12px 14px; margin:10px 0 18px; display:flex; flex-wrap:wrap; gap:14px 18px; align-items:center; box-shadow:var(--shadow); }
+  .controls .grp{ display:flex; gap:6px; align-items:center; } .controls label{ font-weight:700; font-size:.88rem; }
+  .seg{ display:inline-flex; border:2px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg button{ border:0; background:var(--card); color:var(--ink); padding:6px 11px; font-weight:700; cursor:pointer; font-size:.86rem; }
+  .seg button.on{ background:var(--c-duell); color:#fff; }
+  #fbState{ font-size:.78rem; padding:3px 9px; border-radius:999px; border:1.5px solid var(--line); color:var(--muted); }
+  .evtiles{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 4px; }
+  .evtile{ border:2px solid var(--line); background:var(--card); border-radius:12px; padding:8px 12px; font-weight:700; cursor:pointer; font-size:.95rem; }
+  .evtile.on{ border-color:var(--c-duell); background:rgba(37,99,235,.10); }
+  .fld{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:8px 0; }
+  .fld .hd{ display:flex; align-items:center; gap:9px; font-weight:700; }
+  .fld .hd input[type=checkbox]{ width:18px; height:18px; }
+  .fld .bd{ margin-top:8px; }
+  .fld input[type=text], .fld input[type=time], .fld select, .fld textarea{ width:100%; padding:9px; border:2px solid var(--line); border-radius:9px; background:var(--bg); color:var(--ink); font-size:.95rem; font-family:inherit; }
+  .fld .two{ display:flex; gap:8px; flex-wrap:wrap; } .fld .two>*{ flex:1; min-width:120px; }
+  .hint{ color:var(--muted); font-size:.82rem; margin:.2em 0 0; }
+  pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0;
+    white-space:pre-wrap; word-break:break-word; font-family:"SF Mono",ui-monospace,Consolas,monospace; font-size:.9rem; line-height:1.55; }
+  .copybtn{ border:0; background:var(--c-duell); color:#fff; font-weight:700; padding:8px 14px; border-radius:9px; cursor:pointer; font-size:.85rem; }
+  .copybtn.ok{ background:var(--t-fix); }
+  .tag{ display:inline-block; font-size:.72rem; font-weight:700; background:rgba(37,99,235,.12); color:var(--c-duell); border-radius:999px; padding:1px 8px; margin:0 4px 2px 0; }
+  .stratitem{ border:1px solid var(--line); border-radius:10px; padding:9px 11px; margin:7px 0; background:var(--card); }
+  .stratitem.prio{ border-color:var(--c-season); background:rgba(202,138,4,.08); }
+  table.cal td select{ padding:5px; border:1.5px solid var(--line); border-radius:7px; background:var(--bg); color:var(--ink); font-size:.85rem; }
+  .rev{ border:0; cursor:pointer; font-size:.78rem; font-weight:800; border-radius:999px; padding:3px 11px; }
+  .rev-falsch{ background:#dc2626; color:#fff; } .rev-unsicher{ background:#eab308; color:#1a2233; } .rev-bereit{ background:#0f9d58; color:#fff; } .rev-frei{ background:#fff; color:#1a2233; border:1.5px solid #b9c2d0; }
+</style>
 </head>
 <body>
 
@@ -26,39 +55,217 @@
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span></a>
   <header>
     <h1>🚨 <span class="lng-de">Raid-Ankündigungen</span><span class="lng-en">Raid announcements</span></h1>
-    <p class="lead"><span class="lng-de">Raids ansagen & planen. Templates pflegt <b>Alex</b> (unten).</span><span class="lng-en">Announce & plan raids. Templates maintained by <b>Alex</b> (below).</span></p>
+    <p class="lead"><span class="lng-de">Baukasten: Event wählen, Felder an/abhaken, Text füllen → unten entsteht die kopierfertige Ansage. <b>Entwurf — senden macht Jac.</b></span><span class="lng-en">Builder: pick an event, toggle fields, fill text → the ready-to-copy announcement is built below. <b>Draft — Jac sends.</b></span></p>
   </header>
 
-  <h2 class="section">🚨 <span class="lng-de">Nächster Raid</span><span class="lng-en">Next raid</span></h2>
+  <div class="controls">
+    <div class="grp"><label>Sprache:</label><span class="seg" id="segLang"><button data-lang="de" class="on">Deutsch</button><button data-lang="en">English</button></span></div>
+    <div class="grp"><label>Ansicht:</label><span class="seg" id="segView"><button data-view="code" class="on"># Codes</button><button data-view="emoji">Emoji</button></span></div>
+    <div class="grp"><span id="fbState">Status: …</span></div>
+  </div>
+
+  <!-- 1. EVENT -->
+  <h2 class="section">🎮 <span class="lng-de">Event wählen</span><span class="lng-en">Pick event</span></h2>
+  <div class="evtiles" id="evtiles"></div>
+  <p class="hint" id="zielHint"></p>
+
+  <!-- 2. FELDER -->
+  <h2 class="section">🧩 <span class="lng-de">Felder</span><span class="lng-en">Fields</span></h2>
+  <div id="fields"></div>
+
+  <!-- 3. ANSAGE -->
+  <h2 class="section">📣 <span class="lng-de">Kopierfertige Ansage</span><span class="lng-en">Ready-to-copy announcement</span></h2>
   <div class="card raid">
-    <h3><span class="lng-de">Raid: … (Ziel)</span><span class="lng-en">Raid: … (target)</span></h3>
-    <div class="row"><span class="ic">🕒</span><div><b><span class="lng-de">Zeit:</span><span class="lng-en">Time:</span></b> TT.MM. · … UTC / … DE</div></div>
-    <div class="row"><span class="ic">📍</span><div><b><span class="lng-de">Sammelpunkt:</span><span class="lng-en">Rally point:</span></b> …</div></div>
-    <div class="row"><span class="ic">🧱</span><div><b><span class="lng-de">Aufstellung / Formation:</span><span class="lng-en">Line-up / formation:</span></b> …</div></div>
-    <div class="row"><span class="ic">✅</span><div><b><span class="lng-de">Mitbringen / Vorbereitung:</span><span class="lng-en">Bring / preparation:</span></b> … <span class="badge tier-fix">FIX</span></div></div>
-    <div class="row"><span class="ic">📣</span><div><b><span class="lng-de">Ansage-Text (kopierfertig für Chat):</span><span class="lng-en">Announcement text (ready to copy for chat):</span></b> …</div></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+      <button class="rev rev-unsicher" id="revBtn" title="Status weiterschalten">unsicher</button>
+      <span class="hint" id="revHint">Status nur lokal (Klick = weiterschalten).</span>
+    </div>
+    <pre class="block" id="out"></pre>
+    <button class="copybtn" id="copyBtn">📋 <span class="lng-de">Kopieren</span><span class="lng-en">Copy</span></button>
   </div>
 
+  <!-- 4. STRATEGIEN JE EVENT -->
+  <h2 class="section">🧠 <span class="lng-de">Strategien je Event</span><span class="lng-en">Strategies per event</span></h2>
+  <p class="hint"><span class="lng-de">Alle hinterlegten Strategien (eine kann Prio sein). Im Baukasten erscheinen oben nur die zum gewählten Event.</span><span class="lng-en">All stored strategies (one can be priority). The builder shows only those for the picked event.</span></p>
+  <div id="stratlib"></div>
+
+  <!-- 5. RAIDS -->
   <h2 class="section">🗒️ <span class="lng-de">Kommende / vergangene Raids</span><span class="lng-en">Upcoming / past raids</span></h2>
-  <div class="card">
-    <p><span class="lng-de">Liste der angekündigten Raids (neueste oben). Alex trägt ein:</span><span class="lng-en">List of announced raids (newest on top). Alex fills in:</span></p>
-    <table class="cal">
-      <tr><th><span class="lng-de">Datum</span><span class="lng-en">Date</span></th><th><span class="lng-de">Ziel</span><span class="lng-en">Target</span></th><th><span class="lng-de">Ergebnis</span><span class="lng-en">Result</span></th></tr>
-      <tr><td>TT.MM.</td><td>…</td><td>—</td></tr>
-    </table>
-  </div>
+  <p class="hint"><span class="lng-de">Aus dem geteilten Rally-Speicher (Templates-Seite). Ziel kommt aus dem Event. Ergebnis ist eintragbar (geteilt).</span><span class="lng-en">From the shared rally store (templates page). Target comes from the event. Result is editable (shared).</span></p>
+  <table class="cal" id="raidTbl"><tr><th>Datum</th><th>Event / Ziel</th><th>Zeit (UTC)</th><th>Ergebnis</th></tr></table>
 
-  <h2 class="section">📝 <span class="lng-de">Für Alex</span><span class="lng-en">For Alex</span></h2>
-  <div class="card">
-    <p><span class="lng-de">Hier liegen die <b>Raid-Templates</b>. „Nächster Raid" füllst du je Ansage; die kopierfertige Ansage gibt Jacqueline dann in den Spiel-/Discord-Chat (Alex sendet nicht selbst). Nur Stufe-1-Infos.</span><span class="lng-en">The <b>raid templates</b> live here. You fill in "Next raid" per announcement; Jacqueline then posts the ready-to-copy announcement into the game/Discord chat (Alex does not send it herself). Tier-1 info only.</span></p>
-    <p class="lead"><span class="lng-de">Platzhalter „…" / „TT.MM." ersetzen. Veröffentlichen erst auf Jacquelines OK (<code>deploy.sh</code>).</span><span class="lng-en">Replace placeholders "…" / "TT.MM.". Publish only on Jacqueline's OK (<code>deploy.sh</code>).</span></p>
-  </div>
-
-  <footer><span class="lng-de">S1L Info-Hub · R4 · Raid-Ankündigungen · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Raid announcements · Non-sensitive data (gamertags). Protection deliberately light.</span></footer>
+  <footer id="footAlex"></footer>
 </div>
 </div>
 
 <script src="auth-r4.js"></script>
 <script src="lang.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== Firebase (gleiches Projekt wie Templates/Pinnwand; öffentliche Config) ===== */
+var FB_CONFIG={ apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
+var fb={ db:null, rallies:[], results:{}, mode:"local" };
+function fbInit(){
+  try{ if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
+    if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+    fb.db=firebase.firestore(); fb.mode="firebase"; setFbState();
+    fb.db.collection("tplrallies").orderBy("su").onSnapshot(function(s){ fb.rallies=[]; s.forEach(function(d){ var x=d.data()||{}; fb.rallies.push({id:d.id,ev:x.ev,su:x.su,eu:x.eu||"",tms:x.tms||0}); }); renderRaids(); }, function(){ fb.mode="local"; setFbState(); });
+    fb.db.collection("raidresults").onSnapshot(function(s){ fb.results={}; s.forEach(function(d){ fb.results[d.id]=(d.data()||{}).r; }); renderRaids(); }, function(){});
+  } }catch(e){ fb.mode="local"; setFbState(); }
+  setFbState();
+}
+function setFbState(){ var e=document.getElementById("fbState"); if(!e)return; e.textContent= fb.mode==="firebase"?"Geteilt (Firebase)":"Lokal"; e.style.color= fb.mode==="firebase"?"#0f9d58":"var(--muted)"; }
+function setResult(id,val){ if(fb.db){ fb.db.collection("raidresults").doc(id).set({r:val,tms:Date.now()}).catch(function(){}); } else { fb.results[id]=val; renderRaids(); } }
+
+/* ===== Events ===== */
+var EV={
+  duell:{mark:"#176",emo:"⚔️",name:{de:"ALLIANZDUELL",en:"ALLIANCE DUEL"},ziel:{de:"Gegner-Allianz (Kampftag)",en:"Enemy alliance (combat day)"}},
+  loewe:{mark:"#098",emo:"🦁",name:{de:"GHULÖWE",en:"GHOULION"},ziel:{de:"Ghulöwe-Boss (Schaden)",en:"Ghoulion boss (damage)"}},
+  reservoir:{mark:"#117",emo:"🐟",name:{de:"RESERVOIR RAID",en:"RESERVOIR RAID"},ziel:{de:"Wasser-Gebäude halten",en:"Hold water buildings"}},
+  stadt:{mark:"#169",emo:"🌃",name:{de:"STADTDUELL",en:"CITY DUEL"},ziel:{de:"Stadt erobern/halten",en:"Capture/hold city"}},
+  belagerung:{mark:"#093",emo:"👑",name:{de:"ALLIANZBELAGERUNG",en:"ARCADIAN CONQUEST"},ziel:{de:"Arcadia + 4 Türme halten",en:"Hold Arcadia + 4 towers"}}
+};
+
+/* ===== Strategien je Event (eine kann prio) ===== */
+var STRAT={
+  duell:[ { id:"duell-koeder", prio:true, tags:["Kampftag","Köder","Kuppel"],
+    de:"Köder ohne Kuppel: EINER greift OHNE Schutzschild an, 5 verstärken ihn. Der Köder (ohne Schild) danach SOFORT wegteleportieren und verstecken - NICHT zum Sammelpunkt (kein Schild + Abklingzeit). Der Rest laesst 30 Min Truppen dort, damit der Köder nicht getötet wird.",
+    en:"Bait without dome: ONE attacks WITHOUT shield, 5 reinforce. The bait (no shield) then teleports away IMMEDIATELY and hides - NOT to the rally point (no shield + cooldown). The rest keep troops there for 30 min so the bait is not killed." } ],
+  loewe:[ { id:"loewe-selbst", prio:true, tags:["Boss","Schaden"],
+    de:"Selbst-Rally: Jeder Rally-Faehige startet eine EIGENE Rally (kein Limit), kuerzeste Vorlaufzeit = max Schlaege/Min. Auf Boss-Schaden-Helden + Signature Weapons umruesten. Buffs nur in diesen 30 Min.",
+    en:"Self-rally: everyone able starts their OWN rally (no limit), shortest lead time = max hits/min. Switch to single-target heroes + signature weapons. Buffs only in these 30 min." } ],
+  reservoir:[ { id:"res-halten", prio:true, tags:["Halten","Lineup"],
+    de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Lineup nach Gebaeudewert, Staerkste aufs Central Reservoir. Nicht nur Solo-Wasser jagen.",
+    en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
+  stadt:[ { id:"stadt-erobern", prio:false, tags:["Stadt"],
+    de:"Alle gemeinsam draufhauen bis die Stadt uns gehoert, dann Truppen rein und 30 Min besetzen. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht.",
+    en:"Everyone hits together until the city is ours, then send troops in and hold 30 min. Only first capture gives instant points, recapture does not." } ],
+  belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
+    de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
+    en:"Hold Arcadia + 4 towers: relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction). 60 sec held = 10,000 points -> continuous occupation beats kills. Shield discipline; empty hospital/enlistment beforehand." } ]
+};
+
+/* ===== R4 Kommandanten (Stufe-1-Gamertags) ===== */
+var R4=["Kingeder","CrexoOG","HMX","Lady M","Jac","ghob","Војвода","bismillah"];
+
+var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#170":"📍","#093":"👑","#098":"🦁","#117":"🐟","#169":"🌃","#080":"🤘","#078":"💪","#079":"🙏","#074":"👍" };
+function toEmoji(t){ return t.replace(/#\d{3}/g,function(c){return EMO[c]||c;}); }
+function pad(n){return (n<10?"0":"")+n;}
+function addH(h,n){ if(!h)return ""; var p=h.split(":"); return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1]; }
+function tzBlock(s,e){
+  if(!s) return "";
+  var z=[["UTC",0],["UK / Ireland / Portugal",1],["Germany / Austria / France / Italy / Spain / Poland / Netherlands",2],["Finland / Greece / Romania / Ukraine / Russia / Turkey",3]];
+  return z.map(function(p){ var t=addH(s,p[1]); return (e?t+" - "+addH(e,p[1]):t)+"  "+p[0]; }).join("\n");
+}
+
+/* ===== Zustand ===== */
+var ST={ lang:"de", view:"code", ev:"duell", rev:"unsicher",
+  f:{ zeit:{on:true,utc:"18:00",ende:""}, sammel:{on:true,txt:""}, kdt:{on:true,name:""}, mit:{on:false,txt:""}, strat:{on:false,sel:"",frei:""} } };
+
+function L(de,en){ return ST.lang==="de"?de:en; }
+
+function renderEvTiles(){
+  var h=""; Object.keys(EV).forEach(function(k){ h+='<button class="evtile'+(ST.ev===k?" on":"")+'" data-ev="'+k+'">'+EV[k].emo+' '+EV[k].name[ST.lang]+'</button>'; });
+  document.getElementById("evtiles").innerHTML=h;
+  document.getElementById("zielHint").textContent=L("Ziel (automatisch aus Event): ","Target (auto from event): ")+EV[ST.ev].ziel[ST.lang];
+}
+
+function fieldsHtml(){
+  var f=ST.f;
+  function head(on,id,label){ return '<div class="hd"><input type="checkbox" data-fon="'+id+'"'+(on?" checked":"")+'> '+label+'</div>'; }
+  var s=STRAT[ST.ev]||[];
+  var stratOpts='<option value="">'+L("— keine Strategie —","— no strategy —")+'</option>';
+  s.forEach(function(x){ stratOpts+='<option value="'+x.id+'"'+(f.strat.sel===x.id?" selected":"")+'>'+(x.prio?"★ ":"")+x.tags.join(", ")+'</option>'; });
+  stratOpts+='<option value="__frei"'+(f.strat.sel==="__frei"?" selected":"")+'>'+L("Freitext…","Free text…")+'</option>';
+
+  var kdtOpts='<option value="">'+L("— wählen —","— choose —")+'</option>';
+  R4.forEach(function(n){ kdtOpts+='<option'+(f.kdt.name===n?" selected":"")+'>'+n+'</option>'; });
+
+  return ''
+  +'<div class="fld">'+head(f.zeit.on,"zeit","#167 ZEIT / TIME")+(f.zeit.on?'<div class="bd two"><input type="time" data-fz="utc" value="'+f.zeit.utc+'"><input type="time" data-fz="ende" value="'+f.zeit.ende+'" placeholder="Ende"></div><p class="hint">UTC. Ende optional. Block: UTC + alle Zonen.</p>':'')+'</div>'
+  +'<div class="fld">'+head(f.sammel.on,"sammel","#170 SAMMELPUNKT / RALLY POINT")+(f.sammel.on?'<div class="bd"><input type="text" data-ft="sammel" value="'+esc(f.sammel.txt)+'" placeholder="'+L("z. B. K123 X:456 Y:789","e.g. K123 X:456 Y:789")+'"></div>':'')+'</div>'
+  +'<div class="fld">'+head(f.kdt.on,"kdt","#093 KOMMANDANT / COMMANDER")+(f.kdt.on?'<div class="bd"><select data-fk="kdt">'+kdtOpts+'</select></div>':'')+'</div>'
+  +'<div class="fld">'+head(f.mit.on,"mit","#189 MITBRINGEN / BRING")+(f.mit.on?'<div class="bd"><input type="text" data-ft="mit" value="'+esc(f.mit.txt)+'" placeholder="'+L("z. B. Fallen spenden beim Ghulöwen","e.g. donate traps at Ghoulion")+'"></div>':'')+'</div>'
+  +'<div class="fld">'+head(f.strat.on,"strat","#176 STRATEGIE / STRATEGY")+(f.strat.on?'<div class="bd"><select data-fs="sel">'+stratOpts+'</select>'+(f.strat.sel==="__frei"?'<textarea data-ft="strat" rows="3" placeholder="'+L("Strategie als Freitext…","strategy free text…")+'" style="margin-top:6px">'+esc(f.strat.frei)+'</textarea>':"")+'</div>':'')+'</div>';
+}
+function esc(s){ s=s||""; return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+
+function build(){
+  var f=ST.f, ev=EV[ST.ev], L2=ST.lang, out=[];
+  out.push("#190 "+ev.mark+" "+ev.name[L2]+" - "+L("RALLY","RALLY"));
+  out.push("———");
+  out.push("#080 "+L("Ziel: ","Target: ")+ev.ziel[L2]);
+  if(f.zeit.on && f.zeit.utc){ out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167", tzBlock(f.zeit.utc, f.zeit.ende)); }
+  if(f.sammel.on && f.sammel.txt){ out.push("———","#170 ***** "+L("SAMMELPUNKT","RALLY POINT")+" ***** #170","#080 "+f.sammel.txt); }
+  if(f.kdt.on && f.kdt.name){ out.push("———","#093 ***** "+L("KOMMANDANT","COMMANDER")+" ***** #093","#080 "+f.kdt.name); }
+  if(f.mit.on && f.mit.txt){ out.push("———","#189 ***** "+L("MITBRINGEN","BRING")+" ***** #189","#080 "+f.mit.txt); }
+  var st=stratText();
+  if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
+  out.push("———","#078 "+L("Mit staerkstem Team beitreten - gemeinsam sind wir stark!","Join with your strongest team - together we are stronger!"));
+  return out.join("\n");
+}
+function stratText(){ var f=ST.f; if(f.strat.sel==="__frei") return f.strat.frei||""; var s=(STRAT[ST.ev]||[]).filter(function(x){return x.id===f.strat.sel;})[0]; return s?s[ST.lang]:""; }
+
+function renderOut(){ var t=build(); document.getElementById("out").textContent= ST.view==="emoji"?toEmoji(t):t;
+  var b=document.getElementById("revBtn"); b.className="rev rev-"+ST.rev; b.textContent={falsch:"falsch",unsicher:"unsicher",bereit:"bereit zur Prüfung",frei:"freigegeben"}[ST.rev]; }
+
+function renderStratLib(){
+  var h=""; Object.keys(EV).forEach(function(k){ var list=STRAT[k]||[];
+    h+='<details class="card"'+(k===ST.ev?" open":"")+'><summary style="cursor:pointer;font-weight:700">'+EV[k].emo+' '+EV[k].name[ST.lang]+' ('+list.length+')</summary>';
+    if(!list.length){ h+='<p class="hint">'+L("Noch keine Strategie hinterlegt — im Baukasten „keine Strategie" oder Freitext.","No strategy yet — use \\"no strategy\\" or free text in the builder.")+'</p>'; }
+    list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+x.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+x[ST.lang]+'</div></div>'; });
+    h+='</details>';
+  });
+  document.getElementById("stratlib").innerHTML=h;
+}
+
+function renderRaids(){
+  var el=document.getElementById("raidTbl"); if(!el)return;
+  var rows='<tr><th>Datum</th><th>Event / Ziel</th><th>Zeit (UTC)</th><th>Ergebnis</th></tr>';
+  var list=fb.rallies.slice().sort(function(a,b){ return (b.tms||0)-(a.tms||0); });
+  if(!list.length){ rows+='<tr><td colspan="4" class="hint">'+L("Noch keine Raids — auf der Templates-Seite Rallys hinzufügen.","No raids yet — add rallies on the templates page.")+'</td></tr>'; }
+  var RES=["","very bad","bad","okay","good","very good"];
+  list.forEach(function(r){ var e=EV[r.ev]||{emo:"⚔️",name:{de:r.ev,en:r.ev},ziel:{de:"",en:""}};
+    var dt=r.tms?new Date(r.tms):null; var ds=dt?pad(dt.getDate())+"."+pad(dt.getMonth()+1)+".":"—";
+    var cur=fb.results[r.id]||"";
+    var opts=RES.map(function(v){ return '<option value="'+v+'"'+(cur===v?" selected":"")+'>'+(v||"—")+'</option>'; }).join("");
+    rows+='<tr><td>'+ds+'</td><td>'+e.emo+' '+e.name[ST.lang]+'<br><span class="hint">'+e.ziel[ST.lang]+'</span></td><td>'+(r.su||"")+(r.eu?"–"+r.eu:"")+'</td><td><select data-res="'+r.id+'">'+opts+'</select></td></tr>';
+  });
+  el.innerHTML=rows;
+  el.querySelectorAll("select[data-res]").forEach(function(s){ s.onchange=function(){ setResult(s.getAttribute("data-res"), s.value); }; });
+}
+
+function renderFoot(){ document.getElementById("footAlex").innerHTML =
+  L("S1L Info-Hub · R4 · Raid-Ankündigungen · Baukasten gepflegt von Alex. Strategien je Event, eine kann Prio sein; fehlende Events bekommen schrittweise Strategien (sonst „keine Strategie/Freitext"). Raids + Ergebnisse geteilt über Firebase. Nur Entwürfe — Versand durch Jacqueline. Daten unsensibel (Gamertags).",
+    "S1L Info Hub · R4 · Raid announcements · Builder maintained by Alex. Strategies per event, one can be priority; missing events get strategies over time (else \"no strategy/free text\"). Raids + results shared via Firebase. Drafts only — Jacqueline sends. Non-sensitive data (gamertags)."); }
+
+function bindFields(){
+  document.querySelectorAll("[data-fon]").forEach(function(c){ c.onchange=function(){ ST.f[c.getAttribute("data-fon")].on=c.checked; renderFields(); }; });
+  document.querySelectorAll("[data-fz]").forEach(function(i){ i.oninput=function(){ ST.f.zeit[i.getAttribute("data-fz")]=i.value; renderOut(); }; });
+  document.querySelectorAll("[data-ft]").forEach(function(i){ i.oninput=function(){ var k=i.getAttribute("data-ft"); if(k==="strat"){ST.f.strat.frei=i.value;}else{ST.f[k].txt=i.value;} renderOut(); }; });
+  var k=document.querySelector("[data-fk]"); if(k) k.onchange=function(){ ST.f.kdt.name=k.value; renderOut(); };
+  var s=document.querySelector("[data-fs]"); if(s) s.onchange=function(){ ST.f.strat.sel=s.value; renderFields(); };
+}
+function renderFields(){ document.getElementById("fields").innerHTML=fieldsHtml(); bindFields(); renderOut(); }
+
+function seg(id,attr,cb){ var b=document.getElementById(id); b.querySelectorAll("button").forEach(function(x){ x.onclick=function(){ b.querySelectorAll("button").forEach(function(y){y.classList.remove("on");}); x.classList.add("on"); cb(x.getAttribute(attr)); }; }); }
+function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.innerHTML; btn.textContent="✓"; setTimeout(function(){btn.classList.remove("ok");btn.innerHTML=o;},1200); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fbk);}else fbk();
+  function fbk(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(t);ok();} }
+
+function boot(){
+  fbInit();
+  renderEvTiles(); renderFields(); renderStratLib(); renderRaids(); renderFoot();
+  document.getElementById("evtiles").onclick=function(e){ var b=e.target.closest("[data-ev]"); if(!b)return; ST.ev=b.getAttribute("data-ev"); ST.f.strat.sel=""; renderEvTiles(); renderFields(); renderStratLib(); };
+  seg("segLang","data-lang",function(v){ ST.lang=v; renderEvTiles(); renderFields(); renderStratLib(); renderRaids(); renderFoot(); });
+  seg("segView","data-view",function(v){ ST.view=v; renderOut(); });
+  var REV=["falsch","unsicher","bereit","frei"];
+  document.getElementById("revBtn").onclick=function(){ ST.rev=REV[(REV.indexOf(ST.rev)+1)%REV.length]; renderOut(); };
+  document.getElementById("copyBtn").onclick=function(){ copyClip(build(), this); };
+}
+function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){boot();return;} setTimeout(waitContent,200); }
+if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
+</script>
 </body>
 </html>
