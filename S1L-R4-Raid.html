@@ -123,14 +123,14 @@ var EV={
   duell:{mark:"#176",emo:"⚔️",name:{de:"ALLIANZDUELL",en:"ALLIANCE DUEL"},ziel:{de:"Gegner-Allianz (Kampftag)",en:"Enemy alliance (combat day)"}},
   loewe:{mark:"#098",emo:"🦁",name:{de:"GHULÖWE",en:"GHOULION"},ziel:{de:"Ghulöwe-Boss (Schaden)",en:"Ghoulion boss (damage)"}},
   reservoir:{mark:"#117",emo:"🐟",name:{de:"RESERVOIR RAID",en:"RESERVOIR RAID"},ziel:{de:"Wasser-Gebäude halten",en:"Hold water buildings"}},
-  stadt:{mark:"#169",emo:"🌃",name:{de:"STADTDUELL",en:"CITY DUEL"},ziel:{de:"Stadt erobern/halten",en:"Capture/hold city"}},
+  stadt:{mark:"#169",emo:"🌃",name:{de:"STADTDUELL",en:"CITY DUEL"},ziel:{de:"Stadt",en:"City"}},
   belagerung:{mark:"#093",emo:"👑",name:{de:"ALLIANZBELAGERUNG",en:"ARCADIAN CONQUEST"},ziel:{de:"Arcadia + 4 Türme halten",en:"Hold Arcadia + 4 towers"}}
 };
 
 /* ===== Strategien je Event (eine kann prio) ===== */
 var STRAT={
   duell:[ { id:"duell-koeder", prio:true, tags:["Kampftag","Köder","Kuppel"],
-    de:"Köder ohne Kuppel: EINER greift OHNE Schutzschild an, 5 verstärken ihn. Der Köder (ohne Schild) danach SOFORT wegteleportieren und verstecken - NICHT zum Sammelpunkt (kein Schild + Abklingzeit). Der Rest laesst 30 Min Truppen dort, damit der Köder nicht getötet wird.",
+    de:"Köder ohne Kuppel: EINER greift OHNE Schutzschild an, 5 verstärken ihn. Der Köder (ohne Schild) danach gleich wegteleportieren und verstecken - nicht zum Sammelpunkt (kein Schild + Abklingzeit). Der Rest laesst 30 Min Truppen dort, damit der Köder geschützt ist.",
     en:"Bait without dome: ONE attacks WITHOUT shield, 5 reinforce. The bait (no shield) then teleports away IMMEDIATELY and hides - NOT to the rally point (no shield + cooldown). The rest keep troops there for 30 min so the bait is not killed." } ],
   loewe:[ { id:"loewe-selbst", prio:true, tags:["Boss","Schaden"],
     de:"Selbst-Rally: Jeder Rally-Faehige startet eine EIGENE Rally (kein Limit), kuerzeste Vorlaufzeit = max Schlaege/Min. Auf Boss-Schaden-Helden + Signature Weapons umruesten. Buffs nur in diesen 30 Min.",
@@ -139,12 +139,12 @@ var STRAT={
     de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Lineup nach Gebaeudewert, Staerkste aufs Central Reservoir. Nicht nur Solo-Wasser jagen.",
     en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Line up by value, strongest on Central Reservoir. Do not just chase solo water." } ],
   stadt:[
-    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Nur kleine","Gross+mittel auf Befehl"],
-    de:"Stadt mit Monster: ALLE nur die KLEINEN - jeder schickt 1 Trupp auf einen FREIEN kleinen, damit jeder Punkte bekommt. Das GROSSE (Zentrum) und die MITTLEREN nur auf BEFEHL DES COMMANDERS. Ist das grosse nur noch bei 25 %, gehen ALLE aufs grosse. Auf R4-Aufforderung zum Sammelpunkt kommen.",
-    en:"City with monster: EVERYONE on the SMALL ones only - each sends 1 troop to a FREE small one so everyone gets points. The BIG one (center) and the MEDIUM ones only on the COMMANDER'S ORDER. When the big one is at 25 %, EVERYONE goes for the big one. On the R4 call, come to the rally point." },
-    { id:"stadt-allianz", prio:false, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
-    de:"Stadt MIT feindlicher Allianz: Alle gemeinsam draufhauen bis die Stadt UNS gehoert, dann schicken ALLE ihre Truppen fuer 30 Min in die Stadt zur Verteidigung - danach gehoert sie uns. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - keine Gems verbrennen. Auf R4-Aufforderung zum Sammelpunkt kommen.",
-    en:"City held by ENEMY alliance: everyone hits together until the city is OURS, then EVERYONE sends their troops into the city for 30 min to defend - then it is ours. Only first capture gives instant points, recapture does not - do not burn gems. On the R4 call, come to the rally point." }
+    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Nur kleine","Gross+mittel auf Ansage"],
+    de:"Stadt mit Monster: Lasst uns alle auf die KLEINEN gehen - jeder schickt 1 Trupp auf einen FREIEN kleinen, dann bekommt jeder Punkte. Das GROSSE (Zentrum) und die mittleren erst auf Ansage vom Commander. Ist das GROSSE nur noch bei 25 %, gehen wir alle gemeinsam aufs GROSSE. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
+    en:"City with monster: let us all go for the SMALL ones - each sends 1 troop to a FREE small one, then everyone gets points. The BIG one (center) and the medium ones only on the commander's call. When the BIG one is at 25 %, we all go for it together. When R4 calls, please come to the rally point." },
+    { id:"stadt-allianz", prio:true, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
+    de:"Stadt mit feindlicher Allianz: Wir hauen gemeinsam drauf, bis die Stadt UNS gehoert, dann schicken alle ihre Truppen 30 Min zur Verteidigung rein - so bleibt sie unsere. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - dafuer lohnt sich kein Gem. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
+    en:"City held by enemy alliance: we hit together until the city is OURS, then everyone sends their troops in for 30 min to defend - that keeps it ours. Only first capture gives instant points, recapture does not - no need to spend gems for it. When R4 calls, please come to the rally point." }
   ],
   belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
     de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
@@ -211,7 +211,7 @@ function zBodyHtml(f){
     h+='<div class="two" style="margin-top:6px"><input type="number" data-zreln="1" min="1" value="'+esc(z.relN)+'" style="max-width:120px"><select data-zrelu="1"><option value="min"'+(z.relU==="min"?" selected":"")+'>'+L("Minuten","minutes")+'</option><option value="h"'+(z.relU==="h"?" selected":"")+'>'+L("Stunden","hours")+'</option></select></div>'
       +'<p class="hint">'+L("Start relativ ab jetzt. Ausgabe zeigt in X plus errechnete Zonen.","Start relative to now. Output shows in X plus computed zones.")+'</p>';
   } else {
-    h+='<p class="hint" style="margin-top:6px">'+L("Ausgabe: JETZT - sofort sammeln.","Output: NOW - gather now.")+'</p>';
+    h+='<p class="hint" style="margin-top:6px">'+L("Ausgabe: Es geht los - kommt zum Sammelpunkt.","Output: It is on - come to the rally point.")+'</p>';
   }
   return h+'</div>';
 }
@@ -246,7 +246,7 @@ function build(){
   if(f.strat.on && st){ out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY")+" ***** #176", st); }
   if(f.zeit.on){
     if(f.zeit.mode==="now"){
-      out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167","#080 "+L("JETZT - SOFORT SAMMELN","NOW - GATHER NOW"));
+      out.push("———","#167 ***** "+L("ZEIT","TIME")+" ***** #167","#080 "+L("Es geht los - kommt zum Sammelpunkt","It is on - come to the rally point"));
     } else if(f.zeit.mode==="rel"){
       var mins=(f.zeit.relU==="h"?(parseInt(f.zeit.relN,10)||0)*60:(parseInt(f.zeit.relN,10)||0));
       var su=addMin(nowUtcHHMM(),mins), relTxt=(f.zeit.relU==="h"?(f.zeit.relN+" h"):(f.zeit.relN+" min"));
