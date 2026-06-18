@@ -11,34 +11,33 @@
 <!-- R4-Tor: zweites Passwort, getrennt vom Mitglieder-Login (auth-r4.js) -->
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span></h1>
-    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig (nicht das Mitglieder-Login).</span><span class="lng-en">Only for R4 / officers. Your own R4 password is required (not the member login).</span></p>
-    <label for="nm" style="position:absolute;left:-9999px"><span class="lng-de">Name</span><span class="lng-en">Name</span></label>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span><span class="lng-tr">R4 alanı</span><span class="lng-ru">Раздел R4</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig (nicht das Mitglieder-Login).</span><span class="lng-en">Only for R4 / officers. Your own R4 password is required (not the member login).</span><span class="lng-tr">Yalnızca R4 / subaylar için. Kendi R4 şifreniz gereklidir (üye girişi değil).</span><span class="lng-ru">Только для R4 / офицеров. Нужен собственный пароль R4 (не вход для участников).</span></p>
+    <label for="nm" style="position:absolute;left:-9999px"><span class="lng-de">Name</span><span class="lng-en">Name</span><span class="lng-tr">İsim</span><span class="lng-ru">Имя</span></label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
-    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">R4-Passwort</span><span class="lng-en">R4 password</span></label>
+    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">R4-Passwort</span><span class="lng-en">R4 password</span><span class="lng-tr">R4 şifresi</span><span class="lng-ru">Пароль R4</span></label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Log in</span></button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Log in</span><span class="lng-tr">Giriş</span><span class="lng-ru">Войти</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="index.html">← <span class="lng-de">Zurück zum Hub</span><span class="lng-en">Back to the hub</span></a>
+  <a class="back" href="index.html">← <span class="lng-de">Zurück zum Hub</span><span class="lng-en">Back to the hub</span><span class="lng-tr">Hub'a geri dön</span><span class="lng-ru">Назад к хабу</span></a>
   <header>
-    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span></h1>
-    <p class="lead"><span class="lng-de">Arbeitsbereich für R4 / Offiziere. Eigenes Passwort, getrennt vom Mitglieder-Login.</span><span class="lng-en">Workspace for R4 / officers. Own password, separate from the member login.</span></p>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span><span class="lng-tr">R4 alanı</span><span class="lng-ru">Раздел R4</span></h1>
+    <p class="lead"><span class="lng-de">Arbeitsbereich für R4 / Offiziere. Eigenes Passwort, getrennt vom Mitglieder-Login.</span><span class="lng-en">Workspace for R4 / officers. Own password, separate from the member login.</span><span class="lng-tr">R4 / subaylar için çalışma alanı. Üye girişinden ayrı, kendi şifresi.</span><span class="lng-ru">Рабочая область для R4 / офицеров. Собственный пароль, отдельно от входа для участников.</span></p>
   </header>
 
-  <h2 class="section"><span class="lng-de">Bereiche</span><span class="lng-en">Areas</span></h2>
+  <h2 class="section"><span class="lng-de">Bereiche</span><span class="lng-en">Areas</span><span class="lng-tr">Alanlar</span><span class="lng-ru">Разделы</span></h2>
   <div class="grid two">
-    <a class="cardlink" href="S1L-R4-Kommunikation.html"><div class="card admin"><h3>💬 <span class="lng-de">Kommunikation</span><span class="lng-en">Communication</span></h3><p><span class="lng-de">R4-Pinnwand: schreiben, Bilder posten, bleibt sichtbar. Discord als Option.</span><span class="lng-en">R4 board: write, post images, stays visible. Discord as an option.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
-    <a class="cardlink" href="S1L-R4-Heute.html"><div class="card heute"><h3>⭐ <span class="lng-de">Aktueller Tag</span><span class="lng-en">Current day</span></h3><p><span class="lng-de">Tagesplan/Marschbefehl für R4. Templates von Alex.</span><span class="lng-en">Daily plan / marching orders for R4. Templates from Alex.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
-    <a class="cardlink" href="S1L-R4-Raid.html"><div class="card raid"><h3>🚨 <span class="lng-de">Raid-Ankündigungen</span><span class="lng-en">Raid announcements</span></h3><p><span class="lng-de">Raids ansagen & planen. Templates von Alex.</span><span class="lng-en">Announce &amp; plan raids. Templates from Alex.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
-    <a class="cardlink" href="S1L-R4-Templates.html"><div class="card duell"><h3>📋 <span class="lng-de">Templates & Timeline</span><span class="lng-en">Templates & Timeline</span></h3><p><span class="lng-de">Fertige Chat-Texte zum Kopieren. Sprache DE/EN, Zeit-Generator, Tages-Timeline mit Prio.</span><span class="lng-en">Ready-made chat texts to copy. Language DE/EN, time generator, daily timeline with priorities.</span> <span class="badge tier-test">PROBE 17.06</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span></p></div></a>
+    <a class="cardlink" href="S1L-R4-Kommunikation.html"><div class="card admin"><h3>💬 <span class="lng-de">Kommunikation</span><span class="lng-en">Communication</span><span class="lng-tr">İletişim</span><span class="lng-ru">Общение</span></h3><p><span class="lng-de">R4-Pinnwand: schreiben, Bilder posten, bleibt sichtbar. Discord als Option.</span><span class="lng-en">R4 board: write, post images, stays visible. Discord as an option.</span><span class="lng-tr">R4 panosu: yaz, resim paylaş, görünür kalır. Discord seçenek olarak.</span><span class="lng-ru">Доска R4: пишите, публикуйте картинки, остаётся видимым. Discord как вариант.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span><span class="lng-tr">Aç →</span><span class="lng-ru">Открыть →</span></p></div></a>
+    <a class="cardlink" href="S1L-R4-Raid.html"><div class="card raid"><h3>🚨 <span class="lng-de">Raid-Ankündigungen</span><span class="lng-en">Raid announcements</span><span class="lng-tr">Raid duyuruları</span><span class="lng-ru">Объявления о рейдах</span></h3><p><span class="lng-de">Raids ansagen & planen. Templates von Alex.</span><span class="lng-en">Announce &amp; plan raids. Templates from Alex.</span><span class="lng-tr">Raid'leri duyur ve planla. Alex'ten şablonlar.</span><span class="lng-ru">Объявляйте и планируйте рейды. Шаблоны от Alex.</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span><span class="lng-tr">Aç →</span><span class="lng-ru">Открыть →</span></p></div></a>
+    <a class="cardlink" href="S1L-R4-Templates.html"><div class="card duell"><h3>📋 <span class="lng-de">Templates & Timeline</span><span class="lng-en">Templates & Timeline</span><span class="lng-tr">Templates & Timeline</span><span class="lng-ru">Templates & Timeline</span></h3><p><span class="lng-de">Fertige Chat-Texte zum Kopieren. Sprache DE/EN, Zeit-Generator, Tages-Timeline mit Prio.</span><span class="lng-en">Ready-made chat texts to copy. Language DE/EN, time generator, daily timeline with priorities.</span><span class="lng-tr">Kopyalamak için hazır sohbet metinleri. Dil DE/EN, zaman oluşturucu, öncelikli günlük zaman çizelgesi.</span><span class="lng-ru">Готовые тексты для чата для копирования. Язык DE/EN, генератор времени, дневная временная шкала с приоритетами.</span> <span class="badge tier-test">PROBE 19.06</span></p><p class="go"><span class="lng-de">Öffnen →</span><span class="lng-en">Open →</span><span class="lng-tr">Aç →</span><span class="lng-ru">Открыть →</span></p></div></a>
   </div>
 
-  <footer><span class="lng-de">S1L Info-Hub · R4-Bereich · Daten unsensibel (Gamertags). Schutz bewusst leicht (clientseitig).</span><span class="lng-en">S1L Info-Hub · R4 area · Non-sensitive data (gamertags). Protection deliberately light (client-side).</span></footer>
+  <footer><span class="lng-de">S1L Info-Hub · R4-Bereich · Daten unsensibel (Gamertags). Schutz bewusst leicht (clientseitig).</span><span class="lng-en">S1L Info-Hub · R4 area · Non-sensitive data (gamertags). Protection deliberately light (client-side).</span><span class="lng-tr">S1L Info-Hub · R4 alanı · Hassas olmayan veriler (gamertag'ler). Koruma bilinçli olarak hafif (istemci tarafı).</span><span class="lng-ru">S1L Info-Hub · Раздел R4 · Несекретные данные (gamertag'и). Защита намеренно лёгкая (на стороне клиента).</span></footer>
 </div>
 </div>
 

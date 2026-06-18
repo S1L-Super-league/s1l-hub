@@ -10,51 +10,52 @@
 
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span></h1>
-    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</span><span class="lng-en">For R4 / officers only. Your own R4 password is required.</span></p>
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span><span class="lng-tr">R4 alanı</span><span class="lng-ru">Зона R4</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig.</span><span class="lng-en">For R4 / officers only. Your own R4 password is required.</span><span class="lng-tr">Yalnızca R4 / subaylar için. Kendi R4 şifreniz gereklidir.</span><span class="lng-ru">Только для R4 / офицеров. Требуется ваш собственный пароль R4.</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Name</label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
     <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span><span class="lng-tr">Giriş yap</span><span class="lng-ru">Войти</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to the R4 area</span></a>
+  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to the R4 area</span><span class="lng-tr">← R4 alanına geri dön</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
-    <h1>💬 <span class="lng-de">R4-Kommunikation</span><span class="lng-en">R4 Communication</span></h1>
-    <p class="lead"><span class="lng-de">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</span><span class="lng-en">Write & post images — stays visible for all R4. Older posts are cleaned up automatically.</span></p>
+    <h1>💬 <span class="lng-de">R4-Kommunikation</span><span class="lng-en">R4 Communication</span><span class="lng-tr">R4 İletişim</span><span class="lng-ru">Коммуникация R4</span></h1>
+    <p class="lead"><span class="lng-de">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</span><span class="lng-en">Write & post images — stays visible for all R4. Older posts are cleaned up automatically.</span><span class="lng-tr">Yazın ve resim paylaşın — tüm R4 için görünür kalır. Eski gönderiler otomatik olarak temizlenir.</span><span class="lng-ru">Пишите и публикуйте изображения — остаётся видимым для всех R4. Старые сообщения удаляются автоматически.</span></p>
   </header>
 
   <!-- ===== Die Pinnwand (In-Hub, Firebase) ===== -->
-  <h2 class="section">📌 <span class="lng-de">R4-Pinnwand</span><span class="lng-en">R4 board</span></h2>
+  <h2 class="section">📌 <span class="lng-de">R4-Pinnwand</span><span class="lng-en">R4 board</span><span class="lng-tr">R4 panosu</span><span class="lng-ru">Доска R4</span></h2>
   <div class="card admin">
-    <div id="fb-status" class="lead"><span class="lng-de">Verbinde…</span><span class="lng-en">Connecting…</span></div>
+    <div id="fb-status" class="lead"><span class="lng-de">Verbinde…</span><span class="lng-en">Connecting…</span><span class="lng-tr">Bağlanıyor…</span><span class="lng-ru">Подключение…</span></div>
     <form id="postform" style="display:none; margin-top:6px">
       <input id="p-name" type="text" placeholder="Dein Name"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)">
       <textarea id="p-text" rows="3" placeholder="Nachricht an die R4…"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-family:inherit"></textarea>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:5px 0">
-        <label style="font-size:.9rem">📎 <span class="lng-de">Bild:</span><span class="lng-en">Image:</span> <input id="p-img" type="file" accept="image/*"></label>
-        <button class="btn" id="p-send" type="submit"><span class="lng-de">Posten</span><span class="lng-en">Post</span></button>
+        <label style="font-size:.9rem">📎 <span class="lng-de">Bild:</span><span class="lng-en">Image:</span><span class="lng-tr">Resim:</span><span class="lng-ru">Изображение:</span> <input id="p-img" type="file" accept="image/*"></label>
+        <button class="btn" id="p-send" type="submit"><span class="lng-de">Posten</span><span class="lng-en">Post</span><span class="lng-tr">Paylaş</span><span class="lng-ru">Опубликовать</span></button>
       </div>
     </form>
   </div>
   <div id="posts" style="margin-top:12px"></div>
 
   <!-- ===== Discord als Option ===== -->
-  <h2 class="section">💬 <span class="lng-de">Lieber Discord? (Option)</span><span class="lng-en">Prefer Discord? (Option)</span></h2>
+  <h2 class="section">💬 <span class="lng-de">Lieber Discord? (Option)</span><span class="lng-en">Prefer Discord? (Option)</span><span class="lng-tr">Discord'u mu tercih edersiniz? (Seçenek)</span><span class="lng-ru">Предпочитаете Discord? (Вариант)</span></h2>
   <div class="card">
-    <p><span class="lng-de">Wer lieber Discord nutzt, kann das weiterhin tun — die Pinnwand oben ist für alle gedacht, die <b>kein</b> Discord/Insta wollen.</span><span class="lng-en">Anyone who prefers Discord can keep using it — the board above is meant for everyone who does <b>not</b> want Discord/Insta.</span></p>
-    <p style="margin:12px 0"><a class="btn" href="DISCORD-EINLADUNGSLINK-HIER" target="_blank" rel="noopener">➡️ <span class="lng-de">R4-Discord öffnen</span><span class="lng-en">Open R4 Discord</span></a></p>
-    <p class="lead"><span class="lng-de">Hinweis: Sicherheit bewusst leicht (clientseitig). Bitte nichts Sensibles posten — nur Spiel-/Allianz-Themen.</span><span class="lng-en">Note: security is deliberately light (client-side). Please post nothing sensitive — only game/alliance topics.</span></p>
+    <p><span class="lng-de">Wer lieber Discord nutzt, kann das weiterhin tun — die Pinnwand oben ist für alle gedacht, die <b>kein</b> Discord/Insta wollen.</span><span class="lng-en">Anyone who prefers Discord can keep using it — the board above is meant for everyone who does <b>not</b> want Discord/Insta.</span><span class="lng-tr">Discord kullanmayı tercih edenler buna devam edebilir — yukarıdaki pano, Discord/Insta <b>istemeyen</b> herkes için düşünülmüştür.</span><span class="lng-ru">Кто предпочитает Discord, может продолжать им пользоваться — доска выше предназначена для всех, кто <b>не</b> хочет Discord/Insta.</span></p>
+    <p class="lead" style="margin:10px 0 6px"><span class="lng-de">Direkt hier mitschreiben — auch <b>ohne</b> eigenen Discord-Account (als Gast).</span><span class="lng-en">Chat right here — even <b>without</b> your own Discord account (as a guest).</span><span class="lng-tr">Doğrudan buradan yazın — kendi Discord hesabınız <b>olmadan</b> bile (misafir olarak).</span><span class="lng-ru">Пишите прямо здесь — даже <b>без</b> своего аккаунта Discord (как гость).</span></p>
+    <widgetbot server="1516939250254217386" channel="1516939251504255088" width="100%" height="560" style="display:block;max-width:100%;border-radius:12px;overflow:hidden"></widgetbot>
+    <p class="lead"><span class="lng-de">Hinweis: Sicherheit bewusst leicht (clientseitig). Bitte nichts Sensibles posten — nur Spiel-/Allianz-Themen.</span><span class="lng-en">Note: security is deliberately light (client-side). Please post nothing sensitive — only game/alliance topics.</span><span class="lng-tr">Not: güvenlik bilinçli olarak hafif tutulmuştur (istemci tarafı). Lütfen hassas hiçbir şey paylaşmayın — yalnızca oyun/ittifak konuları.</span><span class="lng-ru">Примечание: защита намеренно лёгкая (на стороне клиента). Пожалуйста, не публикуйте ничего конфиденциального — только темы игры/альянса.</span></p>
   </div>
 
-  <footer><span class="lng-de">S1L Info-Hub · R4 · Kommunikation · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Communication · Data non-sensitive (gamertags). Protection deliberately light.</span></footer>
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Kommunikation · Daten unsensibel (Gamertags). Schutz bewusst leicht.</span><span class="lng-en">S1L Info Hub · R4 · Communication · Data non-sensitive (gamertags). Protection deliberately light.</span><span class="lng-tr">S1L Info-Hub · R4 · İletişim · Veriler hassas değil (gamertag'ler). Koruma bilinçli olarak hafif.</span><span class="lng-ru">S1L Info-Hub · R4 · Коммуникация · Данные неконфиденциальные (геймертеги). Защита намеренно лёгкая.</span></footer>
 </div>
 </div>
 
@@ -152,5 +153,7 @@ function boardInit(){
 if(document.readyState!=='loading') boardInit(); else document.addEventListener('DOMContentLoaded', boardInit);
 </script>
 <script src="lang.js"></script>
+<!-- WidgetBot Live-Discord-Chat (Gäste können ohne Account schreiben) -->
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
 </body>
 </html>

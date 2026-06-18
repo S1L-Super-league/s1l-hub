@@ -94,11 +94,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 #content[hidden]{ display:none; }
 footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px solid var(--line); padding-top:14px; }
 
-/* ===== Globaler Sprach-Umschalter (DE/EN) ===== */
-#langtoggle{ position:fixed; top:10px; right:12px; z-index:30; display:inline-flex;
+/* ===== Globaler Sprach-Umschalter (DE/EN/TR/RU) ===== */
+#langtoggle{ position:fixed; top:10px; right:12px; z-index:30; display:inline-flex; flex-wrap:wrap;
   border:2px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:var(--shadow); }
-#langtoggle button{ border:0; background:var(--card); color:var(--ink); padding:6px 11px; font-weight:800; cursor:pointer; font-size:.85rem; }
+#langtoggle button{ border:0; background:var(--card); color:var(--ink); padding:6px 10px; font-weight:800; cursor:pointer; font-size:.85rem; }
 #langtoggle button.on{ background:var(--c-duell); color:#fff; }
 #langtoggle button:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
-html[data-lang="de"] .lng-en{ display:none !important; }
-html[data-lang="en"] .lng-de{ display:none !important; }
+/* Sichtbarkeit steuert lang.js über die Klasse .lng-off (mit Fallback-Kette). */
+.lng-off{ display:none !important; }
+/* „Ungeprüft"-Hinweis (nur TR/RU): dezenter fixierter Streifen unter dem Sprachschalter. */
+#langnote{ position:fixed; top:46px; right:12px; z-index:29; max-width:min(60vw,320px);
+  background:#fde68a; color:#7c2d12; border:1.5px solid #f59e0b; border-radius:9px;
+  padding:5px 10px; font-size:.78rem; font-weight:700; box-shadow:var(--shadow); }
+#langnote[hidden]{ display:none !important; }
