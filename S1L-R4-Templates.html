@@ -9,6 +9,8 @@
   .controls{ position:sticky; top:0; z-index:5; background:var(--bg);
     border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; margin:10px 0 18px;
     display:flex; flex-wrap:wrap; gap:14px 18px; align-items:center; box-shadow:var(--shadow); }
+  /* Handy: sticky Steuerleiste unter den globalen Sprachschalter (#langtoggle, fixed oben rechts) setzen, sonst Overlap */
+  @media(max-width:560px){ .controls{ top:52px; } }
   .controls .grp{ display:flex; gap:6px; align-items:center; }
   .controls label{ font-weight:700; font-size:.88rem; }
   .seg{ display:inline-flex; border:2px solid var(--line); border-radius:10px; overflow:hidden; }
@@ -83,7 +85,7 @@
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span><span class="lng-tr">← R4 alanına geri dön</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
     <h1>📋 R4 — Templates & Timeline</h1>
-    <p class="lead"><span class="lng-de">Fertige Chat-Texte zum Kopieren. Zeiten eingeben → Block füllt sich; Rallys hinzufügen → landen in Timeline + Briefing. <b>Entwürfe — senden macht Jac.</b> Probe-Tag <b>Fr 19.06</b> (Duell Tag 5 Schlachtvorbereitung).</span><span class="lng-en">Ready-to-copy chat texts. Enter times → the block fills; add rallies → they land in timeline + briefing. <b>Drafts — Jac sends.</b> Test day <b>Fri 19 June</b> (Duel day 5 battle prep).</span><span class="lng-tr">Kopyalamaya hazır sohbet metinleri. Saatleri gir → blok dolar; rally ekle → zaman çizelgesi + brifinge düşer. <b>Taslaklar — Jac gönderir.</b> Deneme günü <b>Cuma 19 Haziran</b> (Düello 5. gün savaş hazırlığı).</span><span class="lng-ru">Готовые тексты для чата для копирования. Введи время → блок заполняется; добавь рейды → они попадают в таймлайн + брифинг. <b>Черновики — отправляет Jac.</b> Пробный день <b>Пт 19 июня</b> (Дуэль день 5, подготовка к битве).</span></p>
+    <p class="lead"><span class="lng-de">Fertige Chat-Texte zum Kopieren. Zeiten eingeben → Block füllt sich; Rallys hinzufügen → landen in Timeline + Briefing. <b>Entwürfe — senden macht Jac.</b> Probe-Tag <b>Do 18.06</b> (Duell Tag 5 Schlachtvorbereitung).</span><span class="lng-en">Ready-to-copy chat texts. Enter times → the block fills; add rallies → they land in timeline + briefing. <b>Drafts — Jac sends.</b> Test day <b>Thu 18 June</b> (Duel day 5 battle prep).</span><span class="lng-tr">Kopyalamaya hazır sohbet metinleri. Saatleri gir → blok dolar; rally ekle → zaman çizelgesi + brifinge düşer. <b>Taslaklar — Jac gönderir.</b> Deneme günü <b>Per 18 Haziran</b> (Düello 5. gün savaş hazırlığı).</span><span class="lng-ru">Готовые тексты для чата для копирования. Введи время → блок заполняется; добавь рейды → они попадают в таймлайн + брифинг. <b>Черновики — отправляет Jac.</b> Пробный день <b>Чт 18 июня</b> (Дуэль день 5, подготовка к битве).</span></p>
   </header>
 
   <div class="controls">
@@ -133,14 +135,14 @@
   </div>
 
   <!-- GOLDEN WINDOW -->
-  <h2 class="section">💎 <span class="lng-de">Golden Window — Fr 19.06</span><span class="lng-en">Golden Window — Fri 19 June</span><span class="lng-tr">Golden Window — Cuma 19.06</span><span class="lng-ru">Golden Window — Пт 19.06</span></h2>
+  <h2 class="section">💎 <span class="lng-de">Golden Window — Do 18.06</span><span class="lng-en">Golden Window — Thu 18 June</span><span class="lng-tr">Golden Window — Per 18.06</span><span class="lng-ru">Golden Window — Чт 18.06</span></h2>
   <div class="gw-box">
     <div><span class="lng-de"><b>Golden Window Truppen-Training: 08:00 – 12:00 UTC.</b> Hier laufen <b>Allianzduell</b> (Tag „Schlachtvorbereitung") und <b>Power Play</b> (Runde „Truppenverbesserung") zusammen — derselbe Einsatz zählt <b>DREIFACH</b>: Allianzduell-Punkte + Power-Play-Punkte + echte Truppen. Dafür <b>Trainings-Speedups</b> einsetzen und lange Truppen-Ausbildung genau jetzt fertig werden lassen.</span><span class="lng-en"><b>Golden Window troop training: 08:00 – 12:00 UTC.</b> Here <b>Alliance Duel</b> (day "battle prep") and <b>Power Play</b> (round "troop upgrade") line up — the same effort counts <b>TRIPLE</b>: duel points + power-play points + real troops. So use <b>training speedups</b> and finish long troop training exactly now.</span><span class="lng-tr"><b>Golden Window birlik eğitimi: 08:00 – 12:00 UTC.</b> Burada <b>Alliance Duel</b> (gün "battle prep") ve <b>Power Play</b> (tur "troop upgrade") çakışır — aynı çaba <b>ÜÇ KAT</b> sayar: düello puanı + power-play puanı + gerçek birlikler. O yüzden <b>eğitim hızlandırıcılarını</b> kullan ve uzun birlik eğitimini tam şimdi bitir.</span><span class="lng-ru"><b>Golden Window обучение войск: 08:00 – 12:00 UTC.</b> Здесь <b>Alliance Duel</b> (день "battle prep") и <b>Power Play</b> (раунд "troop upgrade") совпадают — одно и то же действие считается <b>ТРОЙНЫМ</b>: очки дуэли + очки power-play + реальные войска. Поэтому используй <b>ускорители обучения</b> и заверши долгое обучение войск именно сейчас.</span></div>
     <div class="zones" id="gwZones"></div>
   </div>
 
   <!-- TIMELINE -->
-  <h2 class="section">📅 <span class="lng-de">Timeline — Freitag 19.06</span><span class="lng-en">Timeline — Friday 19 June</span><span class="lng-tr">Zaman çizelgesi — Cuma 19.06</span><span class="lng-ru">Таймлайн — Пятница 19.06</span></h2>
+  <h2 class="section">📅 <span class="lng-de">Timeline — Donnerstag 18.06</span><span class="lng-en">Timeline — Thursday 18 June</span><span class="lng-tr">Zaman çizelgesi — Per 18.06</span><span class="lng-ru">Таймлайн — Четверг 18.06</span></h2>
   <p class="lead"><span class="lng-de">Nur die wichtigsten Nachrichten (P1/P2), chronologisch nach <b>Sendezeit</b>. Bestätigte Rallys erscheinen automatisch.</span><span class="lng-en">Only the most important messages (P1/P2), in chronological order by <b>send time</b>. Confirmed rallies appear automatically.</span><span class="lng-tr">Yalnızca en önemli mesajlar (P1/P2), <b>gönderim saatine</b> göre kronolojik sırada. Onaylanan rally'ler otomatik olarak görünür.</span><span class="lng-ru">Только самые важные сообщения (P1/P2), в хронологическом порядке по <b>времени отправки</b>. Подтверждённые рейды появляются автоматически.</span></p>
   <div class="tl" id="timeline"><div class="tl-line"></div></div>
 
@@ -149,10 +151,10 @@
   <div id="byEvent"></div>
 
   <footer>
-    <span class="lng-de">S1L Info-Hub · R4 · Templates & Timeline · Probe 19.06.2026 · Pflegt: Alex.<br>
-    Prio (Wichtigkeit heute): <b>P1</b> wichtigste · <b>P2</b> wichtig · <b>P3</b> nachrangig · <b>opt</b> optional. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L Info Hub · R4 · Templates & Timeline · Test 19 June 2026 · Maintained by Alex.<br>
-    Priority (importance today): <b>P1</b> most important · <b>P2</b> important · <b>P3</b> minor · <b>opt</b> optional. Drafts only — Jac sends.</span><span class="lng-tr">S1L Info Hub · R4 · Templates & Timeline · Deneme 19 Haziran 2026 · Sorumlu: Alex.<br>
-    Öncelik (bugünkü önem): <b>P1</b> en önemli · <b>P2</b> önemli · <b>P3</b> ikincil · <b>opt</b> opsiyonel. Yalnızca taslak — Jac gönderir.</span><span class="lng-ru">S1L Info Hub · R4 · Templates & Timeline · Проба 19 июня 2026 · Ведёт: Alex.<br>
+    <span class="lng-de">S1L Info-Hub · R4 · Templates & Timeline · Probe 18.06.2026 · Pflegt: Alex.<br>
+    Prio (Wichtigkeit heute): <b>P1</b> wichtigste · <b>P2</b> wichtig · <b>P3</b> nachrangig · <b>opt</b> optional. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L Info Hub · R4 · Templates & Timeline · Test 18 June 2026 · Maintained by Alex.<br>
+    Priority (importance today): <b>P1</b> most important · <b>P2</b> important · <b>P3</b> minor · <b>opt</b> optional. Drafts only — Jac sends.</span><span class="lng-tr">S1L Info Hub · R4 · Templates & Timeline · Deneme 18 Haziran 2026 · Sorumlu: Alex.<br>
+    Öncelik (bugünkü önem): <b>P1</b> en önemli · <b>P2</b> önemli · <b>P3</b> ikincil · <b>opt</b> opsiyonel. Yalnızca taslak — Jac gönderir.</span><span class="lng-ru">S1L Info Hub · R4 · Templates & Timeline · Проба 18 июня 2026 · Ведёт: Alex.<br>
     Приоритет (важность сегодня): <b>P1</b> самое важное · <b>P2</b> важное · <b>P3</b> второстепенное · <b>opt</b> опционально. Только черновики — отправляет Jac.</span>
   </footer>
 </div>
@@ -219,7 +221,7 @@ function rName(ev,lang){ return {loewe:lang==="de"?"GHULÖWE":"GHOULION",reservo
 /* ===== Feste Nachrichten ===== */
 var MSGS=[
 { id:"brief", ev:"brief", typ:"Full Day Briefing", prio:"P1", rev:"unsicher", tl:true, tmin:0, send:"00:00–08:00",
- de:`#190 ***** HEUTE - Fr 19. Juni ***** #190
+ de:`#190 ***** HEUTE - Do 18. Juni ***** #190
 ———
 #163 ***** FOKUS ***** #163
 #080 Allianzduell Tag 5 Schlachtvorbereitung
@@ -235,7 +237,7 @@ var MSGS=[
 #074 FREI: Wandering Infected, Minispiele
 ———
 #078 Gemeinsam sind wir stark!`,
- en:`#190 ***** TODAY - Fri 19 June ***** #190
+ en:`#190 ***** TODAY - Thu 18 June ***** #190
 ———
 #163 ***** FOCUS ***** #163
 #080 Alliance Duel Day 5 Battle Prep
@@ -251,7 +253,7 @@ var MSGS=[
 #074 FREE: Wandering Infected, mini games
 ———
 #078 Together we are stronger!`,
- tr:`#190 ***** BUGÜN - Cuma 19 Haziran ***** #190
+ tr:`#190 ***** BUGÜN - Per 18 Haziran ***** #190
 ———
 #163 ***** ODAK ***** #163
 #080 Alliance Duel 5. Gün Battle Prep
@@ -267,7 +269,7 @@ var MSGS=[
 #074 SERBEST: Wandering Infected, mini oyunlar
 ———
 #078 Birlikte daha güçlüyüz!`,
- ru:`#190 ***** СЕГОДНЯ - Пт 19 июня ***** #190
+ ru:`#190 ***** СЕГОДНЯ - Чт 18 июня ***** #190
 ———
 #163 ***** ФОКУС ***** #163
 #080 Alliance Duel День 5 Battle Prep
