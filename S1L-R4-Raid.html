@@ -370,5 +370,6 @@ function boot(){
 function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){boot();return;} setTimeout(waitContent,200); }
 if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
 </script>
+<script src="banner.js"></script>
 </body>
 </html>

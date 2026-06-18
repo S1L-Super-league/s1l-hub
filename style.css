@@ -107,3 +107,15 @@ footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px so
   background:#fde68a; color:#7c2d12; border:1.5px solid #f59e0b; border-radius:9px;
   padding:5px 10px; font-size:.78rem; font-weight:700; box-shadow:var(--shadow); }
 #langnote[hidden]{ display:none !important; }
+
+/* ===== Hub-Banner (oben auf jeder Seite) ===== */
+.hub-banner{ position:relative; width:100%; max-width:1100px; margin:6px auto 26px; padding:0 12px; box-sizing:border-box; }
+.hub-banner-img{ width:100%; height:clamp(140px,24vw,280px); object-fit:cover; object-position:50% 40%;
+  display:block; border-radius:14px; box-shadow:var(--shadow); }
+/* R4-Seiten: Gold-Krone als Medaillon unten mittig am Banner */
+.hub-r4-emblem{ position:absolute; left:50%; bottom:-22px; transform:translateX(-50%); width:66px; height:auto;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.55)); z-index:2; }
+@media(max-width:560px){ .hub-r4-emblem{ width:52px; bottom:-16px; } }
+/* Banner auf dem Login-/Eintritts-Screen (in der Login-Karte) */
+.gate-banner{ max-width:none; margin:0 0 14px; padding:0; }
+.gate-banner .hub-banner-img{ height:96px; object-fit:cover; object-position:50% 40%; border-radius:10px; }
