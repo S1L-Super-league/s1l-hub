@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mitmachen — Vorschläge & Feedback — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .frm label{ display:block; font-weight:700; margin:10px 0 4px; }
+  .frm select, .frm input[type=text], .frm textarea{ width:100%; padding:10px; border:2px solid var(--line); border-radius:10px; background:var(--bg); color:var(--ink); font-size:.95rem; font-family:inherit; }
+  .frm textarea{ min-height:90px; }
+  .frm .hint{ color:var(--muted); font-size:.85rem; margin:2px 0 0; }
+  .frm .ok{ color:var(--ok,#0f9d58); font-weight:700; margin-top:8px; }
+  .catbox{ background:rgba(127,127,127,.08); border:1px solid var(--line); border-radius:10px; padding:8px 11px; margin:6px 0 4px; font-size:.88rem; }
+</style>
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p><span class="lng-de">Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</span><span class="lng-en">Members only [S1L]. Please enter your player name and password.</span><span class="lng-tr">Yalnızca [S1L] üyeleri. Lütfen oyuncu adınızı ve şifrenizi girin.</span><span class="lng-ru">Только для участников [S1L]. Введите игровое имя и пароль.</span></p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Log in</span><span class="lng-tr">Giriş yap</span><span class="lng-ru">Войти</span></button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="index.html"><span class="lng-de">← Zurück zum Hub</span><span class="lng-en">← Back to Hub</span><span class="lng-tr">← Hub'a geri dön</span><span class="lng-ru">← Назад в Hub</span></a>
+  <header>
+    <h1>💡 <span class="lng-de">Mitmachen — Vorschläge & Feedback</span><span class="lng-en">Get involved — suggestions & feedback</span><span class="lng-tr">Katıl — öneriler & geri bildirim</span><span class="lng-ru">Участвуй — предложения и отзывы</span></h1>
+    <p class="lead"><span class="lng-de">Dein Wissen zählt — viele kennen das Spiel richtig gut. Teile Ideen, Tipps oder sag uns, was nicht passt. Freundlich &amp; freiwillig, der Name ist optional.</span><span class="lng-en">Your knowledge counts — many of you know the game really well. Share ideas, tips, or tell us what's off. Friendly &amp; voluntary, the name is optional.</span><span class="lng-tr">Bilgin önemli — birçoğunuz oyunu gerçekten iyi biliyor. Fikirlerini, ipuçlarını paylaş ya da neyin yanlış olduğunu söyle. Dostça &amp; gönüllü, isim isteğe bağlı.</span><span class="lng-ru">Твои знания важны — многие отлично знают игру. Делись идеями, советами или скажи, что не так. По-дружески и добровольно, имя по желанию.</span></p>
+  </header>
+
+  <!-- ===== STRATEGIE & TIPPS ===== -->
+  <h2 class="section">🧠 <span class="lng-de">Strategie & Tipps</span><span class="lng-en">Strategy & tips</span><span class="lng-tr">Strateji & ipuçları</span><span class="lng-ru">Стратегия и советы</span></h2>
+  <div class="card frm">
+    <p class="hint"><span class="lng-de">Eine Strategie-Idee, ein Trick, eine Beobachtung — oder einfach, was gut läuft. Jede Idee hilft dem Schwarmwissen.</span><span class="lng-en">A strategy idea, a trick, an observation — or simply what's working well. Every idea helps our shared knowledge.</span><span class="lng-tr">Bir strateji fikri, bir hile, bir gözlem — ya da sadece iyi giden bir şey. Her fikir ortak bilgiye yardımcı olur.</span><span class="lng-ru">Идея стратегии, приём, наблюдение — или просто что хорошо работает. Любая идея помогает общим знаниям.</span></p>
+
+    <label><span class="lng-de">Für welches Event?</span><span class="lng-en">Which event?</span><span class="lng-tr">Hangi etkinlik?</span><span class="lng-ru">Какое событие?</span></label>
+    <select id="s-ev"></select>
+    <input id="s-evtext" type="text" style="display:none;margin-top:6px">
+
+    <label><span class="lng-de">Name (optional)</span><span class="lng-en">Name (optional)</span><span class="lng-tr">İsim (isteğe bağlı)</span><span class="lng-ru">Имя (по желанию)</span></label>
+    <input id="s-name" type="text">
+
+    <label><span class="lng-de">Deine Idee / Beobachtung</span><span class="lng-en">Your idea / observation</span><span class="lng-tr">Fikrin / gözlemin</span><span class="lng-ru">Твоя идея / наблюдение</span></label>
+    <textarea id="s-text"></textarea>
+
+    <div style="margin-top:10px"><button class="btn" id="s-send" type="button"><span class="lng-de">Vorschlag senden</span><span class="lng-en">Send suggestion</span><span class="lng-tr">Öneri gönder</span><span class="lng-ru">Отправить предложение</span></button></div>
+    <div class="ok" id="s-ok" style="display:none"><span class="lng-de">Danke! Dein Vorschlag ist bei der R4 gelandet. 🙌</span><span class="lng-en">Thank you! Your suggestion reached the R4. 🙌</span><span class="lng-tr">Teşekkürler! Önerin R4'e ulaştı. 🙌</span><span class="lng-ru">Спасибо! Твоё предложение получено R4. 🙌</span></div>
+  </div>
+
+  <!-- ===== FEEDBACK & FEHLERMELDUNG ===== -->
+  <h2 class="section">🛠️ <span class="lng-de">Feedback & Fehlermeldung</span><span class="lng-en">Feedback & bug report</span><span class="lng-tr">Geri bildirim & hata bildirimi</span><span class="lng-ru">Отзыв и сообщение об ошибке</span></h2>
+  <div class="card frm">
+    <div class="catbox">
+      <b><span class="lng-de">Was bedeutet was?</span><span class="lng-en">What means what?</span><span class="lng-tr">Ne ne demek?</span><span class="lng-ru">Что есть что?</span></b><br>
+      <span class="lng-de">• <b>Feedback</b> = alles, was wichtig ist, dass wir es hören (Lob, Wunsch, Hinweis).<br>• <b>Fehler</b> = etwas stimmt nicht / ist falsch (im Hub, in einer Info, in einem Template).</span><span class="lng-en">• <b>Feedback</b> = anything important for us to hear (praise, wish, note).<br>• <b>Bug</b> = something is wrong / incorrect (in the hub, an info, a template).</span><span class="lng-tr">• <b>Geri bildirim</b> = duymamızın önemli olduğu her şey (övgü, istek, not).<br>• <b>Hata</b> = bir şey yanlış / hatalı (hub'da, bir bilgide, bir şablonda).</span><span class="lng-ru">• <b>Отзыв</b> = всё, что нам важно услышать (похвала, пожелание, замечание).<br>• <b>Ошибка</b> = что-то не так / неверно (в Hub, в инфо, в шаблоне).</span>
+    </div>
+
+    <label><span class="lng-de">Art</span><span class="lng-en">Type</span><span class="lng-tr">Tür</span><span class="lng-ru">Тип</span></label>
+    <select id="f-cat"></select>
+
+    <label><span class="lng-de">Wofür?</span><span class="lng-en">What for?</span><span class="lng-tr">Ne için?</span><span class="lng-ru">Для чего?</span></label>
+    <select id="f-area"></select>
+    <input id="f-areatext" type="text" style="display:none;margin-top:6px">
+
+    <label><span class="lng-de">Name (optional)</span><span class="lng-en">Name (optional)</span><span class="lng-tr">İsim (isteğe bağlı)</span><span class="lng-ru">Имя (по желанию)</span></label>
+    <input id="f-name" type="text">
+
+    <label><span class="lng-de">Dein Text</span><span class="lng-en">Your message</span><span class="lng-tr">Mesajın</span><span class="lng-ru">Твоё сообщение</span></label>
+    <textarea id="f-text"></textarea>
+
+    <div style="margin-top:10px"><button class="btn" id="f-send" type="button"><span class="lng-de">Senden</span><span class="lng-en">Send</span><span class="lng-tr">Gönder</span><span class="lng-ru">Отправить</span></button></div>
+    <div class="ok" id="f-ok" style="display:none"><span class="lng-de">Danke! Angekommen bei der R4. 🙌</span><span class="lng-en">Thank you! Received by the R4. 🙌</span><span class="lng-tr">Teşekkürler! R4'e ulaştı. 🙌</span><span class="lng-ru">Спасибо! Получено R4. 🙌</span></div>
+  </div>
+
+  <footer><span class="lng-de">S1L Info-Hub · Mitmachen · Daten unsensibel (Gamertags). Bitte respektvoll &amp; freundlich — wir sind ein Team.</span><span class="lng-en">S1L Info Hub · Get involved · Data non-sensitive (gamertags). Please be respectful &amp; kind — we're a team.</span><span class="lng-tr">S1L Info-Hub · Katıl · Veriler hassas değil (gamertag'ler). Lütfen saygılı &amp; nazik olun — biz bir takımız.</span><span class="lng-ru">S1L Info-Hub · Участие · Данные неконфиденциальны (геймертеги). Пожалуйста, уважительно и по-доброму — мы команда.</span></footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+var firebaseConfig = { apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
+var db=null;
+function initFb(){ try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); db=firebase.firestore(); }catch(e){ db=null; } }
+function curLang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
+function lab(o){ var l=curLang(); return o[l]||o.en||o.de; }
+function val(id){ var e=document.getElementById(id); return e?e.value.trim():""; }
+
+/* Auswahl-Listen je Sprache (Spans gehen in <option> nicht) */
+var FREI={v:"__frei",de:"✏️ Anderes (Freitext)",en:"✏️ Other (free text)",tr:"✏️ Diğer (serbest metin)",ru:"✏️ Другое (свободный текст)"};
+var OPT_EV=[
+  {v:"Allgemein",de:"🌐 Allgemein",en:"🌐 General",tr:"🌐 Genel",ru:"🌐 Общее"},
+  {v:"Allianzduell",de:"⚔️ Allianzduell",en:"⚔️ Alliance Duel",tr:"⚔️ Alliance Duel",ru:"⚔️ Alliance Duel"},
+  {v:"Stadtduell",de:"🌃 Stadtduell",en:"🌃 City Duel",tr:"🌃 City Duel",ru:"🌃 City Duel"},
+  {v:"Reservoir Raid",de:"🐟 Reservoir Raid",en:"🐟 Reservoir Raid",tr:"🐟 Reservoir Raid",ru:"🐟 Reservoir Raid"},
+  {v:"Ghulöwe",de:"🦁 Ghulöwe",en:"🦁 Ghoulion",tr:"🦁 Ghoulion",ru:"🦁 Ghoulion"},
+  {v:"Allianzbelagerung",de:"👑 Allianzbelagerung",en:"👑 Arcadian Conquest",tr:"👑 Arcadian Conquest",ru:"👑 Arcadian Conquest"},
+  {v:"Power Play",de:"👊 Power Play",en:"👊 Power Play",tr:"👊 Power Play",ru:"👊 Power Play"},
+  {v:"Turbo-Schildkröte",de:"🌪️ Turbo-Schildkröte",en:"🌪️ Turbo Turtle",tr:"🌪️ Turbo Turtle",ru:"🌪️ Turbo Turtle"},
+  {v:"Verlorene Grenze",de:"👾 Verlorene Grenze",en:"👾 Lost Frontier",tr:"👾 Lost Frontier",ru:"👾 Lost Frontier"},
+  {v:"Cave/Burrow",de:"🦂 Cave / Burrow",en:"🦂 Cave / Burrow",tr:"🦂 Cave / Burrow",ru:"🦂 Cave / Burrow"},
+  {v:"Goldmine",de:"💰 Goldmine",en:"💰 Gold Mine",tr:"💰 Gold Mine",ru:"💰 Gold Mine"},
+  {v:"Wandering Infected",de:"👻 Wandering Infected",en:"👻 Wandering Infected",tr:"👻 Wandering Infected",ru:"👻 Wandering Infected"},
+  FREI ];
+var OPT_CAT=[
+  {v:"Feedback",de:"💬 Feedback",en:"💬 Feedback",tr:"💬 Geri bildirim",ru:"💬 Отзыв"},
+  {v:"Fehler",de:"🐞 Fehler",en:"🐞 Bug",tr:"🐞 Hata",ru:"🐞 Ошибка"} ];
+var OPT_AREA=[
+  {v:"Hub-Seite",de:"Hub-Seite",en:"Hub page",tr:"Hub sayfası",ru:"Страница Hub"},
+  {v:"Event-Infos",de:"Event-Infos",en:"Event info",tr:"Etkinlik bilgisi",ru:"Инфо о событии"},
+  {v:"Templates/Ansagen",de:"Templates / Ansagen",en:"Templates / messages",tr:"Şablonlar / duyurular",ru:"Шаблоны / объявления"},
+  {v:"Strategie",de:"Strategie",en:"Strategy",tr:"Strateji",ru:"Стратегия"},
+  {v:"Discord",de:"Discord",en:"Discord",tr:"Discord",ru:"Discord"},
+  {v:"Sonstiges",de:"Sonstiges",en:"Other",tr:"Diğer",ru:"Прочее"},
+  FREI ];
+var PH={
+  evtext:{de:"Event / Thema…",en:"Event / topic…",tr:"Etkinlik / konu…",ru:"Событие / тема…"},
+  areatext:{de:"Wofür genau…",en:"What exactly…",tr:"Tam olarak ne için…",ru:"Для чего именно…"},
+  name:{de:"z. B. dein Gamertag",en:"e.g. your gamertag",tr:"örn. gamertag'in",ru:"напр. твой геймертег"},
+  text:{de:"…",en:"…",tr:"…",ru:"…"}
+};
+function fillSel(id,arr){ var s=document.getElementById(id); if(!s)return; var v=s.value; s.innerHTML=arr.map(function(o){ return '<option value="'+o.v+'">'+lab(o)+'</option>'; }).join(''); if(v) s.value=v; }
+function setPh(id,d){ var e=document.getElementById(id); if(e) e.placeholder=lab(d); }
+function applyLangBits(){
+  fillSel("s-ev",OPT_EV); fillSel("f-cat",OPT_CAT); fillSel("f-area",OPT_AREA);
+  setPh("s-evtext",PH.evtext); setPh("f-areatext",PH.areatext);
+  setPh("s-name",PH.name); setPh("f-name",PH.name); setPh("s-text",PH.text); setPh("f-text",PH.text);
+}
+document.addEventListener('s1l:lang', applyLangBits);
+
+function bindFreitext(sel,inp){ var s=document.getElementById(sel), i=document.getElementById(inp); if(!s)return; s.onchange=function(){ i.style.display = s.value==="__frei" ? "block":"none"; }; }
+function done(ok){ ok.style.display="block"; setTimeout(function(){ ok.style.display="none"; },4000); }
+function send(kind){
+  if(!db){ alert("Verbindung fehlt — bitte später erneut versuchen."); return; }
+  if(kind==="s"){
+    var ev=val("s-ev")==="__frei" ? (val("s-evtext")||"Anderes") : val("s-ev");
+    if(!val("s-text")) return;
+    db.collection("suggestions").add({ ev:ev, name:val("s-name"), text:val("s-text"), tms:Date.now(), votes:{} })
+      .then(function(){ document.getElementById("s-text").value=""; done(document.getElementById("s-ok")); })
+      .catch(function(e){ alert("Fehler: "+(e.code||e.message)); });
+  } else {
+    var area=val("f-area")==="__frei" ? (val("f-areatext")||"Anderes") : val("f-area");
+    if(!val("f-text")) return;
+    db.collection("feedback").add({ cat:val("f-cat"), area:area, name:val("f-name"), text:val("f-text"), tms:Date.now(), votes:{} })
+      .then(function(){ document.getElementById("f-text").value=""; done(document.getElementById("f-ok")); })
+      .catch(function(e){ alert("Fehler: "+(e.code||e.message)); });
+  }
+}
+function boot(){
+  initFb(); applyLangBits();
+  bindFreitext("s-ev","s-evtext"); bindFreitext("f-area","f-areatext");
+  document.getElementById("s-send").onclick=function(){ send("s"); };
+  document.getElementById("f-send").onclick=function(){ send("f"); };
+}
+function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
+if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
+</script>
+<script src="lang.js"></script>
+</body>
+</html>
