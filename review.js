@@ -49,7 +49,7 @@
     initFb(function(){ try{ if(typeof firebase!=='undefined'){ if(!firebase.apps.length) firebase.initializeApp(FB);
       col=firebase.firestore().collection('reviews');
       col.onSnapshot(function(s){ s.forEach(function(d){ cache[d.id]=(d.data()||{}).s; }); renderChips(); }, function(){ col=null; }); } }catch(e){ col=null; } });
-    document.addEventListener('click',function(e){ var el=e.target.closest('.rev[data-rev]'); if(el && isR4()) cycle(el); });
+    document.addEventListener('click',function(e){ var el=e.target.closest('.rev[data-rev]'); if(el && isR4()){ e.preventDefault(); e.stopPropagation(); cycle(el); } }, true);
   }
   if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
 })();
