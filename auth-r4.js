@@ -2,18 +2,19 @@
    EIGENES Tor für den R4-/Offiziers-Bereich — getrennt vom Mitglieder-Login (auth.js)
    UND vom Verwaltungs-Login. EINZIGE Stelle zum Passwort-Wechsel: die Liste R4_ALLOWED unten
    + das R4-Passwort, das du SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
-   Jeder Eintrag = SHA-256 von "spielername:passwort" (Name klein geschrieben).
+   Jeder Eintrag = SHA-256 von "spielername:passwort" — Name UND Passwort klein geschrieben
+   (Login ist groß-/kleinschreibungs-unabhängig: Eingabe wird vor dem Hashen kleingeschrieben).
    Stand 16.06.2026: Trusted-/R4-Kern (8). Löst die alte Verwaltungsseite ab.
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var R4_ALLOWED = [
-  "75ed960ca7e896a38a50d2891bac3459549dd6eaf293515a2d30d78f28c89050", // kingeder
-  "1d0699ca996b6f9adca85a0f56e3e6253cdbb3233826be2c9b97673c51cb8c8c", // crexoog
-  "8457c1ae37818feea5e95c93189caedaf303f8d8ed593c36959d14a1ad9a31c1", // hmx
-  "cf49f54e52510e0ab21747c81d1d743f450f80ac5392421e3f242cec7f8e2031", // lady m
-  "922b0b521d77f22836dfe466705119ed26b2342115887ec0c1a32ba86c03dfa3", // jac
-  "4fe571b256cf12da1da3932f914271e400b9cd3aee7593cefd0714c03381ac4c", // ghob
-  "17f474f68eeed2734ac8a5dd6519d65c54f01093cfc748cc5dbc169245bb082f", // војвода
-  "de750a08180c542b94f846dbb42e214770caa0329b42c82ef08f79dd0896fd77"  // bismillah
+  "5cb12da49b65a3e3dc8a1e8c56492d7fe55a8a6d14281f85dbbe00e1feb9bf07", // kingeder
+  "9aea7ebeba24779dc7db134bb428dc552b58898bdff23f435758f5a61cab2594", // crexoog
+  "2fd6719e67998b69432938a72e0006c08b78522f04bb5f5defe66307b0a3652d", // hmx
+  "43f8e523744923e6a842473538fba2974dde6d587e8a46c7a30e8ad139a22ed4", // lady m
+  "7e837083c68e26df18d872c16f18f09e28db7c2ca444f87d0a629ba5ecf7e081", // jac
+  "3ef5a8efcea34b84ab13d2e1b5c80415b5333b90a8b6e87a3b7fc79c1c9dea42", // ghob
+  "10755cff90e80c8eed248a5a4ed50c62133f4a8794f36368456b0dcd48fa82c2", // војвода
+  "92b0c80b4999ac172afbd1bf1c1b8f255b2599907931cb2ea830652c871bac93"  // bismillah
 ];
 
 function sha256js(ascii){
@@ -51,7 +52,7 @@ function r4Init(){
   var go=document.getElementById('go'); if(!go) return;
   var nm=document.getElementById('nm'), pw=document.getElementById('pw'), err=document.getElementById('err');
   async function tryOpen(){
-    var n=nm.value.trim().toLowerCase(), p=pw.value;
+    var n=nm.value.trim().toLowerCase(), p=pw.value.trim().toLowerCase();
     if(!n||!p){ err.textContent='Bitte Name und R4-Passwort eingeben.'; return; }
     var hsh=await hashInput(n+':'+p);
     if(R4_ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_r4_ok','1'); sessionStorage.setItem('s1l_r4_name', nm.value.trim()); reveal(); }

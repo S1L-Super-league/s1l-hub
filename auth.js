@@ -1,18 +1,20 @@
 /* ============ S1L Info-Hub — Login (Name + Passwort) ============
    EINZIGE Stelle zum Passwort-Wechsel: die Liste ALLOWED unten + das Passwort,
    das du den Mitgliedern SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
-   Jeder Eintrag = SHA-256 von "spielername:passwort" (Name klein geschrieben).
+   Jeder Eintrag = SHA-256 von "spielername:passwort" — Name UND Passwort klein geschrieben
+   (Login ist groß-/kleinschreibungs-unabhängig: Eingabe wird vor dem Hashen kleingeschrieben).
    Stand 16.06.2026: nur Trusted-/R4-Kern (8). Reguläre Mitglieder folgen später.
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var ALLOWED = [
-  "20190cb49f0f98986058d7455677476483f192d8127f1be4d43dce944e893b76", // kingeder
-  "7ecf15a56f22c2b95d32e226f36b2d58c47b9736d9f1cccb9284d2293d181442", // crexoog
-  "9779e3666efcb17845f3c4cbcfaaec04f58038c75223ff4abaad13229375d993", // hmx
-  "4d410cf3c325d8c6afb65484493f64c3a8566995757b32a5fcf0f0f00da02b85", // lady m
-  "bd03e23e28fc26de743d94aaadb2d3864d9a1b46a32bfc00037996c9006ebe4f", // jac
-  "67f2a9ca42c82eef8330c4ac4651787fc345268acfe12e98c4925c9f8320d4e2", // ghob
-  "3548f4358ff559bce66bedfc514208c57b7720a5c5600b30a2245021d112c3bc", // војвода
-  "f90af8f51d816847e69e7833e0ee65c9146568b584ea8ea587d5aabf20441bdd"  // bismillah
+  "d2898ff9e1442e79e6376b96891e3e209074a49b9353b67b2488464ba01504b8", // kingeder
+  "49d1801482e6e333a91c4e82ec3d297bfd40ff019c28ddaf6d3117d26638c497", // crexoog
+  "45d0321d8dff232f48f10211fd1fd8e34e1e74d9b05270c3029ca8256263d46f", // hmx
+  "ef5d38f4658e1fc15ce7c69ec76641d128ceddb38f9f96c1661d9c9a6540200a", // lady m
+  "15eac333bfd3d9f85b0b921f163d23595746db8ec1b2d95404d09814aeb5de5c", // jac
+  "5a77c09e14ebe859238b18b8e545fe417742fb07df269dd9080ed7e152d36af0", // ghob
+  "b2962df639ce6a2c8b5a7bf0d1c48911e6b12fade87a43d490b7ad6943275904", // војвода
+  "52c2b66e319c7e64ac77bcb9e935999b4e44df10b15cd4525378901ee084beb9", // bismillah
+  "8ddfe0d79f4fae0500570111d9c724975c4785625310e9bb907bf5842e6a199d"  // drdr387 (R3 — nur S1L, kein R4)
 ];
 
 function sha256js(ascii){
@@ -50,7 +52,7 @@ function s1lInit(){
   var go=document.getElementById('go'); if(!go) return;
   var nm=document.getElementById('nm'), pw=document.getElementById('pw'), err=document.getElementById('err');
   async function tryOpen(){
-    var n=nm.value.trim().toLowerCase(), p=pw.value;
+    var n=nm.value.trim().toLowerCase(), p=pw.value.trim().toLowerCase();
     if(!n||!p){ err.textContent='Bitte Name und Passwort eingeben.'; return; }
     var hsh=await hashInput(n+':'+p);
     if(ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_ok','1'); reveal(); }

@@ -96,6 +96,17 @@ function curLang(){ return document.documentElement.getAttribute('data-lang')||'
 function lab(o){ var l=curLang(); return o[l]||o.en||o.de; }
 function val(id){ var e=document.getElementById(id); return e?e.value.trim():""; }
 
+/* KI-Übersetzung (gleicher Worker wie die Pinnwand) — Beitrag landet bei R4 in allen Sprachen. */
+var TRANSLATE_URL="https://s1l-translate.jacqueline-lex.workers.dev";
+function translate(text, cb){
+  try{
+    fetch(TRANSLATE_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text:text }) })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ cb(j && (j.de||j.en||j.tr||j.ru) ? j : null); })
+      .catch(function(){ cb(null); });
+  }catch(e){ cb(null); }
+}
+
 /* Auswahl-Listen je Sprache (Spans gehen in <option> nicht) */
 var FREI={v:"__frei",de:"✏️ Anderes (Freitext)",en:"✏️ Other (free text)",tr:"✏️ Diğer (serbest metin)",ru:"✏️ Другое (свободный текст)"};
 var OPT_EV=[
@@ -140,20 +151,29 @@ document.addEventListener('s1l:lang', applyLangBits);
 
 function bindFreitext(sel,inp){ var s=document.getElementById(sel), i=document.getElementById(inp); if(!s)return; s.onchange=function(){ i.style.display = s.value==="__frei" ? "block":"none"; }; }
 function done(ok){ ok.style.display="block"; setTimeout(function(){ ok.style.display="none"; },4000); }
+function addTrans(doc, text, tr){ doc.t_orig=text; if(tr){ doc.t_de=tr.de||''; doc.t_en=tr.en||''; doc.t_tr=tr.tr||''; doc.t_ru=tr.ru||''; } return doc; }
 function send(kind){
   if(!db){ alert("Verbindung fehlt — bitte später erneut versuchen."); return; }
   if(kind==="s"){
     var ev=val("s-ev")==="__frei" ? (val("s-evtext")||"Anderes") : val("s-ev");
-    if(!val("s-text")) return;
-    db.collection("suggestions").add({ ev:ev, name:val("s-name"), text:val("s-text"), tms:Date.now(), votes:{} })
-      .then(function(){ document.getElementById("s-text").value=""; done(document.getElementById("s-ok")); })
-      .catch(function(e){ alert("Fehler: "+(e.code||e.message)); });
+    var text=val("s-text"); if(!text) return;
+    var btn=document.getElementById("s-send"); btn.disabled=true;
+    translate(text, function(tr){
+      db.collection("suggestions").add(addTrans({ ev:ev, name:val("s-name"), text:text, tms:Date.now(), votes:{} }, text, tr))
+        .then(function(){ document.getElementById("s-text").value=""; done(document.getElementById("s-ok")); })
+        .catch(function(e){ alert("Fehler: "+(e.code||e.message)); })
+        .then(function(){ btn.disabled=false; });
+    });
   } else {
     var area=val("f-area")==="__frei" ? (val("f-areatext")||"Anderes") : val("f-area");
-    if(!val("f-text")) return;
-    db.collection("feedback").add({ cat:val("f-cat"), area:area, name:val("f-name"), text:val("f-text"), tms:Date.now(), votes:{} })
-      .then(function(){ document.getElementById("f-text").value=""; done(document.getElementById("f-ok")); })
-      .catch(function(e){ alert("Fehler: "+(e.code||e.message)); });
+    var ftext=val("f-text"); if(!ftext) return;
+    var fbtn=document.getElementById("f-send"); fbtn.disabled=true;
+    translate(ftext, function(tr){
+      db.collection("feedback").add(addTrans({ cat:val("f-cat"), area:area, name:val("f-name"), text:ftext, tms:Date.now(), votes:{} }, ftext, tr))
+        .then(function(){ document.getElementById("f-text").value=""; done(document.getElementById("f-ok")); })
+        .catch(function(e){ alert("Fehler: "+(e.code||e.message)); })
+        .then(function(){ fbtn.disabled=false; });
+    });
   }
 }
 function boot(){

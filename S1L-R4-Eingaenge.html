@@ -60,6 +60,17 @@ function esc(t){ var e=document.createElement('div'); e.textContent=(t==null?'':
 function curLang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
 function L(de,en,tr,ru){ var m={de:de,en:en,tr:tr,ru:ru}; var pr={de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']}[curLang()]||['de']; for(var i=0;i<pr.length;i++){ if(m[pr[i]]!=null) return m[pr[i]]; } return de; }
 function tally(votes,kind){ var n=0; for(var k in votes){ if(votes[k]===kind) n++; } return n; }
+/* Beitrag in der R4-Sprache zeigen (KI-Übersetzung), Fallback gewählt->EN->DE->Original. */
+var SHOW_ORIG={};
+function hasTrans(p){ return !!(p.t_de||p.t_en||p.t_tr||p.t_ru); }
+function pickBody(p){
+  if(SHOW_ORIG[p.id]) return p.t_orig || p.text || '';
+  if(hasTrans(p)){
+    var order=({de:['t_de','t_en','t_tr','t_ru'],en:['t_en','t_de','t_tr','t_ru'],tr:['t_tr','t_en','t_de','t_ru'],ru:['t_ru','t_en','t_de','t_tr']})[curLang()]||['t_de','t_en','t_tr','t_ru'];
+    for(var i=0;i<order.length;i++){ if(p[order[i]]) return p[order[i]]; }
+  }
+  return p.t_orig || p.text || '';
+}
 
 function draw(elId,items,coll,isFeedback){
   var el=document.getElementById(elId); if(!el) return;
@@ -72,9 +83,12 @@ function draw(elId,items,coll,isFeedback){
       : '<span class="tag">'+esc(p.ev||"Allgemein")+'</span>';
     var name = p.name ? esc(p.name) : L("anonym","anonymous","anonim","аноним");
     var mine = votes[ME]||"";
+    var body=pickBody(p);
+    var tgl = hasTrans(p) ? '<a href="#" class="tgl" data-id="'+id+'" style="color:var(--muted);font-size:.78em;text-decoration:none">🌐 '+(SHOW_ORIG[id]?L("Übersetzung zeigen","Show translation","Çeviriyi göster","Показать перевод"):L("Original zeigen","Show original","Orijinali göster","Показать оригинал"))+'</a>' : '';
     html+='<div class="item">'
       + '<div class="meta">'+head+' · '+name+' · '+when+'</div>'
-      + '<div>'+esc(p.text).replace(/\n/g,"<br>")+'</div>'
+      + '<div>'+esc(body).replace(/\n/g,"<br>")+'</div>'
+      + (tgl?'<div style="margin:3px 0">'+tgl+'</div>':'')
       + '<div class="votes">'
       +   '<button class="vb'+(mine==="up"?" on":"")+'" data-v="up" data-c="'+coll+'" data-id="'+id+'">👍 '+tally(votes,"up")+'</button>'
       +   '<button class="vb'+(mine==="q"?" on":"")+'" data-v="q" data-c="'+coll+'" data-id="'+id+'">❓ '+tally(votes,"q")+'</button>'
@@ -103,6 +117,9 @@ function bindActions(el){
   el.querySelectorAll(".del").forEach(function(a){ a.onclick=function(e){ e.preventDefault();
     var coll=a.getAttribute("data-del"), id=a.getAttribute("data-id");
     if(confirm(L("Eintrag löschen?","Delete entry?","Girdi silinsin mi?","Удалить запись?"))) db.collection(coll).doc(id).delete().catch(function(){});
+  }; });
+  el.querySelectorAll(".tgl").forEach(function(a){ a.onclick=function(e){ e.preventDefault();
+    var id=a.getAttribute("data-id"); SHOW_ORIG[id]=!SHOW_ORIG[id]; drawAll();
   }; });
 }
 function askName(){ var n=prompt(L("Dein R4-Name (für deine Bewertung):","Your R4 name (for your rating):","R4 adın (değerlendirmen için):","Твоё имя R4 (для оценки):")); if(n){ n=n.trim(); if(n){ sessionStorage.setItem("s1l_r4_name",n); drawAll(); return n; } } return ""; }
