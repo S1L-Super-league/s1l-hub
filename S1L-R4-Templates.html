@@ -260,14 +260,13 @@ var MSGS=[
 #080 Allianzduell Tag 5 Schlachtvorbereitung
 #080 Golden Window Truppen 08:00-12:00 UTC: Truppen trainieren & Trainings-Speedups einsetzen (dreifach)
 ———
-#188 ***** NICHT TUN ***** #188
-#080 Trainings-Speedups & Truppen bis zum Golden Window SPAREN, nicht einzeln verbrauchen
-#080 Allianz geht vor - Turbo-Schildkröte nur nebenbei
+#163 ***** MAX REWARDS ***** #163
+#080 Material & Speedups fürs Golden Window SPAREN - die meisten Events werten sie (auch das Power-Play-Fenster)
+#080 VORHER sparen. Verpasst? Einfach volle Kanne - bringt trotzdem Fortschritt, nur die Power-Play-Punkte fehlen
+#080 Immer auf die Allianz fokussieren und Überlappungen nutzen - nicht Turbo-Schildkröte oder Power Play allein jagen, die Punkte kommen dann automatisch mit
 ———
 #176 ***** RALLYS HEUTE ***** #176
 {RALLYS}
-———
-#074 FREI: Wandering Infected, Minispiele
 ———
 #078 Gemeinsam sind wir stark!`,
  en:`#190 ***** TODAY - Fri 19 June ***** #190
@@ -276,14 +275,13 @@ var MSGS=[
 #080 Alliance Duel Day 5 Battle Prep
 #080 Golden Window troops 08:00-12:00 UTC: train troops & use training speedups (triple)
 ———
-#188 ***** DO NOT ***** #188
-#080 Training speedups & troops: SAVE for the Golden Window, not one by one
-#080 Alliance first - Turbo Turtle only on the side
+#163 ***** MAX REWARDS ***** #163
+#080 Save materials & speedups for the Golden Window - most events reward them (the Power Play window too)
+#080 Save BEFORE the window. Missed it? Just go full blast - you still progress, only the Power Play points are lost
+#080 Always focus on the Alliance and use the overlaps - do not chase Turbo Turtle or Power Play alone, the points come automatically
 ———
 #176 ***** RALLIES TODAY ***** #176
 {RALLYS}
-———
-#074 FREE: Wandering Infected, mini games
 ———
 #078 Together we are stronger!`,
  tr:`#190 ***** BUGÜN - Cum 19 Haziran ***** #190
@@ -292,14 +290,13 @@ var MSGS=[
 #080 Alliance Duel 5. Gün Battle Prep
 #080 Golden Window birlikler 08:00-12:00 UTC: birlik eğit & eğitim hızlandırıcıları kullan (üç kat)
 ———
-#188 ***** YAPMA ***** #188
-#080 Eğitim hızlandırıcıları & birlikler: Golden Window için SAKLA, tek tek kullanma
-#080 Önce ittifak - Turbo Turtle sadece yan iş
+#163 ***** MAX REWARDS ***** #163
+#080 Malzeme & hızlandırıcıları Golden Window için SAKLA - çoğu etkinlik bunları ödüllendirir (Power Play penceresi de)
+#080 ÖNCEDEN sakla. Kaçırdın mı? Tam gaz devam - yine ilerlersin, sadece Power Play puanları gider
+#080 Her zaman ittifağa odaklan ve çakışmaları kullan - Turbo Turtle ya da Power Play'i tek başına kovalama, puanlar otomatik gelir
 ———
 #176 ***** BUGÜNKÜ RALLY'LER ***** #176
 {RALLYS}
-———
-#074 SERBEST: Wandering Infected, mini oyunlar
 ———
 #078 Birlikte daha güçlüyüz!`,
  ru:`#190 ***** СЕГОДНЯ - Пт 19 июня ***** #190
@@ -308,46 +305,53 @@ var MSGS=[
 #080 Alliance Duel День 5 Battle Prep
 #080 Golden Window войска 08:00-12:00 UTC: обучай войска и используй ускорения обучения (тройной)
 ———
-#188 ***** НЕ ДЕЛАЙ ***** #188
-#080 Ускорения обучения и войска: береги для Golden Window, не по одному
-#080 Сначала альянс - Turbo Turtle только между делом
+#163 ***** MAX REWARDS ***** #163
+#080 Береги материалы и ускорения для Golden Window - большинство событий их награждают (и окно Power Play)
+#080 Береги ЗАРАНЕЕ. Пропустил? Просто на полную - прогресс всё равно идёт, теряются только очки Power Play
+#080 Всегда фокус на альянсе и используй пересечения - не гоняйся за Turbo Turtle или Power Play отдельно, очки приходят сами
 ———
 #176 ***** РЕЙДЫ СЕГОДНЯ ***** #176
 {RALLYS}
-———
-#074 СВОБОДНО: Wandering Infected, мини-игры
 ———
 #078 Вместе мы сильнее!` },
 
 { id:"wand", ev:"wand", typ:"Reminder (täglich)", prio:"P2", rev:"bereit", tl:true, tmin:600, send:"tagsüber",
  de:`#190 #069 WANDERING INFECTED - BELOHNUNGSMONSTER
 ———
-#080 Erster Sieg des Tages gegen ein Wandering Infected gibt eine Belohnung.
-#080 Mindestens Level 2 angreifen. Höher = bessere Belohnung.
-#080 Rally beitreten oder selbst starten zählt beides.
+#080 Nur der ERSTE Sieg am Tag gibt Punkte/Belohnung.
+#080 Eigenen Raid eröffnen? Allianz aktiv einladen - gemeinsam schneller tot.
+#080 Stirbt es nicht sofort: SOFORT weiter angreifen. Sonst zieht es zu deiner Siedlung und nur DU kannst weiter angreifen.
+#080 Zu nah an der Siedlung? Verstärkung anfordern - andere schicken Truppen zur Abwehr.
+#080 Brennt es? Sofort löschen (auf den Reaktor tippen) - weniger Schaden.
 ———
-Hol dir jeden Tag einen guten Sieg. #074 #189`,
+Ein guter Sieg pro Tag reicht. #074 #189`,
  en:`#190 #069 WANDERING INFECTED - REWARD MONSTER
 ———
-#080 First win of the day against a Wandering Infected gives a reward.
-#080 Attack at least Level 2. Higher = better reward.
-#080 Joining a raid or starting your own both count.
+#080 Only the FIRST win of the day gives points/reward.
+#080 Opening your own raid? Invite the alliance - faster together.
+#080 Not dead at once? Keep attacking NOW. Otherwise it moves to your city and only YOU can keep attacking.
+#080 Too close to your city? Ask for reinforcements - others send troops to defend.
+#080 On fire? Put it out at once (tap the reactor) - less damage.
 ———
-So grab one good win each day. #074 #189`,
+One good win a day is enough. #074 #189`,
  tr:`#190 #069 WANDERING INFECTED - ÖDÜL CANAVARI
 ———
-#080 Bir Wandering Infected'a karşı günün ilk galibiyeti bir ödül verir.
-#080 En az Level 2'ye saldır. Daha yüksek = daha iyi ödül.
-#080 Bir rally'ye katılmak da kendi rally'ni başlatmak da sayılır.
+#080 Sadece günün İLK galibiyeti puan/ödül verir.
+#080 Kendi raid'ini mi açıyorsun? İttifakı davet et - birlikte daha hızlı.
+#080 Hemen ölmedi mi? HEMEN saldırmaya devam et. Yoksa şehrine gelir ve sadece SEN saldırabilirsin.
+#080 Şehrine çok mu yakın? Takviye iste - diğerleri savunmak için birlik gönderir.
+#080 Yanıyor mu? Hemen söndür (reaktöre dokun) - daha az hasar.
 ———
-O yüzden her gün iyi bir galibiyet kap. #074 #189`,
+Günde bir iyi galibiyet yeter. #074 #189`,
  ru:`#190 #069 WANDERING INFECTED - МОНСТР С НАГРАДОЙ
 ———
-#080 Первая победа за день над Wandering Infected даёт награду.
-#080 Атакуй хотя бы Level 2. Выше = лучше награда.
-#080 Присоединиться к рейду или начать свой - засчитывается и то, и другое.
+#080 Только ПЕРВАЯ победа за день даёт очки/награду.
+#080 Открываешь свой рейд? Пригласи альянс - вместе быстрее.
+#080 Не умер сразу? Атакуй СНОВА немедленно. Иначе он пойдёт к твоему городу и только ТЫ сможешь атаковать дальше.
+#080 Слишком близко к городу? Попроси подкрепление - другие пришлют войска на защиту.
+#080 Горит? Туши сразу (нажми на реактор) - меньше урона.
 ———
-Так что хватай по одной хорошей победе каждый день. #074 #189` },
+Одной хорошей победы в день достаточно. #074 #189` },
 
 { id:"gwSoon", ev:"duell", typ:"~30 Min vorher", prio:"P1", rev:"bereit", tl:true, tmin:450, send:"07:30 UTC", win:{s:"08:00",e:"12:00"},
  de:`#190 #176 GOLDEN WINDOW GLEICH - TRUPPEN
@@ -547,7 +551,7 @@ document.addEventListener("s1l:lang", function(e){ setLang(e.detail); });
 
 function standingLine(){ var L={de:{lead:"#163 Wir führen - locker halten, Vorsprung sichern.",close:"#167 Es ist knapp - heute zählt jeder Punkt.",behind:"#188 Wir liegen zurück - jetzt die Top-Aufgaben pushen, aufholen."},en:{lead:"#163 We lead - hold it, keep the lead.",close:"#167 It's close - every point counts tonight.",behind:"#188 We're behind - push the top tasks now to catch up."},tr:{lead:"#163 Öndeyiz - rahat tut, önü koru.",close:"#167 Başa baş - bu gece her puan önemli.",behind:"#188 Geride kaldık - şimdi en önemli görevleri zorla, açığı kapat."},ru:{lead:"#163 Мы ведём - держим, сохраняем отрыв.",close:"#167 Впритык - сегодня важен каждый балл.",behind:"#188 Мы отстаём - сейчас жмём на главные задачи, догоняем."}}; return (L[state.lang]||L.en)[state.standing]; }
 function rallyBriefLines(){ if(!state.rallies.length) return state.lang==="de"?"#080 (noch keine Rally bestätigt)":"#080 (no rally confirmed yet)";
-  return state.rallies.map(function(r){ return "#080 "+(RMARK[r.ev]||"")+" "+EV[r.ev].name+" "+r.su+" UTC ("+addH(r.su,2)+" DE)"; }).join("\n"); }
+  return state.rallies.map(function(r){ return "#080 "+(RMARK[r.ev]||"")+" "+EV[r.ev].name+"\n"+tzBlock(r.su, r.eu||null); }).join("\n———\n"); }
 
 /* Rally -> Timeline-Nachrichten */
 function rallyMsgs(){ var arr=[]; state.rallies.forEach(function(r,i){

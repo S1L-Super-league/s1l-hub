@@ -77,8 +77,23 @@ var firebaseConfig = {
 };
 var PRUNE_DAYS = 14;   // Beiträge älter als X Tage werden automatisch gelöscht
 var MAX_SHOW   = 60;   // so viele neueste Beiträge anzeigen
+var TRANSLATE_URL = "https://s1l-translate.jacqueline-lex.workers.dev"; // Cloudflare Worker (Claude Haiku) — KI-Übersetzung
 
 function esc(t){ var e=document.createElement('div'); e.textContent=(t==null?'':t); return e.innerHTML; }
+
+/* Aktuelle Hub-Sprache (von lang.js gesetzt) + Mini-Übersetzungshelfer für die Oberfläche. */
+function curLang(){ try{ var l=localStorage.getItem('s1l_lang'); if(l) return l; }catch(e){} var d=document.documentElement.getAttribute('data-lang'); return d||'de'; }
+function L(de,en,tr,ru){ var m={de:de,en:en,tr:tr,ru:ru}, v=m[curLang()]; return v!=null?v:(en!=null?en:de); }
+
+/* Beitragstext per KI (Worker) in DE/EN/TR/RU übersetzen; bei Fehler cb(null) -> Beitrag wird trotzdem (nur Original) gepostet. */
+function translate(text, cb){
+  try{
+    fetch(TRANSLATE_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text:text }) })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ cb(j && (j.de||j.en||j.tr||j.ru) ? j : null); })
+      .catch(function(){ cb(null); });
+  }catch(e){ cb(null); }
+}
 
 function shrinkImage(file, cb){            // Bild klein rechnen -> spart Daten
   var fr=new FileReader();
@@ -113,25 +128,49 @@ function boardInit(){
     var cutoff=Date.now()-PRUNE_DAYS*864e5;
     col.where('tms','<',cutoff).get().then(function(s){ s.forEach(function(d){ d.ref.delete(); }); }).catch(function(){});
 
-    // Live-Anzeige
-    col.orderBy('tms','desc').limit(MAX_SHOW).onSnapshot(function(snap){
-      if(snap.empty){ postsEl.innerHTML='<p class="lead">Noch keine Beiträge — schreib den ersten.</p>'; return; }
+    // Live-Anzeige (sprachreaktiv: zeigt den Beitrag in der eingestellten Hub-Sprache)
+    var POSTS=[], SHOW_ORIG={};
+    function hasTrans(p){ return !!(p.t_de||p.t_en||p.t_tr||p.t_ru); }
+    function pickBody(p){
+      if(SHOW_ORIG[p.__id]) return p.t_orig || p.text || '';
+      if(hasTrans(p)){
+        var order=({de:['t_de','t_en','t_tr','t_ru'],en:['t_en','t_de','t_tr','t_ru'],tr:['t_tr','t_en','t_de','t_ru'],ru:['t_ru','t_en','t_de','t_tr']})[curLang()]||['t_de','t_en','t_tr','t_ru'];
+        for(var i=0;i<order.length;i++){ if(p[order[i]]) return p[order[i]]; }
+      }
+      return p.t_orig || p.text || '';
+    }
+    function renderPosts(){
+      if(!POSTS.length){ postsEl.innerHTML='<p class="lead">'+L('Noch keine Beiträge — schreib den ersten.','No posts yet — write the first one.','Henüz gönderi yok — ilkini sen yaz.','Сообщений пока нет — напиши первым.')+'</p>'; return; }
       var html='';
-      snap.forEach(function(doc){
-        var p=doc.data(), when=p.tms?new Date(p.tms).toLocaleString('de-DE'):'';
+      POSTS.forEach(function(p){
+        var when=p.tms?new Date(p.tms).toLocaleString():'';
         html+='<div class="card"><p><b>'+esc(p.name)+'</b> <span class="lead" style="font-size:.78em">'+when+'</span></p>';
-        if(p.text) html+='<p>'+esc(p.text).replace(/\n/g,'<br>')+'</p>';
+        var body=pickBody(p);
+        if(body) html+='<p>'+esc(body).replace(/\n/g,'<br>')+'</p>';
+        if(hasTrans(p)){
+          var lbl=SHOW_ORIG[p.__id]?L('Übersetzung zeigen','Show translation','Çeviriyi göster','Показать перевод'):L('Original zeigen','Show original','Orijinali göster','Показать оригинал');
+          html+='<p style="margin:.1em 0"><a href="#" class="tgl" data-id="'+p.__id+'" style="color:var(--muted);font-size:.78em;text-decoration:none">🌐 '+lbl+'</a></p>';
+        }
         if(p.img)  html+='<p><img src="'+p.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>';
-        html+='<p><a href="#" class="del" data-id="'+doc.id+'" style="color:var(--c-admin);font-size:.82em;text-decoration:none">🗑 löschen</a></p></div>';
+        html+='<p><a href="#" class="del" data-id="'+p.__id+'" style="color:var(--c-admin);font-size:.82em;text-decoration:none">🗑 '+L('löschen','delete','sil','удалить')+'</a></p></div>';
       });
       postsEl.innerHTML=html;
       var dels=postsEl.getElementsByClassName('del');
       for(var i=0;i<dels.length;i++){ dels[i].addEventListener('click', function(e){
-        e.preventDefault(); if(confirm('Beitrag löschen?')) col.doc(this.getAttribute('data-id')).delete();
+        e.preventDefault(); if(confirm(L('Beitrag löschen?','Delete post?','Gönderi silinsin mi?','Удалить сообщение?'))) col.doc(this.getAttribute('data-id')).delete();
       }); }
+      var tgls=postsEl.getElementsByClassName('tgl');
+      for(var j=0;j<tgls.length;j++){ tgls[j].addEventListener('click', function(e){
+        e.preventDefault(); var id=this.getAttribute('data-id'); SHOW_ORIG[id]=!SHOW_ORIG[id]; renderPosts();
+      }); }
+    }
+    col.orderBy('tms','desc').limit(MAX_SHOW).onSnapshot(function(snap){
+      POSTS=[]; snap.forEach(function(doc){ var p=doc.data(); p.__id=doc.id; POSTS.push(p); });
+      renderPosts();
     }, function(err){ status.textContent='Verbindungsfehler: '+(err.code||err.message); });
+    document.addEventListener('s1l:lang', renderPosts);
 
-    // Posten
+    // Posten (vor dem Speichern per KI übersetzen)
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var name=(document.getElementById('p-name').value.trim()||'R4'),
@@ -140,13 +179,16 @@ function boardInit(){
           btn=document.getElementById('p-send');
       if(!text && !file) return;
       btn.disabled=true; btn.textContent='…';
-      function save(imgData){
-        col.add({ name:name, text:text, img:imgData||'', tms:Date.now() }).then(function(){
-          document.getElementById('p-text').value=''; document.getElementById('p-img').value='';
-          btn.disabled=false; btn.textContent='Posten';
-        }).catch(function(err){ btn.disabled=false; btn.textContent='Posten'; alert('Fehler: '+(err.code||err.message)); });
+      function reset(){ btn.disabled=false; btn.textContent=L('Posten','Post','Paylaş','Опубликовать'); }
+      function finish(imgData, tr){
+        var doc={ name:name, text:text, img:imgData||'', tms:Date.now() };
+        if(text){ doc.t_orig=text; if(tr){ doc.t_de=tr.de||''; doc.t_en=tr.en||''; doc.t_tr=tr.tr||''; doc.t_ru=tr.ru||''; } }
+        col.add(doc).then(function(){
+          document.getElementById('p-text').value=''; document.getElementById('p-img').value=''; reset();
+        }).catch(function(err){ reset(); alert('Fehler: '+(err.code||err.message)); });
       }
-      if(file) shrinkImage(file, save); else save('');
+      function withImage(tr){ if(file) shrinkImage(file, function(img){ finish(img, tr); }); else finish('', tr); }
+      if(text){ translate(text, function(tr){ withImage(tr); }); } else { withImage(null); }
     });
   }catch(err){ status.textContent='Init-Fehler: '+err.message; }
 }
