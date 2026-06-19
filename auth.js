@@ -55,7 +55,7 @@ function s1lInit(){
     var n=nm.value.trim().toLowerCase(), p=pw.value.trim().toLowerCase();
     if(!n||!p){ err.textContent='Bitte Name und Passwort eingeben.'; return; }
     var hsh=await hashInput(n+':'+p);
-    if(ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_ok','1'); reveal(); }
+    if(ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_ok','1'); sessionStorage.setItem('s1l_name', nm.value.trim()); reveal(); }
     else { err.textContent='Name oder Passwort stimmt nicht.'; pw.value=''; pw.focus(); }
   }
   go.addEventListener('click', tryOpen);

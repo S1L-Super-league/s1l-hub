@@ -46,8 +46,9 @@
     <select id="s-ev"></select>
     <input id="s-evtext" type="text" style="display:none;margin-top:6px">
 
-    <label><span class="lng-de">Name (optional)</span><span class="lng-en">Name (optional)</span><span class="lng-tr">İsim (isteğe bağlı)</span><span class="lng-ru">Имя (по желанию)</span></label>
-    <input id="s-name" type="text">
+    <label><span class="lng-de">Name</span><span class="lng-en">Name</span><span class="lng-tr">İsim</span><span class="lng-ru">Имя</span></label>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:400;margin:2px 0"><input type="checkbox" id="s-anon"> <span class="lng-de">Anonym posten</span><span class="lng-en">Post anonymously</span><span class="lng-tr">Anonim gönder</span><span class="lng-ru">Опубликовать анонимно</span></label>
+    <p class="hint" id="s-nameline"></p>
 
     <label><span class="lng-de">Deine Idee / Beobachtung</span><span class="lng-en">Your idea / observation</span><span class="lng-tr">Fikrin / gözlemin</span><span class="lng-ru">Твоя идея / наблюдение</span></label>
     <textarea id="s-text"></textarea>
@@ -71,8 +72,9 @@
     <select id="f-area"></select>
     <input id="f-areatext" type="text" style="display:none;margin-top:6px">
 
-    <label><span class="lng-de">Name (optional)</span><span class="lng-en">Name (optional)</span><span class="lng-tr">İsim (isteğe bağlı)</span><span class="lng-ru">Имя (по желанию)</span></label>
-    <input id="f-name" type="text">
+    <label><span class="lng-de">Name</span><span class="lng-en">Name</span><span class="lng-tr">İsim</span><span class="lng-ru">Имя</span></label>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:400;margin:2px 0"><input type="checkbox" id="f-anon"> <span class="lng-de">Anonym posten</span><span class="lng-en">Post anonymously</span><span class="lng-tr">Anonim gönder</span><span class="lng-ru">Опубликовать анонимно</span></label>
+    <p class="hint" id="f-nameline"></p>
 
     <label><span class="lng-de">Dein Text</span><span class="lng-en">Your message</span><span class="lng-tr">Mesajın</span><span class="lng-ru">Твоё сообщение</span></label>
     <textarea id="f-text"></textarea>
@@ -140,12 +142,28 @@ var PH={
   name:{de:"z. B. dein Gamertag",en:"e.g. your gamertag",tr:"örn. gamertag'in",ru:"напр. твой геймертег"},
   text:{de:"…",en:"…",tr:"…",ru:"…"}
 };
+/* Name = eingeloggter Nutzer (verbindlich) ODER anonym. */
+function loginName(){ return (sessionStorage.getItem('s1l_name')||'').trim(); }
+function nameLineText(anon){
+  var l=curLang();
+  if(anon){ return ({de:"Wird anonym gepostet.",en:"Will be posted anonymously.",tr:"Anonim olarak gönderilecek.",ru:"Будет опубликовано анонимно."})[l]; }
+  var pre=({de:"Du postest als: ",en:"You post as: ",tr:"Şu adla gönderiyorsun: ",ru:"Ты публикуешь как: "})[l];
+  var nm=loginName()||({de:"(bitte neu einloggen)",en:"(please log in again)",tr:"(lütfen tekrar giriş yap)",ru:"(пожалуйста, войди заново)"})[l];
+  return pre+nm;
+}
+function isAnon(id){ var c=document.getElementById(id); return !!(c&&c.checked); }
+function nameFor(id){ return isAnon(id)?"":loginName(); }
+function updNames(){
+  var s=document.getElementById('s-nameline'); if(s) s.textContent=nameLineText(isAnon('s-anon'));
+  var f=document.getElementById('f-nameline'); if(f) f.textContent=nameLineText(isAnon('f-anon'));
+}
 function fillSel(id,arr){ var s=document.getElementById(id); if(!s)return; var v=s.value; s.innerHTML=arr.map(function(o){ return '<option value="'+o.v+'">'+lab(o)+'</option>'; }).join(''); if(v) s.value=v; }
 function setPh(id,d){ var e=document.getElementById(id); if(e) e.placeholder=lab(d); }
 function applyLangBits(){
   fillSel("s-ev",OPT_EV); fillSel("f-cat",OPT_CAT); fillSel("f-area",OPT_AREA);
   setPh("s-evtext",PH.evtext); setPh("f-areatext",PH.areatext);
-  setPh("s-name",PH.name); setPh("f-name",PH.name); setPh("s-text",PH.text); setPh("f-text",PH.text);
+  setPh("s-text",PH.text); setPh("f-text",PH.text);
+  updNames();
 }
 document.addEventListener('s1l:lang', applyLangBits);
 
@@ -159,7 +177,7 @@ function send(kind){
     var text=val("s-text"); if(!text) return;
     var btn=document.getElementById("s-send"); btn.disabled=true;
     translate(text, function(tr){
-      db.collection("suggestions").add(addTrans({ ev:ev, name:val("s-name"), text:text, tms:Date.now(), votes:{} }, text, tr))
+      db.collection("suggestions").add(addTrans({ ev:ev, name:nameFor("s-anon"), text:text, tms:Date.now(), votes:{} }, text, tr))
         .then(function(){ document.getElementById("s-text").value=""; done(document.getElementById("s-ok")); })
         .catch(function(e){ alert("Fehler: "+(e.code||e.message)); })
         .then(function(){ btn.disabled=false; });
@@ -169,7 +187,7 @@ function send(kind){
     var ftext=val("f-text"); if(!ftext) return;
     var fbtn=document.getElementById("f-send"); fbtn.disabled=true;
     translate(ftext, function(tr){
-      db.collection("feedback").add(addTrans({ cat:val("f-cat"), area:area, name:val("f-name"), text:ftext, tms:Date.now(), votes:{} }, ftext, tr))
+      db.collection("feedback").add(addTrans({ cat:val("f-cat"), area:area, name:nameFor("f-anon"), text:ftext, tms:Date.now(), votes:{} }, ftext, tr))
         .then(function(){ document.getElementById("f-text").value=""; done(document.getElementById("f-ok")); })
         .catch(function(e){ alert("Fehler: "+(e.code||e.message)); })
         .then(function(){ fbtn.disabled=false; });
@@ -181,6 +199,9 @@ function boot(){
   bindFreitext("s-ev","s-evtext"); bindFreitext("f-area","f-areatext");
   document.getElementById("s-send").onclick=function(){ send("s"); };
   document.getElementById("f-send").onclick=function(){ send("f"); };
+  var sa=document.getElementById("s-anon"); if(sa) sa.onchange=updNames;
+  var fa=document.getElementById("f-anon"); if(fa) fa.onchange=updNames;
+  updNames();
 }
 function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
 if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
