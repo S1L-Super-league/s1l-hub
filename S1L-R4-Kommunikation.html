@@ -36,9 +36,9 @@
     <form id="postform" style="display:none; margin-top:6px">
       <input id="p-name" type="text" placeholder="Dein Name"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)">
-      <textarea id="p-text" rows="3" maxlength="1200" placeholder="Nachricht an die R4…"
+      <textarea id="p-text" rows="3" maxlength="2000" placeholder="Nachricht an die R4…"
         style="width:100%;padding:11px;margin:5px 0;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-family:inherit"></textarea>
-      <div id="p-count" class="lead" style="font-size:.78em;text-align:right;margin:-2px 0 4px">0 / 1200</div>
+      <div id="p-count" class="lead" style="font-size:.78em;text-align:right;margin:-2px 0 4px">0 / 2000</div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:5px 0">
         <label style="font-size:.9rem">📎 <span class="lng-de">Bild:</span><span class="lng-en">Image:</span><span class="lng-tr">Resim:</span><span class="lng-ru">Изображение:</span> <input id="p-img" type="file" accept="image/*"></label>
         <button class="btn" id="p-send" type="submit"><span class="lng-de">Posten</span><span class="lng-en">Post</span><span class="lng-tr">Paylaş</span><span class="lng-ru">Опубликовать</span></button>
@@ -127,7 +127,7 @@ function boardInit(){
 
     // Zeichenzähler + hartes Limit (1200) — maxlength stoppt die Eingabe, der Zähler zeigt den Stand
     var taEl=document.getElementById('p-text'), cntEl=document.getElementById('p-count');
-    if(taEl && cntEl){ var upd=function(){ var n=taEl.value.length; cntEl.textContent=n+' / 1200'; cntEl.style.color=(n>=1200?'var(--c-admin)':'var(--muted)'); }; taEl.addEventListener('input',upd); upd(); }
+    if(taEl && cntEl){ var upd=function(){ var n=taEl.value.length; cntEl.textContent=n+' / 2000'; cntEl.style.color=(n>=2000?'var(--c-admin)':'var(--muted)'); }; taEl.addEventListener('input',upd); upd(); }
 
     // Auto-Pruning: alte Beiträge entfernen
     var cutoff=Date.now()-PRUNE_DAYS*864e5;
