@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R4 — Templates & Timeline — S1L Info-Hub</title>
+<title>R4 — Daily announcements & timeline — S1L Info-Hub</title>
 <link rel="stylesheet" href="style.css">
 <style>
   .controls{ position:sticky; top:0; z-index:5; background:var(--bg);
@@ -69,7 +69,7 @@
 
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
-    <h1>🛡️ R4 — Templates</h1>
+    <h1>🛡️ <span class="lng-de">R4 — Tägliche Ansagen</span><span class="lng-en">R4 — Daily announcements</span><span class="lng-tr">R4 — Günlük duyurular</span><span class="lng-ru">R4 — Ежедневные объявления</span></h1>
     <p><span class="lng-de">Nur für R4 / Offiziere. R4-Passwort nötig (nicht das Mitglieder-Login).</span><span class="lng-en">R4 / officers only. R4 password required (not the member login).</span><span class="lng-tr">Yalnızca R4 / subaylar için. R4 şifresi gerekli (üye girişi değil).</span><span class="lng-ru">Только для R4 / офицеров. Требуется пароль R4 (не вход для участников).</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Name</label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
@@ -84,7 +84,7 @@
 <div class="wrap">
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span><span class="lng-tr">← R4 alanına geri dön</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
-    <h1>📋 R4 — Templates & Timeline</h1>
+    <h1>📋 <span class="lng-de">R4 — Tägliche Ansagen & Timeline</span><span class="lng-en">R4 — Daily announcements & timeline</span><span class="lng-tr">R4 — Günlük duyurular & zaman çizelgesi</span><span class="lng-ru">R4 — Ежедневные объявления & таймлайн</span></h1>
     <p class="lead"><span class="lng-de">Fertige Chat-Texte zum Kopieren. Zeiten eingeben → Block füllt sich; Rallys hinzufügen → landen in Timeline + Briefing. <b>Entwürfe — senden macht Jac.</b> Heute <b>Fr 19.06</b> (Duell Tag 5 Schlachtvorbereitung).</span><span class="lng-en">Ready-to-copy chat texts. Enter times → the block fills; add rallies → they land in timeline + briefing. <b>Drafts — Jac sends.</b> Today <b>Fri 19 June</b> (Duel day 5 battle prep).</span><span class="lng-tr">Kopyalamaya hazır sohbet metinleri. Saatleri gir → blok dolar; rally ekle → zaman çizelgesi + brifinge düşer. <b>Taslaklar — Jac gönderir.</b> Bugün <b>Cum 19 Haziran</b> (Düello 5. gün savaş hazırlığı).</span><span class="lng-ru">Готовые тексты для чата для копирования. Введи время → блок заполняется; добавь рейды → они попадают в таймлайн + брифинг. <b>Черновики — отправляет Jac.</b> Сегодня <b>Пт 19 июня</b> (Дуэль день 5, подготовка к битве).</span></p>
   </header>
 
@@ -104,18 +104,9 @@
     <span class="lead" style="font-size:.82rem"><span class="lng-de">— Kopfzeile je Karte anklicken zum Weiterschalten. „freigegeben" setzen nur R4.</span><span class="lng-en">— Click a card's header to cycle. Only R4 sets "approved".</span><span class="lng-tr">— Geçiş yapmak için her kartın başlığına tıkla. „onaylandı" yalnızca R4 ayarlar.</span><span class="lng-ru">— Нажми на заголовок карточки, чтобы переключить. «утверждено» ставит только R4.</span></span>
   </div>
 
-  <!-- GENERATOREN (vor den Event-Templates) -->
-  <h2 class="section">🛠️ <span class="lng-de">Generatoren</span><span class="lng-en">Generators</span><span class="lng-tr">Üreticiler</span><span class="lng-ru">Генераторы</span></h2>
+  <!-- RALLYS (vor den Event-Templates) -->
+  <h2 class="section">⚔️ <span class="lng-de">Rallys hinzufügen</span><span class="lng-en">Add rallies</span><span class="lng-tr">Rally ekle</span><span class="lng-ru">Добавить рейды</span></h2>
   <div class="gen-grid">
-    <div class="gen-card">
-      <h3>🕒 <span class="lng-de">Zeitzonen-Block</span><span class="lng-en">Time-zone block</span><span class="lng-tr">Saat dilimi bloğu</span><span class="lng-ru">Блок часовых поясов</span></h3>
-      <div class="field"><span class="lng-de">Start</span><span class="lng-en">Start</span><span class="lng-tr">Başlangıç</span><span class="lng-ru">Начало</span> <input type="time" id="gStart" value="20:00">
-        <span class="lng-de">Ende</span><span class="lng-en">End</span><span class="lng-tr">Bitiş</span><span class="lng-ru">Конец</span> <input type="time" id="gEnd" value="00:00">
-        <span class="seg" id="gBase"><button data-base="utc">UTC</button><button data-base="uk">UK</button><button data-base="de" class="on">DE</button><button data-base="ru">RU</button></span></div>
-      <p class="lead" style="margin:.2em 0"><span class="lng-de">Zeit zuerst, dann Länder. <b>DE = UTC + 2 h.</b> Ende leer = nur Start.</span><span class="lng-en">Time first, then countries. <b>DE = UTC + 2 h.</b> End empty = start only.</span><span class="lng-tr">Önce saat, sonra ülkeler. <b>DE = UTC + 2 s.</b> Bitiş boş = yalnızca başlangıç.</span><span class="lng-ru">Сначала время, потом страны. <b>DE = UTC + 2 ч.</b> Конец пустой = только начало.</span></p>
-      <pre class="block" id="gOut"></pre>
-      <button class="copybtn" id="gCopy">📋 <span class="lng-de">Block kopieren</span><span class="lng-en">Copy block</span><span class="lng-tr">Bloğu kopyala</span><span class="lng-ru">Копировать блок</span></button>
-    </div>
     <div class="gen-card">
       <h3>⚔️ <span class="lng-de">Rallys hinzufügen (mehrere möglich)</span><span class="lng-en">Add rallies (multiple possible)</span><span class="lng-tr">Rally ekle (birden fazla mümkün)</span><span class="lng-ru">Добавить рейды (можно несколько)</span></h3>
       <div class="field"><span class="lng-de">Event</span><span class="lng-en">Event</span><span class="lng-tr">Etkinlik</span><span class="lng-ru">Событие</span>
@@ -134,6 +125,11 @@
     </div>
   </div>
 
+  <!-- STRATEGIE JE EVENT (gemeinsame Quelle + Live-Sync mit dem Baukasten) -->
+  <h2 class="section">🧠 <span class="lng-de">Strategie je Event</span><span class="lng-en">Strategy per event</span><span class="lng-tr">Etkinliğe göre strateji</span><span class="lng-ru">Стратегия по событию</span></h2>
+  <p class="lead"><span class="lng-de">Gleiche Quelle wie der Baukasten — die Auswahl wird live geteilt (auf beiden Seiten gleich).</span><span class="lng-en">Same source as the builder — the choice is shared live (identical on both pages).</span><span class="lng-tr">Yapılandırıcıyla aynı kaynak — seçim canlı paylaşılır (iki sayfada da aynı).</span><span class="lng-ru">Тот же источник, что и конструктор — выбор синхронизируется вживую (одинаково на обеих страницах).</span></p>
+  <div id="stratPick"></div>
+
   <!-- GOLDEN WINDOW -->
   <h2 class="section">💎 <span class="lng-de">Golden Window — Fr 19.06</span><span class="lng-en">Golden Window — Fri 19 June</span><span class="lng-tr">Golden Window — Cum 19.06</span><span class="lng-ru">Golden Window — Пт 19.06</span></h2>
   <div class="gw-box">
@@ -146,15 +142,29 @@
   <p class="lead"><span class="lng-de">Nur die wichtigsten Nachrichten (P1/P2), chronologisch nach <b>Sendezeit</b>. Bestätigte Rallys erscheinen automatisch.</span><span class="lng-en">Only the most important messages (P1/P2), in chronological order by <b>send time</b>. Confirmed rallies appear automatically.</span><span class="lng-tr">Yalnızca en önemli mesajlar (P1/P2), <b>gönderim saatine</b> göre kronolojik sırada. Onaylanan rally'ler otomatik olarak görünür.</span><span class="lng-ru">Только самые важные сообщения (P1/P2), в хронологическом порядке по <b>времени отправки</b>. Подтверждённые рейды появляются автоматически.</span></p>
   <div class="tl" id="timeline"><div class="tl-line"></div></div>
 
+  <!-- ZEIT-WERKZEUG: am Ende der Timeline, vor den Einzel-Events (von oben hierher verschoben) -->
+  <h2 class="section">🕒 <span class="lng-de">Zeiten übersetzen</span><span class="lng-en">Translate times</span><span class="lng-tr">Saatleri çevir</span><span class="lng-ru">Перевести время</span></h2>
+  <div class="gen-grid">
+    <div class="gen-card">
+      <h3>🕒 <span class="lng-de">Zeitzonen-Block</span><span class="lng-en">Time-zone block</span><span class="lng-tr">Saat dilimi bloğu</span><span class="lng-ru">Блок часовых поясов</span></h3>
+      <div class="field"><span class="lng-de">Start</span><span class="lng-en">Start</span><span class="lng-tr">Başlangıç</span><span class="lng-ru">Начало</span> <input type="time" id="gStart" value="20:00">
+        <span class="lng-de">Ende</span><span class="lng-en">End</span><span class="lng-tr">Bitiş</span><span class="lng-ru">Конец</span> <input type="time" id="gEnd" value="00:00">
+        <span class="seg" id="gBase"><button data-base="utc">UTC</button><button data-base="uk">UK</button><button data-base="de" class="on">DE</button><button data-base="ru">RU</button></span></div>
+      <p class="lead" style="margin:.2em 0"><span class="lng-de">Zeit zuerst, dann Länder. <b>DE = UTC + 2 h.</b> Ende leer = nur Start.</span><span class="lng-en">Time first, then countries. <b>DE = UTC + 2 h.</b> End empty = start only.</span><span class="lng-tr">Önce saat, sonra ülkeler. <b>DE = UTC + 2 s.</b> Bitiş boş = yalnızca başlangıç.</span><span class="lng-ru">Сначала время, потом страны. <b>DE = UTC + 2 ч.</b> Конец пустой = только начало.</span></p>
+      <pre class="block" id="gOut"></pre>
+      <button class="copybtn" id="gCopy">📋 <span class="lng-de">Block kopieren</span><span class="lng-en">Copy block</span><span class="lng-tr">Bloğu kopyala</span><span class="lng-ru">Копировать блок</span></button>
+    </div>
+  </div>
+
   <!-- NACH EVENT -->
   <h2 class="section">🎮 <span class="lng-de">Alle Templates nach Event</span><span class="lng-en">All templates by event</span><span class="lng-tr">Etkinliğe göre tüm şablonlar</span><span class="lng-ru">Все шаблоны по событию</span></h2>
   <div id="byEvent"></div>
 
   <footer>
-    <span class="lng-de">S1L Info-Hub · R4 · Templates & Timeline · Probe 19.06.2026 · Pflegt: Alex.<br>
-    Prio (Wichtigkeit heute): <b>P1</b> wichtigste · <b>P2</b> wichtig · <b>P3</b> nachrangig · <b>opt</b> optional. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L Info Hub · R4 · Templates & Timeline · Test 19 June 2026 · Maintained by Alex.<br>
-    Priority (importance today): <b>P1</b> most important · <b>P2</b> important · <b>P3</b> minor · <b>opt</b> optional. Drafts only — Jac sends.</span><span class="lng-tr">S1L Info Hub · R4 · Templates & Timeline · Deneme 19 Haziran 2026 · Sorumlu: Alex.<br>
-    Öncelik (bugünkü önem): <b>P1</b> en önemli · <b>P2</b> önemli · <b>P3</b> ikincil · <b>opt</b> opsiyonel. Yalnızca taslak — Jac gönderir.</span><span class="lng-ru">S1L Info Hub · R4 · Templates & Timeline · Проба 19 июня 2026 · Ведёт: Alex.<br>
+    <span class="lng-de">S1L Info-Hub · R4 · Daily announcements & timeline · Probe 19.06.2026 · Pflegt: Alex.<br>
+    Prio (Wichtigkeit heute): <b>P1</b> wichtigste · <b>P2</b> wichtig · <b>P3</b> nachrangig · <b>opt</b> optional. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L Info Hub · R4 · Daily announcements & timeline · Test 19 June 2026 · Maintained by Alex.<br>
+    Priority (importance today): <b>P1</b> most important · <b>P2</b> important · <b>P3</b> minor · <b>opt</b> optional. Drafts only — Jac sends.</span><span class="lng-tr">S1L Info Hub · R4 · Daily announcements & timeline · Deneme 19 Haziran 2026 · Sorumlu: Alex.<br>
+    Öncelik (bugünkü önem): <b>P1</b> en önemli · <b>P2</b> önemli · <b>P3</b> ikincil · <b>opt</b> opsiyonel. Yalnızca taslak — Jac gönderir.</span><span class="lng-ru">S1L Info Hub · R4 · Daily announcements & timeline · Проба 19 июня 2026 · Ведёт: Alex.<br>
     Приоритет (важность сегодня): <b>P1</b> самое важное · <b>P2</b> важное · <b>P3</b> второстепенное · <b>opt</b> опционально. Только черновики — отправляет Jac.</span>
   </footer>
 </div>
@@ -164,6 +174,7 @@
 <script src="lang.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="strat.js"></script>
 <script>
 /* ===== Firebase (geteilter Status; Fallback: lokal) =====
    Öffentliche Config (kein Geheimnis), gleiches Projekt wie R4-Pinnwand.
@@ -210,6 +221,28 @@ var rstore={ mode:"local", col:null,
   add:function(r){ if(this.col){ this.col.add({ev:r.ev,su:r.su,eu:r.eu,tms:Date.now()}).catch(function(){ rstore.mode="local"; rstore.col=null; state.rallies.push(r); setFb(); render(); }); } else { state.rallies.push(r); render(); } },
   remove:function(item,idx){ if(this.col && item && item.id){ this.col.doc(item.id).delete().catch(function(){}); } else { state.rallies.splice(idx,1); render(); } }
 };
+
+/* Geteilte Strategie-Wahl je Event (Firebase-Collection 'stratchoice'; gleiche wie Baukasten) */
+var cstore={ col:null,
+  init:function(){ try{ if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
+    if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+    this.col=firebase.firestore().collection("stratchoice");
+    this.col.onSnapshot(function(snap){ state.choice={}; snap.forEach(function(d){ state.choice[d.id]=(d.data()||{}).sel||""; }); render(); }, function(){});
+  }}catch(e){ this.col=null; } },
+  set:function(ev,sel){ state.choice[ev]=sel; if(this.col){ this.col.doc(ev).set({sel:sel,tms:Date.now()}).catch(function(){}); } render(); }
+};
+function renderStratPick(){ var el=document.getElementById("stratPick"); if(!el || typeof STRAT==="undefined")return; var lang=state.lang, h="";
+  Object.keys(STRAT).forEach(function(ev){ var list=STRAT[ev]||[], evl=(typeof STRAT_EV!=="undefined"&&STRAT_EV[ev])||{emo:"",name:{}}, sel=state.choice[ev]||"";
+    var opts='<option value="">'+T("— keine Strategie —","— no strategy —","— strateji yok —","— без стратегии —")+'</option>';
+    list.forEach(function(x){ opts+='<option value="'+x.id+'"'+(sel===x.id?" selected":"")+'>'+(x.prio?"★ ":"")+stratTagArr(x,lang).join(", ")+'</option>'; });
+    var chosen=list.filter(function(x){return x.id===sel;})[0];
+    h+='<div class="gen-card" style="margin:8px 0"><h3>'+evl.emo+' '+((evl.name&&evl.name[lang])||(evl.name&&evl.name.en)||ev)+'</h3>'
+      +'<select data-strat="'+ev+'">'+opts+'</select>'
+      +(chosen?'<pre class="block" style="margin-top:8px">'+esc(stratLoc(chosen,lang))+'</pre>':'')+'</div>';
+  });
+  el.innerHTML=h;
+  el.querySelectorAll("select[data-strat]").forEach(function(s){ s.onchange=function(){ cstore.set(s.getAttribute("data-strat"), s.value); }; });
+}
 
 /* ===== Events ===== */
 var EV={ brief:{name:"Tages-Briefing",emo:"📅"}, duell:{name:"Allianzduell",emo:"⚔️"}, loewe:{name:"Ghulöwe",emo:"🦁"},
@@ -479,7 +512,7 @@ function zonesCompact(s,e){ /* normal, ein Land je Zone */
 }
 
 /* ===== Zustand ===== */
-var state={ lang:"de", view:"code", standing:"lead", rallies:[] };  // rallies: {ev,su,eu}
+var state={ lang:"de", view:"code", standing:"lead", rallies:[], choice:{} };  // rallies: {ev,su,eu}; choice: ev->stratId (geteilt)
 function baseToUtc(t,base){ var o={utc:0,uk:1,de:2,ru:3}[base]; if(o===undefined)o=0; return addH(t,-o); }
 
 /* ===== UI-Sprache (Oberfläche) — 4-sprachig mit Fallback: gewählt → EN → DE.
@@ -555,6 +588,7 @@ function render(){
     be+='<details class="ev-group" '+(k==="duell"?"open":"")+'><summary>'+EV[k].emo+' '+EV[k].name+' ('+list.length+')</summary>'+list.map(card).join("")+'</details>'; });
   document.getElementById("byEvent").innerHTML=be;
   renderRallyList();
+  renderStratPick();
   bind();
 }
 function renderRallyList(){ var el=document.getElementById("rallyList"); if(!el)return;
@@ -591,6 +625,7 @@ function boot(){
   BOOTED=true;
   store.init(render);
   rstore.init();
+  cstore.init();
   genUpdate(); gwUpdate();
   document.getElementById("gStart").addEventListener("input",genUpdate);
   document.getElementById("gEnd").addEventListener("input",genUpdate);

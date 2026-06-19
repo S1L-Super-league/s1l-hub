@@ -104,19 +104,25 @@
 <script src="lang.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="strat.js"></script>
 <script>
 /* ===== Firebase (gleiches Projekt wie Templates/Pinnwand; öffentliche Config) ===== */
 var FB_CONFIG={ apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
-var fb={ db:null, rallies:[], results:{}, mode:"local" };
+var fb={ db:null, rallies:[], results:{}, choice:{}, mode:"local" };
 function fbInit(){
   try{ if(typeof firebase!=="undefined" && FB_CONFIG.apiKey){
     if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
     fb.db=firebase.firestore(); fb.mode="firebase"; setFbState();
     fb.db.collection("tplrallies").orderBy("su").onSnapshot(function(s){ fb.rallies=[]; s.forEach(function(d){ var x=d.data()||{}; fb.rallies.push({id:d.id,ev:x.ev,su:x.su,eu:x.eu||"",tms:x.tms||0}); }); renderRaids(); applyTimelineDefault(); if(!ST.f.zeit.touched){ renderFields(); } else { renderOut(); } }, function(){ fb.mode="local"; setFbState(); });
     fb.db.collection("raidresults").onSnapshot(function(s){ fb.results={}; s.forEach(function(d){ fb.results[d.id]=(d.data()||{}).r; }); renderRaids(); }, function(){});
+    /* GETEILTE Strategie-Wahl je Event (live-sync mit Timeline-Seite) */
+    fb.db.collection("stratchoice").onSnapshot(function(s){ fb.choice={}; s.forEach(function(d){ fb.choice[d.id]=(d.data()||{}).sel||""; });
+      var rem=fb.choice[ST.ev]; if(rem!==undefined && rem!==ST.f.strat.sel){ ST.f.strat.sel=rem; if(rem) ST.f.strat.on=true; renderFields(); } }, function(){});
   } }catch(e){ fb.mode="local"; setFbState(); }
   setFbState();
 }
+/* Strategie-Wahl fuer ein Event teilen (Firebase; Fallback: nur lokal im Zustand) */
+function setChoice(ev,sel){ fb.choice[ev]=sel; if(fb.db){ fb.db.collection("stratchoice").doc(ev).set({sel:sel,tms:Date.now()}).catch(function(){}); } }
 function setFbState(){ var e=document.getElementById("fbState"); if(!e)return; e.textContent= fb.mode==="firebase"?L("Geteilt (Firebase)","Shared (Firebase)","Paylaşılan (Firebase)","Общий (Firebase)"):L("Lokal","Local","Yerel","Локально"); e.style.color= fb.mode==="firebase"?"#0f9d58":"var(--muted)"; }
 function setResult(id,val){ if(fb.db){ fb.db.collection("raidresults").doc(id).set({r:val,tms:Date.now()}).catch(function(){}); } else { fb.results[id]=val; renderRaids(); } }
 
@@ -130,45 +136,7 @@ var EV={
 };
 
 /* ===== Strategien je Event (eine kann prio) ===== */
-var STRAT={
-  duell:[ { id:"duell-tag4", prio:true, tags:["Tag 4 - Helden","Fragmente","Alpha-Bestie"],
-    de:"TAG 4 HELDEN: Heldenfragmente einsetzen + Rekrutierungen - legendaere Fragmente und Wunsch-Rekrutierung am staerksten (Boost je Spieler anders). Fragmente farmen: Rallys auf die MITTLEREN Monster (Alpha-Bestie); normale und fette Infizierte geben keine. Ausdauer nutzen (regeneriert + VIP-/Edelstein-Laden), Rest fuer Tag 5 (Spionagemissionen) behalten.",
-    en:"DAY 4 HEROES: use hero fragments + recruitments - legendary fragments and wish recruitment are strongest (boosts differ per player). Farm fragments: rallies vs the MEDIUM monsters (Alpha Beast); normal and fat infected give none. Use stamina (regens + VIP/Gem shop), keep a reserve for Day 5 (spy missions).",
-    tr:"4. GUN HEROES: kahraman parcalari kullan + rekrutasyonlar - efsanevi parcalar ve istek rekrutasyonu en guclu (boost oyuncuya gore degisir). Parca farmla: ORTA canavarlara (Alpha-Bestie) rally; normal ve sisman enfekteler vermez. Dayaniklilik kullan (yenilenir + VIP/Gem magaza), 5. gun (spy gorevleri) icin rezerv birak.",
-    ru:"ДЕНЬ 4 HEROES: используй фрагменты героев + вербовки - легендарные фрагменты и желаемая вербовка сильнее всего (бусты у каждого разные). Фарм фрагментов: rally на СРЕДНИХ монстров (Alpha-Bestie); обычные и толстые заражённые не дают. Выносливость трать (восстанавливается + VIP/Gem магазин), оставь резерв на День 5 (spy-миссии)." },
-  { id:"duell-koeder", prio:true, tags:["Tag 6 - Kampf","Köder","Kuppel"],
-    de:"Köder ohne Kuppel: EINER greift OHNE Schutzschild an, 5 verstärken ihn. Der Köder (ohne Schild) danach gleich wegteleportieren und verstecken - nicht zum Sammelpunkt (kein Schild + Abklingzeit). Der Rest laesst 30 Min Truppen dort, damit der Köder geschützt ist.",
-    en:"Bait without dome: ONE attacks WITHOUT shield, 5 reinforce. The bait (no shield) then teleports away right after and hides - not to the rally point (no shield + cooldown). The rest keep troops there for 30 min so the bait stays safe.",
-    tr:"Dome olmadan yem: BİRİ Shield olmadan saldırır, 5 kişi onu takviye eder. Yem (Shield yok) hemen ardından ışınlanıp saklanır - rally noktasına değil (Shield yok + bekleme süresi). Geri kalanlar 30 dk birliklerini orada tutar, böylece yem korunur.",
-    ru:"Приманка без купола: ОДИН атакует БЕЗ Shield, 5 усиливают его. Приманка (без Shield) сразу после этого телепортируется прочь и прячется - не к rally-точке (нет Shield + перезарядка). Остальные держат войска там 30 мин, чтобы приманка была защищена." } ],
-  loewe:[ { id:"loewe-selbst", prio:true, tags:["Boss","Schaden"],
-    de:"Selbst-Rally: Wer rally-faehig ist, startet am besten eine eigene Rally (kein Limit) - kuerzeste Vorlaufzeit = mehr Schlaege/Min. Am besten auf Boss-Schaden-Helden + Signature Weapons umruesten, Buffs in diesen 30 Min einsetzen.",
-    en:"Self-rally: if you can rally, best to start your own (no limit) - shortest lead time = more hits/min. Best to switch to single-target heroes + signature weapons, use buffs in these 30 min.",
-    tr:"Kendi rally'in: Rally başlatabilen en iyisi kendi rally'sini başlatsın (limit yok) - en kısa hazırlık süresi = dakikada daha çok vuruş. En iyisi tek hedef hasarı kahramanları + Signature Weapons'a geçmek, bu 30 dk içinde buff'ları kullanmak.",
-    ru:"Своя rally: кто может запускать rally, лучше пусть запускает свою (без лимита) - кратчайшее время подготовки = больше ударов в минуту. Лучше всего перейти на героев одиночного урона + Signature Weapons, использовать баффы в эти 30 мин." } ],
-  reservoir:[ { id:"res-halten", prio:true, tags:["Halten","Lineup"],
-    de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Am besten nach Gebaeudewert aufstellen, die Staerksten aufs Central Reservoir. Lieber halten als nur Solo-Wasser jagen.",
-    en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Best to line up by value, the strongest on Central Reservoir. Better to hold than just chase solo water.",
-    tr:"Öldürmek değil tutmak kazandırır: Yüksek değerli binaları tut (Central Reservoir > büyük kompleksler > küçük tesisler). En iyisi bina değerine göre dizilmek, en güçlüler Central Reservoir'da. Sadece tek başına su avlamak yerine tutmak daha iyi.",
-    ru:"Удержание побеждает, а не убийство: удерживай ценные здания (Central Reservoir > большие комплексы > мелкие объекты). Лучше расставляться по ценности здания, сильнейшие на Central Reservoir. Лучше удерживать, чем просто гоняться за одиночной водой." } ],
-  stadt:[
-    { id:"stadt-monster", prio:true, tags:["Stadt + Monster","Nur kleine","Gross+mittel auf Ansage"],
-    de:"Stadt mit Monster: Lasst uns alle auf die KLEINEN gehen - jeder schickt 1 Trupp auf einen FREIEN kleinen, dann bekommt jeder Punkte. Das GROSSE (Zentrum) und die mittleren erst auf Ansage vom Commander. Ist das GROSSE nur noch bei 25 %, gehen wir alle gemeinsam aufs GROSSE. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
-    en:"City with monster: let us all go for the SMALL ones - each sends 1 troop to a FREE small one, then everyone gets points. The BIG one (center) and the medium ones only on the commander's call. When the BIG one is at 25 %, we all go for it together. When R4 calls, please come to the rally point.",
-    tr:"Canavarlı şehir: Hepimiz KÜÇÜK olanlara gidelim - herkes BOŞ bir küçüğe 1 birlik gönderir, böylece herkes puan alır. BÜYÜK olan (merkez) ve orta olanlar yalnızca Commander'ın çağrısıyla. BÜYÜK olan %25'e düştüğünde, hepimiz birlikte BÜYÜK olana gideriz. R4 çağırınca lütfen rally noktasına gelin.",
-    ru:"Город с монстром: давайте все идём на МАЛЕНЬКИХ - каждый отправляет 1 отряд на СВОБОДНОГО маленького, тогда все получают очки. БОЛЬШОЙ (центр) и средних только по команде Commander. Когда у БОЛЬШОГО остаётся 25 %, идём на БОЛЬШОГО все вместе. Когда зовёт R4, пожалуйста, приходите на rally-точку." },
-    { id:"stadt-allianz", prio:true, tags:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],
-    de:"Stadt mit feindlicher Allianz: Wir hauen gemeinsam drauf, bis die Stadt UNS gehoert, dann schicken alle ihre Truppen 30 Min zur Verteidigung rein - so bleibt sie unsere. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - dafuer lohnt sich kein Gem. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
-    en:"City held by enemy alliance: we hit together until the city is OURS, then everyone sends their troops in for 30 min to defend - that keeps it ours. Only first capture gives instant points, recapture does not - no need to spend gems for it. When R4 calls, please come to the rally point.",
-    tr:"Düşman ittifakının elindeki şehir: Şehir BİZİM olana kadar birlikte vururuz, sonra herkes savunma için 30 dk birliklerini içeri gönderir - böylece bizim kalır. Yalnızca ilk ele geçirme anında puan verir, geri alma vermez - bunun için Gem harcamaya değmez. R4 çağırınca lütfen rally noktasına gelin.",
-    ru:"Город под контролем вражеского альянса: бьём вместе, пока город не станет НАШИМ, потом все отправляют войска на 30 мин в оборону - так он останется нашим. Только первый захват даёт мгновенные очки, повторный захват - нет, ради него не стоит тратить Gem. Когда зовёт R4, пожалуйста, приходите на rally-точку." }
-  ],
-  belagerung:[ { id:"bela-halten", prio:true, tags:["Halten","Schild","Rollen"],
-    de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
-    en:"Hold Arcadia + 4 towers: relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction). 60 sec held = 10,000 points -> continuous occupation beats kills. Shield discipline; empty hospital/enlistment beforehand.",
-    tr:"Arcadia + 4 kuleyi tut: T-50'de birlikte ışınlan, rolleri dağıt (Arcadia tutucular, kule ekipleri, reaksiyon). 60 sn tutmak = 10.000 puan -> sürekli işgal kill'leri yener. Shield disiplini; Hospital/Enlistment'ı önceden boşalt.",
-    ru:"Удерживать Arcadia + 4 башни: телепортируемся вместе на T-50, распределяем роли (держатели Arcadia, команды башен, реакция). 60 сек удержания = 10 000 очков -> постоянное удержание сильнее киллов. Дисциплина Shield; заранее очистить Hospital/Enlistment." } ]
-};
+/* STRAT + STRAT_EV: gemeinsame Quelle -> strat.js (eingebunden im <head>/vor diesem Skript) */
 
 /* ===== R4 Kommandanten (Stufe-1-Gamertags) ===== */
 var R4=["Kingeder","CrexoOG","HMX","Lady M","Jac","ghob","Војвода","bismillah"];
@@ -208,6 +176,9 @@ var ST={ lang:"de", view:"code", ev:"duell", rev:"unsicher",
 function L(de,en,tr,ru){ var m={de:de,en:en,tr:tr,ru:ru}, v=m[ST.lang]; return v!=null?v:(en!=null?en:de); }
 /* Sprach-Lookup mit Fallback für Objekte {de,en,tr,ru}: gewählte Sprache → EN → DE. */
 function TL(o){ if(!o) return ""; return o[ST.lang]!=null?o[ST.lang]:(o.en!=null?o.en:(o.de!=null?o.de:"")); }
+/* Tag-Labels je Sprache: x.tags kann Array (alt, einsprachig) ODER {de,en,tr,ru} sein.
+   So sind die Auswahl-Labels im Dropdown + in der Bibliothek je Spracheinstellung lokalisiert. */
+function tagArr(x){ var t=x&&x.tags; if(!t) return []; if(Array.isArray(t)) return t; return t[ST.lang]||t.en||t.de||[]; }
 
 /* Ein Schalter steuert alles: setLang schaltet Generator-Texte + hebt den passenden
    segLang-Knopf hervor. Der globale Schalter (lang.js) meldet seine Wahl per s1l:lang,
@@ -257,7 +228,7 @@ function fieldsHtml(){
   function head(on,id,label){ return '<div class="hd"><input type="checkbox" data-fon="'+id+'"'+(on?" checked":"")+'> '+label+'</div>'; }
   var s=STRAT[ST.ev]||[];
   var stratOpts='<option value="">'+L("— keine Strategie —","— no strategy —","— strateji yok —","— без стратегии —")+'</option>';
-  s.forEach(function(x){ stratOpts+='<option value="'+x.id+'"'+(f.strat.sel===x.id?" selected":"")+'>'+(x.prio?"★ ":"")+x.tags.join(", ")+'</option>'; });
+  s.forEach(function(x){ stratOpts+='<option value="'+x.id+'"'+(f.strat.sel===x.id?" selected":"")+'>'+(x.prio?"★ ":"")+tagArr(x).join(", ")+'</option>'; });
   stratOpts+='<option value="__frei"'+(f.strat.sel==="__frei"?" selected":"")+'>'+L("Freitext…","Free text…","Serbest metin…","Свободный текст…")+'</option>';
 
   var kdtOpts='<option value="">'+L("— wählen —","— choose —","— seç —","— выбрать —")+'</option>';
@@ -312,7 +283,7 @@ function renderStratLib(){
   var h=""; Object.keys(EV).forEach(function(k){ var list=STRAT[k]||[];
     h+='<details class="card"'+(k===ST.ev?" open":"")+'><summary style="cursor:pointer;font-weight:700">'+EV[k].emo+' '+TL(EV[k].name)+' ('+list.length+')</summary>';
     if(!list.length){ h+='<p class="hint">'+L("Noch keine Strategie hinterlegt — im Baukasten keine Strategie oder Freitext.","No strategy yet — use \"no strategy\" or free text in the builder.","Henüz strateji yok — yapılandırıcıda \"strateji yok\" veya serbest metin kullan.","Стратегии пока нет — используй в конструкторе \"без стратегии\" или свободный текст.")+'</p>'; }
-    list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+x.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+TL(x)+'</div><div class="hint" style="margin-top:5px;font-weight:700">↪ '+TL(STDNOTE_TXT)+'</div></div>'; });
+    list.forEach(function(x){ h+='<div class="stratitem'+(x.prio?" prio":"")+'">'+(x.prio?'<span class="tag" style="background:rgba(202,138,4,.15);color:#ca8a04">★ PRIO</span>':"")+tagArr(x).map(function(t){return '<span class="tag">'+t+'</span>';}).join("")+'<div style="margin-top:5px">'+TL(x)+'</div><div class="hint" style="margin-top:5px;font-weight:700">↪ '+TL(STDNOTE_TXT)+'</div></div>'; });
     h+='</details>';
   });
   document.getElementById("stratlib").innerHTML=h;
@@ -354,7 +325,7 @@ function bindFields(){
   var kf=document.querySelector("[data-kfrei]"); if(kf) kf.oninput=function(){ ST.f.kdt.frei=kf.value; };
   var ka=document.querySelector("[data-kadd]"); if(ka) ka.onclick=function(){ var v=ST.f.kdt.sel==="__frei"?(ST.f.kdt.frei||"").trim():ST.f.kdt.sel; if(v && ST.f.kdt.list.indexOf(v)<0){ ST.f.kdt.list.push(v); ST.f.kdt.frei=""; if(ST.f.kdt.sel==="__frei") ST.f.kdt.sel=""; renderFields(); } };
   document.querySelectorAll("[data-krm]").forEach(function(b){ b.onclick=function(){ ST.f.kdt.list.splice(parseInt(b.getAttribute("data-krm"),10),1); renderFields(); }; });
-  var s=document.querySelector("[data-fs]"); if(s) s.onchange=function(){ ST.f.strat.sel=s.value; renderFields(); };
+  var s=document.querySelector("[data-fs]"); if(s) s.onchange=function(){ ST.f.strat.sel=s.value; setChoice(ST.ev,s.value); renderFields(); };
 }
 function renderFields(){ document.getElementById("fields").innerHTML=fieldsHtml(); bindFields(); renderOut(); }
 
@@ -367,7 +338,7 @@ function boot(){
   BOOTED=true;
   fbInit();
   renderEvTiles(); renderFields(); renderStratLib(); renderRaids(); renderFoot();
-  document.getElementById("evtiles").onclick=function(e){ var b=e.target.closest("[data-ev]"); if(!b)return; ST.ev=b.getAttribute("data-ev"); ST.f.strat.sel=""; ST.f.zeit.touched=false; applyTimelineDefault(); renderEvTiles(); renderFields(); renderStratLib(); };
+  document.getElementById("evtiles").onclick=function(e){ var b=e.target.closest("[data-ev]"); if(!b)return; ST.ev=b.getAttribute("data-ev"); ST.f.strat.sel=fb.choice[ST.ev]||""; if(ST.f.strat.sel) ST.f.strat.on=true; ST.f.zeit.touched=false; applyTimelineDefault(); renderEvTiles(); renderFields(); renderStratLib(); };
   seg("segLang","data-lang",function(v){ if(window.S1LapplyLang) window.S1LapplyLang(v); else setLang(v); });
   seg("segView","data-view",function(v){ ST.view=v; renderOut(); });
   var REV=["falsch","unsicher","bereit","frei"];

@@ -1,0 +1,63 @@
+/* ============ S1L Strategien je Event — GEMEINSAME QUELLE ============
+   Einmal HIER pflegen -> Baukasten (S1L-R4-Raid.html) UND Timeline (S1L-R4-Templates.html)
+   nutzen exakt dieselben Strategien. Auswahl-Labels (tags) je Sprache als {de,en,tr,ru}.
+   Die GEWAEHLTE Strategie je Event wird live ueber Firebase-Collection 'stratchoice' geteilt.
+   Pflege: Alex. Einbinden: <script src="strat.js"></script> VOR dem Seiten-Skript. */
+var STRAT={
+  duell:[ { id:"duell-tag4", prio:true, tags:{de:["Tag 4 - Helden","Fragmente","Alpha-Bestie"],en:["Day 4 - Heroes","Fragments","Alpha Beast"],tr:["4. Gün - Heroes","Parçalar","Alpha Beast"],ru:["День 4 - Heroes","Фрагменты","Alpha Beast"]},
+    de:"TAG 4 HELDEN: Heldenfragmente einsetzen + Rekrutierungen - legendaere Fragmente und Wunsch-Rekrutierung am staerksten (Boost je Spieler anders). Fragmente farmen: Rallys auf die MITTLEREN Monster (Alpha-Bestie); normale und fette Infizierte geben keine. Ausdauer nutzen (regeneriert + VIP-/Edelstein-Laden), Rest fuer Tag 5 (Spionagemissionen) behalten.",
+    en:"DAY 4 HEROES: use hero fragments + recruitments - legendary fragments and wish recruitment are strongest (boosts differ per player). Farm fragments: rallies vs the MEDIUM monsters (Alpha Beast); normal and fat infected give none. Use stamina (regens + VIP/Gem shop), keep a reserve for Day 5 (spy missions).",
+    tr:"4. GUN HEROES: kahraman parcalari kullan + rekrutasyonlar - efsanevi parcalar ve istek rekrutasyonu en guclu (boost oyuncuya gore degisir). Parca farmla: ORTA canavarlara (Alpha-Bestie) rally; normal ve sisman enfekteler vermez. Dayaniklilik kullan (yenilenir + VIP/Gem magaza), 5. gun (spy gorevleri) icin rezerv birak.",
+    ru:"ДЕНЬ 4 HEROES: используй фрагменты героев + вербовки - легендарные фрагменты и желаемая вербовка сильнее всего (бусты у каждого разные). Фарм фрагментов: rally на СРЕДНИХ монстров (Alpha-Bestie); обычные и толстые заражённые не дают. Выносливость трать (восстанавливается + VIP/Gem магазин), оставь резерв на День 5 (spy-миссии)." },
+  { id:"duell-koeder", prio:true, tags:{de:["Tag 6 - Kampf","Köder","Kuppel"],en:["Day 6 - Combat","Bait","Dome"],tr:["6. Gün - Savaş","Yem","Dome"],ru:["День 6 - Бой","Приманка","Купол"]},
+    de:"Köder ohne Kuppel: EINER greift OHNE Schutzschild an, 5 verstärken ihn. Der Köder (ohne Schild) danach gleich wegteleportieren und verstecken - nicht zum Sammelpunkt (kein Schild + Abklingzeit). Der Rest laesst 30 Min Truppen dort, damit der Köder geschützt ist.",
+    en:"Bait without dome: ONE attacks WITHOUT shield, 5 reinforce. The bait (no shield) then teleports away right after and hides - not to the rally point (no shield + cooldown). The rest keep troops there for 30 min so the bait stays safe.",
+    tr:"Dome olmadan yem: BİRİ Shield olmadan saldırır, 5 kişi onu takviye eder. Yem (Shield yok) hemen ardından ışınlanıp saklanır - rally noktasına değil (Shield yok + bekleme süresi). Geri kalanlar 30 dk birliklerini orada tutar, böylece yem korunur.",
+    ru:"Приманка без купола: ОДИН атакует БЕЗ Shield, 5 усиливают его. Приманка (без Shield) сразу после этого телепортируется прочь и прячется - не к rally-точке (нет Shield + перезарядка). Остальные держат войска там 30 мин, чтобы приманка была защищена." } ],
+  loewe:[ { id:"loewe-selbst", prio:true, tags:{de:["Boss","Schaden"],en:["Boss","Damage"],tr:["Boss","Hasar"],ru:["Босс","Урон"]},
+    de:"Selbst-Rally: Wer rally-faehig ist, startet am besten eine eigene Rally (kein Limit) - kuerzeste Vorlaufzeit = mehr Schlaege/Min. Am besten auf Boss-Schaden-Helden + Signature Weapons umruesten, Buffs in diesen 30 Min einsetzen.",
+    en:"Self-rally: if you can rally, best to start your own (no limit) - shortest lead time = more hits/min. Best to switch to single-target heroes + signature weapons, use buffs in these 30 min.",
+    tr:"Kendi rally'in: Rally başlatabilen en iyisi kendi rally'sini başlatsın (limit yok) - en kısa hazırlık süresi = dakikada daha çok vuruş. En iyisi tek hedef hasarı kahramanları + Signature Weapons'a geçmek, bu 30 dk içinde buff'ları kullanmak.",
+    ru:"Своя rally: кто может запускать rally, лучше пусть запускает свою (без лимита) - кратчайшее время подготовки = больше ударов в минуту. Лучше всего перейти на героев одиночного урона + Signature Weapons, использовать баффы в эти 30 мин." } ],
+  reservoir:[ { id:"res-anmelden", prio:true, tags:{de:["Anmelden","Wer ist dabei"],en:["Sign up","Who joins"],tr:["Kayıt","Kim katılıyor"],ru:["Запись","Кто участвует"]},
+    de:"Anmelden: Jeder Platz zaehlt (30 gegen 30, letztes Mal nur 17 von 30). Event Reservoir Raid oeffnen, dann die Zeile unter dem eigenen Spielernamen, dann ANMELDEN oder ABMELDEN. Nur ANMELDEN, wenn du zu 100% dabei sein kannst - sonst bitte ABMELDEN, dann rueckt eine Reserve nach. Anmeldung schliesst rund 2 Tage vor Start.",
+    en:"Sign up: every spot counts (30 vs 30, last time only 17 of 30). Open the event Reservoir Raid, then the line under your own player name, then SIGN UP or LEAVE. Only SIGN UP if you can be there 100% - otherwise please LEAVE, so a reserve can take the spot. Registration closes about 2 days before start.",
+    tr:"Kayit: her yer onemli (30'a 30, gecen sefer sadece 17 / 30). Reservoir Raid etkinligini ac, sonra kendi oyuncu adinin altindaki satir, sonra SIGN UP veya LEAVE. Sadece %100 katilabileceksen SIGN UP - aksi halde lutfen LEAVE, boylece bir yedek yerini alir. Kayit baslamadan yaklasik 2 gun once kapanir.",
+    ru:"Запись: каждое место важно (30 на 30, в прошлый раз только 17 из 30). Открой событие Reservoir Raid, затем строка под твоим именем игрока, затем SIGN UP или LEAVE. Нажимай SIGN UP только если можешь быть на 100% - иначе, пожалуйста, LEAVE, тогда резерв займёт место. Регистрация закрывается примерно за 2 дня до старта." },
+  { id:"res-halten", prio:true, tags:{de:["Halten","Lineup"],en:["Hold","Lineup"],tr:["Tut","Dizilim"],ru:["Удержание","Расстановка"]},
+    de:"Halten gewinnt, nicht Toeten: Hochwert-Gebaeude halten (Central Reservoir > grosse Komplexe > kleine Anlagen). Am besten nach Gebaeudewert aufstellen, die Staerksten aufs Central Reservoir. Lieber halten als nur Solo-Wasser jagen.",
+    en:"Holding wins, not killing: hold high-value buildings (Central Reservoir > big complexes > small ones). Best to line up by value, the strongest on Central Reservoir. Better to hold than just chase solo water.",
+    tr:"Öldürmek değil tutmak kazandırır: Yüksek değerli binaları tut (Central Reservoir > büyük kompleksler > küçük tesisler). En iyisi bina değerine göre dizilmek, en güçlüler Central Reservoir'da. Sadece tek başına su avlamak yerine tutmak daha iyi.",
+    ru:"Удержание побеждает, а не убийство: удерживай ценные здания (Central Reservoir > большие комплексы > мелкие объекты). Лучше расставляться по ценности здания, сильнейшие на Central Reservoir. Лучше удерживать, чем просто гоняться за одиночной водой." } ],
+  stadt:[
+    { id:"stadt-monster", prio:true, tags:{de:["Stadt + Monster","Nur kleine","Gross+mittel auf Ansage"],en:["City + monster","Small only","Big+mid on call"],tr:["Şehir + canavar","Sadece küçük","Büyük+orta çağrıyla"],ru:["Город + монстр","Только малые","Большой+средние по команде"]},
+    de:"Stadt mit Monster: Lasst uns alle auf die KLEINEN gehen - jeder schickt 1 Trupp auf einen FREIEN kleinen, dann bekommt jeder Punkte. Das GROSSE (Zentrum) und die mittleren erst auf Ansage vom Commander. Ist das GROSSE nur noch bei 25 %, gehen wir alle gemeinsam aufs GROSSE. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
+    en:"City with monster: let us all go for the SMALL ones - each sends 1 troop to a FREE small one, then everyone gets points. The BIG one (center) and the medium ones only on the commander's call. When the BIG one is at 25 %, we all go for it together. When R4 calls, please come to the rally point.",
+    tr:"Canavarlı şehir: Hepimiz KÜÇÜK olanlara gidelim - herkes BOŞ bir küçüğe 1 birlik gönderir, böylece herkes puan alır. BÜYÜK olan (merkez) ve orta olanlar yalnızca Commander'ın çağrısıyla. BÜYÜK olan %25'e düştüğünde, hepimiz birlikte BÜYÜK olana gideriz. R4 çağırınca lütfen rally noktasına gelin.",
+    ru:"Город с монстром: давайте все идём на МАЛЕНЬКИХ - каждый отправляет 1 отряд на СВОБОДНОГО маленького, тогда все получают очки. БОЛЬШОЙ (центр) и средних только по команде Commander. Когда у БОЛЬШОГО остаётся 25 %, идём на БОЛЬШОГО все вместе. Когда зовёт R4, пожалуйста, приходите на rally-точку." },
+    { id:"stadt-allianz", prio:true, tags:{de:["Stadt + feindl. Allianz","Erobern + 30 Min halten"],en:["City + enemy alliance","Capture + hold 30 min"],tr:["Şehir + düşman ittifak","Ele geçir + 30 dk tut"],ru:["Город + вражеский альянс","Захват + удержать 30 мин"]},
+    de:"Stadt mit feindlicher Allianz: Wir hauen gemeinsam drauf, bis die Stadt UNS gehoert, dann schicken alle ihre Truppen 30 Min zur Verteidigung rein - so bleibt sie unsere. Nur Ersteroberung gibt Sofortpunkte, Rueckeroberung nicht - dafuer lohnt sich kein Gem. Wenn R4 ruft, kommt bitte zum Sammelpunkt.",
+    en:"City held by enemy alliance: we hit together until the city is OURS, then everyone sends their troops in for 30 min to defend - that keeps it ours. Only first capture gives instant points, recapture does not - no need to spend gems for it. When R4 calls, please come to the rally point.",
+    tr:"Düşman ittifakının elindeki şehir: Şehir BİZİM olana kadar birlikte vururuz, sonra herkes savunma için 30 dk birliklerini içeri gönderir - böylece bizim kalır. Yalnızca ilk ele geçirme anında puan verir, geri alma vermez - bunun için Gem harcamaya değmez. R4 çağırınca lütfen rally noktasına gelin.",
+    ru:"Город под контролем вражеского альянса: бьём вместе, пока город не станет НАШИМ, потом все отправляют войска на 30 мин в оборону - так он останется нашим. Только первый захват даёт мгновенные очки, повторный захват - нет, ради него не стоит тратить Gem. Когда зовёт R4, пожалуйста, приходите на rally-точку." }
+  ],
+  belagerung:[ { id:"bela-halten", prio:true, tags:{de:["Halten","Schild","Rollen"],en:["Hold","Shield","Roles"],tr:["Tut","Shield","Roller"],ru:["Удержание","Shield","Роли"]},
+    de:"Arcadia + 4 Tuerme halten: T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion). 60 Sek Halten = 10.000 Punkte -> Dauerbesetzung schlaegt Kills. Schild-Disziplin; Hospital/Enlistment vorher leeren.",
+    en:"Hold Arcadia + 4 towers: relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction). 60 sec held = 10,000 points -> continuous occupation beats kills. Shield discipline; empty hospital/enlistment beforehand.",
+    tr:"Arcadia + 4 kuleyi tut: T-50'de birlikte ışınlan, rolleri dağıt (Arcadia tutucular, kule ekipleri, reaksiyon). 60 sn tutmak = 10.000 puan -> sürekli işgal kill'leri yener. Shield disiplini; Hospital/Enlistment'ı önceden boşalt.",
+    ru:"Удерживать Arcadia + 4 башни: телепортируемся вместе на T-50, распределяем роли (держатели Arcadia, команды башен, реакция). 60 сек удержания = 10 000 очков -> постоянное удержание сильнее киллов. Дисциплина Shield; заранее очистить Hospital/Enlistment." } ]
+};
+
+/* Event-Label + Emoji (gemeinsame Quelle fuer beide Seiten) */
+var STRAT_EV={
+  duell:{emo:"⚔️",name:{de:"Allianzduell",en:"Alliance Duel",tr:"Alliance Duel",ru:"Alliance Duel"}},
+  loewe:{emo:"🦁",name:{de:"Ghulöwe",en:"Ghoulion",tr:"Ghoulion",ru:"Ghoulion"}},
+  reservoir:{emo:"🐟",name:{de:"Reservoir Raid",en:"Reservoir Raid",tr:"Reservoir Raid",ru:"Reservoir Raid"}},
+  stadt:{emo:"🌃",name:{de:"Stadtduell",en:"City Duel",tr:"City Duel",ru:"City Duel"}},
+  belagerung:{emo:"👑",name:{de:"Allianzbelagerung",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest"}}
+};
+
+/* Tag-Labels je Sprache: x.tags kann Array (alt) ODER {de,en,tr,ru} sein. */
+function stratTagArr(x,lang){ var t=x&&x.tags; if(!t) return []; if(Array.isArray(t)) return t; return t[lang]||t.en||t.de||[]; }
+/* Strategie-Text je Sprache mit Fallback gewaehlt -> EN -> DE. */
+function stratLoc(x,lang){ if(!x) return ""; return x[lang]!=null?x[lang]:(x.en!=null?x.en:(x.de!=null?x.de:"")); }
