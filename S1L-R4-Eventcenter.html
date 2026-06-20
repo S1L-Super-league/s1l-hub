@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R4 — Tagesbriefing & Live-Ansagen — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ec-card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; margin:10px 0; box-shadow:var(--shadow); }
+  .ec-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding:8px 0; border-top:1px solid var(--line); }
+  .ec-row:first-child{ border-top:0; }
+  .ec-name{ font-weight:800; min-width:160px; }
+  .ec-typ{ font-size:.7rem; font-weight:800; border-radius:999px; padding:1px 8px; border:1px solid var(--line); color:var(--muted); }
+  .ec-sw{ display:inline-flex; align-items:center; gap:5px; font-size:.85rem; font-weight:700; cursor:pointer; }
+  .ec-sw input{ width:17px; height:17px; }
+  .ec-row select, .ec-row input[type=time]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
+  .ec-seg button{ border:0; background:var(--card); color:var(--ink); padding:4px 8px; font-weight:700; cursor:pointer; font-size:.78rem; border:1px solid var(--line); }
+  .ec-seg button.on{ background:var(--c-duell); color:#fff; }
+  .ec-time{ display:inline-flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .ec-muted{ color:var(--muted); font-size:.82rem; }
+  .brief-block{ background:var(--bg); border:1px solid var(--line); border-left:6px solid var(--c-duell); border-radius:10px; padding:9px 11px; margin:7px 0; }
+  .brief-block.focus{ border-left-color:var(--c-season); background:rgba(202,138,4,.06); }
+  .brief-head{ display:flex; align-items:center; gap:8px; font-weight:800; }
+  .brief-head .ord{ margin-left:auto; display:inline-flex; gap:4px; }
+  .brief-head .ord button{ border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:6px; cursor:pointer; font-weight:800; width:24px; height:24px; }
+  .pill{ font-size:.7rem; font-weight:800; border-radius:999px; padding:1px 8px; background:rgba(202,138,4,.15); color:#ca8a04; }
+  h2.section{ display:flex; align-items:center; gap:8px; }
+</style>
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ R4 — Eventcenter</h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. R4-Passwort nötig.</span><span class="lng-en">R4 / officers only. R4 password required.</span></p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span></a>
+  <header>
+    <h1>📋 <span class="lng-de">R4 — Tagesbriefing & Live-Ansagen</span><span class="lng-en">R4 — Daily briefing & live calls</span></h1>
+    <p class="lead"><span class="lng-de">Neu (Aufbau läuft). Events unten ein-/ausschalten → Tagesbriefing oben füllt sich. <b>Entwürfe — senden macht Jac.</b></span><span class="lng-en">New (work in progress). Toggle events below → the daily briefing above fills. <b>Drafts — Jac sends.</b></span></p>
+  </header>
+
+  <!-- 1) TAGESBRIEFING (Vorschau) -->
+  <h2 class="section">📣 <span class="lng-de">Tagesbriefing</span><span class="lng-en">Daily briefing</span> <span class="ec-muted">— <span class="lng-de">nur „Im Chat"-Blöcke · Reihenfolge = Priorität</span><span class="lng-en">only "in chat" blocks · order = priority</span></span></h2>
+  <div class="ec-card" id="briefing"></div>
+
+  <!-- 2) EVENT-AUSWAHL -->
+  <h2 class="section">🎛️ <span class="lng-de">Event-Auswahl</span><span class="lng-en">Event selection</span></h2>
+  <div class="ec-card" id="eventlist"></div>
+
+  <!-- 3) LIVE-ANSAGEN (folgt) -->
+  <h2 class="section">📢 <span class="lng-de">Live-Ansagen</span><span class="lng-en">Live calls</span></h2>
+  <div class="ec-card ec-muted"><span class="lng-de">Kommt als nächster Bau-Schritt: pro aktivem Termin-Event vorausgefüllt, Schalter Zeit + Inhalt.</span><span class="lng-en">Coming next: pre-filled per active timed event, switches for time + content.</span></div>
+
+  <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter (Pilot) · Stand lokal gespeichert · geteilt über Firebase folgt (eventstate). Pflegt: Alex.</span><span class="lng-en">S1L · R4 · Eventcenter (pilot) · state saved locally · shared via Firebase coming (eventstate). Maintained by Alex.</span></footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+<script src="lang.js"></script>
+<script src="strat.js"></script>
+<script src="banner.js"></script>
+<script>
+/* ===== Eventcenter — Increment 1 (Event-Auswahl + Tagesbriefing-Vorschau) =====
+   Zustand lokal (localStorage); Firebase-Collection 'eventstate' folgt (lokaler Fallback-Pattern). */
+var EV={
+ duell:{emo:"⚔️",de:"Allianzduell",en:"Alliance Duel",typ:"fokus"},
+ gw:{emo:"💎",de:"Golden Window",en:"Golden Window",typ:"gw"},
+ power:{emo:"👊",de:"Rüstungswettlauf",en:"Power Play",typ:"fokus"},
+ turbo:{emo:"🌪️",de:"Turbo-Schildkröte",en:"Turbo Turtle",typ:"fokus"},
+ loewe:{emo:"🦁",de:"Ghulöwe-Verfolgung",en:"Ghoulion Pursuit",typ:"termin"},
+ reservoir:{emo:"🐟",de:"Reservoir Raid",en:"Reservoir Raid",typ:"termin"},
+ stadt:{emo:"🌃",de:"Stadtkampf",en:"City Duel",typ:"termin"},
+ belagerung:{emo:"👑",de:"Allianzbelagerung",en:"Arcadian Conquest",typ:"termin"}
+};
+var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung"];
+var LBL={ laeuft:{de:"Läuft",en:"Active"}, chat:{de:"Im Chat",en:"In chat"},
+  strat:{de:"Strategie",en:"Strategy"}, none:{de:"— keine Strategie —",en:"— no strategy —"},
+  gwauto:{de:"Golden Window — Zeit automatisch (aus Fokus-Event)",en:"Golden Window — time auto (from focus event)"},
+  ganztags:{de:"ganztags",en:"all day"}, empty:{de:"Noch kein Block aktiv — unten Events auf Läuft + Im Chat stellen.",en:"No block active yet — set events below to Active + In chat."} };
+function lang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
+function t(o){ return o[lang()]||o.en||o.de; }
+function evName(k){ return EV[k].emo+' '+(EV[k][lang()]||EV[k].en||EV[k].de); }
+
+var ST={ ev:{}, order:DEFAULT_ORDER.slice() };
+function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v1')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; }catch(e){}
+  DEFAULT_ORDER.forEach(function(k){ if(!ST.ev[k]) ST.ev[k]={laeuft:false,imChat:false,strat:"",start:"",ende:"",base:"de"}; });
+  DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); }); }
+function save(){ try{ localStorage.setItem('s1l_eventstate_v1', JSON.stringify(ST)); }catch(e){} }
+
+function stratOptions(k,sel){ var list=(typeof STRAT!=='undefined'&&STRAT[k])?STRAT[k]:[];
+  var h='<option value="">'+t(LBL.none)+'</option>';
+  list.forEach(function(x){ var tag=stratTagArr(x,lang())[0]||x.id; h+='<option value="'+x.id+'"'+(sel===x.id?' selected':'')+'>'+(x.prio?'★ ':'')+tag+'</option>'; });
+  return h; }
+function stratTextFor(k,id){ var list=(typeof STRAT!=='undefined'&&STRAT[k])?STRAT[k]:[]; var x=list.filter(function(y){return y.id===id;})[0]; return x?stratLoc(x,lang()):""; }
+
+function renderList(){
+  var h='';
+  ST.order.forEach(function(k){ var e=ST.ev[k], m=EV[k]; if(!m) return;
+    h+='<div class="ec-row" data-k="'+k+'">';
+    h+='<span class="ec-name">'+evName(k)+'</span>';
+    h+='<span class="ec-typ">'+(m.typ==='termin'?'Termin':(m.typ==='gw'?'GW':'Fokus'))+'</span>';
+    h+='<label class="ec-sw"><input type="checkbox" data-f="laeuft"'+(e.laeuft?' checked':'')+'>'+t(LBL.laeuft)+'</label>';
+    h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
+    if(m.typ==='gw'){ h+='<span class="ec-muted">'+t(LBL.gwauto)+'</span>'; }
+    else { h+='<select data-f="strat">'+stratOptions(k,e.strat)+'</select>'; }
+    if(m.typ==='termin'){ h+='<span class="ec-time">Start <input type="time" data-f="start" value="'+(e.start||'')+'"> Ende <input type="time" data-f="ende" value="'+(e.ende||'')+'"></span>'; }
+    else if(m.typ==='fokus'){ h+='<span class="ec-muted">'+t(LBL.ganztags)+'</span>'; }
+    h+='</div>';
+  });
+  document.getElementById('eventlist').innerHTML=h;
+  document.querySelectorAll('#eventlist .ec-row').forEach(function(row){ var k=row.getAttribute('data-k');
+    row.querySelectorAll('[data-f]').forEach(function(inp){ var f=inp.getAttribute('data-f');
+      var ev=(inp.type==='checkbox')?'change':(inp.tagName==='SELECT'?'change':'input');
+      inp.addEventListener(ev,function(){ ST.ev[k][f]=(inp.type==='checkbox')?inp.checked:inp.value; save(); renderBriefing(); });
+    });
+  });
+}
+
+function renderBriefing(){
+  var active=ST.order.filter(function(k){ return ST.ev[k].laeuft && ST.ev[k].imChat; });
+  var box=document.getElementById('briefing');
+  if(!active.length){ box.innerHTML='<div class="ec-muted">'+t(LBL.empty)+'</div>'; return; }
+  var h='';
+  active.forEach(function(k,i){ var m=EV[k], e=ST.ev[k], focus=(i===0);
+    h+='<div class="brief-block'+(focus?' focus':'')+'" data-k="'+k+'">';
+    h+='<div class="brief-head">'+evName(k)+(focus?' <span class="pill">FOKUS</span>':'')
+      +'<span class="ord"><button data-mv="up" title="hoch">▲</button><button data-mv="down" title="runter">▼</button></span></div>';
+    if(m.typ==='termin' && (e.start||e.ende)){ h+='<div class="ec-muted">'+(e.start||'')+(e.ende?'–'+e.ende:'')+' '+(e.base?e.base.toUpperCase():'')+'</div>'; }
+    if(m.typ==='gw'){ h+='<div class="ec-muted">'+t(LBL.gwauto)+'</div>'; }
+    var st=e.strat?stratTextFor(k,e.strat):"";
+    if(st){ h+='<div style="margin-top:4px">'+st+'</div>'; }
+    h+='</div>';
+  });
+  box.innerHTML=h;
+  box.querySelectorAll('[data-mv]').forEach(function(b){ b.onclick=function(){
+    var k=b.closest('.brief-block').getAttribute('data-k'); var i=ST.order.indexOf(k); var dir=b.getAttribute('data-mv')==='up'?-1:1; var j=i+dir;
+    if(j<0||j>=ST.order.length) return; var tmp=ST.order[i]; ST.order[i]=ST.order[j]; ST.order[j]=tmp; save(); renderList(); renderBriefing(); }; });
+}
+
+function boot(){ load(); renderList(); renderBriefing();
+  document.addEventListener('s1l:lang', function(){ renderList(); renderBriefing(); }); }
+function waitContent(){ var c=document.getElementById('content'); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
+if(document.readyState!=='loading') waitContent(); else document.addEventListener('DOMContentLoaded', waitContent);
+</script>
+</body>
+</html>
