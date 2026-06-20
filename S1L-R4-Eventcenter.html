@@ -47,11 +47,11 @@
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span></a>
   <header>
     <h1>📋 <span class="lng-de">R4 — Tagesbriefing & Live-Ansagen</span><span class="lng-en">R4 — Daily briefing & live calls</span></h1>
-    <p class="lead"><span class="lng-de">Neu (Aufbau läuft). Events unten ein-/ausschalten → Tagesbriefing oben füllt sich. <b>Entwürfe — senden macht Jac.</b></span><span class="lng-en">New (work in progress). Toggle events below → the daily briefing above fills. <b>Drafts — Jac sends.</b></span></p>
+    <p class="lead"><span class="lng-de">Neu (Aufbau läuft). Events unten ein-/ausschalten → Tagesbriefing oben füllt sich. <b>Entwürfe zum Kopieren.</b></span><span class="lng-en">New (work in progress). Toggle events below → the daily briefing above fills. <b>Drafts to copy.</b></span></p>
   </header>
 
   <!-- 1) TAGESBRIEFING (Vorschau) -->
-  <h2 class="section">📣 <span class="lng-de">Tagesbriefing</span><span class="lng-en">Daily briefing</span> <span class="ec-muted">— <span class="lng-de">nur „Im Chat"-Blöcke · Reihenfolge = Priorität</span><span class="lng-en">only "in chat" blocks · order = priority</span></span></h2>
+  <h2 class="section">📣 <span class="lng-de">Tagesbriefing</span><span class="lng-en">Daily briefing</span> <span class="ec-muted">— <span class="lng-de">nur Blöcke mit „Mitteilen" · Reihenfolge = Priorität</span><span class="lng-en">only announced blocks · order = priority</span></span></h2>
   <div class="ec-card" id="briefing"></div>
 
   <!-- 2) EVENT-AUSWAHL -->
@@ -84,10 +84,10 @@ var EV={
  belagerung:{emo:"👑",de:"Allianzbelagerung",en:"Arcadian Conquest",typ:"termin"}
 };
 var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung"];
-var LBL={ laeuft:{de:"Läuft",en:"Active"}, chat:{de:"Im Chat",en:"In chat"},
+var LBL={ laeuft:{de:"Aktiv",en:"Active"}, chat:{de:"Mitteilen",en:"Announce"},
   strat:{de:"Strategie",en:"Strategy"}, none:{de:"— keine Strategie —",en:"— no strategy —"},
   gwauto:{de:"Golden Window — Zeit automatisch (aus Fokus-Event)",en:"Golden Window — time auto (from focus event)"},
-  ganztags:{de:"ganztags",en:"all day"}, empty:{de:"Noch kein Block aktiv — unten Events auf Läuft + Im Chat stellen.",en:"No block active yet — set events below to Active + In chat."} };
+  ganztags:{de:"ganztags",en:"all day"}, empty:{de:"Noch kein Block aktiv — unten Events auf Aktiv + Mitteilen stellen.",en:"No block active yet — set events below to Active + Announce."} };
 function lang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
 function t(o){ return o[lang()]||o.en||o.de; }
 function evName(k){ return EV[k].emo+' '+(EV[k][lang()]||EV[k].en||EV[k].de); }
