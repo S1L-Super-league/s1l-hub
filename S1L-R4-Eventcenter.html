@@ -74,6 +74,10 @@
     <div><label><span class="lng-de">Darstellung:</span><span class="lng-en">Render:</span><span class="lng-tr">Görünüm:</span><span class="lng-ru">Вид:</span></label>
       <span class="seg" id="segView"><button data-view="code" class="on"># Codes</button><button data-view="emoji">Emoji</button></span></div>
     <span class="ec-muted"><span class="lng-de">Codes = paste-sicher in Tiles (Emoji blockiert das Einfügen).</span><span class="lng-en">Codes = paste-safe in Tiles (emoji blocks pasting).</span><span class="lng-tr">Kodlar = Tiles'ta yapıştırma güvenli (emoji engeller).</span><span class="lng-ru">Коды = безопасная вставка в Tiles (emoji мешает).</span></span>
+    <div><label><span class="lng-de">Tag:</span><span class="lng-en">Day:</span><span class="lng-tr">Gün:</span><span class="lng-ru">День:</span></label>
+      <span class="seg" id="segRoll"><button type="button" data-roll="-1" title="zurück">◀</button><button type="button" data-roll="today" id="rollToday" class="on"><span class="lng-de">heute</span><span class="lng-en">today</span><span class="lng-tr">bugün</span><span class="lng-ru">сегодня</span></button><button type="button" data-roll="1" title="vor">▶</button></span>
+      <button type="button" class="seg" id="rollAuto" style="padding:6px 11px;font-weight:700;cursor:pointer" title="Auto aus Eventdaten">↻ <span class="lng-de">Auto</span><span class="lng-en">Auto</span><span class="lng-tr">Oto</span><span class="lng-ru">Авто</span></button>
+      <span class="ec-muted" id="rollInfo"></span></div>
   </div>
 
   <!-- 1) TAGESBRIEFING -->
@@ -99,7 +103,7 @@
   <h2 class="section" id="rrSecHead" hidden>🐟 <span class="lng-de">Aufstellung — Reservoir Raid</span><span class="lng-en">Line-up — Reservoir Raid</span><span class="lng-tr">Dizilim — Reservoir Raid</span><span class="lng-ru">Расстановка — Reservoir Raid</span> <span class="ec-muted">— <span class="lng-de">unten eintragen · erzeugt Phasen-Nachrichten zum Kopieren</span><span class="lng-en">fill in below · generates phase messages to copy</span><span class="lng-tr">aşağıda doldur · faz mesajları üretir</span><span class="lng-ru">заполни ниже · создаёт сообщения по фазам</span></span></h2>
   <div class="ec-card" id="rraufstellung" hidden></div>
 
-  <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter · Stand lokal gespeichert (Firebase-Sync „eventstate" folgt). Golden Window wird aus Duell×Power-Play-Zyklus berechnet — bitte gegenprüfen. Pflegt: Alex. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L · R4 · Event center · state saved locally (Firebase sync "eventstate" to come). Golden Window computed from the duel×power-play cycle — please verify. Maintained by Alex. Drafts only — Jac sends.</span><span class="lng-tr">S1L · R4 · Etkinlik merkezi · durum yerel (Firebase „eventstate" gelecek). Golden Window düello×power-play döngüsünden hesaplanır — lütfen doğrula. Sadece taslak — Jac gönderir.</span><span class="lng-ru">S1L · R4 · Центр событий · состояние локально (Firebase «eventstate» позже). Golden Window рассчитывается из цикла дуэль×power-play — проверьте. Только черновики — отправляет Jac.</span></footer>
+  <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter · Events, Golden Window &amp; Raid-Zeiten stellen sich automatisch auf den Tag (◀ heute ▶ zum Vor-/Zurückrollen, ↻ Auto setzt zurück). Manuell übersteuerbar. Stand lokal (Firebase-Sync folgt). Pflegt: Alex. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L · R4 · Event center · events, Golden Window &amp; raid times auto-set to the day (◀ today ▶ to roll, ↻ Auto resets). Manual override possible. State local (Firebase sync to come). Maintained by Alex. Drafts only — Jac sends.</span><span class="lng-tr">S1L · R4 · Etkinlik merkezi · etkinlikler, Golden Window &amp; raid saatleri güne göre otomatik (◀ bugün ▶ ile rolle, ↻ Oto sıfırlar). Elle değiştirilebilir. Durum yerel (Firebase gelecek). Pflegt: Alex. Sadece taslak — Jac gönderir.</span><span class="lng-ru">S1L · R4 · Центр событий · события, Golden Window и время рейдов авто-подстраиваются под день (◀ сегодня ▶ для прокрутки, ↻ Авто сбрасывает). Можно переопределить вручную. Состояние локально (Firebase позже). Ведёт: Alex. Только черновики — отправляет Jac.</span></footer>
 </div>
 </div>
 
@@ -134,7 +138,7 @@ var LBL={ laeuft:{de:"Läuft",en:"Active",tr:"Aktif",ru:"Активно"}, chat:
   liveEmpty:{de:"Kein Event auf 'Mitteilen'. Oben ein Event aktivieren + 'Mitteilen' setzen.",en:"No event set to Announce. Activate an event above + set Announce.",tr:"Duyur ayarlı etkinlik yok.",ru:"Нет событий «Сообщить»."},
   gwAuto:{de:"Zeit auto (Duell-Zyklus)",en:"time auto (duel cycle)",tr:"zaman oto (düello)",ru:"время авто (цикл дуэли)"},
   gwOnlyDuell:{de:"nur bei aktivem Allianzduell + Power Play",en:"only with active duel + power play",tr:"yalnızca aktif düello + power play",ru:"только при активной дуэли + power play"},
-  gwNoWin:{de:"mehrere Fenster möglich — Neuberechnung folgt (Modell im Umbau)",en:"multiple windows possible — recalculation pending",tr:"birden çok pencere mümkün — yeniden hesaplama bekleniyor",ru:"возможно несколько окон — пересчёт в процессе"},
+  gwNoWin:{de:"heute kein klassisches Fenster (Tagesthema ohne passende PP-Runde)",en:"no classic window today (daily theme has no matching PP round)",tr:"bugün klasik pencere yok (günlük temaya uygun PP turu yok)",ru:"сегодня нет классического окна (нет подходящего PP-раунда)"},
   vorbei:{de:"vorbei",en:"over",tr:"bitti",ru:"завершено"} };
 
 function lang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
@@ -158,19 +162,34 @@ function nowUtcHHMM(){ var d=new Date(); return pad(d.getUTCHours())+":"+pad(d.g
 function nowUtcMin(){ var d=new Date(); return d.getUTCHours()*60+d.getUTCMinutes(); }
 function hhmmToMin(h){ if(!h) return null; var p=h.split(":"); return parseInt(p[0],10)*60+parseInt(p[1],10); }
 
-/* ===== Golden-Window-Berechnung (Duell × Power Play) =====
-   Power Play: 6 Themen, feste Slots 00/04/08/12/16/20 UTC, täglich +1 verschoben (In-Game-KALENDER 17.06.2026).
-   Referenz: 19.06.2026 -> Tagesstart Heldenverbesserung (o=0), bestätigt via GW 08-12 UTC = Truppen (Duell Tag 5).
-   Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1. */
-var PP_THEMES=["helden","siedlung","truppen","tech","ausruest","ungeheuer"];
-var PP_REF=Date.UTC(2026,5,19), PP_REF_O=0;
+/* ===== Golden-Window-Berechnung (Duell × Power Play) — Anker bestätigt 22.06.2026 =====
+   Power Play: 6 Themen, feste Slots 00/04/08/12/16/20 UTC, täglich +1 verschoben (Live-Kalender).
+   Anker 20.06.2026 = PP-Tag 1, 00:00 UTC = Heldenverbesserung (o=0). Themen-Reihenfolge live verifiziert.
+   Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1.
+   Radar↔Ausrüstungsaufwertung bestätigt; Truppen/Gegner ohne PP-Runde = kein klassisches Fenster. */
+var PP_THEMES=["helden","siedlung","kommandant","tech","ausruest","ungeheuer"];
+var PP_REF=Date.UTC(2026,5,20), PP_REF_O=0;
 var DUEL_REF=Date.UTC(2026,5,15);
 var DUEL_THEMES=["radar","basis","tech","helden","truppen","gegner"];
-var DUEL_TO_PP={ basis:"siedlung", tech:"tech", helden:"helden", truppen:"truppen", radar:null, gegner:null };
+var DUEL_TO_PP={ radar:"ausruest", basis:"siedlung", tech:"tech", helden:"helden", truppen:null, gegner:null };
+/* ===== Auto-Roll: Wochen-Eventplan (von Alex je Zyklus gepflegt; Quelle: planung/event_schedule) =====
+   Datumsfenster YYYY-MM-DD..YYYY-MM-DD. OPEN = bekannte Eröffnungszeit (DE) für Termin-Raids. */
+var SCHED={ power:[["2026-06-20","2026-06-26"]], turbo:[["2026-06-19","2026-06-20"]], loewe:[["2026-06-22","2026-06-23"]], reservoir:[["2026-06-19","2026-06-22"]], belagerung:[["2026-06-19","2026-06-21"]] };
+var OPEN={ loewe:{"2026-06-23":{s:"22:22",dur:30}} };
 function todayUTCmid(){ var d=new Date(); return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()); }
+function rollOff(){ return (typeof ST!=='undefined'&&ST.rollOffset)?ST.rollOffset:0; }
+function effMid(){ return todayUTCmid()+rollOff()*86400000; }
+function effDateStr(){ var d=new Date(effMid()); return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()); }
 function dDays(a,b){ return Math.round((b-a)/86400000); }
-function duelDay(){ var n=((dDays(DUEL_REF,todayUTCmid())%7)+7)%7; return n<6?n+1:0; } /* 1..6, 0=Ruhetag */
-function ppOffset(){ return (((dDays(PP_REF,todayUTCmid())+PP_REF_O)%6)+6)%6; }
+function duelDay(){ var n=((dDays(DUEL_REF,effMid())%7)+7)%7; return n<6?n+1:0; } /* 1..6, 0=Ruhetag */
+function ppOffset(){ return (((dDays(PP_REF,effMid())+PP_REF_O)%6)+6)%6; }
+function inWin(k){ var w=SCHED[k]; if(!w) return false; var t=effDateStr(); for(var i=0;i<w.length;i++){ if(t>=w[i][0]&&t<=w[i][1]) return true; } return false; }
+function autoActive(k){ if(k==='duell') return duelDay()!==0; return inWin(k); }
+function autoStart(k){ var o=OPEN[k]&&OPEN[k][effDateStr()]; if(!o) return null; return {start:o.s, ende:o.dur?addMin(o.s,o.dur):'', zbase:'DE'}; }
+function applyAuto(){ ST.order.forEach(function(k){ var m=EV[k]; if(!m) return;
+  if(m.typ==='fokus'||m.typ==='termin'){ ST.ev[k].laeuft=autoActive(k); }
+  if(m.typ==='termin'){ var a=autoStart(k); if(a){ ST.ev[k].start=a.start; ST.ev[k].ende=a.ende; ST.ev[k].zbase=a.zbase; } } }); }
+function maybeRoll(force){ if(force||ST.rolledFor!==effDateStr()){ applyAuto(); ST.rolledFor=effDateStr(); save(); } }
 function gwWindow(){ /* {s,e} UTC oder null */
   if(!(ST.ev.duell.laeuft && ST.ev.power.laeuft)) return null;
   var dd=duelDay(); if(!dd) return null;
@@ -200,19 +219,19 @@ function stratFull(k,id){ var x=stratObj(k,id); return x?stratLoc(x,lang()):""; 
 function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTagArr(x,lang()); return tg[0]||""; }
 
 /* ===== Zustand ===== */
-var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{} };
+var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"" };
 function baseFor(k){ var typ=EV[k].typ;
   if(typ==='nap') return {imChat:false,txt:"",scope:"gen"};
   if(typ==='gw') return {imChat:true,len:"kurz"};
   return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE"}; }
-function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; }catch(e){}
+function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; }catch(e){} ST.rollOffset=0;
   DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
   ST.order=ST.order.filter(function(k){ return EV[k]; }); }
 function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(ST)); }catch(e){} }
 
 /* „vorbei": Termin-Event mit Endzeit, deren UTC-Ende heute schon vergangen ist */
-function isOver(k){ var e=ST.ev[k]; if(EV[k].typ!=='termin'||!e.ende) return false;
+function isOver(k){ if(rollOff()!==0) return false; var e=ST.ev[k]; if(EV[k].typ!=='termin'||!e.ende) return false;
   var endU=hhmmToMin(baseToUtc(e.ende,e.zbase||'DE')); if(endU==null) return false;
   var stU=e.start?hhmmToMin(baseToUtc(e.start,e.zbase||'DE')):null;
   var now=nowUtcMin();
@@ -403,11 +422,24 @@ function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.i
   function fbk(){ var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); ok(); } }
 function seg(id,attr,cb){ var b=document.getElementById(id); if(!b) return; b.querySelectorAll('button').forEach(function(x){ x.onclick=function(){ b.querySelectorAll('button').forEach(function(y){y.classList.remove('on');}); x.classList.add('on'); cb(x.getAttribute(attr)); }; }); }
 
+/* ===== Tag-Roll (◀ heute ▶) ===== */
+function fmtEff(){ var d=new Date(effMid()); var dd=pad(d.getUTCDate())+'.'+pad(d.getUTCMonth()+1)+'.';
+  var wd=L("So,Mo,Di,Mi,Do,Fr,Sa","Sun,Mon,Tue,Wed,Thu,Fri,Sat","Paz,Pzt,Sal,Çar,Per,Cum,Cmt","Вс,Пн,Вт,Ср,Чт,Пт,Сб").split(",")[d.getUTCDay()];
+  var dy=duelDay(); var dl=dy?(L("Duell T","Duel D","Duel G","Дуэль Д")+dy):L("Duell-Pause","duel rest","duel arası","пауза дуэли");
+  return wd+" "+dd+" · "+dl+(rollOff()?" ("+(rollOff()>0?"+":"")+rollOff()+")":""); }
+function renderRollInfo(){ var el=document.getElementById('rollInfo'); if(el) el.textContent=fmtEff();
+  var rt=document.getElementById('rollToday'); if(rt) rt.classList.toggle('on', rollOff()===0); }
+function setupRoll(){ var b=document.getElementById('segRoll');
+  if(b) b.querySelectorAll('button').forEach(function(x){ x.onclick=function(){ var r=x.getAttribute('data-roll');
+    if(r==='today') ST.rollOffset=0; else ST.rollOffset+=parseInt(r,10);
+    maybeRoll(true); renderAll(); }; });
+  var a=document.getElementById('rollAuto'); if(a) a.onclick=function(){ maybeRoll(true); renderAll(); }; }
+
 /* ===== Boot ===== */
-function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); }
-function boot(){ load();
+function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); renderRollInfo(); }
+function boot(){ load(); maybeRoll();
   var sv=document.getElementById('segView'); if(sv) sv.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-view')===ST.view); });
-  renderAll();
+  renderAll(); setupRoll();
   seg('segView','data-view',function(v){ ST.view=v; save(); renderBriefOut(); renderLive(); });
   document.getElementById('briefCopy').onclick=function(){ copyClip(viewText(buildBriefing()), this); };
   document.addEventListener('s1l:lang', function(){ renderAll(); });

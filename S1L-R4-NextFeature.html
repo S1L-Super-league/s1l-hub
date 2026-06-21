@@ -3,15 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R4 — Next Feature (zur Abstimmung) — S1L Info-Hub</title>
+<title>R4 — Abstimmungs-Board — S1L Info-Hub</title>
 <link rel="stylesheet" href="style.css">
 <style>
+  .vb-bar{ display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center; margin:12px 0; }
+  .vb-tab{ border:1.5px solid var(--line); background:var(--bg); color:var(--ink); border-radius:999px; padding:5px 13px; font-weight:700; cursor:pointer; font-size:.85rem; }
+  .vb-tab.on{ border-color:var(--c-duell,#2563eb); background:rgba(37,99,235,.12); }
+  .king{ margin-left:auto; font-size:.82rem; }
+  .king button{ border:1.5px solid var(--line); background:var(--bg); color:var(--ink); border-radius:8px; padding:5px 11px; font-weight:700; cursor:pointer; font-size:.82rem; }
+  .king.ok button{ border-color:#16a34a; color:#16a34a; }
+  .newcard textarea, .newcard input[type=text]{ width:100%; box-sizing:border-box; padding:8px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font:inherit; margin:5px 0; }
+  .newcard select{ padding:7px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font:inherit; }
   .prop{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin:12px 0; box-shadow:0 1px 3px rgba(20,30,60,.08); }
-  .prop h3{ margin:.1em 0 .4em; }
-  .prop ul{ margin:.3em 0; padding-left:1.2em; } .prop li{ margin:.25em 0; }
-  .votes{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:12px; border-top:1px solid var(--line); padding-top:10px; }
+  .prop h3{ margin:.1em 0 .3em; }
+  .prop .meta{ display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; }
+  .stat{ font-size:.72rem; font-weight:800; border-radius:999px; padding:2px 9px; border:1px solid var(--line); }
+  .stat.offen{ background:rgba(100,116,139,.15); color:#475569; }
+  .stat.angenommen{ background:rgba(22,163,74,.15); color:#16a34a; }
+  .stat.abgelehnt{ background:rgba(220,38,38,.13); color:#dc2626; }
+  .stat.verschoben{ background:rgba(202,138,4,.15); color:#ca8a04; }
+  .btag{ font-size:.72rem; font-weight:800; border-radius:999px; padding:2px 9px; background:rgba(37,99,235,.12); color:#2563eb; }
+  .ptext{ white-space:pre-wrap; word-break:break-word; margin:.3em 0; }
+  .votes{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px; border-top:1px solid var(--line); padding-top:10px; }
   .vb{ border:1.5px solid var(--line); background:var(--bg); color:var(--ink); border-radius:999px; padding:5px 13px; font-weight:700; cursor:pointer; font-size:.9rem; }
   .vb.on{ border-color:var(--c-duell,#2563eb); background:rgba(37,99,235,.12); }
+  .who{ font-size:.8rem; color:var(--muted); margin-top:6px; }
+  .who b{ color:var(--ink); }
+  .cardbtns{ margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .cardbtns select, .cardbtns button{ font:inherit; font-size:.82rem; padding:5px 9px; border:1.5px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); cursor:pointer; }
+  .delx{ color:#dc2626; border-color:#dc2626; }
   .draftnote{ font-size:.82rem; color:var(--muted); }
 </style>
 </head>
@@ -34,132 +54,34 @@
 <div class="wrap">
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span><span class="lng-tr">← R4 alanına geri dön</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
-    <h1>🗳️ <span class="lng-de">Next Feature — zur Abstimmung</span><span class="lng-en">Next Feature — to vote on</span><span class="lng-tr">Sıradaki özellik — oylama için</span><span class="lng-ru">Следующая функция — на голосование</span></h1>
-    <p class="lead"><span class="lng-de">Hier liegen geplante Ideen, <b>bevor</b> wir sie bauen. Die R4 stimmt ab, ob die anderen das wollen (👍 dafür · ❓ unsicher · 👎 eher nicht). Entwürfe von Alex — nichts ist beschlossen.</span><span class="lng-en">Planned ideas live here <b>before</b> we build them. The R4 votes whether the others want it (👍 yes · ❓ unsure · 👎 rather not). Drafts by Alex — nothing decided yet.</span><span class="lng-tr">Burada, inşa etmeden <b>önce</b> planlanan fikirler yer alır. R4, diğerlerinin isteyip istemediğini oylar (👍 evet · ❓ emin değil · 👎 pek değil). Alex'in taslakları — henüz karar yok.</span><span class="lng-ru">Здесь лежат запланированные идеи <b>до</b> их создания. R4 голосует, хотят ли этого остальные (👍 да · ❓ не уверен · 👎 скорее нет). Черновики от Alex — ничего не решено.</span></p>
+    <h1>🗳️ <span class="lng-de">Abstimmungs-Board</span><span class="lng-en">Voting board</span><span class="lng-tr">Oylama panosu</span><span class="lng-ru">Доска голосования</span></h1>
+    <p class="lead"><span class="lng-de">Jeder R4 kann eine Karte einreichen (Strategie oder Hub). Alle stimmen ab (👍 dafür · ❓ unsicher · 👎 dagegen). Den Status setzt nur Kingeder.</span><span class="lng-en">Any R4 can submit a card (strategy or hub). Everyone votes (👍 yes · ❓ unsure · 👎 no). Only Kingeder sets the status.</span><span class="lng-tr">Her R4 bir kart ekleyebilir (strateji veya hub). Herkes oylar (👍 evet · ❓ emin değil · 👎 hayır). Durumu yalnızca Kingeder belirler.</span><span class="lng-ru">Любой R4 может добавить карточку (стратегия или hub). Все голосуют (👍 да · ❓ не уверен · 👎 нет). Статус ставит только Kingeder.</span></p>
     <p class="lead" id="who"></p>
   </header>
 
-  <h2 class="section">✨ <span class="lng-de">Vorschlag 1: „S1L Spotlight" — wöchentliche Würdigung</span><span class="lng-en">Proposal 1: "S1L Spotlight" — weekly recognition</span><span class="lng-tr">Öneri 1: „S1L Spotlight" — haftalık takdir</span><span class="lng-ru">Предложение 1: «S1L Spotlight» — еженедельное признание</span></h2>
+  <div class="vb-bar">
+    <span class="lng-de" style="font-weight:700">Bereich:</span><span class="lng-en" style="font-weight:700">Area:</span><span class="lng-tr" style="font-weight:700">Alan:</span><span class="lng-ru" style="font-weight:700">Раздел:</span>
+    <button class="vb-tab on" data-f="alle"><span class="lng-de">Alle</span><span class="lng-en">All</span><span class="lng-tr">Hepsi</span><span class="lng-ru">Все</span></button>
+    <button class="vb-tab" data-f="strategie"><span class="lng-de">Strategie</span><span class="lng-en">Strategy</span><span class="lng-tr">Strateji</span><span class="lng-ru">Стратегия</span></button>
+    <button class="vb-tab" data-f="hub">Hub</button>
+    <span class="king" id="kingBox"></span>
+  </div>
 
-  <div class="prop">
-    <div class="lng-de">
-      <h3>🎯 Ziel</h3>
-      <p>Alle kennen die Regeln, kennen sich aus, bringen Ideen ein und kommen zu den Events — <b>freiwillig, mit Spaß</b>. Einsatz wird geehrt. <b>Real life first.</b></p>
-      <h3>🧭 Prinzipien</h3>
-      <ul>
-        <li><b>Feiern statt Gegeneinander:</b> wir würdigen Beiträge, kein Ranking-Druck, kein Pranger.</li>
-        <li><b>Real life first:</b> freiwillig, kein Zwang, keine „Pflicht".</li>
-        <li><b>Locker & funny:</b> lustige Abzeichen statt harter Punktetabelle.</li>
-        <li><b>Anerkennung &gt; Punkte:</b> es geht um Wertschätzung, nicht ums Gewinnen.</li>
-      </ul>
-      <h3>🏆 Wie es laufen könnte</h3>
-      <ul>
-        <li>Wöchentliche <b>Hall of Fame</b> mit Abzeichen, von R4 vergeben / Allianz nominiert: 🧠 Schlauer Tipp der Woche · 🤝 Teamplayer · 🎯 Immer dabei (Anwesenheit, nicht Leistung) · 😄 Gute-Laune-Award.</li>
-        <li><b>Schwarmwissen:</b> kleiner Wochen-Tipp oder 5-Min-Quiz „Kennst du die Regeln?" — freiwillig, wer mitmacht kommt in die Lostrommel für ein Geschenk.</li>
-        <li><b>Geste statt Preis:</b> Gewürdigte dürfen z. B. eine Rally anführen; die Führungsliga schickt Top-1 ein großes, Top-2 ein mittleres Geschenk.</li>
-        <li><b>Sanft bei Regelbruch:</b> wer trotz Ermahnung Regeln bricht, kommt nicht in die Hall of Fame — aber <b>kein öffentlicher Pranger</b>, das bleibt intern bei R4.</li>
-      </ul>
-      <h3>🛠️ Technik (wenn ihr dafür seid)</h3>
-      <p>Hall-of-Fame-Karte über Firebase (wie Pinnwand/Eingänge): R4 trägt die Ehrungen der Woche ein, Mitglieder sehen sie auf einer Hub-Seite. Nominierungen laufen über die Mitmach-Seite.</p>
-      <h3>❓ Offene Fragen für die R4</h3>
-      <ul>
-        <li>Wollen wir das überhaupt? (unten abstimmen)</li>
-        <li>Welche Abzeichen passen zu uns?</li>
-        <li>Geschenke — ja/nein, und wie?</li>
-        <li>Quiz — ja/nein?</li>
-      </ul>
-    </div>
-    <div class="lng-en">
-      <h3>🎯 Goal</h3>
-      <p>Everyone knows the rules, knows their way around, contributes ideas and comes to the events — <b>voluntarily, with fun</b>. Commitment is honored. <b>Real life first.</b></p>
-      <h3>🧭 Principles</h3>
-      <ul>
-        <li><b>Celebrate, don't compete:</b> we honor contributions, no ranking pressure, no pillory.</li>
-        <li><b>Real life first:</b> voluntary, no pressure, no "duty".</li>
-        <li><b>Light & funny:</b> playful badges instead of a hard points table.</li>
-        <li><b>Recognition &gt; points:</b> it's about appreciation, not winning.</li>
-      </ul>
-      <h3>🏆 How it could work</h3>
-      <ul>
-        <li>Weekly <b>Hall of Fame</b> with badges, given by R4 / nominated by the alliance: 🧠 Smart tip of the week · 🤝 Team player · 🎯 Always there (attendance, not performance) · 😄 Good-vibes award.</li>
-        <li><b>Shared knowledge:</b> a small weekly tip or a 5-min quiz "Do you know the rules?" — voluntary; joining enters you in a raffle for a gift.</li>
-        <li><b>A gesture, not a prize:</b> honorees may e.g. lead a rally; the leadership sends a big gift to #1, a medium one to #2.</li>
-        <li><b>Gentle on rule-breaking:</b> whoever keeps breaking rules after a reminder doesn't make the Hall of Fame — but <b>no public pillory</b>, that stays internal to R4.</li>
-      </ul>
-      <h3>🛠️ Tech (if you're in favor)</h3>
-      <p>A Hall-of-Fame card via Firebase (like the board/inbox): R4 enters the week's honors, members see them on a hub page. Nominations come via the Get-involved page.</p>
-      <h3>❓ Open questions for the R4</h3>
-      <ul>
-        <li>Do we want this at all? (vote below)</li>
-        <li>Which badges fit us?</li>
-        <li>Gifts — yes/no, and how?</li>
-        <li>Quiz — yes/no?</li>
-      </ul>
-    </div>
-    <div class="lng-tr">
-      <h3>🎯 Amaç</h3>
-      <p>Herkes kuralları bilsin, oyunu tanısın, fikir katsın ve etkinliklere gelsin — <b>gönüllü ve eğlenceli</b>. Emek takdir edilir. <b>Önce gerçek hayat.</b></p>
-      <h3>🧭 İlkeler</h3>
-      <ul>
-        <li><b>Yarışmak değil kutlamak:</b> katkıları takdir ederiz, sıralama baskısı yok, teşhir yok.</li>
-        <li><b>Önce gerçek hayat:</b> gönüllü, baskı yok, „zorunluluk" yok.</li>
-        <li><b>Hafif & eğlenceli:</b> sert puan tablosu yerine eğlenceli rozetler.</li>
-        <li><b>Takdir &gt; puan:</b> kazanmak değil, değer vermek esastır.</li>
-      </ul>
-      <h3>🏆 Nasıl işleyebilir</h3>
-      <ul>
-        <li>Haftalık <b>Onur Listesi</b>, R4 tarafından verilen / ittifak tarafından aday gösterilen rozetlerle: 🧠 Haftanın akıllı ipucu · 🤝 Takım oyuncusu · 🎯 Hep buradaydı (katılım, performans değil) · 😄 İyi ruh ödülü.</li>
-        <li><b>Ortak bilgi:</b> küçük bir haftalık ipucu veya 5 dakikalık „Kuralları biliyor musun?" testi — gönüllü; katılan bir hediye çekilişine girer.</li>
-        <li><b>Ödül değil bir jest:</b> takdir edilenler örn. bir rally yönetebilir; liderlik 1.'ye büyük, 2.'ye orta bir hediye gönderir.</li>
-        <li><b>Kural ihlaline yumuşak:</b> uyarıya rağmen kuralları çiğneyen Onur Listesi'ne giremez — ama <b>teşhir yok</b>, bu R4 içinde kalır.</li>
-      </ul>
-      <h3>🛠️ Teknik (kabul ederseniz)</h3>
-      <p>Firebase üzerinden bir Onur Listesi kartı (pano/gelen kutusu gibi): R4 haftanın onurlarını girer, üyeler bunları bir hub sayfasında görür. Adaylıklar Katıl sayfasından gelir.</p>
-      <h3>❓ R4 için açık sorular</h3>
-      <ul>
-        <li>Bunu gerçekten istiyor muyuz? (aşağıda oyla)</li>
-        <li>Hangi rozetler bize uyar?</li>
-        <li>Hediyeler — evet/hayır ve nasıl?</li>
-        <li>Test — evet/hayır?</li>
-      </ul>
-    </div>
-    <div class="lng-ru">
-      <h3>🎯 Цель</h3>
-      <p>Чтобы все знали правила, ориентировались в игре, делились идеями и приходили на события — <b>добровольно и с удовольствием</b>. Старание ценится. <b>Сначала реальная жизнь.</b></p>
-      <h3>🧭 Принципы</h3>
-      <ul>
-        <li><b>Чествовать, а не соперничать:</b> мы ценим вклад, без давления рейтингов, без позорного столба.</li>
-        <li><b>Сначала реальная жизнь:</b> добровольно, без принуждения, без «обязаловки».</li>
-        <li><b>Легко и весело:</b> забавные значки вместо жёсткой таблицы очков.</li>
-        <li><b>Признание &gt; очки:</b> важна благодарность, а не победа.</li>
-      </ul>
-      <h3>🏆 Как это может работать</h3>
-      <ul>
-        <li>Еженедельный <b>Зал славы</b> со значками от R4 / по номинации альянса: 🧠 Умный совет недели · 🤝 Командный игрок · 🎯 Всегда на месте (присутствие, не результат) · 😄 Награда за хорошее настроение.</li>
-        <li><b>Общие знания:</b> небольшой совет недели или 5-минутный квиз «Знаешь ли ты правила?» — добровольно; участие даёт билет в розыгрыш подарка.</li>
-        <li><b>Жест, а не приз:</b> отмеченные могут, например, вести ралли; руководство шлёт большой подарок №1, средний — №2.</li>
-        <li><b>Мягко к нарушениям:</b> кто нарушает правила и после замечания — не попадает в Зал славы, но <b>без публичного позора</b>, это остаётся внутри R4.</li>
-      </ul>
-      <h3>🛠️ Техника (если вы за)</h3>
-      <p>Карточка Зала славы через Firebase (как доска/входящие): R4 вносит отличившихся за неделю, участники видят их на странице Hub. Номинации — через страницу «Участвуй».</p>
-      <h3>❓ Открытые вопросы для R4</h3>
-      <ul>
-        <li>Хотим ли мы это вообще? (голосуй ниже)</li>
-        <li>Какие значки нам подходят?</li>
-        <li>Подарки — да/нет и как?</li>
-        <li>Квиз — да/нет?</li>
-      </ul>
-    </div>
-
-    <div class="votes" id="vote-spotlight">
-      <button class="vb" data-v="up">👍 <span id="t-up">0</span></button>
-      <button class="vb" data-v="q">❓ <span id="t-q">0</span></button>
-      <button class="vb" data-v="down">👎 <span id="t-down">0</span></button>
-      <span class="draftnote" id="votehint"></span>
+  <div class="prop newcard">
+    <h3>➕ <span class="lng-de">Neue Karte</span><span class="lng-en">New card</span><span class="lng-tr">Yeni kart</span><span class="lng-ru">Новая карточка</span></h3>
+    <input type="text" id="ncTitel" maxlength="80" placeholder="Titel">
+    <textarea id="ncText" rows="4" maxlength="1500" placeholder="Beschreibung / Idee"></textarea>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <select id="ncBereich"><option value="strategie">Strategie</option><option value="hub">Hub</option></select>
+      <button class="vb" id="ncSubmit">📤 <span class="lng-de">Einreichen</span><span class="lng-en">Submit</span><span class="lng-tr">Gönder</span><span class="lng-ru">Отправить</span></button>
+      <span class="draftnote" id="ncHint"></span>
     </div>
   </div>
 
-  <footer><span class="lng-de">S1L Info-Hub · R4 · Next Feature · Entwürfe zur Abstimmung — nichts ist beschlossen. Daten unsensibel.</span><span class="lng-en">S1L Info Hub · R4 · Next Feature · Drafts to vote on — nothing decided. Data non-sensitive.</span><span class="lng-tr">S1L Info-Hub · R4 · Sıradaki özellik · Oylanacak taslaklar — karar yok. Veriler hassas değil.</span><span class="lng-ru">S1L Info-Hub · R4 · Следующая функция · Черновики на голосование — ничего не решено. Данные неконфиденциальны.</span></footer>
+  <div id="cards"></div>
+  <div id="empty" class="draftnote" hidden></div>
+
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Abstimmungs-Board · Entwürfe — nichts ist beschlossen. Daten unsensibel (Gamertags/Feature-Texte).</span><span class="lng-en">S1L Info-Hub · R4 · Voting board · Drafts — nothing decided. Non-sensitive data (gamertags/feature text).</span><span class="lng-tr">S1L Info-Hub · R4 · Oylama panosu · Taslaklar — karar yok. Hassas olmayan veriler.</span><span class="lng-ru">S1L Info-Hub · R4 · Доска голосования · Черновики — ничего не решено. Неконфиденциальные данные.</span></footer>
 </div>
 </div>
 
@@ -168,33 +90,98 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 var firebaseConfig = { apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
-var db=null, ME="", REF=null, VOTES={};
+/* Kingeder-Status-Gate: SHA-256 der PIN (klein geschrieben). Default-PIN "s1l-kingeder" — Jac kann sie wechseln. */
+var KINGEDER_HASH="54c17713bdc3b06ad5dd601d7ed628e700a41fe5178745be823b1246f674713a";
+var COL="votecards";
+var db=null, REF=null, ME="", CARDS={}, FILTER="alle", KING=false;
+var STATUSES=["offen","angenommen","abgelehnt","verschoben"];
+
 function curLang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
 function L(de,en,tr,ru){ var m={de:de,en:en,tr:tr,ru:ru}; var pr={de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']}[curLang()]||['de']; for(var i=0;i<pr.length;i++){ if(m[pr[i]]!=null) return m[pr[i]]; } return de; }
-function tally(k){ var n=0; for(var x in VOTES){ if(VOTES[x]===k) n++; } return n; }
-function paint(){
-  document.getElementById("t-up").textContent=tally("up");
-  document.getElementById("t-q").textContent=tally("q");
-  document.getElementById("t-down").textContent=tally("down");
-  var mine=VOTES[ME]||"";
-  document.querySelectorAll("#vote-spotlight .vb").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-v")===mine); });
-  var w=document.getElementById("who"); if(w) w.textContent = ME ? (L("Du stimmst ab als: ","You vote as: ","Şu adla oy veriyorsun: ","Ты голосуешь как: ")+ME) : L("Beim ersten Abstimmen wirst du nach deinem R4-Namen gefragt.","On your first vote you'll be asked for your R4 name.","İlk oyda R4 adın sorulacak.","При первом голосовании спросят твоё имя R4.");
-  var vh=document.getElementById("votehint"); if(vh) vh.textContent=L("eine Stimme pro R4, änderbar","one vote per R4, changeable","R4 başına bir oy, değiştirilebilir","один голос на R4, можно изменить");
-}
+function statusLbl(s){ return {offen:L("offen","open","açık","открыто"),angenommen:L("angenommen","accepted","kabul","принято"),abgelehnt:L("abgelehnt","rejected","reddedildi","отклонено"),verschoben:L("verschoben","deferred","ertelendi","отложено")}[s]||s; }
+function bereichLbl(b){ return b==="hub"?"Hub":L("Strategie","Strategy","Strateji","Стратегия"); }
+function esc(s){ s=(s==null?"":""+s); return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmtDate(tms){ if(!tms) return ""; var d=new Date(tms); return d.toLocaleDateString(curLang(),{day:"2-digit",month:"2-digit",year:"numeric"}); }
+
+/* SHA-256 (crypto.subtle + Fallback) */
+function sha256js(ascii){ function rr(v,a){return(v>>>a)|(v<<(32-a));} var mp=Math.pow,mw=mp(2,32),result='',words=[],bl=ascii.length*8; var h=sha256js.h=sha256js.h||[],k=sha256js.k=sha256js.k||[],pc=k.length,comp={}; for(var c=2;pc<64;c++){if(!comp[c]){for(var i=0;i<313;i+=c){comp[i]=c;}h[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0;}} ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';for(i=0;i<ascii.length;i++){var j=ascii.charCodeAt(i);if(j>>8)return;words[i>>2]|=j<<((3-i)%4)*8;}words[words.length]=((bl/mw)|0);words[words.length]=(bl);for(j=0;j<words.length;){var w=words.slice(j,j+=16),oh=h;h=h.slice(0,8);for(i=0;i<64;i++){var w15=w[i-15],w2=w[i-2],a=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0;}for(i=0;i<8;i++){h[i]=(h[i]+oh[i])|0;}}for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(h[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}}return result; }
+async function hashPin(s){ try{ if(window.crypto&&crypto.subtle){ var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join(''); } }catch(e){} return sha256js(unescape(encodeURIComponent(s))); }
+
 function askName(){ var n=prompt(L("Dein R4-Name:","Your R4 name:","R4 adın:","Твоё имя R4:")); if(n){ n=n.trim(); if(n){ sessionStorage.setItem("s1l_r4_name",n); return n; } } return ""; }
-document.addEventListener('s1l:lang', paint);
+async function kingUnlock(){
+  if(KING){ KING=false; try{sessionStorage.removeItem("s1l_king_ok");}catch(e){} render(); return; }
+  var p=prompt(L("Kingeder-PIN (Status freischalten):","Kingeder PIN (unlock status):","Kingeder PIN:","PIN Kingeder:")); if(!p) return;
+  var h=await hashPin(p.trim().toLowerCase());
+  if(h===KINGEDER_HASH){ KING=true; try{sessionStorage.setItem("s1l_king_ok","1");}catch(e){} render(); }
+  else { alert(L("PIN stimmt nicht.","Wrong PIN.","PIN yanlış.","Неверный PIN.")); }
+}
+
+function tally(votes,k){ var n=0; for(var x in votes){ if(votes[x]===k) n++; } return n; }
+function names(votes,k){ var a=[]; for(var x in votes){ if(votes[x]===k) a.push(x); } return a; }
+
+function render(){
+  var w=document.getElementById("who"); if(w) w.textContent= ME? (L("Du bist angemeldet als: ","You are signed in as: ","Şu adla giriş: ","Ты вошёл как: ")+ME):L("Beim ersten Abstimmen/Einreichen wirst du nach deinem R4-Namen gefragt.","On your first vote/submit you'll be asked for your R4 name.","İlk oy/gönderide R4 adın sorulacak.","При первом голосовании/отправке спросят твоё имя R4.");
+  var kb=document.getElementById("kingBox"); if(kb){ kb.parentNode.classList.toggle("ok",KING); kb.innerHTML='<span class="king'+(KING?' ok':'')+'"><button id="kingBtn">'+(KING?"🔓 "+L("Kingeder aktiv","Kingeder active","Kingeder aktif","Kingeder активен"):"🔑 "+L("Status freischalten (Kingeder)","Unlock status (Kingeder)","Durumu aç (Kingeder)","Открыть статус (Kingeder)"))+'</button></span>'; document.getElementById("kingBtn").onclick=kingUnlock; }
+  document.getElementById("ncHint").textContent=L("sichtbar für alle R4 · Stufe 1 (keine privaten Daten)","visible to all R4 · level 1 (no private data)","tüm R4 görür · seviye 1","видно всем R4 · уровень 1");
+  var ids=Object.keys(CARDS).sort(function(a,b){ return (CARDS[b].tms||0)-(CARDS[a].tms||0); });
+  if(FILTER!=="alle") ids=ids.filter(function(id){ return (CARDS[id].bereich||"strategie")===FILTER; });
+  var box=document.getElementById("cards"), emp=document.getElementById("empty"); box.innerHTML="";
+  if(!ids.length){ emp.hidden=false; emp.textContent=L("Noch keine Karten in diesem Bereich — reiche oben die erste ein.","No cards in this area yet — submit the first above.","Bu alanda kart yok — yukarıdan ilkini ekle.","Пока нет карточек — добавь первую выше."); return; }
+  emp.hidden=true;
+  ids.forEach(function(id){ var c=CARDS[id]; var mine=c.votes&&c.votes[ME];
+    var el=document.createElement("div"); el.className="prop"; el.setAttribute("data-id",id);
+    var st=c.status||"offen";
+    var statusCtl = KING
+      ? '<select data-status>'+STATUSES.map(function(s){return '<option value="'+s+'"'+(s===st?' selected':'')+'>'+esc(statusLbl(s))+'</option>';}).join('')+'</select>'
+      : '';
+    el.innerHTML=
+      '<div class="meta"><span class="stat '+st+'">'+esc(statusLbl(st))+'</span><span class="btag">'+esc(bereichLbl(c.bereich||"strategie"))+'</span><span>'+fmtDate(c.tms)+'</span><span>· '+esc(c.autor||"?")+'</span></div>'+
+      '<h3>'+esc(c.titel||"—")+'</h3>'+
+      '<div class="ptext">'+esc(c.text||"")+'</div>'+
+      '<div class="votes">'+
+        '<button class="vb'+(mine==="up"?" on":"")+'" data-v="up">👍 '+tally(c.votes||{},"up")+'</button>'+
+        '<button class="vb'+(mine==="q"?" on":"")+'" data-v="q">❓ '+tally(c.votes||{},"q")+'</button>'+
+        '<button class="vb'+(mine==="down"?" on":"")+'" data-v="down">👎 '+tally(c.votes||{},"down")+'</button>'+
+      '</div>'+
+      '<div class="who">'+
+        '<div>👍 <b>'+(names(c.votes||{},"up").map(esc).join(", ")||"—")+'</b></div>'+
+        '<div>❓ <b>'+(names(c.votes||{},"q").map(esc).join(", ")||"—")+'</b></div>'+
+        '<div>👎 <b>'+(names(c.votes||{},"down").map(esc).join(", ")||"—")+'</b></div>'+
+      '</div>'+
+      ((statusCtl||KING)?('<div class="cardbtns">'+statusCtl+(KING?'<button class="delx" data-del>🗑 '+L("löschen","delete","sil","удалить")+'</button>':'')+'</div>'):'');
+    box.appendChild(el);
+    el.querySelectorAll(".vb").forEach(function(b){ b.onclick=function(){ vote(id,b.getAttribute("data-v")); }; });
+    var sel=el.querySelector("[data-status]"); if(sel) sel.onchange=function(){ setStatus(id,sel.value); };
+    var del=el.querySelector("[data-del]"); if(del) del.onclick=function(){ if(confirm(L("Karte löschen?","Delete card?","Kart silinsin mi?","Удалить карточку?"))) delCard(id); };
+  });
+}
+
+function vote(id,v){ if(!REF) return; if(!ME){ ME=askName(); if(!ME) return; render(); }
+  var patch={votes:{}}; patch.votes[ME]=v;
+  REF.doc(id).set(patch,{merge:true}).catch(fbErr); }
+function setStatus(id,s){ if(!REF||!KING) return; REF.doc(id).set({status:s},{merge:true}).catch(fbErr); }
+function delCard(id){ if(!REF||!KING) return; REF.doc(id).delete().catch(fbErr); }
+function submitCard(){ if(!REF) return; if(!ME){ ME=askName(); if(!ME) return; }
+  var titel=(document.getElementById("ncTitel").value||"").trim();
+  var text=(document.getElementById("ncText").value||"").trim();
+  var bereich=document.getElementById("ncBereich").value||"strategie";
+  if(!titel){ alert(L("Bitte einen Titel eingeben.","Please enter a title.","Lütfen başlık gir.","Введите заголовок.")); return; }
+  REF.add({ bereich:bereich, titel:titel, text:text, autor:ME, status:"offen", tms:Date.now(), votes:{} })
+    .then(function(){ document.getElementById("ncTitel").value=""; document.getElementById("ncText").value=""; })
+    .catch(fbErr);
+}
+function fbErr(e){ alert(L("Konnte nicht speichern: ","Could not save: ","Kaydedilemedi: ","Не удалось сохранить: ")+(e&&(e.code||e.message)||"")+"\n"+L("(Firestore-Regel 'votecards' evtl. noch nicht scharf — IT_AIR.)","(Firestore rule 'votecards' may not be live yet — IT_AIR.)","(Firestore kuralı 'votecards' henüz aktif olmayabilir.)","(Правило Firestore 'votecards' возможно ещё не активно.)")); }
+
 function boot(){
-  try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); db=firebase.firestore(); }
-  catch(e){ return; }
+  try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); db=firebase.firestore(); }catch(e){ return; }
   ME=sessionStorage.getItem("s1l_r4_name")||"";
-  REF=db.collection("nextfeature").doc("weekly-spotlight");
-  REF.onSnapshot(function(d){ VOTES=(d.exists&&(d.data()||{}).votes)||{}; paint(); }, function(){ paint(); });
-  document.querySelectorAll("#vote-spotlight .vb").forEach(function(b){ b.onclick=function(){
-    if(!ME){ ME=askName(); if(!ME) return; }
-    var patch={ votes:{} }; patch.votes[ME]=b.getAttribute("data-v");
-    REF.set(patch,{merge:true}).catch(function(e){ alert("Fehler: "+(e.code||e.message)); });
-  }; });
-  paint();
+  try{ KING=sessionStorage.getItem("s1l_king_ok")==="1"; }catch(e){}
+  REF=db.collection(COL);
+  REF.onSnapshot(function(snap){ CARDS={}; snap.forEach(function(d){ CARDS[d.id]=d.data()||{}; }); render(); }, function(){ render(); });
+  document.querySelectorAll(".vb-tab").forEach(function(b){ b.onclick=function(){ FILTER=b.getAttribute("data-f"); document.querySelectorAll(".vb-tab").forEach(function(x){x.classList.toggle("on",x===b);}); render(); }; });
+  document.getElementById("ncSubmit").onclick=submitCard;
+  document.addEventListener('s1l:lang', render);
+  render();
 }
 function waitContent(){ var c=document.getElementById("content"); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
 if(document.readyState!=="loading") waitContent(); else document.addEventListener("DOMContentLoaded",waitContent);
