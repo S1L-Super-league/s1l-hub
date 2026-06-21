@@ -3,28 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R4 — Tagesbriefing & Live-Ansagen — S1L Info-Hub</title>
+<title>R4 — Eventcenter — S1L Info-Hub</title>
 <link rel="stylesheet" href="style.css">
 <style>
+  .ec-controls{ position:sticky; top:0; z-index:5; background:var(--bg); border:1px solid var(--line); border-radius:var(--radius);
+    padding:10px 12px; margin:10px 0 16px; display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; box-shadow:var(--shadow); }
+  @media(max-width:560px){ .ec-controls{ top:52px; } }
+  .ec-controls label{ font-weight:700; font-size:.85rem; }
+  .seg{ display:inline-flex; border:2px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg button{ border:0; background:var(--card); color:var(--ink); padding:6px 11px; font-weight:700; cursor:pointer; font-size:.84rem; }
+  .seg button.on{ background:var(--c-duell); color:#fff; }
   .ec-card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; margin:10px 0; box-shadow:var(--shadow); }
   .ec-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding:8px 0; border-top:1px solid var(--line); }
   .ec-row:first-child{ border-top:0; }
-  .ec-name{ font-weight:800; min-width:160px; }
+  .ec-row.off{ opacity:.55; }
+  .ec-name{ font-weight:800; min-width:170px; }
   .ec-typ{ font-size:.7rem; font-weight:800; border-radius:999px; padding:1px 8px; border:1px solid var(--line); color:var(--muted); }
   .ec-sw{ display:inline-flex; align-items:center; gap:5px; font-size:.85rem; font-weight:700; cursor:pointer; }
   .ec-sw input{ width:17px; height:17px; }
-  .ec-row select, .ec-row input[type=time]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
-  .ec-seg button{ border:0; background:var(--card); color:var(--ink); padding:4px 8px; font-weight:700; cursor:pointer; font-size:.78rem; border:1px solid var(--line); }
-  .ec-seg button.on{ background:var(--c-duell); color:#fff; }
+  .ec-row select, .ec-row input[type=time], .ec-row input[type=text]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
   .ec-time{ display:inline-flex; gap:6px; align-items:center; flex-wrap:wrap; }
   .ec-muted{ color:var(--muted); font-size:.82rem; }
   .brief-block{ background:var(--bg); border:1px solid var(--line); border-left:6px solid var(--c-duell); border-radius:10px; padding:9px 11px; margin:7px 0; }
   .brief-block.focus{ border-left-color:var(--c-season); background:rgba(202,138,4,.06); }
+  .brief-block.gw{ border-left-color:var(--c-season); }
+  .brief-block.nap{ border-left-color:var(--c-admin); }
   .brief-head{ display:flex; align-items:center; gap:8px; font-weight:800; }
   .brief-head .ord{ margin-left:auto; display:inline-flex; gap:4px; }
   .brief-head .ord button{ border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:6px; cursor:pointer; font-weight:800; width:24px; height:24px; }
   .pill{ font-size:.7rem; font-weight:800; border-radius:999px; padding:1px 8px; background:rgba(202,138,4,.15); color:#ca8a04; }
+  .pill.auto{ background:rgba(15,157,88,.15); color:#0f9d58; }
   h2.section{ display:flex; align-items:center; gap:8px; }
+  pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0;
+    white-space:pre-wrap; word-break:break-word; font-family:"SF Mono",ui-monospace,Consolas,monospace; font-size:.9rem; line-height:1.55; }
+  .copybtn{ border:0; background:var(--c-duell); color:#fff; font-weight:700; padding:8px 14px; border-radius:9px; cursor:pointer; font-size:.85rem; }
+  .copybtn.ok{ background:var(--t-fix); }
+  .cnt{ font-size:.78rem; font-weight:700; color:var(--muted); }
+  .cnt.warn{ color:#dc2626; }
+  .live-blk{ border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:9px 0; background:var(--card); }
+  .live-blk .hd{ font-weight:800; display:flex; align-items:center; gap:8px; }
+  .live-blk .ctl{ display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:8px 0; }
+  .live-blk select, .live-blk input[type=number]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
 </style>
 </head>
 <body>
@@ -32,37 +51,51 @@
 <div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
   <div class="box">
     <h1>🛡️ R4 — Eventcenter</h1>
-    <p><span class="lng-de">Nur für R4 / Offiziere. R4-Passwort nötig.</span><span class="lng-en">R4 / officers only. R4 password required.</span></p>
+    <p><span class="lng-de">Nur für R4 / Offiziere. R4-Passwort nötig.</span><span class="lng-en">R4 / officers only. R4 password required.</span><span class="lng-tr">Yalnızca R4 / subaylar. R4 şifresi gerekli.</span><span class="lng-ru">Только R4 / офицеры. Нужен пароль R4.</span></p>
     <label for="nm" style="position:absolute;left:-9999px">Name</label>
     <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
     <label for="pw" style="position:absolute;left:-9999px">R4-Passwort</label>
     <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
-    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span></button>
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span><span class="lng-tr">Giriş</span><span class="lng-ru">Войти</span></button>
     <div class="err" id="err" role="alert"></div>
   </div>
 </div>
 
 <div id="content" hidden>
 <div class="wrap">
-  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span></a>
+  <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span><span class="lng-tr">← R4 alanına</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
-    <h1>📋 <span class="lng-de">R4 — Tagesbriefing & Live-Ansagen</span><span class="lng-en">R4 — Daily briefing & live calls</span></h1>
-    <p class="lead"><span class="lng-de">Neu (Aufbau läuft). Events unten ein-/ausschalten → Tagesbriefing oben füllt sich. <b>Entwürfe zum Kopieren.</b></span><span class="lng-en">New (work in progress). Toggle events below → the daily briefing above fills. <b>Drafts to copy.</b></span></p>
+    <h1>📋 <span class="lng-de">R4 — Eventcenter</span><span class="lng-en">R4 — Event center</span><span class="lng-tr">R4 — Etkinlik merkezi</span><span class="lng-ru">R4 — Центр событий</span></h1>
+    <p class="lead"><span class="lng-de">Mitte: Events schalten + je Event <b>kurz/lang</b> wählen. Oben baut sich das <b>Tagesbriefing</b> (Brett), unten je Event eine <b>Live-Ansage</b> zum Einzel-Verschicken. <b>Nur Entwürfe — senden macht Jac.</b></span><span class="lng-en">Middle: toggle events + pick <b>short/long</b> per event. The <b>daily briefing</b> (board) builds above, a <b>live call</b> per event below. <b>Drafts only — Jac sends.</b></span><span class="lng-tr">Orta: etkinlikleri aç/kapat + etkinlik başına <b>kısa/uzun</b> seç. Yukarıda <b>günlük brifing</b>, altta etkinlik başına <b>canlı duyuru</b>. <b>Taslak — Jac gönderir.</b></span><span class="lng-ru">Центр: переключай события + выбери <b>кратко/полно</b> по событию. Сверху <b>дневной брифинг</b>, снизу <b>live-объявление</b> на каждое. <b>Черновики — отправляет Jac.</b></span></p>
+    <p><a href="S1L-R4-Eventcenter-Hilfe.html" style="font-weight:700;text-decoration:none">📘 <span class="lng-de">Wie funktioniert das? → Anleitung mit Diagrammen</span><span class="lng-en">How does this work? → Guide with diagrams</span><span class="lng-tr">Nasıl çalışır? → Diyagramlı kılavuz</span><span class="lng-ru">Как это работает? → Руководство с диаграммами</span></a></p>
   </header>
 
-  <!-- 1) TAGESBRIEFING (Vorschau) -->
-  <h2 class="section">📣 <span class="lng-de">Tagesbriefing</span><span class="lng-en">Daily briefing</span> <span class="ec-muted">— <span class="lng-de">nur Blöcke mit „Mitteilen" · Reihenfolge = Priorität</span><span class="lng-en">only announced blocks · order = priority</span></span></h2>
+  <div class="ec-controls">
+    <div><label><span class="lng-de">Darstellung:</span><span class="lng-en">Render:</span><span class="lng-tr">Görünüm:</span><span class="lng-ru">Вид:</span></label>
+      <span class="seg" id="segView"><button data-view="code" class="on"># Codes</button><button data-view="emoji">Emoji</button></span></div>
+    <span class="ec-muted"><span class="lng-de">Codes = paste-sicher in Tiles (Emoji blockiert das Einfügen).</span><span class="lng-en">Codes = paste-safe in Tiles (emoji blocks pasting).</span><span class="lng-tr">Kodlar = Tiles'ta yapıştırma güvenli (emoji engeller).</span><span class="lng-ru">Коды = безопасная вставка в Tiles (emoji мешает).</span></span>
+  </div>
+
+  <!-- 1) TAGESBRIEFING -->
+  <h2 class="section">📣 <span class="lng-de">Tagesbriefing</span><span class="lng-en">Daily briefing</span><span class="lng-tr">Günlük brifing</span><span class="lng-ru">Дневной брифинг</span> <span class="ec-muted">— <span class="lng-de">Blöcke mit „Mitteilen" · Reihenfolge ▲▼ = Priorität · Länge je Event unten</span><span class="lng-en">announced blocks · order ▲▼ = priority · length per event below</span><span class="lng-tr">duyurulan bloklar · sıra ▲▼ = öncelik · uzunluk aşağıda</span><span class="lng-ru">блоки «Сообщить» · порядок ▲▼ = приоритет · длина ниже</span></span></h2>
   <div class="ec-card" id="briefing"></div>
+  <div class="ec-card raid">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+      <span class="cnt" id="briefCnt"></span>
+    </div>
+    <pre class="block" id="briefOut"></pre>
+    <button class="copybtn" id="briefCopy">📋 <span class="lng-de">Briefing kopieren</span><span class="lng-en">Copy briefing</span><span class="lng-tr">Brifingi kopyala</span><span class="lng-ru">Копировать брифинг</span></button>
+  </div>
 
   <!-- 2) EVENT-AUSWAHL -->
-  <h2 class="section">🎛️ <span class="lng-de">Event-Auswahl</span><span class="lng-en">Event selection</span></h2>
+  <h2 class="section">🎛️ <span class="lng-de">Event-Auswahl</span><span class="lng-en">Event selection</span><span class="lng-tr">Etkinlik seçimi</span><span class="lng-ru">Выбор событий</span></h2>
   <div class="ec-card" id="eventlist"></div>
 
-  <!-- 3) LIVE-ANSAGEN (folgt) -->
-  <h2 class="section">📢 <span class="lng-de">Live-Ansagen</span><span class="lng-en">Live calls</span></h2>
-  <div class="ec-card ec-muted"><span class="lng-de">Kommt als nächster Bau-Schritt: pro aktivem Termin-Event vorausgefüllt, Schalter Zeit + Inhalt.</span><span class="lng-en">Coming next: pre-filled per active timed event, switches for time + content.</span></div>
+  <!-- 3) LIVE-ANSAGEN -->
+  <h2 class="section">📢 <span class="lng-de">Live-Ansagen</span><span class="lng-en">Live calls</span><span class="lng-tr">Canlı duyurular</span><span class="lng-ru">Live-объявления</span> <span class="ec-muted">— <span class="lng-de">je „Mitteilen"-Event ein Block · einzeln anpassen & senden</span><span class="lng-en">one block per announced event · adjust & send individually</span><span class="lng-tr">duyurulan etkinlik başına blok · ayrı ayrı</span><span class="lng-ru">блок на каждое событие · по отдельности</span></span></h2>
+  <div class="ec-card" id="livelist"></div>
 
-  <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter (Pilot) · Stand lokal gespeichert · geteilt über Firebase folgt (eventstate). Pflegt: Alex.</span><span class="lng-en">S1L · R4 · Eventcenter (pilot) · state saved locally · shared via Firebase coming (eventstate). Maintained by Alex.</span></footer>
+  <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter · Stand lokal gespeichert (Firebase-Sync „eventstate" folgt). Golden Window wird aus Duell×Power-Play-Zyklus berechnet — bitte gegenprüfen. Pflegt: Alex. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L · R4 · Event center · state saved locally (Firebase sync "eventstate" to come). Golden Window computed from the duel×power-play cycle — please verify. Maintained by Alex. Drafts only — Jac sends.</span><span class="lng-tr">S1L · R4 · Etkinlik merkezi · durum yerel (Firebase „eventstate" gelecek). Golden Window düello×power-play döngüsünden hesaplanır — lütfen doğrula. Sadece taslak — Jac gönderir.</span><span class="lng-ru">S1L · R4 · Центр событий · состояние локально (Firebase «eventstate» позже). Golden Window рассчитывается из цикла дуэль×power-play — проверьте. Только черновики — отправляет Jac.</span></footer>
 </div>
 </div>
 
@@ -71,85 +104,281 @@
 <script src="strat.js"></script>
 <script src="banner.js"></script>
 <script>
-/* ===== Eventcenter — Increment 1 (Event-Auswahl + Tagesbriefing-Vorschau) =====
-   Zustand lokal (localStorage); Firebase-Collection 'eventstate' folgt (lokaler Fallback-Pattern). */
+/* ===== Eventcenter — Modell 2 (kurz/lang pro Event · Live je Event · GW-Auto aus Zyklus) =====
+   Zustand lokal (localStorage 's1l_eventstate_v2'); Firebase 'eventstate' folgt. */
 var EV={
- duell:{emo:"⚔️",de:"Allianzduell",en:"Alliance Duel",typ:"fokus"},
- gw:{emo:"💎",de:"Golden Window",en:"Golden Window",typ:"gw"},
- power:{emo:"👊",de:"Rüstungswettlauf",en:"Power Play",typ:"fokus"},
- turbo:{emo:"🌪️",de:"Turbo-Schildkröte",en:"Turbo Turtle",typ:"fokus"},
- loewe:{emo:"🦁",de:"Ghulöwe-Verfolgung",en:"Ghoulion Pursuit",typ:"termin"},
- reservoir:{emo:"🐟",de:"Reservoir Raid",en:"Reservoir Raid",typ:"termin"},
- stadt:{emo:"🌃",de:"Stadtkampf",en:"City Duel",typ:"termin"},
- belagerung:{emo:"👑",de:"Allianzbelagerung",en:"Arcadian Conquest",typ:"termin"}
+ duell:{emo:"⚔️",mark:"#176",de:"Allianzduell",en:"Alliance Duel",tr:"Alliance Duel",ru:"Alliance Duel",typ:"fokus"},
+ gw:{emo:"💎",mark:"#163",de:"Golden Window",en:"Golden Window",tr:"Golden Window",ru:"Golden Window",typ:"gw"},
+ power:{emo:"👊",mark:"#078",de:"Rüstungswettlauf",en:"Power Play",tr:"Power Play",ru:"Power Play",typ:"fokus"},
+ turbo:{emo:"🐢",mark:"#163",de:"Turbo-Schildkröte",en:"Turbo Turtle",tr:"Turbo Turtle",ru:"Turbo Turtle",typ:"fokus"},
+ loewe:{emo:"🦁",mark:"#098",de:"Ghulöwe-Verfolgung",en:"Ghoulion Pursuit",tr:"Ghoulion Pursuit",ru:"Ghoulion Pursuit",typ:"termin"},
+ reservoir:{emo:"🐟",mark:"#117",de:"Reservoir Raid",en:"Reservoir Raid",tr:"Reservoir Raid",ru:"Reservoir Raid",typ:"termin"},
+ stadt:{emo:"🌃",mark:"#169",de:"Stadtkampf",en:"City Duel",tr:"City Duel",ru:"City Duel",typ:"termin"},
+ belagerung:{emo:"👑",mark:"#093",de:"Allianzbelagerung",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest",typ:"termin"},
+ nap:{emo:"🤝",mark:"#079",de:"Nichtangriffspakt (NAP)",en:"Non-aggression pact",tr:"Saldırmazlık paktı",ru:"Пакт о ненападении",typ:"nap"}
 };
-var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung"];
-var LBL={ laeuft:{de:"Aktiv",en:"Active"}, chat:{de:"Mitteilen",en:"Announce"},
-  strat:{de:"Strategie",en:"Strategy"}, none:{de:"— keine Strategie —",en:"— no strategy —"},
-  gwauto:{de:"Golden Window — Zeit automatisch (aus Fokus-Event)",en:"Golden Window — time auto (from focus event)"},
-  ganztags:{de:"ganztags",en:"all day"}, empty:{de:"Noch kein Block aktiv — unten Events auf Aktiv + Mitteilen stellen.",en:"No block active yet — set events below to Active + Announce."} };
+var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung","nap"];
+
+var LBL={ laeuft:{de:"Läuft",en:"Active",tr:"Aktif",ru:"Активно"}, chat:{de:"Mitteilen",en:"Announce",tr:"Duyur",ru:"Сообщить"},
+  none:{de:"— keine Strategie —",en:"— no strategy —",tr:"— strateji yok —",ru:"— без стратегии —"},
+  laenge:{de:"Länge",en:"Length",tr:"Uzunluk",ru:"Длина"}, kurz:{de:"kurz",en:"short",tr:"kısa",ru:"кратко"}, langL:{de:"lang",en:"long",tr:"uzun",ru:"полно"},
+  ganztags:{de:"ganztags",en:"all day",tr:"tüm gün",ru:"весь день"},
+  empty:{de:"Noch kein Block aktiv — unten Events auf 'Läuft' + 'Mitteilen' stellen.",en:"No block active yet — set events below to Active + Announce.",tr:"Henüz blok yok — aşağıda Aktif + Duyur yap.",ru:"Пока пусто — включите события ниже на «Активно» + «Сообщить»."},
+  napScopeGen:{de:"generell",en:"general",tr:"genel",ru:"общий"}, napScopeEv:{de:"bestimmtes Event",en:"specific event",tr:"belirli etkinlik",ru:"конкретное событие"},
+  napPlace:{de:"z. B. mit [LEG] heute — NICHT ANGREIFEN",en:"e.g. with [LEG] today — DO NOT ATTACK",tr:"örn. [LEG] ile bugün — SALDIRMAYIN",ru:"напр. с [LEG] сегодня — НЕ АТАКОВАТЬ"},
+  liveEmpty:{de:"Kein Event auf 'Mitteilen'. Oben ein Event aktivieren + 'Mitteilen' setzen.",en:"No event set to Announce. Activate an event above + set Announce.",tr:"Duyur ayarlı etkinlik yok.",ru:"Нет событий «Сообщить»."},
+  gwAuto:{de:"Zeit auto (Duell-Zyklus)",en:"time auto (duel cycle)",tr:"zaman oto (düello)",ru:"время авто (цикл дуэли)"},
+  gwOnlyDuell:{de:"nur bei aktivem Allianzduell + Power Play",en:"only with active duel + power play",tr:"yalnızca aktif düello + power play",ru:"только при активной дуэли + power play"},
+  gwNoWin:{de:"mehrere Fenster möglich — Neuberechnung folgt (Modell im Umbau)",en:"multiple windows possible — recalculation pending",tr:"birden çok pencere mümkün — yeniden hesaplama bekleniyor",ru:"возможно несколько окон — пересчёт в процессе"},
+  vorbei:{de:"vorbei",en:"over",tr:"bitti",ru:"завершено"} };
+
 function lang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
-function t(o){ return o[lang()]||o.en||o.de; }
-function evName(k){ return EV[k].emo+' '+(EV[k][lang()]||EV[k].en||EV[k].de); }
+function t(o){ return o[lang()]!=null?o[lang()]:(o.en!=null?o.en:o.de); }
+function L(de,en,tr,ru){ var m={de:de,en:en,tr:tr,ru:ru},v=m[lang()]; return v!=null?v:(en!=null?en:de); }
+function evName(k){ return EV[k].emo+' '+t(EV[k]); }
+function evNameTxt(k){ return t(EV[k]); }
 
-var ST={ ev:{}, order:DEFAULT_ORDER.slice() };
-function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v1')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; }catch(e){}
-  DEFAULT_ORDER.forEach(function(k){ if(!ST.ev[k]) ST.ev[k]={laeuft:false,imChat:false,strat:"",start:"",ende:"",base:"de"}; });
-  DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); }); }
-function save(){ try{ localStorage.setItem('s1l_eventstate_v1', JSON.stringify(ST)); }catch(e){} }
+/* ===== Zeit-Helfer ===== */
+function pad(n){ return (n<10?"0":"")+n; }
+function addH(h,n){ if(!h) return ""; var p=h.split(":"); return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1]; }
+function tzBlock(s,e){ if(!s) return "";
+  var z=[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
+  return z.map(function(p){ var x=addH(s,p[1]); return (e?x+" - "+addH(e,p[1]):x)+"  "+p[0]; }).join("\n"); }
+var ZONES=[["UTC",0],["UK",1],["DE",2],["RU",3]];
+function zOff(k){ for(var i=0;i<ZONES.length;i++){ if(ZONES[i][0]===k) return ZONES[i][1]; } return 0; }
+function baseToUtc(v,base){ return v?addH(v,-zOff(base)):v; }
+function zoneOpts(sel){ return ZONES.map(function(z){ return '<option value="'+z[0]+'"'+(sel===z[0]?" selected":"")+'>'+z[0]+'</option>'; }).join(""); }
+function addMin(hhmm,mins){ var p=(hhmm||"0:0").split(":"); var x=parseInt(p[0],10)*60+parseInt(p[1],10)+mins; x=((x%1440)+1440)%1440; return pad(Math.floor(x/60))+":"+pad(x%60); }
+function nowUtcHHMM(){ var d=new Date(); return pad(d.getUTCHours())+":"+pad(d.getUTCMinutes()); }
+function nowUtcMin(){ var d=new Date(); return d.getUTCHours()*60+d.getUTCMinutes(); }
+function hhmmToMin(h){ if(!h) return null; var p=h.split(":"); return parseInt(p[0],10)*60+parseInt(p[1],10); }
 
-function stratOptions(k,sel){ var list=(typeof STRAT!=='undefined'&&STRAT[k])?STRAT[k]:[];
-  var h='<option value="">'+t(LBL.none)+'</option>';
-  list.forEach(function(x){ var tag=stratTagArr(x,lang())[0]||x.id; h+='<option value="'+x.id+'"'+(sel===x.id?' selected':'')+'>'+(x.prio?'★ ':'')+tag+'</option>'; });
+/* ===== Golden-Window-Berechnung (Duell × Power Play) =====
+   Power Play: 6 Themen, feste Slots 00/04/08/12/16/20 UTC, täglich +1 verschoben (In-Game-KALENDER 17.06.2026).
+   Referenz: 19.06.2026 -> Tagesstart Heldenverbesserung (o=0), bestätigt via GW 08-12 UTC = Truppen (Duell Tag 5).
+   Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1. */
+var PP_THEMES=["helden","siedlung","truppen","tech","ausruest","ungeheuer"];
+var PP_REF=Date.UTC(2026,5,19), PP_REF_O=0;
+var DUEL_REF=Date.UTC(2026,5,15);
+var DUEL_THEMES=["radar","basis","tech","helden","truppen","gegner"];
+var DUEL_TO_PP={ basis:"siedlung", tech:"tech", helden:"helden", truppen:"truppen", radar:null, gegner:null };
+function todayUTCmid(){ var d=new Date(); return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()); }
+function dDays(a,b){ return Math.round((b-a)/86400000); }
+function duelDay(){ var n=((dDays(DUEL_REF,todayUTCmid())%7)+7)%7; return n<6?n+1:0; } /* 1..6, 0=Ruhetag */
+function ppOffset(){ return (((dDays(PP_REF,todayUTCmid())+PP_REF_O)%6)+6)%6; }
+function gwWindow(){ /* {s,e} UTC oder null */
+  if(!(ST.ev.duell.laeuft && ST.ev.power.laeuft)) return null;
+  var dd=duelDay(); if(!dd) return null;
+  var ppt=DUEL_TO_PP[DUEL_THEMES[dd-1]]; if(!ppt) return null;
+  var o=ppOffset();
+  for(var s=0;s<6;s++){ if(PP_THEMES[(o+s)%6]===ppt){ var h=4*s; return {s:pad(h)+":00", e:pad((h+4)%24)+":00"}; } }
+  return null;
+}
+function gwComputable(){ return ST.ev.duell.laeuft && ST.ev.power.laeuft; }
+
+/* ===== #-Codes <-> Emoji ===== */
+var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#170":"📍","#093":"👑","#098":"🦁","#117":"🐟","#169":"🌃","#078":"💪","#079":"🤝","#080":"🤘","#074":"👍" };
+function toEmoji(s){ return s.replace(/#\d{3}/g,function(c){ return EMO[c]||c; }); }
+function viewText(s){ return ST.view==="emoji"?toEmoji(s):s; }
+
+/* ===== Standardsatz ===== */
+var STDNOTE={ de:"#080 Auf den Allianz-Chat achten - Strategie kann sich spontan aendern, R4 sagt Bescheid.", en:"#080 Watch the alliance chat - strategy can change at any time, R4 will tell you.", tr:"#080 İttifak sohbetini takip et - strateji her an değişebilir, R4 haber verir.", ru:"#080 Следите за чатом альянса - стратегия может в любой момент измениться, R4 сообщит." };
+var GWNOTE={ de:"Booster/Material/Speedups jetzt einsetzen - zaehlt doppelt.", en:"Use boosters/materials/speedups now - counts double.", tr:"Booster/materyal/hızlandırıcıları şimdi kullan - çift sayar.", ru:"Используй бустеры/материалы/ускорения сейчас - считается вдвойне." };
+
+/* ===== Strategie aus strat.js ===== */
+function stratList(k){ return (typeof STRAT!=='undefined'&&STRAT[k])?STRAT[k]:[]; }
+function stratOptions(k,sel){ var h='<option value="">'+t(LBL.none)+'</option>';
+  stratList(k).forEach(function(x){ var tag=stratTagArr(x,lang())[0]||x.id; h+='<option value="'+x.id+'"'+(sel===x.id?' selected':'')+'>'+(x.prio?'★ ':'')+tag+'</option>'; });
   return h; }
-function stratTextFor(k,id){ var list=(typeof STRAT!=='undefined'&&STRAT[k])?STRAT[k]:[]; var x=list.filter(function(y){return y.id===id;})[0]; return x?stratLoc(x,lang()):""; }
+function stratObj(k,id){ return stratList(k).filter(function(y){return y.id===id;})[0]; }
+function stratFull(k,id){ var x=stratObj(k,id); return x?stratLoc(x,lang()):""; }
+function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTagArr(x,lang()); return tg[0]||""; }
 
+/* ===== Zustand ===== */
+var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{} };
+function baseFor(k){ var typ=EV[k].typ;
+  if(typ==='nap') return {imChat:false,txt:"",scope:"gen"};
+  if(typ==='gw') return {imChat:true,len:"kurz"};
+  return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE"}; }
+function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; }catch(e){}
+  DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
+  DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
+  ST.order=ST.order.filter(function(k){ return EV[k]; }); }
+function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(ST)); }catch(e){} }
+
+/* „vorbei": Termin-Event mit Endzeit, deren UTC-Ende heute schon vergangen ist */
+function isOver(k){ var e=ST.ev[k]; if(EV[k].typ!=='termin'||!e.ende) return false;
+  var endU=hhmmToMin(baseToUtc(e.ende,e.zbase||'DE')); if(endU==null) return false;
+  var stU=e.start?hhmmToMin(baseToUtc(e.start,e.zbase||'DE')):null;
+  var now=nowUtcMin();
+  if(stU!=null && endU<stU) return false; /* über Mitternacht: nicht automatisch als vorbei werten */
+  return now>endU; }
+
+/* ===== Event-Auswahl (Zeilen) ===== */
+function lenSelect(k){ var e=ST.ev[k]; return '<select data-f="len"><option value="kurz"'+(e.len==='kurz'?' selected':'')+'>'+t(LBL.kurz)+'</option><option value="lang"'+(e.len==='lang'?' selected':'')+'>'+t(LBL.langL)+'</option></select>'; }
 function renderList(){
-  var h='';
+  var h='', gw=gwWindow();
   ST.order.forEach(function(k){ var e=ST.ev[k], m=EV[k]; if(!m) return;
-    h+='<div class="ec-row" data-k="'+k+'">';
-    h+='<span class="ec-name">'+evName(k)+'</span>';
-    h+='<span class="ec-typ">'+(m.typ==='termin'?'Termin':(m.typ==='gw'?'GW':'Fokus'))+'</span>';
-    h+='<label class="ec-sw"><input type="checkbox" data-f="laeuft"'+(e.laeuft?' checked':'')+'>'+t(LBL.laeuft)+'</label>';
-    h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
-    if(m.typ==='gw'){ h+='<span class="ec-muted">'+t(LBL.gwauto)+'</span>'; }
-    else { h+='<select data-f="strat">'+stratOptions(k,e.strat)+'</select>'; }
-    if(m.typ==='termin'){ h+='<span class="ec-time">Start <input type="time" data-f="start" value="'+(e.start||'')+'"> Ende <input type="time" data-f="ende" value="'+(e.ende||'')+'"></span>'; }
-    else if(m.typ==='fokus'){ h+='<span class="ec-muted">'+t(LBL.ganztags)+'</span>'; }
+    var over=isOver(k);
+    h+='<div class="ec-row'+(over?' off':'')+'" data-k="'+k+'">';
+    h+='<span class="ec-name">'+evName(k)+(over?' <span class="ec-typ">'+t(LBL.vorbei)+'</span>':'')+'</span>';
+    h+='<span class="ec-typ">'+(m.typ==='termin'?'Termin':(m.typ==='gw'?'GW':(m.typ==='nap'?'NAP':'Fokus')))+'</span>';
+    if(m.typ==='nap'){
+      h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
+      h+='<input type="text" data-f="txt" value="'+esc(e.txt||'')+'" placeholder="'+esc(t(LBL.napPlace))+'" style="flex:1;min-width:200px">';
+      h+='<select data-f="scope"><option value="gen"'+(e.scope==='gen'?' selected':'')+'>'+t(LBL.napScopeGen)+'</option><option value="event"'+(e.scope==='event'?' selected':'')+'>'+t(LBL.napScopeEv)+'</option></select>';
+    } else if(m.typ==='gw'){
+      h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
+      h+=lenSelect(k);
+      h+='<span class="pill auto">'+t(LBL.gwAuto)+'</span>';
+      if(!gwComputable()) h+='<span class="ec-muted">'+t(LBL.gwOnlyDuell)+'</span>';
+      else if(gw) h+='<span class="ec-muted">'+gw.s+'–'+gw.e+' UTC</span>';
+      else h+='<span class="ec-muted">'+t(LBL.gwNoWin)+'</span>';
+    } else {
+      h+='<label class="ec-sw"><input type="checkbox" data-f="laeuft"'+(e.laeuft?' checked':'')+'>'+t(LBL.laeuft)+'</label>';
+      h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
+      h+=lenSelect(k);
+      h+='<select data-f="strat">'+stratOptions(k,e.strat)+'</select>';
+      if(m.typ==='termin'){ h+='<span class="ec-time"><select data-f="zbase" title="Zone">'+zoneOpts(e.zbase||'DE')+'</select> Start <input type="time" data-f="start" value="'+(e.start||'')+'"> Ende <input type="time" data-f="ende" value="'+(e.ende||'')+'"></span>'; }
+      else { h+='<span class="ec-muted">'+t(LBL.ganztags)+'</span>'; }
+    }
     h+='</div>';
   });
   document.getElementById('eventlist').innerHTML=h;
   document.querySelectorAll('#eventlist .ec-row').forEach(function(row){ var k=row.getAttribute('data-k');
     row.querySelectorAll('[data-f]').forEach(function(inp){ var f=inp.getAttribute('data-f');
-      var ev=(inp.type==='checkbox')?'change':(inp.tagName==='SELECT'?'change':'input');
-      inp.addEventListener(ev,function(){ ST.ev[k][f]=(inp.type==='checkbox')?inp.checked:inp.value; save(); renderBriefing(); });
+      var evn=(inp.type==='checkbox')?'change':(inp.tagName==='SELECT'?'change':'input');
+      inp.addEventListener(evn,function(){ ST.ev[k][f]=(inp.type==='checkbox')?inp.checked:inp.value; save(); renderAll(); });
     });
   });
 }
 
+/* ===== Tagesbriefing ===== */
+function briefBlocks(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k]; if(!e||!m) return false;
+  if(m.typ==='nap') return e.imChat && (e.txt||'').trim();
+  if(m.typ==='gw') return e.imChat && gwComputable();
+  return e.laeuft && e.imChat && !isOver(k); }); }
+function firstRealEvent(blocks){ for(var i=0;i<blocks.length;i++){ var typ=EV[blocks[i]].typ; if(typ==='fokus'||typ==='termin') return blocks[i]; } return null; }
+
 function renderBriefing(){
-  var active=ST.order.filter(function(k){ return ST.ev[k].laeuft && ST.ev[k].imChat; });
-  var box=document.getElementById('briefing');
-  if(!active.length){ box.innerHTML='<div class="ec-muted">'+t(LBL.empty)+'</div>'; return; }
-  var h='';
-  active.forEach(function(k,i){ var m=EV[k], e=ST.ev[k], focus=(i===0);
-    h+='<div class="brief-block'+(focus?' focus':'')+'" data-k="'+k+'">';
-    h+='<div class="brief-head">'+evName(k)+(focus?' <span class="pill">FOKUS</span>':'')
+  var blocks=briefBlocks(), box=document.getElementById('briefing');
+  if(!blocks.length){ box.innerHTML='<div class="ec-muted">'+t(LBL.empty)+'</div>'; return; }
+  var focus=firstRealEvent(blocks), h='', gw=gwWindow();
+  blocks.forEach(function(k){ var m=EV[k], e=ST.ev[k], isFocus=(k===focus);
+    var cls='brief-block'+(isFocus?' focus':'')+(m.typ==='gw'?' gw':'')+(m.typ==='nap'?' nap':'');
+    h+='<div class="'+cls+'" data-k="'+k+'">';
+    h+='<div class="brief-head">'+evName(k)+(isFocus?' <span class="pill">FOKUS</span>':'')+(m.typ!=='nap'&&m.typ!=='gw'?' <span class="ec-typ">'+(e.len==='lang'?t(LBL.langL):t(LBL.kurz))+'</span>':'')
       +'<span class="ord"><button data-mv="up" title="hoch">▲</button><button data-mv="down" title="runter">▼</button></span></div>';
-    if(m.typ==='termin' && (e.start||e.ende)){ h+='<div class="ec-muted">'+(e.start||'')+(e.ende?'–'+e.ende:'')+' '+(e.base?e.base.toUpperCase():'')+'</div>'; }
-    if(m.typ==='gw'){ h+='<div class="ec-muted">'+t(LBL.gwauto)+'</div>'; }
-    var st=e.strat?stratTextFor(k,e.strat):"";
-    if(st){ h+='<div style="margin-top:4px">'+st+'</div>'; }
+    if(m.typ==='nap'){ h+='<div class="ec-muted">'+esc(e.txt)+' ('+(e.scope==='event'?t(LBL.napScopeEv):t(LBL.napScopeGen))+')</div>'; }
+    else if(m.typ==='gw'){ h+='<div class="ec-muted">'+(gw?gw.s+'–'+gw.e+' UTC':t(LBL.gwNoWin))+'</div>'; }
+    else { var hl=stratHead(k,e.strat); if(e.len==='kurz'&&hl){ h+='<div class="ec-muted">'+esc(hl)+'</div>'; }
+      if(m.typ==='termin'&&(e.start||e.ende)){ h+='<div class="ec-muted">'+(e.start||'')+(e.ende?'–'+e.ende:'')+' '+(e.zbase||'DE')+'</div>'; }
+      if(e.len==='lang'){ var st=e.strat?stratFull(k,e.strat):""; if(st){ h+='<div style="margin-top:4px">'+esc(st)+'</div>'; } } }
     h+='</div>';
   });
   box.innerHTML=h;
   box.querySelectorAll('[data-mv]').forEach(function(b){ b.onclick=function(){
     var k=b.closest('.brief-block').getAttribute('data-k'); var i=ST.order.indexOf(k); var dir=b.getAttribute('data-mv')==='up'?-1:1; var j=i+dir;
-    if(j<0||j>=ST.order.length) return; var tmp=ST.order[i]; ST.order[i]=ST.order[j]; ST.order[j]=tmp; save(); renderList(); renderBriefing(); }; });
+    if(j<0||j>=ST.order.length) return; var tmp=ST.order[i]; ST.order[i]=ST.order[j]; ST.order[j]=tmp; save(); renderAll(); }; });
+}
+function buildBriefing(){
+  var blocks=briefBlocks(); if(!blocks.length) return "";
+  var focus=firstRealEvent(blocks), out=[], gw=gwWindow();
+  out.push("#190 "+L("HEUTE - S1L","TODAY - S1L","BUGÜN - S1L","СЕГОДНЯ - S1L"));
+  blocks.forEach(function(k){ var m=EV[k], e=ST.ev[k], isFocus=(k===focus);
+    if(m.typ==='nap'){ out.push("———", EV.nap.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")+": "+e.txt+(e.scope==='event'?" ("+L("nur dieses Event","this event only","sadece bu etkinlik","только это событие")+")":"")); return; }
+    if(m.typ==='gw'){ out.push("———", EV.gw.mark+" "+L("GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW")); if(gw) out.push(tzBlock(gw.s,gw.e)); if(e.len==='lang') out.push("#080 "+t(GWNOTE)); return; }
+    /* echtes Event */
+    if(e.len==='lang'){
+      out.push("———", m.mark+" ***** "+evNameTxt(k).toUpperCase()+" ***** "+m.mark+(isFocus?" - FOKUS":""));
+      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):""));
+      var st=e.strat?stratFull(k,e.strat):""; if(st) out.push(st);
+    } else {
+      var hl=stratHead(k,e.strat);
+      out.push("———", m.mark+" "+evNameTxt(k)+(isFocus?" - FOKUS":"")+(hl?" - "+hl:""));
+      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):""));
+    }
+  });
+  out.push("———", t(STDNOTE));
+  return out.join("\n");
+}
+function renderBriefOut(){
+  var txt=buildBriefing(), pre=document.getElementById('briefOut'), cnt=document.getElementById('briefCnt');
+  var shown=viewText(txt);
+  pre.textContent= txt?shown:t(LBL.empty);
+  var n=shown.length; cnt.textContent=n+" "+L("Zeichen","chars","karakter","симв.")+(n>900?" "+L("(über 900 - kürzen: Events auf 'kurz')","(over 900 - shorten: set events to 'short')","(900 üstü - kısalt)","(больше 900 - сократи)"):"");
+  cnt.className="cnt"+(n>900?" warn":"");
 }
 
-function boot(){ load(); renderList(); renderBriefing();
-  document.addEventListener('s1l:lang', function(){ renderList(); renderBriefing(); }); }
+/* ===== Live-Ansagen (je Mitteilen-Event) ===== */
+function liveEvents(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k];
+  if(m.typ==='nap') return e.imChat && (e.txt||'').trim();
+  if(m.typ==='gw') return e.imChat && gwComputable();
+  return e.laeuft && e.imChat; }); }
+function liveState(k){ var def=(EV[k].typ==='termin')?'time':'now'; if(!ST.live[k]) ST.live[k]={zmode:def,relN:"15",relU:"min",inhalt:"chat"}; return ST.live[k]; }
+function buildLive(k){
+  var m=EV[k], e=ST.ev[k], out=[];
+  if(m.typ==='nap'){ out.push("#190 "+m.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ"),"#080 "+e.txt+(e.scope==='event'?" ("+L("nur dieses Event","this event only","sadece bu etkinlik","только это событие")+")":""),"———",t(STDNOTE)); return out.join("\n"); }
+  if(m.typ==='gw'){ var w=gwWindow(); out.push("#190 "+m.mark+" GOLDEN WINDOW"); if(w) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167",tzBlock(w.s,w.e)); out.push("———","#080 "+t(GWNOTE),"———",t(STDNOTE)); return out.join("\n"); }
+  var s=liveState(k);
+  out.push("#190 "+m.mark+" "+evNameTxt(k).toUpperCase()+(m.typ==='termin'?" - RALLY":""));
+  if(m.typ==='termin') out.push("———","#080 "+L("Sammelpunkt: Allianzsammelpunkt","Rally point: alliance rally point","Rally noktası: ittifak rally noktası","Точка сбора: точка сбора альянса"));
+  if(s.zmode==='now'){ out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167","#080 "+L("Es geht los - kommt zum Sammelpunkt","It is on - come to the rally point","Başlıyor - rally noktasına gelin","Начинаем - приходите на точку сбора")); }
+  else if(s.zmode==='rel'){ var mins=(s.relU==='h'?(parseInt(s.relN,10)||0)*60:(parseInt(s.relN,10)||0)); var su=addMin(nowUtcHHMM(),mins); var rel=(s.relU==='h'?(s.relN+" h"):(s.relN+" min"));
+    out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167","#080 "+L("Start in ","Start in ","Başlangıç ","Старт через ")+rel, tzBlock(su,"")); }
+  else if(s.zmode==='time'){ var uS=e.start?baseToUtc(e.start,e.zbase||'DE'):"", uE=e.ende?baseToUtc(e.ende,e.zbase||'DE'):"";
+    if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167", tzBlock(uS,uE)); }
+  if(s.inhalt==='strat'){ var st=e.strat?stratFull(k,e.strat):""; if(st) out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY","STRATEJİ","СТРАТЕГИЯ")+" ***** #176", st); }
+  out.push("———", t(STDNOTE));
+  return out.join("\n");
+}
+function renderLive(){
+  var box=document.getElementById('livelist'), active=liveEvents();
+  if(!active.length){ box.innerHTML='<div class="ec-muted">'+t(LBL.liveEmpty)+'</div>'; return; }
+  var h='';
+  active.forEach(function(k){ var m=EV[k];
+    h+='<div class="live-blk" data-k="'+k+'"><div class="hd">'+evName(k)+'</div>';
+    if(m.typ!=='nap'&&m.typ!=='gw'){ var s=liveState(k);
+      h+='<div class="ctl">';
+      h+='<label>'+L("Zeit","Time","Zaman","Время")+': <select data-l="zmode">'
+        +(m.typ==='termin'?'<option value="time"'+(s.zmode==='time'?' selected':'')+'>'+L("Uhrzeit (oben)","Clock (above)","Saat (yukarıda)","Время (сверху)")+'</option>':'')
+        +'<option value="rel"'+(s.zmode==='rel'?' selected':'')+'>'+L("in X","in X","X içinde","через X")+'</option>'
+        +'<option value="now"'+(s.zmode==='now'?' selected':'')+'>'+L("Jetzt","Now","Şimdi","Сейчас")+'</option>'
+        +'<option value="none"'+(s.zmode==='none'?' selected':'')+'>'+L("keine","none","yok","нет")+'</option></select></label>';
+      if(s.zmode==='rel'){ h+='<span><input type="number" data-l="relN" min="1" value="'+esc(s.relN)+'" style="max-width:80px"> <select data-l="relU"><option value="min"'+(s.relU==='min'?' selected':'')+'>'+L("Min","min","dk","мин")+'</option><option value="h"'+(s.relU==='h'?' selected':'')+'>'+L("Std","h","sa","ч")+'</option></select></span>'; }
+      if(s.zmode==='time'&&!ST.ev[k].start){ h+='<span class="ec-muted">'+L("keine Zeit oben gesetzt","no time set above","yukarıda zaman yok","время сверху не задано")+'</span>'; }
+      h+='<label>'+L("Inhalt","Content","İçerik","Контент")+': <select data-l="inhalt"><option value="chat"'+(s.inhalt==='chat'?' selected':'')+'>'+L("nur Chat beachten","watch chat only","sadece sohbete bak","только чат")+'</option><option value="strat"'+(s.inhalt==='strat'?' selected':'')+'>'+L("mit Strategie","with strategy","strateji ile","со стратегией")+'</option></select></label>';
+      h+='</div>';
+    }
+    h+='<pre class="block" data-out="'+k+'"></pre><button class="copybtn" data-copy="'+k+'">📋 '+L("Kopieren","Copy","Kopyala","Копировать")+'</button></div>';
+  });
+  box.innerHTML=h;
+  box.querySelectorAll('.live-blk').forEach(function(blk){ var k=blk.getAttribute('data-k');
+    blk.querySelectorAll('[data-l]').forEach(function(inp){ var f=inp.getAttribute('data-l');
+      var evn=(inp.tagName==='SELECT')?'change':'input';
+      inp.addEventListener(evn,function(){ liveState(k)[f]=inp.value; save(); renderLive(); });
+    });
+    blk.querySelector('[data-out]').textContent=viewText(buildLive(k));
+    blk.querySelector('[data-copy]').onclick=function(){ copyClip(buildLive(k), this); };
+  });
+}
+
+/* ===== Hilfen ===== */
+function esc(s){ s=(s==null?"":""+s); return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.innerHTML; btn.textContent="✓"; setTimeout(function(){btn.classList.remove("ok");btn.innerHTML=o;},1200); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok,fbk); } else fbk();
+  function fbk(){ var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); ok(); } }
+function seg(id,attr,cb){ var b=document.getElementById(id); if(!b) return; b.querySelectorAll('button').forEach(function(x){ x.onclick=function(){ b.querySelectorAll('button').forEach(function(y){y.classList.remove('on');}); x.classList.add('on'); cb(x.getAttribute(attr)); }; }); }
+
+/* ===== Boot ===== */
+function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); }
+function boot(){ load();
+  var sv=document.getElementById('segView'); if(sv) sv.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-view')===ST.view); });
+  renderAll();
+  seg('segView','data-view',function(v){ ST.view=v; save(); renderBriefOut(); renderLive(); });
+  document.getElementById('briefCopy').onclick=function(){ copyClip(viewText(buildBriefing()), this); };
+  document.addEventListener('s1l:lang', function(){ renderAll(); });
+}
 function waitContent(){ var c=document.getElementById('content'); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
 if(document.readyState!=='loading') waitContent(); else document.addEventListener('DOMContentLoaded', waitContent);
 </script>
