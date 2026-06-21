@@ -54,7 +54,8 @@
 
   <h2 class="section"><span class="lng-de">🗺️ Unser Plan heute</span><span class="lng-en">🗺️ Our plan today</span><span class="lng-tr">🗺️ Bugünkü planımız</span><span class="lng-ru">🗺️ Наш план на сегодня</span></h2>
   <div class="card raid">
-    <p><em><span class="lng-de">(Hier trägt Alex/der Anführer den Tagesplan ein — Lanes, wer welches Gebäude, Anker/Capper/Flanker.)</span><span class="lng-en">(Alex/the leader enters the daily plan here — lanes, who takes which building, anchor/capper/flanker.)</span><span class="lng-tr">(Alex/lider günlük planı buraya girer — lane'ler, kim hangi binayı, anchor/capper/flanker.)</span><span class="lng-ru">(Alex/лидер вписывает сюда план на день — lanes, кто берёт какое здание, anchor/capper/flanker.)</span></em></p>
+    <p class="lead" style="margin:.2em 0 .6em"><span class="lng-de">Aktuelle Aufstellung je Phase — oben siehst du deinen eigenen Einsatz. Die R4 pflegen sie.</span><span class="lng-en">Current line-up per phase — your own assignment is shown first. R4 maintain it.</span><span class="lng-tr">Faz başına güncel dizilim — en üstte kendi görevin. R4 yönetir.</span><span class="lng-ru">Актуальная расстановка по фазам — сверху твоя задача. Ведут R4.</span></p>
+    <div id="rrmount" class="rrwrap"></div>
     <p class="fact"><b><span class="lng-de">Beispiel:</span><span class="lng-en">Example:</span><span class="lng-tr">Örnek:</span><span class="lng-ru">Пример:</span></b> <span class="lng-de">Stärkste → Central Reservoir, dann 2 große Komplexe · Mittlere → 4 kleine Anlagen · Kleine → Solar+Helipad (Mobilität) + Munitions (Buff) · 3–4 Starke = Floating-Reserve für umkämpfte Punkte.</span><span class="lng-en">Strongest → Central Reservoir, then 2 large complexes · Mid-tier → 4 small facilities · Smaller → Solar+Helipad (mobility) + Munitions (buff) · 3–4 strong = floating reserve for contested points.</span><span class="lng-tr">En güçlüler → Central Reservoir, sonra 2 large complexes · Orta seviye → 4 small facilities · Küçükler → Solar+Helipad (mobilite) + Munitions (buff) · 3–4 güçlü = çekişmeli noktalar için floating reserve.</span><span class="lng-ru">Сильнейшие → Central Reservoir, затем 2 large complexes · Средние → 4 small facilities · Слабее → Solar+Helipad (мобильность) + Munitions (buff) · 3–4 сильных = floating reserve для спорных точек.</span> <span class="badge tier-prob">WAHRSCHEINLICH</span></p>
   </div>
 
@@ -85,6 +86,11 @@
 <script src="auth.js"></script>
 <script src="lang.js"></script>
 <script src="review.js"></script>
+<script src="rr.js"></script>
 <script src="banner.js"></script>
+<script>
+(function(){ function go(){ var el=document.getElementById('rrmount'); if(el&&window.S1LRR) window.S1LRR.mountView(el); }
+  if(document.readyState!=='loading') go(); else document.addEventListener('DOMContentLoaded', go); })();
+</script>
 </body>
 </html>

@@ -119,3 +119,49 @@ footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px so
 /* Banner auf dem Login-/Eintritts-Screen (in der Login-Karte) */
 .gate-banner{ max-width:none; margin:0 0 14px; padding:0; }
 .gate-banner .hub-banner-img{ height:96px; object-fit:cover; object-position:50% 40%; border-radius:10px; }
+
+/* ===== Reservoir-Raid-Aufstellung (rr.js) ===== */
+.rrwrap{ margin-top:8px; }
+.rrtop{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.rrtop h2{ margin:.2em 0; }
+.rrsrc{ font-size:.78rem; padding:2px 9px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+.rrsrc.on{ border-color:#16a34a; color:#16a34a; }
+.rrsrc.off{ border-color:#d97706; color:#d97706; }
+.rrmine{ background:linear-gradient(135deg,rgba(245,196,81,.14),rgba(124,58,237,.10)); border:1px solid #d4a72c; border-radius:14px; padding:12px 15px; margin:10px 0 18px; }
+.rrmine h3{ margin:.1em 0 .5em; color:#b8860b; }
+.rrrow{ padding:6px 0; border-top:1px solid rgba(180,150,40,.25); }
+.rrrow:first-of-type{ border-top:0; }
+.rrph{ display:inline-block; min-width:74px; font-weight:700; color:#b8860b; }
+.rrphase{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 15px; margin:0 0 14px; }
+.rrphase h3{ margin:.1em 0 .25em; }
+.rrnote{ color:var(--muted); font-size:.88rem; margin:.2em 0 .8em; }
+.rrbld{ background:rgba(125,125,160,.08); border-radius:10px; padding:9px 11px; margin:7px 0; }
+.rrbld.minebld{ outline:2px solid #d4a72c; }
+.rrbname{ font-weight:600; margin-bottom:6px; font-size:.95rem; }
+.rrchips{ display:flex; flex-wrap:wrap; gap:6px; }
+.rrchip{ background:rgba(37,99,235,.12); border:1px solid rgba(37,99,235,.35); border-radius:999px; padding:3px 10px; font-size:.86rem; }
+.rrchip.lead{ background:rgba(56,189,248,.16); border-color:#38bdf8; }
+.rrchip.me{ background:rgba(245,196,81,.22); border-color:#d4a72c; font-weight:700; }
+.rrtl{ color:var(--muted); font-size:.78rem; }
+.rrmut{ color:var(--muted); }
+.rrbox{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 15px; margin:0 0 14px; }
+.rrbox h3{ margin:.1em 0 .5em; font-size:1.02rem; }
+.rrbox ul{ margin:.3em 0; padding-left:1.2em; }
+.rrlegend{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; font-size:.82rem; color:var(--muted); margin-top:6px; }
+.me-leg{ color:#b8860b; font-weight:600; }
+.rrcopy,.rrsave,.rrreset,.rraddb,.rraddm{ font:inherit; cursor:pointer; border-radius:9px; border:1px solid var(--line); background:var(--card); color:var(--ink); padding:6px 12px; }
+.rrsave{ background:#16a34a; color:#fff; border-color:#16a34a; font-weight:600; }
+.rrreset{ background:transparent; }
+.rredit-bar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:10px 0 16px; position:sticky; top:0; background:var(--bg); padding:8px 0; z-index:5; }
+.rrmsg{ font-size:.86rem; }
+.rrmsg.ok{ color:#16a34a; } .rrmsg.bad{ color:#dc2626; }
+.rredit-phase{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 15px; margin:0 0 14px; }
+.rredit-bld{ background:rgba(125,125,160,.07); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0; }
+.rredit-line{ display:flex; align-items:flex-start; gap:8px; flex-wrap:wrap; margin:5px 0; }
+.rredit-line > label{ min-width:84px; font-size:.84rem; color:var(--muted); padding-top:6px; }
+.rrmembers{ display:flex; flex-direction:column; gap:6px; flex:1; min-width:200px; }
+.rrmrow{ display:flex; gap:6px; align-items:center; }
+.rrsel,.rrfree,.rrgn,.rrbn{ font:inherit; padding:5px 8px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+.rrbn{ flex:1; min-width:180px; }
+.rrx,.rrxb{ font:inherit; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--muted); border-radius:8px; padding:2px 9px; }
+.rrx:hover,.rrxb:hover{ color:#dc2626; border-color:#dc2626; }

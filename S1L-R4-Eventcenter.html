@@ -95,6 +95,10 @@
   <h2 class="section">📢 <span class="lng-de">Live-Ansagen</span><span class="lng-en">Live calls</span><span class="lng-tr">Canlı duyurular</span><span class="lng-ru">Live-объявления</span> <span class="ec-muted">— <span class="lng-de">je „Mitteilen"-Event ein Block · einzeln anpassen & senden</span><span class="lng-en">one block per announced event · adjust & send individually</span><span class="lng-tr">duyurulan etkinlik başına blok · ayrı ayrı</span><span class="lng-ru">блок на каждое событие · по отдельности</span></span></h2>
   <div class="ec-card" id="livelist"></div>
 
+  <!-- 4) RR-AUFSTELLUNG — nur wenn Reservoir Raid läuft + Strategie „Aufstellung" -->
+  <h2 class="section" id="rrSecHead" hidden>🐟 <span class="lng-de">Aufstellung — Reservoir Raid</span><span class="lng-en">Line-up — Reservoir Raid</span><span class="lng-tr">Dizilim — Reservoir Raid</span><span class="lng-ru">Расстановка — Reservoir Raid</span> <span class="ec-muted">— <span class="lng-de">unten eintragen · erzeugt Phasen-Nachrichten zum Kopieren</span><span class="lng-en">fill in below · generates phase messages to copy</span><span class="lng-tr">aşağıda doldur · faz mesajları üretir</span><span class="lng-ru">заполни ниже · создаёт сообщения по фазам</span></span></h2>
+  <div class="ec-card" id="rraufstellung" hidden></div>
+
   <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter · Stand lokal gespeichert (Firebase-Sync „eventstate" folgt). Golden Window wird aus Duell×Power-Play-Zyklus berechnet — bitte gegenprüfen. Pflegt: Alex. Nur Entwürfe — Versand durch Jac.</span><span class="lng-en">S1L · R4 · Event center · state saved locally (Firebase sync "eventstate" to come). Golden Window computed from the duel×power-play cycle — please verify. Maintained by Alex. Drafts only — Jac sends.</span><span class="lng-tr">S1L · R4 · Etkinlik merkezi · durum yerel (Firebase „eventstate" gelecek). Golden Window düello×power-play döngüsünden hesaplanır — lütfen doğrula. Sadece taslak — Jac gönderir.</span><span class="lng-ru">S1L · R4 · Центр событий · состояние локально (Firebase «eventstate» позже). Golden Window рассчитывается из цикла дуэль×power-play — проверьте. Только черновики — отправляет Jac.</span></footer>
 </div>
 </div>
@@ -102,6 +106,7 @@
 <script src="auth-r4.js"></script>
 <script src="lang.js"></script>
 <script src="strat.js"></script>
+<script src="rr.js"></script>
 <script src="banner.js"></script>
 <script>
 /* ===== Eventcenter — Modell 2 (kurz/lang pro Event · Live je Event · GW-Auto aus Zyklus) =====
@@ -363,6 +368,34 @@ function renderLive(){
   });
 }
 
+/* ===== RR-Aufstellung (Editor unten + Phasen-Nachrichten) ===== */
+function rrActive(){ var e=ST.ev.reservoir; return !!(e && e.laeuft && e.strat==='res-aufstellung' && window.S1LRR); }
+function renderRRAufstellung(){
+  var on=rrActive(), head=document.getElementById('rrSecHead'), box=document.getElementById('rraufstellung');
+  if(!head||!box) return;
+  head.hidden=!on; box.hidden=!on;
+  if(!on) return;
+  if(!box._built){
+    box.innerHTML=
+      '<details id="rrEdWrap"><summary style="cursor:pointer;font-weight:800">✏️ '+L("Aufstellung bearbeiten (R4)","Edit line-up (R4)","Dizilimi düzenle (R4)","Редактировать (R4)")+'</summary><div id="rrEd" style="margin-top:10px"></div></details>'+
+      '<div style="margin:12px 0 4px"><button class="copybtn" id="rrGen">🧩 '+L("Phasen-Nachrichten erzeugen","Generate phase messages","Faz mesajları üret","Создать сообщения по фазам")+'</button> <span class="ec-muted">'+L("nach dem Bearbeiten neu erzeugen","regenerate after editing","düzenledikten sonra yeniden üret","после правок создать заново")+'</span></div>'+
+      '<div id="rrMsgs"></div>';
+    window.S1LRR.mountEditor(document.getElementById('rrEd'));
+    document.getElementById('rrGen').onclick=renderRRMsgs;
+    box._built=1;
+    renderRRMsgs();
+  }
+}
+function renderRRMsgs(){
+  var wrap=document.getElementById('rrMsgs'); if(!wrap||!window.S1LRR) return;
+  var msgs=window.S1LRR.messages(), h='';
+  msgs.forEach(function(mm,i){ var n=mm.text.length;
+    h+='<div class="live-blk"><div class="hd">'+esc(mm.title)+' <span class="cnt'+(n>900?' warn':'')+'">'+n+' '+L("Zeichen","chars","karakter","симв.")+(n>900?' ⚠️':'')+'</span></div><pre class="block" data-m="'+i+'">'+esc(mm.text)+'</pre><button class="copybtn" data-cm="'+i+'">📋 '+L("Kopieren","Copy","Kopyala","Копировать")+'</button></div>';
+  });
+  wrap.innerHTML=h;
+  wrap.querySelectorAll('[data-cm]').forEach(function(b){ var i=+b.getAttribute('data-cm'); b.onclick=function(){ copyClip(msgs[i].text,b); }; });
+}
+
 /* ===== Hilfen ===== */
 function esc(s){ s=(s==null?"":""+s); return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
 function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.innerHTML; btn.textContent="✓"; setTimeout(function(){btn.classList.remove("ok");btn.innerHTML=o;},1200); }
@@ -371,7 +404,7 @@ function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.i
 function seg(id,attr,cb){ var b=document.getElementById(id); if(!b) return; b.querySelectorAll('button').forEach(function(x){ x.onclick=function(){ b.querySelectorAll('button').forEach(function(y){y.classList.remove('on');}); x.classList.add('on'); cb(x.getAttribute(attr)); }; }); }
 
 /* ===== Boot ===== */
-function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); }
+function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); }
 function boot(){ load();
   var sv=document.getElementById('segView'); if(sv) sv.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-view')===ST.view); });
   renderAll();

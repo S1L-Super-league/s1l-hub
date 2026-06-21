@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RR-Aufstellung bearbeiten — R4 — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-label="R4-Bereich anmelden">
+  <div class="box">
+    <h1>🛡️ <span class="lng-de">R4-Bereich</span><span class="lng-en">R4 area</span><span class="lng-tr">R4 alanı</span><span class="lng-ru">Раздел R4</span></h1>
+    <p><span class="lng-de">Nur für R4 / Offiziere. Eigenes R4-Passwort nötig (nicht das Mitglieder-Login).</span><span class="lng-en">Only for R4 / officers. Your own R4 password is required (not the member login).</span><span class="lng-tr">Yalnızca R4 / subaylar için. Kendi R4 şifreniz gereklidir (üye girişi değil).</span><span class="lng-ru">Только для R4 / офицеров. Нужен собственный пароль R4 (не вход для участников).</span></p>
+    <label for="nm" style="position:absolute;left:-9999px">Name</label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">R4-Passwort</span><span class="lng-en">R4 password</span><span class="lng-tr">R4 şifresi</span><span class="lng-ru">Пароль R4</span></label>
+    <input id="pw" type="password" autocomplete="off" placeholder="R4-Passwort" style="margin-top:10px">
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Log in</span><span class="lng-tr">Giriş</span><span class="lng-ru">Войти</span></button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+</div>
+
+<div id="content" hidden>
+<div class="wrap">
+  <a class="back" href="S1L-R4.html">← <span class="lng-de">Zurück zum R4-Bereich</span><span class="lng-en">Back to R4 area</span><span class="lng-tr">R4 alanına geri dön</span><span class="lng-ru">Назад в раздел R4</span></a>
+  <header>
+    <h1>✏️ <span class="lng-de">RR-Aufstellung bearbeiten</span><span class="lng-en">Edit RR line-up</span><span class="lng-tr">RR dizilimini düzenle</span><span class="lng-ru">Редактировать расстановку RR</span></h1>
+    <p class="lead"><span class="lng-de">Je Phase und Gebäude eintragen: Anführer + Mitglieder per Dropdown (registrierte Member) oder Freitext. „Speichern" macht es für alle sichtbar. „Aufstellung kopieren" gibt den fertigen Text für den Spiel-Chat (Senden machst du selbst).</span><span class="lng-en">Per phase and building: leader + members via dropdown (registered members) or free text. "Save" makes it visible to all. "Copy line-up" gives the ready text for the game chat (you send it yourself).</span><span class="lng-tr">Faz ve bina başına: lider + üyeler dropdown ile (kayıtlı üyeler) ya da serbest metin. „Kaydet" herkese görünür yapar. „Dizilimi kopyala" oyun sohbeti için hazır metni verir (gönderme sana ait).</span><span class="lng-ru">По фазам и зданиям: лидер + участники через выпадающий список (зарегистрированные) или свой текст. «Сохранить» делает видимым для всех. «Копировать расстановку» даёт готовый текст для игрового чата (отправляешь сам).</span></p>
+  </header>
+
+  <p class="lead"><span class="lng-de">Mitglieder-Ansicht:</span><span class="lng-en">Member view:</span><span class="lng-tr">Üye görünümü:</span><span class="lng-ru">Вид для участников:</span> <a href="S1L-Event-Reservoir-Raid.html"><span class="lng-de">Reservoir-Raid-Eventseite</span><span class="lng-en">Reservoir Raid event page</span><span class="lng-tr">Reservoir Raid etkinlik sayfası</span><span class="lng-ru">страница события Reservoir Raid</span> →</a></p>
+
+  <div id="rrmount" class="rrwrap"></div>
+
+  <footer><span class="lng-de">S1L Info-Hub · R4 · Aufstellung wird in Firebase geteilt; Quelle/Archiv: planung/s1l-gaming-data.json.</span><span class="lng-en">S1L Info-Hub · R4 · line-up shared via Firebase; source/archive: planung/s1l-gaming-data.json.</span><span class="lng-tr">S1L Info-Hub · R4 · dizilim Firebase ile paylaşılır; kaynak/arşiv: planung/s1l-gaming-data.json.</span><span class="lng-ru">S1L Info-Hub · R4 · расстановка через Firebase; источник/архив: planung/s1l-gaming-data.json.</span></footer>
+</div>
+</div>
+
+<script src="auth-r4.js"></script>
+<script src="lang.js"></script>
+<script src="rr.js"></script>
+<script src="banner.js"></script>
+<script>
+(function(){ function go(){ var el=document.getElementById('rrmount'); if(el&&window.S1LRR) window.S1LRR.mountEditor(el); }
+  if(document.readyState!=='loading') go(); else document.addEventListener('DOMContentLoaded', go); })();
+</script>
+</body>
+</html>
