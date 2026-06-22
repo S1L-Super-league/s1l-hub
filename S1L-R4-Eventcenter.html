@@ -109,6 +109,7 @@
 
 <script src="auth-r4.js"></script>
 <script src="lang.js"></script>
+<script src="engine.js"></script>
 <script src="strat.js"></script>
 <script src="rr.js"></script>
 <script src="banner.js"></script>
@@ -168,11 +169,7 @@ function hhmmToMin(h){ if(!h) return null; var p=h.split(":"); return parseInt(p
    Frueherer Anker 20.06 war falsch (machte Mo zu Tag3 -> GW-Zeiten um 2 Slots verschoben).
    Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1. PP/Duell gekoppelt, woechentlich konstant.
    Radar↔Ausrüstungsaufwertung bestätigt; Truppen/Gegner ohne PP-Runde = kein klassisches Fenster. */
-var PP_THEMES=["helden","siedlung","kommandant","tech","ausruest","ungeheuer"];
-var PP_REF=Date.UTC(2026,5,22), PP_REF_O=0;
-var DUEL_REF=Date.UTC(2026,5,15);
-var DUEL_THEMES=["radar","basis","tech","helden","truppen","gegner"];
-var DUEL_TO_PP={ radar:"ausruest", basis:"siedlung", tech:"tech", helden:"helden", truppen:null, gegner:null };
+/* Anker + Duell-/PP-Themen + GW-Logik liegen jetzt ZENTRAL in engine.js (ENGINE.*). Keine Duplikate hier. */
 /* ===== Auto-Roll: Wochen-Eventplan (von Alex je Zyklus gepflegt; Quelle: planung/event_schedule) =====
    Datumsfenster YYYY-MM-DD..YYYY-MM-DD. OPEN = bekannte Eröffnungszeit (DE) für Termin-Raids. */
 var SCHED={ power:[["2026-06-20","2026-06-26"]], turbo:[["2026-06-19","2026-06-20"]], loewe:[["2026-06-22","2026-06-23"]], reservoir:[["2026-06-19","2026-06-22"]], belagerung:[["2026-06-19","2026-06-21"]] };
@@ -182,8 +179,8 @@ function rollOff(){ return (typeof ST!=='undefined'&&ST.rollOffset)?ST.rollOffse
 function effMid(){ return todayUTCmid()+rollOff()*86400000; }
 function effDateStr(){ var d=new Date(effMid()); return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()); }
 function dDays(a,b){ return Math.round((b-a)/86400000); }
-function duelDay(){ var n=((dDays(DUEL_REF,effMid())%7)+7)%7; return n<6?n+1:0; } /* 1..6, 0=Ruhetag */
-function ppOffset(){ return (((dDays(PP_REF,effMid())+PP_REF_O)%6)+6)%6; }
+function duelDay(){ return ENGINE.duelDay(effMid()); } /* 1..6, 0=Ruhetag — aus engine.js */
+function ppOffset(){ return ENGINE.ppOffset(effMid()); }
 function inWin(k){ var w=SCHED[k]; if(!w) return false; var t=effDateStr(); for(var i=0;i<w.length;i++){ if(t>=w[i][0]&&t<=w[i][1]) return true; } return false; }
 function autoActive(k){ if(k==='duell') return duelDay()!==0; return inWin(k); }
 function autoStart(k){ var o=OPEN[k]&&OPEN[k][effDateStr()]; if(!o) return null; return {start:o.s, ende:o.dur?addMin(o.s,o.dur):'', zbase:'DE'}; }
@@ -191,13 +188,9 @@ function applyAuto(){ ST.order.forEach(function(k){ var m=EV[k]; if(!m) return;
   if(m.typ==='fokus'||m.typ==='termin'){ ST.ev[k].laeuft=autoActive(k); }
   if(m.typ==='termin'){ var a=autoStart(k); if(a){ ST.ev[k].start=a.start; ST.ev[k].ende=a.ende; ST.ev[k].zbase=a.zbase; } } }); }
 function maybeRoll(force){ if(force||ST.rolledFor!==effDateStr()){ applyAuto(); ST.rolledFor=effDateStr(); save(); } }
-function gwWindow(){ /* {s,e} UTC oder null */
+function gwWindow(){ /* {s,e} UTC oder null — Rechnung aus engine.js */
   if(!(ST.ev.duell.laeuft && ST.ev.power.laeuft)) return null;
-  var dd=duelDay(); if(!dd) return null;
-  var ppt=DUEL_TO_PP[DUEL_THEMES[dd-1]]; if(!ppt) return null;
-  var o=ppOffset();
-  for(var s=0;s<6;s++){ if(PP_THEMES[(o+s)%6]===ppt){ var h=4*s; return {s:pad(h)+":00", e:pad((h+4)%24)+":00"}; } }
-  return null;
+  var w=ENGINE.gwWindow(effMid()); return w?{s:w.sUtc, e:w.eUtc}:null;
 }
 function gwComputable(){ return ST.ev.duell.laeuft && ST.ev.power.laeuft; }
 
