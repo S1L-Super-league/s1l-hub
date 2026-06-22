@@ -40,10 +40,14 @@ var ENGINE = (function(){
   /* PP-Rotation eines Tages: [{slotUtc, theme, themeDe}] */
   function ppScheduleForDay(x){ var o=ppOffset(x), out=[]; for(var s=0;s<6;s++){ var t=PP_THEMES[(o+s)%6]; out.push({ slotUtc:SLOTS_UTC[s], theme:t, themeDe:PP_THEMES_DE[t] }); } return out; }
 
+  /* Power Play + Turbo-Schildkröte laufen Mo–Fr, Sa+So Pause (Jac 22.06.2026) -> am Wochenende kein GW. */
+  function ppRuns(x){ var wd=new Date(toMid(x)).getUTCDay(); return wd>=1 && wd<=5; }
+
   /* Golden Window für ein Datum: {sUtc,eUtc,round,roundDe} oder null
-     (Tag 5 Truppen + Tag 6 Gegner = kein klassisches Fenster; Tag 6 hat mehrere via Beschleuniger) */
+     (Tag 5 Truppen = kein PP-Partner; Sa/So = Power-Play-Pause -> kein Fenster) */
   function gwWindow(x){
     var dd=duelDay(x); if(!dd) return null;
+    if(!ppRuns(x)) return null;
     var ppt=DUEL_TO_PP[DUEL_THEMES[dd-1]]; if(!ppt) return null;
     var o=ppOffset(x);
     for(var s=0;s<6;s++){ if(PP_THEMES[(o+s)%6]===ppt){ var h=SLOTS_UTC[s]; return { sUtc:pad(h)+":00", eUtc:pad((h+4)%24)+":00", round:ppt, roundDe:PP_THEMES_DE[ppt] }; } }
@@ -57,7 +61,7 @@ var ENGINE = (function(){
     PP_THEMES:PP_THEMES, PP_THEMES_DE:PP_THEMES_DE, SLOTS_UTC:SLOTS_UTC,
     DUEL_THEMES:DUEL_THEMES, DUEL_THEMES_DE:DUEL_THEMES_DE, DUEL_WEIGHT:DUEL_WEIGHT, DUEL_TO_PP:DUEL_TO_PP,
     PP_REF:PP_REF, PP_REF_O:PP_REF_O, DUEL_REF:DUEL_REF,
-    duelDay:duelDay, ppOffset:ppOffset, duelTheme:duelTheme, duelInfo:duelInfo,
+    duelDay:duelDay, ppOffset:ppOffset, ppRuns:ppRuns, duelTheme:duelTheme, duelInfo:duelInfo,
     ppScheduleForDay:ppScheduleForDay, gwWindow:gwWindow, shiftHHMM:shiftHHMM
   };
 })();
