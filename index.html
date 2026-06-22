@@ -134,6 +134,75 @@
 </div>
 
 <script src="auth.js"></script>
+<script src="engine.js"></script>
+<script src="strat.js"></script>
+<script>
+/* Hub Auto-Roll: HEUTE-Block + Wochentabelle dynamisch aus engine.js + strat.js.
+   Re-rendert bei Sprachwechsel (s1l:lang). Fallback: statischer Text bleibt, wenn JS/Engine fehlt. */
+(function(){
+  if(typeof ENGINE==='undefined') return;
+  var WD={ de:["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"],
+    en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    tr:["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"],
+    ru:["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"] };
+  var WDS={ de:["So","Mo","Di","Mi","Do","Fr","Sa"], en:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+    tr:["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"], ru:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"] };
+  var THEME={
+    de:{radar:"Radar-Training",basis:"Basisbau",tech:"Technologieforschung",helden:"Helden-Entwicklung",truppen:"Schlachtvorbereitung",gegner:"Gegner besiegen"},
+    en:{radar:"Radar Training",basis:"Base Building",tech:"Technology",helden:"Hero Development",truppen:"Battle Prep",gegner:"Defeat Enemies"},
+    tr:{radar:"Radar Eğitimi",basis:"Üs İnşası",tech:"Teknoloji",helden:"Kahraman Gelişimi",truppen:"Savaş Hazırlığı",gegner:"Düşmanları Yen"},
+    ru:{radar:"Radar Training",basis:"Base Building",tech:"Technology",helden:"Hero Development",truppen:"Battle Prep",gegner:"Defeat Enemies"} };
+  var T={
+    de:{heute:"HEUTE",duell:"Allianzduell — Tag",gw:"Golden Window heute",fokus:"Fokus",aufheben:"Aufheben",none5:"kein klassisches Fenster (Schlachtvorbereitung)",none6:"mehrere Fenster (Kampftag — alle Beschleuniger zählen)",pause:"Allianzduell-Pause (Sonntag)",first:"Allianzduell zuerst: Tagesaufgaben immer abräumen — Punkte zählen, egal ob Sieg oder Niederlage.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Ruhetag"},
+    en:{heute:"TODAY",duell:"Alliance Duel — Day",gw:"Golden Window today",fokus:"Focus",aufheben:"Save",none5:"no classic window (battle prep)",none6:"several windows (combat day — all speedups count)",pause:"Alliance Duel break (Sunday)",first:"Alliance Duel first: always clear the daily tasks — points count whether you win or lose.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Rest day"},
+    tr:{heute:"BUGÜN",duell:"Alliance Duel — Gün",gw:"Bugün Golden Window",fokus:"Odak",aufheben:"Sakla",none5:"klasik pencere yok (savaş hazırlığı)",none6:"birkaç pencere (savaş günü — tüm speedups sayılır)",pause:"Alliance Duel arası (Pazar)",first:"Önce Alliance Duel: günlük görevleri her zaman tamamla — kazansan da kaybetsen de puanlar sayılır.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Dinlenme"},
+    ru:{heute:"СЕГОДНЯ",duell:"Alliance Duel — День",gw:"Golden Window сегодня",fokus:"Фокус",aufheben:"Копить",none5:"без классического окна (подготовка)",none6:"несколько окон (боевой день — все speedups считаются)",pause:"Пауза Alliance Duel (вс)",first:"Сначала Alliance Duel: всегда закрывай дневные задания — очки засчитываются независимо от исхода.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Выходной"} };
+  function lng(){ var l=document.documentElement.getAttribute('data-lang')||'de'; return T[l]?l:'de'; }
+  function pad(n){ return (n<10?'0':'')+n; }
+  function midOf(d){ return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function gwStr(x){ var gw=ENGINE.gwWindow(x); if(!gw) return null; return ENGINE.shiftHHMM(gw.sUtc,2)+'–'+ENGINE.shiftHHMM(gw.eUtc,2)+' DE / '+gw.sUtc+'–'+gw.eUtc+' UTC'; }
+  /* strat.js-Chat-Text (mit #-Codes) in lesbare Hub-Stichpunkte umwandeln */
+  function stripStrat(txt){ var out={focus:[],save:[]}, save=false; (txt||'').split('\n').forEach(function(li){
+    if(/^#\d+\s+\*+\s+.+\s+\*+\s+#\d+$/.test(li)){ save=true; return; }
+    if(li.trim()==='———') return;
+    if(li.indexOf('#080 ')===0){ (save?out.save:out.focus).push(li.slice(5)); }
+  }); return out; }
+  function renderToday(){
+    var box=document.getElementById('hubToday'); if(!box) return;
+    var l=lng(), d=new Date(), x=midOf(d), di=ENGINE.duelInfo(x);
+    var head='⭐ '+T[l].heute+' — '+WD[l][d.getDay()]+', '+pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.';
+    var h='<h2>'+head+'</h2>';
+    if(di.day){
+      h+='<div class="row"><span class="ic">⚔️</span><div><b>'+T[l].duell+' '+di.day+': '+THEME[l][di.key]+'</b></div></div>';
+      var g=gwStr(x); var gtxt = g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].pause));
+      h+='<div class="row"><span class="ic">💎</span><div><b>'+T[l].gw+':</b> '+gtxt+'</div></div>';
+      var st=STRAT&&STRAT.duell&&STRAT.duell[di.day-1];
+      if(st){ var p=stripStrat(st[l]||st.de||'');
+        if(p.focus.length) h+='<div class="row"><span class="ic">🎯</span><div><b>'+T[l].fokus+':</b> '+p.focus.join(' · ')+'</div></div>';
+        if(p.save.length) h+='<div class="row"><span class="ic">📦</span><div><b>'+T[l].aufheben+':</b> '+p.save.join(' · ')+'</div></div>'; }
+    } else { h+='<div class="row"><span class="ic">😴</span><div>'+T[l].pause+'</div></div>'; }
+    h+='<div class="row"><span class="ic">🏆</span><div>'+T[l].first+'</div></div>';
+    box.innerHTML=h;
+  }
+  function renderWeek(){
+    var tbl=document.getElementById('hubWeek'); if(!tbl) return;
+    var l=lng(), d=new Date(), dow=d.getDay(), off=(dow===0?-6:1-dow);
+    var mon=new Date(d); mon.setDate(d.getDate()+off);
+    var todayMid=midOf(d);
+    var h='<tr><th>'+(l==='de'?'Tag':l==='ru'?'День':l==='tr'?'Gün':'Day')+'</th><th>'+(l==='de'?'Duell':'Duel')+'</th><th>'+T[l].hcol+'</th></tr>';
+    for(var i=0;i<7;i++){ var dd=new Date(mon); dd.setDate(mon.getDate()+i); var x=midOf(dd); var di=ENGINE.duelInfo(x);
+      var isToday=(x===todayMid); var g=gwStr(x);
+      var duelCell = di.day ? ('T'+di.day+' '+THEME[l][di.key]) : T[l].ruhe;
+      var gwCell = g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].none));
+      h+='<tr'+(isToday?' style="background:rgba(202,138,4,.12)"':'')+'><td>'+(isToday?'👉 ':'')+WDS[l][dd.getDay()]+' '+pad(dd.getDate())+'.</td><td>'+duelCell+'</td><td>'+gwCell+'</td></tr>';
+    }
+    tbl.innerHTML=h;
+  }
+  function renderAll(){ try{ renderToday(); renderWeek(); }catch(e){} }
+  document.addEventListener('s1l:lang', renderAll);
+  if(document.readyState!=='loading') renderAll(); else document.addEventListener('DOMContentLoaded', renderAll);
+})();
+</script>
 <script src="lang.js"></script>
 <script src="review.js"></script>
 <script src="banner.js"></script>
