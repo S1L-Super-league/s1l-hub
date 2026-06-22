@@ -164,11 +164,12 @@ function hhmmToMin(h){ if(!h) return null; var p=h.split(":"); return parseInt(p
 
 /* ===== Golden-Window-Berechnung (Duell × Power Play) — Anker bestätigt 22.06.2026 =====
    Power Play: 6 Themen, feste Slots 00/04/08/12/16/20 UTC, täglich +1 verschoben (Live-Kalender).
-   Anker 20.06.2026 = PP-Tag 1, 00:00 UTC = Heldenverbesserung (o=0). Themen-Reihenfolge live verifiziert.
-   Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1.
+   KORRIGIERT 22.06.2026 (KALENDER-Screenshot Jac): PP-Tag 1 = MONTAG (00:00 UTC = Heldenverbesserung, o=0).
+   Frueherer Anker 20.06 war falsch (machte Mo zu Tag3 -> GW-Zeiten um 2 Slots verschoben).
+   Duell: 6 Tage Mo-Sa, Tag 1 = Montag. Anker 15.06.2026 (Mo) = Tag 1. PP/Duell gekoppelt, woechentlich konstant.
    Radar↔Ausrüstungsaufwertung bestätigt; Truppen/Gegner ohne PP-Runde = kein klassisches Fenster. */
 var PP_THEMES=["helden","siedlung","kommandant","tech","ausruest","ungeheuer"];
-var PP_REF=Date.UTC(2026,5,20), PP_REF_O=0;
+var PP_REF=Date.UTC(2026,5,22), PP_REF_O=0;
 var DUEL_REF=Date.UTC(2026,5,15);
 var DUEL_THEMES=["radar","basis","tech","helden","truppen","gegner"];
 var DUEL_TO_PP={ radar:"ausruest", basis:"siedlung", tech:"tech", helden:"helden", truppen:null, gegner:null };
