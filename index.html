@@ -50,7 +50,7 @@
   </div>
 
   <!-- ========== 2. WOCHENKALENDER ========== -->
-  <h2 class="section"><span class="lng-de">📆 Eventkalender der Woche</span><span class="lng-en">📆 This week's event calendar</span><span class="lng-tr">📆 Haftanın etkinlik takvimi</span><span class="lng-ru">📆 Календарь событий этой недели</span></h2>
+  <h2 class="section"><span class="lng-de">⚔️ Allianzduell</span><span class="lng-en">⚔️ Alliance Duel</span><span class="lng-tr">⚔️ Alliance Duel</span><span class="lng-ru">⚔️ Alliance Duel</span></h2>
   <table class="cal" id="hubWeek">
     <tr><th><span class="lng-de">Tag</span><span class="lng-en">Day</span><span class="lng-tr">Gün</span><span class="lng-ru">День</span></th><th><span class="lng-de">Aktiv</span><span class="lng-en">Active</span><span class="lng-tr">Aktif</span><span class="lng-ru">Активно</span></th><th>Golden Window (UTC)</th></tr>
     <tr style="background:rgba(202,138,4,.10)"><td><span class="lng-de">👉 Mo 22. (heute)</span><span class="lng-en">👉 Mon 22 (today)</span><span class="lng-tr">👉 Pzt 22 (bugün)</span><span class="lng-ru">👉 Пн 22 (сегодня)</span></td><td><span class="lng-de">Duell T1 Radar · Power Play · Sawblade Waltz</span><span class="lng-en">Duel D1 Radar · Power Play · Sawblade Waltz</span><span class="lng-tr">Duel G1 Radar · Power Play · Sawblade Waltz</span><span class="lng-ru">Дуэль Д1 Radar · Power Play · Sawblade Waltz</span></td><td><span class="lng-de">Ausrüstung 16:00 ✓ (18:00 DE) — Radar</span><span class="lng-en">Equipment 16:00 ✓ (18:00 DE) — Radar</span><span class="lng-tr">Ekipman 16:00 ✓ (18:00 DE) — Radar</span><span class="lng-ru">Снаряжение 16:00 ✓ (18:00 DE) — Radar</span></td></tr>
@@ -153,10 +153,10 @@
     tr:{radar:"Radar Eğitimi",basis:"Üs İnşası",tech:"Teknoloji",helden:"Kahraman Gelişimi",truppen:"Savaş Hazırlığı",gegner:"Düşmanları Yen"},
     ru:{radar:"Radar Training",basis:"Base Building",tech:"Technology",helden:"Hero Development",truppen:"Battle Prep",gegner:"Defeat Enemies"} };
   var T={
-    de:{heute:"HEUTE",duell:"Allianzduell — Tag",gw:"Golden Window heute",fokus:"Fokus",aufheben:"Aufheben",none5:"kein klassisches Fenster (Schlachtvorbereitung)",none6:"kein Golden Window (Power Play pausiert Sa/So)",pause:"Allianzduell-Pause (Sonntag)",first:"Allianzduell zuerst: Tagesaufgaben immer abräumen — Punkte zählen, egal ob Sieg oder Niederlage.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Ruhetag"},
-    en:{heute:"TODAY",duell:"Alliance Duel — Day",gw:"Golden Window today",fokus:"Focus",aufheben:"Save",none5:"no classic window (battle prep)",none6:"no Golden Window (Power Play pauses Sat/Sun)",pause:"Alliance Duel break (Sunday)",first:"Alliance Duel first: always clear the daily tasks — points count whether you win or lose.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Rest day"},
-    tr:{heute:"BUGÜN",duell:"Alliance Duel — Gün",gw:"Bugün Golden Window",fokus:"Odak",aufheben:"Sakla",none5:"klasik pencere yok (savaş hazırlığı)",none6:"Golden Window yok (Power Play Cmt/Paz duraklar)",pause:"Alliance Duel arası (Pazar)",first:"Önce Alliance Duel: günlük görevleri her zaman tamamla — kazansan da kaybetsen de puanlar sayılır.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Dinlenme"},
-    ru:{heute:"СЕГОДНЯ",duell:"Alliance Duel — День",gw:"Golden Window сегодня",fokus:"Фокус",aufheben:"Копить",none5:"без классического окна (подготовка)",none6:"нет Golden Window (Power Play на паузе Сб/Вс)",pause:"Пауза Alliance Duel (вс)",first:"Сначала Alliance Duel: всегда закрывай дневные задания — очки засчитываются независимо от исхода.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Выходной"} };
+    de:{heute:"HEUTE",duell:"Allianzduell — Tag",gw:"Golden Window heute",fokus:"Fokus",aufheben:"Aufheben",verstaerken:"Verstärken",none5:"kein klassisches Fenster (Schlachtvorbereitung)",none6:"kein Golden Window (Power Play pausiert Sa/So)",pause:"Allianzduell-Pause (Sonntag)",first:"Allianzduell zuerst: Tagesaufgaben immer abräumen — Punkte zählen, egal ob Sieg oder Niederlage.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Ruhetag"},
+    en:{heute:"TODAY",duell:"Alliance Duel — Day",gw:"Golden Window today",fokus:"Focus",aufheben:"Save",verstaerken:"Reinforce",none5:"no classic window (battle prep)",none6:"no Golden Window (Power Play pauses Sat/Sun)",pause:"Alliance Duel break (Sunday)",first:"Alliance Duel first: always clear the daily tasks — points count whether you win or lose.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Rest day"},
+    tr:{heute:"BUGÜN",duell:"Alliance Duel — Gün",gw:"Bugün Golden Window",fokus:"Odak",aufheben:"Sakla",verstaerken:"Takviye",none5:"klasik pencere yok (savaş hazırlığı)",none6:"Golden Window yok (Power Play Cmt/Paz duraklar)",pause:"Alliance Duel arası (Pazar)",first:"Önce Alliance Duel: günlük görevleri her zaman tamamla — kazansan da kaybetsen de puanlar sayılır.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Dinlenme"},
+    ru:{heute:"СЕГОДНЯ",duell:"Alliance Duel — День",gw:"Golden Window сегодня",fokus:"Фокус",aufheben:"Копить",verstaerken:"Усиление",none5:"без классического окна (подготовка)",none6:"нет Golden Window (Power Play на паузе Сб/Вс)",pause:"Пауза Alliance Duel (вс)",first:"Сначала Alliance Duel: всегда закрывай дневные задания — очки засчитываются независимо от исхода.",hcol:"Golden Window (UTC / DE)",none:"—",ruhe:"Выходной"} };
   function lng(){ var l=document.documentElement.getAttribute('data-lang')||'de'; return T[l]?l:'de'; }
   function pad(n){ return (n<10?'0':'')+n; }
   function midOf(d){ return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
@@ -176,10 +176,16 @@
       h+='<div class="row"><span class="ic">⚔️</span><div><b>'+T[l].duell+' '+di.day+': '+THEME[l][di.key]+'</b></div></div>';
       var g=gwStr(x); var gtxt = g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].pause));
       h+='<div class="row"><span class="ic">💎</span><div><b>'+T[l].gw+':</b> '+gtxt+'</div></div>';
-      var st=STRAT&&STRAT.duell&&STRAT.duell[di.day-1];
-      if(st){ var p=stripStrat(st[l]||st.de||'');
-        if(p.focus.length) h+='<div class="row"><span class="ic">🎯</span><div><b>'+T[l].fokus+':</b> '+p.focus.join(' · ')+'</div></div>';
-        if(p.save.length) h+='<div class="row"><span class="ic">📦</span><div><b>'+T[l].aufheben+':</b> '+p.save.join(' · ')+'</div></div>'; }
+      function liList(items){ return '<ul class="tlist">'+items.map(function(it){return '<li>'+it+'</li>';}).join('')+'</ul>'; }
+      var wb=STRAT&&STRAT.duellWeb&&STRAT.duellWeb[di.day];
+      if(wb){ /* saubere Web-Fassung: Blöcke als Listen (eine Aussage pro Zeile) */
+        wb.forEach(function(b){ var items=b[l]||b.en||b.de||[]; if(!items.length) return;
+          h+='<div class="row"><span class="ic">'+b.ic+'</span><div><b>'+(T[l][b.key]||b.key)+':</b>'+liList(items)+'</div></div>'; });
+      } else { /* Fallback: aus Chat-Text ableiten, ebenfalls als Liste */
+        var st=STRAT&&STRAT.duell&&STRAT.duell[di.day-1];
+        if(st){ var p=stripStrat(st[l]||st.de||'');
+          if(p.focus.length) h+='<div class="row"><span class="ic">🎯</span><div><b>'+T[l].fokus+':</b>'+liList(p.focus)+'</div></div>';
+          if(p.save.length) h+='<div class="row"><span class="ic">📦</span><div><b>'+T[l].aufheben+':</b>'+liList(p.save)+'</div></div>'; } }
     } else { h+='<div class="row"><span class="ic">😴</span><div>'+T[l].pause+'</div></div>'; }
     h+='<div class="row"><span class="ic">🏆</span><div>'+T[l].first+'</div></div>';
     box.innerHTML=h;
@@ -194,7 +200,10 @@
       var isToday=(x===todayMid); var g=gwStr(x);
       var duelCell = di.day ? ('T'+di.day+' '+THEME[l][di.key]) : T[l].ruhe;
       var gwCell = g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].none));
-      h+='<tr'+(isToday?' style="background:rgba(202,138,4,.12)"':'')+'><td>'+(isToday?'👉 ':'')+WDS[l][dd.getDay()]+' '+pad(dd.getDate())+'.</td><td>'+duelCell+'</td><td>'+gwCell+'</td></tr>';
+      var trAttr = di.day
+        ? ' style="cursor:pointer'+(isToday?';background:rgba(202,138,4,.12)':'')+'" title="'+(l==='de'?'Zum Tag':l==='en'?'Open day':l==='tr'?'Güne git':'К дню')+'" onclick="location.href=\'S1L-Event-Allianzduell.html#tag'+di.day+'\'"'
+        : (isToday?' style="background:rgba(202,138,4,.12)"':'');
+      h+='<tr'+trAttr+'><td>'+(isToday?'👉 ':'')+WDS[l][dd.getDay()]+' '+pad(dd.getDate())+'.</td><td>'+duelCell+(di.day?' <span style="opacity:.5">›</span>':'')+'</td><td>'+gwCell+'</td></tr>';
     }
     tbl.innerHTML=h;
   }

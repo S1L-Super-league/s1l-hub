@@ -84,6 +84,86 @@ var STRAT={
     ru:"Arcadian Conquest - удерживай Arcadia + 4 башни, вместе сильны!\n#080 Телепорт вместе на T-50, распределите роли (держатели Arcadia, команды башен, реакция)\n#080 60 сек удержания = 10.000 очков - постоянное удержание сильнее киллов\n#080 Дисциплина Shield; заранее очистить Hospital/Enlistment" } ]
 };
 
+/* ===== Saubere Web-Fassung der HEUTE-Hub-Karte (Tag 1–6) =====
+   Block-Struktur wie die Tages-Aussendung, aber sauber fuers Web (echte Umlaute,
+   normale Schreibung, kein Paste-Limit). Eine Aussage pro Listenpunkt.
+   key -> Label (fokus/aufheben/verstaerken) kommt aus dem Seiten-Skript (T[l][key]).
+   PFLEGE: Wenn sich die Chat-Bullets oben (STRAT.duell) aendern, hier mitziehen. */
+STRAT.duellWeb={
+  1:[
+    {ic:"🎯",key:"fokus",
+      de:["Ausrüstungsfetzen verwenden — meiste Punkte (im Golden Window für 3 Events gleichzeitig)","Spionagemissionen machen — viele Punkte (kosten Ausdauer)","Nahrung, Holz, Metall, Benzin sammeln"],
+      en:["Use gear scraps — most points (for 3 events at once in the Golden Window)","Run spy missions — high points (cost stamina)","Gather food, wood, metal, fuel"],
+      tr:["Gear scraps kullan — en çok puan (Golden Window'da aynı anda 3 etkinlik için)","Casus görevleri yap — çok puan (dayanıklılık harcar)","Yiyecek, odun, metal, yakıt topla"],
+      ru:["Используй gear scraps — больше всего очков (в Golden Window сразу для 3 событий)","Делай spy-миссии — много очков (тратят выносливость)","Собирай еду, дерево, металл, топливо"]},
+    {ic:"📦",key:"aufheben",
+      de:["Für Tag 2: Bau-Speedups","Für Tag 3: Forschungs-Speedups + Ungeheuer-Zellen + Ungeheuer-Serum"],
+      en:["For Day 2: build speedups","For Day 3: research speedups + Behemoth Cells + Behemoth Serum"],
+      tr:["2. Gün için: build speedups","3. Gün için: research speedups + Behemoth Cells + Behemoth Serum"],
+      ru:["На День 2: build speedups","На День 3: research speedups + Behemoth Cells + Behemoth Serum"]}
+  ],
+  2:[
+    {ic:"🎯",key:"fokus",
+      de:["Bau-Speedups im Golden Window einsetzen — zählt dreifach","S-Stufe (+75.000) und LKW (+50.000) als Extra mitnehmen","Bau-Speedups vorher nicht einzeln verbrauchen"],
+      en:["Use build speedups in the Golden Window — counts triple","S-tier (+75,000) and truck (+50,000) as extras","Do not spend build speedups one by one before"],
+      tr:["Build speedups'i Golden Window'da kullan — üç kat sayılır","S-tier (+75.000) ve truck (+50.000) ekstra","Build speedups'i öncesinde tek tek harcama"],
+      ru:["Используй build speedups в Golden Window — втрое","S-tier (+75.000) и грузовик (+50.000) как бонус","Не трать build speedups по одному заранее"]},
+    {ic:"📦",key:"aufheben",
+      de:["Für Tag 3: Forschungs-Speedups + Ungeheuer-Zellen + Ungeheuer-Serum + Kampfmedaillen","Für Tag 4: Heldenfragmente + Rekrutierungsmarken"],
+      en:["For Day 3: research speedups + Behemoth Cells + Behemoth Serum + Battle Medals","For Day 4: hero fragments + recruit tokens"],
+      tr:["3. Gün için: research speedups + Behemoth Cells + Behemoth Serum + Battle Medal","4. Gün için: hero parçaları + rekrutasyon markaları"],
+      ru:["На День 3: research speedups + Behemoth Cells + Behemoth Serum + Battle Medals","На День 4: фрагменты героев + жетоны вербовки"]}
+  ],
+  3:[
+    {ic:"🎯",key:"fokus",
+      de:["Forschungs-Speedups im Golden Window einsetzen — zählt dreifach","Ungeheuer-Zellen (+12.000), Spionagemission (+30.000), Kampfmedaille ausgeben (+2.500)"],
+      en:["Use research speedups in the Golden Window — counts triple","Behemoth Cells (+12,000), spy mission (+30,000), spend Battle Medal (+2,500)"],
+      tr:["Research speedups'i Golden Window'da kullan — üç kat sayılır","Behemoth Cells (+12.000), casus görevi (+30.000), Battle Medal harca (+2.500)"],
+      ru:["Используй research speedups в Golden Window — втрое","Behemoth Cells (+12.000), spy-миссия (+30.000), потратить Battle Medal (+2.500)"]},
+    {ic:"📦",key:"aufheben",
+      de:["Für Tag 4: Heldenfragmente + Rekrutierungsmarken","Für Tag 5: Spionage + Ressourcen fürs Truppen-Training"],
+      en:["For Day 4: hero fragments + recruit tokens","For Day 5: spy + resources for troop training"],
+      tr:["4. Gün için: hero parçaları + rekrutasyon markaları","5. Gün için: casus + birlik eğitimi için kaynaklar"],
+      ru:["На День 4: фрагменты героев + жетоны вербовки","На День 5: spy + ресурсы для тренировки войск"]}
+  ],
+  4:[
+    {ic:"🎯",key:"fokus",
+      de:["Heldenfragmente einsetzen — legendäre + Wunsch-Rekrutierung am stärksten (im Golden Window dreifach)","Fragmente farmen: Rallys auf die mittleren Monster (Alpha-Bestie) — normale/fette Infizierte geben keine"],
+      en:["Use hero fragments — legendary + wish recruitment strongest (triple in the Golden Window)","Farm fragments: rallies on the medium monsters (Alpha Beast) — normal/fat infected give none"],
+      tr:["Hero fragments kullan — efsanevi + istek rekrutasyonu en güçlü (Golden Window'da üç kat)","Parça farmla: orta canavarlara (Alpha Beast) rally — normal/şişman enfekteler vermez"],
+      ru:["Используй hero fragments — легендарные + желаемая вербовка сильнее всего (в Golden Window втрое)","Фарм фрагментов: rally на средних монстров (Alpha Beast) — обычные/толстые заражённые не дают"]},
+    {ic:"📦",key:"aufheben",
+      de:["Für Tag 5: Spionage + Trainings-Speedups + Ressourcen fürs Training","Für Tag 6: Friedenskuppeln + alle Beschleuniger"],
+      en:["For Day 5: spy + training speedups + resources for training","For Day 6: Peace Shields + all speedups"],
+      tr:["5. Gün için: casus + training speedups + eğitim için kaynaklar","6. Gün için: Peace Shields + tüm speedups"],
+      ru:["На День 5: spy + training speedups + ресурсы для тренировки","На День 6: Peace Shields + все speedups"]}
+  ],
+  5:[
+    {ic:"🎯",key:"fokus",
+      de:["Spionagemission (+37.500) + Truppen trainieren (höhere Stufen mehr Punkte)","Training braucht Ressourcen — genug bereithalten (Truppen hat man genug)","Heute kein Golden Window (keine Power-Play-Truppen-Runde)"],
+      en:["Spy mission (+37,500) + train troops (higher tiers more points)","Training needs resources — keep enough ready (you have enough troops)","No Golden Window today (no Power Play troop round)"],
+      tr:["Casus görevi (+37.500) + birlik eğit (üst seviyeler daha çok puan)","Eğitim kaynak ister — yeterince hazır tut (birlik yeterli)","Bugün Golden Window yok (Power Play birlik turu yok)"],
+      ru:["Spy-миссия (+37.500) + тренировать войска (выше уровень — больше очков)","Тренировка требует ресурсов — держи запас (войск хватает)","Сегодня нет Golden Window (нет раунда войск в Power Play)"]},
+    {ic:"📦",key:"aufheben",
+      de:["Für Tag 6: Friedenskuppeln + alle Beschleuniger","Für Montag (Tag 1): Ausrüstungsfetzen + Spionage + Kommandantenausdauer (Sonntag ist duellfrei)"],
+      en:["For Day 6: Peace Shields + all speedups","For Monday (Day 1): gear scraps + spy + commander stamina (Sunday has no duel)"],
+      tr:["6. Gün için: Peace Shields + tüm speedups","Pazartesi için (1. Gün): gear scraps + casus + komutan dayanıklılığı (Pazar duel yok)"],
+      ru:["На День 6: Peace Shields + все speedups","На понедельник (День 1): gear scraps + spy + выносливость командира (в воскресенье дуэли нет)"]}
+  ],
+  6:[
+    {ic:"🛡️",key:"fokus",
+      de:["Unter der Kuppel seid ihr unangreifbar","Wer angreift, verliert die Kuppel (30 Min Abklingzeit)","Trupps draußen sind angreifbar — bei Angriffen zurückrufen"],
+      en:["Under the dome you cannot be attacked","Whoever attacks loses the dome (30 min cooldown)","Troops outside can be attacked — recall them when attacks come"],
+      tr:["Dome altında saldırılmaz olursunuz","Saldıran dome'u kaybeder (30 dk bekleme)","Dışarıdaki birlikler saldırılabilir — saldırılarda geri çağır"],
+      ru:["Под куполом вас нельзя атаковать","Кто атакует, теряет купол (30 мин перезарядка)","Войска снаружи можно атаковать — отзывай при атаках"]},
+    {ic:"💪",key:"verstaerken",
+      de:["Siedlungen ohne Kuppel mit der stärksten Truppe verstärken (bis 5 Plätze)","Gewinnt der Verteidiger, zählt der Kill für uns","Hebel: Sandwurm-Eier (perfekt +500.000), S-Aufgabe, LKW, Beschleuniger","Vor jedem Angriff im Chat fragen — wir stimmen uns ab"],
+      en:["Reinforce settlements without a dome with your strongest troops (up to 5)","If the defender wins, the kill counts for us","Levers: sandworm eggs (perfect +500,000), S-task, truck, speedups","Ask in chat before every attack — we coordinate"],
+      tr:["Dome'suz yerleşimleri en güçlü birlikle takviye et (5'e kadar)","Savunan kazanırsa kill bize sayılır","Kaldıraçlar: kum solucanı yumurtaları (mükemmel +500.000), S-görev, kamyon, speedups","Her saldırıdan önce chat'te sor — uyum sağlayalım"],
+      ru:["Усиливай поселения без купола самыми сильными войсками (до 5)","Если защитник побеждает, килл засчитывается нам","Рычаги: яйца песчаного червя (идеальное +500.000), S-задача, грузовик, speedups","Спрашивай в чате перед каждой атакой — согласуем"]}
+  ]
+};
+
 /* Event-Label + Emoji (gemeinsame Quelle fuer beide Seiten) */
 var STRAT_EV={
   duell:{emo:"⚔️",name:{de:"Allianzduell",en:"Alliance Duel",tr:"Alliance Duel",ru:"Alliance Duel"}},

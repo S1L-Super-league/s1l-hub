@@ -45,8 +45,10 @@ ul{ margin:.3em 0; padding-left:1.2em; } li{ margin:.2em 0; }
 .today{ background:var(--card); border:2px solid var(--c-heute); border-radius:var(--radius);
   padding:18px 20px; margin:14px 0; box-shadow:var(--shadow); }
 .today h2{ margin:.1em 0 .5em; font-size:1.35rem; border:0; padding:0; }
-.today .row{ display:flex; gap:8px; align-items:flex-start; margin:.35em 0; }
+.today .row{ display:flex; gap:8px; align-items:flex-start; margin:.45em 0; }
 .today .row .ic{ flex:0 0 auto; }
+.today .row ul.tlist{ margin:.2em 0 0; padding-left:1.15em; }
+.today .row ul.tlist li{ margin:.18em 0; line-height:1.4; }
 
 table.cal{ width:100%; border-collapse:collapse; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); font-size:.95rem; }
 table.cal th, table.cal td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
