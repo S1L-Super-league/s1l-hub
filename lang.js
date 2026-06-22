@@ -68,6 +68,8 @@
     }
     var bs=document.querySelectorAll('#langtoggle button');
     for(var k=0;k<bs.length;k++){ bs[k].classList.toggle('on', bs[k].getAttribute('data-l')===l); }
+    /* Mobile-Handle zeigt die aktuelle Sprache (eingeklappter Zustand). */
+    var hl=document.querySelector('#langtoggle .langhandle-lbl'); if(hl) hl.textContent=LABEL[l]||String(l).toUpperCase();
     /* „Ungeprüft"-Hinweis: erscheint NUR für TR/RU (maschinell übersetzt, von Muttersprachlern zu prüfen). */
     var note=document.getElementById('langnote');
     if(note){ var NT={tr:'⚠️ Makine çevirisi — henüz doğrulanmadı.', ru:'⚠️ Машинный перевод — ещё не проверено.'};
@@ -83,13 +85,30 @@
       var d=document.createElement('div');
       d.id='langtoggle'; d.setAttribute('role','group');
       d.setAttribute('aria-label','Sprache / Language / Dil / Язык');
-      var html='';
+      var html='<button type="button" class="langhandle" aria-expanded="false" aria-label="Sprache wählen / choose language">🌐 <span class="langhandle-lbl">DE</span></button>';
       for(var i=0;i<LANGS.length;i++){ html+='<button type="button" data-l="'+LANGS[i]+'">'+LABEL[LANGS[i]]+'</button>'; }
       d.innerHTML=html;
       document.body.appendChild(d);
       d.addEventListener('click', function(e){
         var b=e.target.closest ? e.target.closest('button') : (e.target.tagName==='BUTTON'?e.target:null);
-        if(b) apply(b.getAttribute('data-l'));
+        if(!b) return;
+        if(b.classList.contains('langhandle')){
+          var open=document.documentElement.classList.toggle('lang-open');
+          b.setAttribute('aria-expanded', open?'true':'false');
+          return;
+        }
+        var l=b.getAttribute('data-l');
+        if(l){ apply(l);
+          document.documentElement.classList.remove('lang-open');
+          var h=d.querySelector('.langhandle'); if(h) h.setAttribute('aria-expanded','false');
+        }
+      });
+      /* Tippen ausserhalb schliesst das aufgeklappte Sprachmenue (mobil). */
+      document.addEventListener('click', function(e){
+        if(!document.documentElement.classList.contains('lang-open')) return;
+        if(e.target.closest && e.target.closest('#langtoggle')) return;
+        document.documentElement.classList.remove('lang-open');
+        var h=d.querySelector('.langhandle'); if(h) h.setAttribute('aria-expanded','false');
       });
     }
     if(!document.getElementById('langnote')){

@@ -107,6 +107,17 @@ footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px so
   background:#fde68a; color:#7c2d12; border:1.5px solid #f59e0b; border-radius:9px;
   padding:5px 10px; font-size:.78rem; font-weight:700; box-shadow:var(--shadow); }
 #langnote[hidden]{ display:none !important; }
+/* Mobile-Handle: Sprachschalter einklappbar. Desktop = Handle versteckt, alle Buttons sichtbar (unveraendert). */
+.langhandle{ display:none; align-items:center; gap:5px; }
+@media(max-width:560px){
+  /* Eingeklappt: nur der 🌐-Handle oben rechts; Buttons erst auf Tipp (html.lang-open). */
+  #langtoggle{ flex-direction:column; align-items:flex-end; top:8px; right:8px; }
+  #langtoggle .langhandle{ display:inline-flex; }
+  html:not(.lang-open) #langtoggle button[data-l]{ display:none; }
+  /* „Ungeprüft"-Hinweis ans untere Display-Ende, damit er oben nichts mehr verdeckt. */
+  #langnote{ top:auto; bottom:0; left:0; right:0; max-width:none; border-radius:0;
+    border-left:0; border-right:0; text-align:center; box-shadow:0 -1px 6px rgba(20,30,60,.18); }
+}
 
 /* ===== Hub-Banner (oben auf jeder Seite) ===== */
 .hub-banner{ position:relative; width:100%; max-width:1100px; margin:6px auto 26px; padding:0 12px; box-sizing:border-box; }
