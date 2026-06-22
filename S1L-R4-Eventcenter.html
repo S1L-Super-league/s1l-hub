@@ -207,6 +207,7 @@ function viewText(s){ return ST.view==="emoji"?toEmoji(s):s; }
 
 /* ===== Standardsatz ===== */
 var STDNOTE={ de:"#080 Auf den Allianz-Chat achten - Strategie kann sich spontan aendern, R4 sagt Bescheid.", en:"#080 Watch the alliance chat - strategy can change at any time, R4 will tell you.", tr:"#080 İttifak sohbetini takip et - strateji her an değişebilir, R4 haber verir.", ru:"#080 Следите за чатом альянса - стратегия может в любой момент измениться, R4 сообщит." };
+var STDMOTIV={ de:"#079 Danke fuer euren Einsatz - gemeinsam sind wir stark, stolz auf euch!", en:"#079 Thank you for your effort - together we are strong, proud of you!", tr:"#079 Emeginiz icin tesekkurler - birlikte gucluyuz, sizinle gurur duyuyoruz!", ru:"#079 Спасибо за ваш вклад - вместе мы сильны, горжусь вами!" };
 var GWNOTE={ de:"Booster/Material/Speedups jetzt einsetzen - zaehlt doppelt.", en:"Use boosters/materials/speedups now - counts double.", tr:"Booster/materyal/hızlandırıcıları şimdi kullan - çift sayar.", ru:"Используй бустеры/материалы/ускорения сейчас - считается вдвойне." };
 
 /* ===== Strategie aus strat.js ===== */
@@ -311,7 +312,7 @@ function buildBriefing(){
   out.push("#190 "+L("HEUTE - S1L","TODAY - S1L","BUGÜN - S1L","СЕГОДНЯ - S1L"));
   blocks.forEach(function(k){ var m=EV[k], e=ST.ev[k], isFocus=(k===focus);
     if(m.typ==='nap'){ out.push("———", EV.nap.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")+": "+e.txt+(e.scope==='event'?" ("+L("nur dieses Event","this event only","sadece bu etkinlik","только это событие")+")":"")); return; }
-    if(m.typ==='gw'){ out.push("———", EV.gw.mark+" "+L("GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW")); if(gw) out.push(tzBlock(gw.s,gw.e)); if(e.len==='lang') out.push("#080 "+t(GWNOTE)); return; }
+    if(m.typ==='gw'){ out.push("———", "#167 ***** "+L("GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW")+" ***** #167"); if(gw) out.push(tzBlock(gw.s,gw.e)); if(e.len==='lang') out.push("#080 "+t(GWNOTE)); return; }
     /* echtes Event */
     if(e.len==='lang'){
       out.push("———", m.mark+" ***** "+evNameTxt(k).toUpperCase()+" ***** "+m.mark+(isFocus?" - FOKUS":""));
@@ -323,7 +324,7 @@ function buildBriefing(){
       if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):""));
     }
   });
-  out.push("———", t(STDNOTE));
+  out.push("———", t(STDMOTIV), t(STDNOTE));
   return out.join("\n");
 }
 function renderBriefOut(){
@@ -353,7 +354,7 @@ function buildLive(k){
   else if(s.zmode==='time'){ var uS=e.start?baseToUtc(e.start,e.zbase||'DE'):"", uE=e.ende?baseToUtc(e.ende,e.zbase||'DE'):"";
     if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167", tzBlock(uS,uE)); }
   if(s.inhalt==='strat'){ var st=e.strat?stratFull(k,e.strat):""; if(st) out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY","STRATEJİ","СТРАТЕГИЯ")+" ***** #176", st); }
-  out.push("———", t(STDNOTE));
+  out.push("———", t(STDMOTIV), t(STDNOTE));
   return out.join("\n");
 }
 function renderLive(){
