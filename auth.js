@@ -15,7 +15,8 @@ var ALLOWED = [
   "b2962df639ce6a2c8b5a7bf0d1c48911e6b12fade87a43d490b7ad6943275904", // војвода
   "52c2b66e319c7e64ac77bcb9e935999b4e44df10b15cd4525378901ee084beb9", // bismillah
   "8ddfe0d79f4fae0500570111d9c724975c4785625310e9bb907bf5842e6a199d", // drdr387 (R3 — nur S1L, kein R4)
-  "6946908a32e018b9f21b25a42d8de1dbcc34713c196fdd7ea7bf969d822c939b"  // shadow (R3 — nur S1L, kein R4)
+  "6946908a32e018b9f21b25a42d8de1dbcc34713c196fdd7ea7bf969d822c939b", // shadow (R3 — nur S1L, kein R4)
+  "fa6a7e358ba417c208c99bcfe422ba48359f9c04776c4036a65fdce680224ea5"  // blühmchen (reguläres Mitglied — nur S1L, kein R4; hinzugefügt 22.06.2026)
 ];
 
 function sha256js(ascii){
