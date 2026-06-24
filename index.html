@@ -163,6 +163,15 @@
   function midOf(d){ return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
   function gwStr(x){ var gw=ENGINE.gwWindow(x); if(!gw) return null; return ENGINE.shiftHHMM(gw.sUtc,2)+'–'+ENGINE.shiftHHMM(gw.eUtc,2)+' DE / '+gw.sUtc+'–'+gw.eUtc+' UTC'; }
   function gw2Str(x){ var gw=ENGINE.gw2Window?ENGINE.gw2Window(x):null; if(!gw) return null; return ENGINE.shiftHHMM(gw.sUtc,2)+'–'+ENGINE.shiftHHMM(gw.eUtc,2)+' DE / '+gw.sUtc+'–'+gw.eUtc+' UTC'; }
+  /* alle Zeitzonen (Hub hat Platz): UTC / UK / DE / RU */
+  function zonesStr(sUtc,eUtc){ var Z=[['UTC',0],['UK',1],['DE',2],['RU',3]];
+    return Z.map(function(z){ return ENGINE.shiftHHMM(sUtc,z[1])+'–'+ENGINE.shiftHHMM(eUtc,z[1])+' '+z[0]; }).join('<br>'); }
+  /* "Was" je Golden Window (kurz) */
+  var GWWHAT={ de:{helden:"Helden",siedlung:"Siedlung",kommandant:"Kommandant",tech:"Forschung",ausruest:"Ausrüstung",ungeheuer:"Ungeheuer-Zellen"},
+    en:{helden:"Heroes",siedlung:"Base",kommandant:"Commander",tech:"Research",ausruest:"Gear",ungeheuer:"Behemoth Cells"},
+    tr:{helden:"Kahraman",siedlung:"Üs",kommandant:"Komutan",tech:"Araştırma",ausruest:"Ekipman",ungeheuer:"Behemoth Cell"},
+    ru:{helden:"Герои",siedlung:"База",kommandant:"Командир",tech:"Исследования",ausruest:"Снаряжение",ungeheuer:"Behemoth Cells"} };
+  function gwWhat(l,r){ return (GWWHAT[l]&&GWWHAT[l][r])||r||''; }
   /* strat.js-Chat-Text (mit #-Codes) in lesbare Hub-Stichpunkte umwandeln */
   function stripStrat(txt){ var out={focus:[],save:[]}, save=false; (txt||'').split('\n').forEach(function(li){
     if(/^#\d+\s+\*+\s+.+\s+\*+\s+#\d+$/.test(li)){ save=true; return; }
@@ -176,9 +185,10 @@
     var h='<h2>'+head+'</h2>';
     if(di.day){
       h+='<div class="row"><span class="ic">⚔️</span><div><b>'+T[l].duell+' '+di.day+': '+THEME[l][di.key]+'</b></div></div>';
-      var g=gwStr(x); var gtxt = g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].pause));
-      h+='<div class="row"><span class="ic">💎</span><div><b>'+T[l].gw+':</b> '+gtxt+'</div></div>';
-      var g2=gw2Str(x); if(g2!=null){ h+='<div class="row"><span class="ic">🐲</span><div><b>'+T[l].gw2+':</b> '+g2+'</div></div>'; }
+      var gwo=ENGINE.gwWindow(x), gw2o=ENGINE.gw2Window?ENGINE.gw2Window(x):null;
+      if(gwo){ h+='<div class="row"><span class="ic">💎</span><div><b>'+T[l].gw+' ('+gwWhat(l,gwo.round)+'):</b><br>'+zonesStr(gwo.sUtc,gwo.eUtc)+'</div></div>'; }
+      else { h+='<div class="row"><span class="ic">💎</span><div><b>'+T[l].gw+':</b> '+(di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].pause))+'</div></div>'; }
+      if(gw2o){ h+='<div class="row"><span class="ic">🐲</span><div><b>'+T[l].gw2+':</b><br>'+zonesStr(gw2o.sUtc,gw2o.eUtc)+'</div></div>'; }
       function liList(items){ return '<ul class="tlist">'+items.map(function(it){return '<li>'+it+'</li>';}).join('')+'</ul>'; }
       var wb=STRAT&&STRAT.duellWeb&&STRAT.duellWeb[di.day];
       if(wb){ /* saubere Web-Fassung: Blöcke als Listen (eine Aussage pro Zeile) */
