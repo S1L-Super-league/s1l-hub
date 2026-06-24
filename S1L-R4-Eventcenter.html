@@ -147,8 +147,8 @@ var LBL={ laeuft:{de:"Läuft",en:"Active",tr:"Aktif",ru:"Активно"}, chat:
   laenge:{de:"Länge",en:"Length",tr:"Uzunluk",ru:"Длина"}, kurz:{de:"kurz",en:"short",tr:"kısa",ru:"кратко"}, langL:{de:"lang",en:"long",tr:"uzun",ru:"полно"},
   ganztags:{de:"ganztags",en:"all day",tr:"tüm gün",ru:"весь день"},
   empty:{de:"Noch kein Block aktiv — unten Events auf 'Läuft' + 'Mitteilen' stellen.",en:"No block active yet — set events below to Active + Announce.",tr:"Henüz blok yok — aşağıda Aktif + Duyur yap.",ru:"Пока пусто — включите события ниже на «Активно» + «Сообщить»."},
-  napScopeGen:{de:"generell",en:"general",tr:"genel",ru:"общий"}, napScopeEv:{de:"bestimmtes Event",en:"specific event",tr:"belirli etkinlik",ru:"конкретное событие"},
-  napPlace:{de:"z. B. mit [LEG] heute — NICHT ANGREIFEN",en:"e.g. with [LEG] today — DO NOT ATTACK",tr:"örn. [LEG] ile bugün — SALDIRMAYIN",ru:"напр. с [LEG] сегодня — НЕ АТАКОВАТЬ"},
+  napWho:{de:"wer",en:"who",tr:"kim",ru:"кто"}, napWhere:{de:"wo",en:"where",tr:"nerede",ru:"где"},
+  napAdd:{de:"hinzufügen",en:"add",tr:"ekle",ru:"добавить"}, napDel:{de:"entfernen",en:"remove",tr:"kaldır",ru:"удалить"},
   liveEmpty:{de:"Kein Event auf 'Mitteilen'. Oben ein Event aktivieren + 'Mitteilen' setzen.",en:"No event set to Announce. Activate an event above + set Announce.",tr:"Duyur ayarlı etkinlik yok.",ru:"Нет событий «Сообщить»."},
   gwAuto:{de:"Zeit auto (Duell-Zyklus)",en:"time auto (duel cycle)",tr:"zaman oto (düello)",ru:"время авто (цикл дуэли)"},
   gwOnlyDuell:{de:"nur bei aktivem Allianzduell + Power Play",en:"only with active duel + power play",tr:"yalnızca aktif düello + power play",ru:"только при активной дуэли + power play"},
@@ -213,6 +213,11 @@ function gwComputable(){ return ST.ev.duell.laeuft && ST.ev.power.laeuft; }
 /* "Was" je Golden Window (kurz, 4-sprachig) — keyed nach PP-Runde */
 var GW_WHAT={ helden:{de:"Helden",en:"Heroes",tr:"Kahraman",ru:"Герои"}, siedlung:{de:"Siedlung",en:"Base",tr:"Üs",ru:"База"}, kommandant:{de:"Kommandant",en:"Commander",tr:"Komutan",ru:"Командир"}, tech:{de:"Forschung",en:"Research",tr:"Araştırma",ru:"Исследования"}, ausruest:{de:"Ausrüstung",en:"Gear",tr:"Ekipman",ru:"Снаряжение"}, ungeheuer:{de:"Ungeheuer-Zellen",en:"Behemoth Cells",tr:"Behemoth Cell",ru:"Behemoth Cells"} };
 function gwLabel(w){ var o=w&&GW_WHAT[w.round]; return o?t(o):(w?w.roundDe:""); }
+/* ===== NAP-Liste (mehrere Paktе: wer/wo) ===== */
+function napList(e){ if(!e.list||!e.list.length){ e.list = (e.txt&&e.txt.trim())?[{wer:e.txt,wo:""}]:[{wer:"",wo:""}]; } return e.list; }
+function napFmt(it){ var a=(it.wer||'').trim(), b=(it.wo||'').trim(); return (a&&b)?(a+' - '+b):(a||b); }
+function napLinesArr(e){ return napList(e).map(napFmt).filter(Boolean); }
+function napHas(e){ return napLinesArr(e).length>0; }
 
 /* ===== #-Codes <-> Emoji ===== */
 var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#170":"📍","#093":"👑","#098":"🦁","#117":"🐟","#169":"🌃","#078":"💪","#079":"🤝","#080":"🤘","#074":"👍" };
@@ -236,7 +241,7 @@ function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTa
 /* ===== Zustand ===== */
 var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"" };
 function baseFor(k){ var typ=EV[k].typ;
-  if(typ==='nap') return {imChat:false,txt:"",scope:"gen"};
+  if(typ==='nap') return {imChat:false,list:[{wer:"",wo:""}]};
   if(typ==='gw') return {imChat:true,len:"kurz"};
   return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE"}; }
 function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; }catch(e){} ST.rollOffset=0;
@@ -264,8 +269,16 @@ function renderList(){
     h+='<span class="ec-typ">'+(m.typ==='termin'?'Termin':(m.typ==='gw'?'GW':(m.typ==='nap'?'NAP':'Fokus')))+'</span>';
     if(m.typ==='nap'){
       h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
-      h+='<input type="text" data-f="txt" value="'+esc(e.txt||'')+'" placeholder="'+esc(t(LBL.napPlace))+'" style="flex:1;min-width:200px">';
-      h+='<select data-f="scope"><option value="gen"'+(e.scope==='gen'?' selected':'')+'>'+t(LBL.napScopeGen)+'</option><option value="event"'+(e.scope==='event'?' selected':'')+'>'+t(LBL.napScopeEv)+'</option></select>';
+      h+='<span class="nap-list" style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:260px">';
+      napList(e).forEach(function(it,i){
+        h+='<span style="display:flex;gap:4px;align-items:center">'
+          +'<input type="text" data-napi="'+i+'" data-napf="wer" value="'+esc(it.wer||'')+'" placeholder="'+t(LBL.napWho)+'" style="flex:1;min-width:90px">'
+          +'<input type="text" data-napi="'+i+'" data-napf="wo" value="'+esc(it.wo||'')+'" placeholder="'+t(LBL.napWhere)+'" style="flex:1;min-width:90px">'
+          +'<button type="button" data-napdel="'+i+'" title="'+t(LBL.napDel)+'">✕</button>'
+          +'</span>';
+      });
+      h+='</span>';
+      h+='<button type="button" data-napadd="1">+ '+t(LBL.napAdd)+'</button>';
     } else if(m.typ==='gw'){
       h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
       h+=lenSelect(k);
@@ -289,12 +302,18 @@ function renderList(){
       var evn=(inp.type==='checkbox')?'change':(inp.tagName==='SELECT'?'change':'input');
       inp.addEventListener(evn,function(){ ST.ev[k][f]=(inp.type==='checkbox')?inp.checked:inp.value; save(); renderAll(); });
     });
+    row.querySelectorAll('[data-napf]').forEach(function(inp){
+      inp.addEventListener('input',function(){ napList(ST.ev[k])[+inp.getAttribute('data-napi')][inp.getAttribute('data-napf')]=inp.value; save(); });
+      inp.addEventListener('change',function(){ save(); renderAll(); });
+    });
+    row.querySelectorAll('[data-napadd]').forEach(function(b){ b.addEventListener('click',function(){ napList(ST.ev[k]).push({wer:"",wo:""}); save(); renderAll(); }); });
+    row.querySelectorAll('[data-napdel]').forEach(function(b){ b.addEventListener('click',function(){ var l=napList(ST.ev[k]); l.splice(+b.getAttribute('data-napdel'),1); if(!l.length) l.push({wer:"",wo:""}); save(); renderAll(); }); });
   });
 }
 
 /* ===== Tagesbriefing ===== */
 function briefBlocks(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k]; if(!e||!m) return false;
-  if(m.typ==='nap') return e.imChat && (e.txt||'').trim();
+  if(m.typ==='nap') return e.imChat && napHas(e);
   if(m.typ==='gw') return e.imChat && gwComputable();
   return e.laeuft && e.imChat && !isOver(k); }); }
 function firstRealEvent(blocks){ for(var i=0;i<blocks.length;i++){ var typ=EV[blocks[i]].typ; if(typ==='fokus'||typ==='termin') return blocks[i]; } return null; }
@@ -308,7 +327,7 @@ function renderBriefing(){
     h+='<div class="'+cls+'" data-k="'+k+'">';
     h+='<div class="brief-head">'+evName(k)+(isFocus?' <span class="pill">FOKUS</span>':'')+(m.typ!=='nap'&&m.typ!=='gw'?' <span class="ec-typ">'+(e.len==='lang'?t(LBL.langL):t(LBL.kurz))+'</span>':'')
       +'<span class="ord"><button data-mv="up" title="hoch">▲</button><button data-mv="down" title="runter">▼</button></span></div>';
-    if(m.typ==='nap'){ h+='<div class="ec-muted">'+esc(e.txt)+' ('+(e.scope==='event'?t(LBL.napScopeEv):t(LBL.napScopeGen))+')</div>'; }
+    if(m.typ==='nap'){ h+='<div class="ec-muted">'+esc(napLinesArr(e).join(' · '))+'</div>'; }
     else if(m.typ==='gw'){ var gp=[]; if(gw) gp.push(gwLabel(gw)+' '+gw.s+'–'+gw.e+' UTC'); var gw2b=gw2Window(); if(gw2b) gp.push(gwLabel(gw2b)+' '+gw2b.s+'–'+gw2b.e+' UTC'); h+='<div class="ec-muted">'+(gp.length?gp.join(' · '):t(LBL.gwNoWin))+'</div>'; }
     else { var hl=stratHead(k,e.strat); if(e.len==='kurz'&&hl){ h+='<div class="ec-muted">'+esc(hl)+'</div>'; }
       if(m.typ==='termin'&&(e.start||e.ende)){ h+='<div class="ec-muted">'+(e.start||'')+(e.ende?'–'+e.ende:'')+' '+(e.zbase||'DE')+'</div>'; }
@@ -325,7 +344,7 @@ function buildBriefing(){
   var focus=firstRealEvent(blocks), out=[], gw=gwWindow();
   out.push("#190 "+L("HEUTE - S1L","TODAY - S1L","BUGÜN - S1L","СЕГОДНЯ - S1L"));
   blocks.forEach(function(k){ var m=EV[k], e=ST.ev[k], isFocus=(k===focus);
-    if(m.typ==='nap'){ out.push("———", EV.nap.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")+": "+e.txt+(e.scope==='event'?" ("+L("nur dieses Event","this event only","sadece bu etkinlik","только это событие")+")":"")); return; }
+    if(m.typ==='nap'){ out.push("———", EV.nap.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")+":"); napLinesArr(e).forEach(function(li){ out.push("#080 "+li); }); return; }
     if(m.typ==='gw'){ out.push("———", "#167 ***** "+L("GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW")+" ***** #167");
       if(gw){ out.push(gwLabel(gw)+":"); out.push(tzBlock(gw.s,gw.e)); }
       var gw2=gw2Window(); if(gw2){ out.push("———", gwLabel(gw2)+":"); out.push(tzBlock(gw2.s,gw2.e)); }
@@ -354,13 +373,13 @@ function renderBriefOut(){
 
 /* ===== Live-Ansagen (je Mitteilen-Event) ===== */
 function liveEvents(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k];
-  if(m.typ==='nap') return e.imChat && (e.txt||'').trim();
+  if(m.typ==='nap') return e.imChat && napHas(e);
   if(m.typ==='gw') return e.imChat && gwComputable();
   return e.laeuft && e.imChat; }); }
 function liveState(k){ var def=(EV[k].typ==='termin')?'time':'now'; if(!ST.live[k]) ST.live[k]={zmode:def,relN:"15",relU:"min",inhalt:"chat"}; return ST.live[k]; }
 function buildLive(k){
   var m=EV[k], e=ST.ev[k], out=[];
-  if(m.typ==='nap'){ out.push("#190 "+m.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ"),"#080 "+e.txt+(e.scope==='event'?" ("+L("nur dieses Event","this event only","sadece bu etkinlik","только это событие")+")":""),"———",t(STDNOTE)); return out.join("\n"); }
+  if(m.typ==='nap'){ out.push("#190 "+m.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")); napLinesArr(e).forEach(function(li){ out.push("#080 "+li); }); out.push("———",t(STDNOTE)); return out.join("\n"); }
   if(m.typ==='gw'){ var w=gwWindow(); out.push("#190 "+m.mark+" GOLDEN WINDOW"); if(w) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167",gwLabel(w)+":",tzBlock(w.s,w.e)); var w2=gw2Window(); if(w2) out.push("———",gwLabel(w2)+":",tzBlock(w2.s,w2.e)); out.push("———","#080 "+t(GWNOTE),"———",t(STDNOTE)); return out.join("\n"); }
   var s=liveState(k);
   out.push("#190 "+m.mark+" "+evNameTxt(k).toUpperCase()+(m.typ==='termin'?" - RALLY":""));
