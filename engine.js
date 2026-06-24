@@ -18,6 +18,13 @@ var ENGINE = (function(){
   var DUEL_THEMES_DE = { radar:"Radar-Training", basis:"Basisbau", tech:"Technologieforschung", helden:"Helden-Entwicklung", truppen:"Schlachtvorbereitung", gegner:"Gegner besiegen" };
   var DUEL_WEIGHT = { radar:1, basis:2, tech:2, helden:2, truppen:2, gegner:4 };
   var DUEL_TO_PP = { radar:"ausruest", basis:"siedlung", tech:"tech", helden:"helden", truppen:null, gegner:null };
+  /* Zweites Golden Window (Ungeheuer / Behemoth) — Jac 24.06.2026:
+     An Duell-Tagen, an denen Ungeheuer-Leveln/Ungeheuer-Zellen Duell-Punkte geben
+     (Tag 3 "tech" = Technologieforschung: 1 Ungeheuer-Zelle +12.000, je 100 Ungeheuer-EP +1.000),
+     ueberschneidet sich das zusaetzlich mit der Power-Play-Runde "Ungeheuer-Wachstum".
+     In diesem Slot zaehlt Ungeheuer-Leveln/Zellen doppelt (Duell + Power Play). */
+  var GW2_DUEL_KEYS = ["tech"];   /* Duell-Themen mit Ungeheuer-Wertung */
+  var GW2_PP = "ungeheuer";        /* zugehoerige Power-Play-Runde */
 
   function dDays(a,b){ return Math.round((b-a)/86400000); }
   function pad(n){ return (n<10?"0":"")+n; }
@@ -45,13 +52,24 @@ var ENGINE = (function(){
 
   /* Golden Window für ein Datum: {sUtc,eUtc,round,roundDe} oder null
      (Tag 5 Truppen = kein PP-Partner; Sa/So = Power-Play-Pause -> kein Fenster) */
-  function gwWindow(x){
-    var dd=duelDay(x); if(!dd) return null;
-    if(!ppRuns(x)) return null;
-    var ppt=DUEL_TO_PP[DUEL_THEMES[dd-1]]; if(!ppt) return null;
+  /* Slot (4h-Fenster) einer Power-Play-Runde an Tag x, oder null */
+  function ppSlotFor(x, ppt){
+    if(!ppt) return null;
     var o=ppOffset(x);
     for(var s=0;s<6;s++){ if(PP_THEMES[(o+s)%6]===ppt){ var h=SLOTS_UTC[s]; return { sUtc:pad(h)+":00", eUtc:pad((h+4)%24)+":00", round:ppt, roundDe:PP_THEMES_DE[ppt] }; } }
     return null;
+  }
+  function gwWindow(x){
+    var dd=duelDay(x); if(!dd) return null;
+    if(!ppRuns(x)) return null;
+    return ppSlotFor(x, DUEL_TO_PP[DUEL_THEMES[dd-1]]);
+  }
+  /* Zweites GW (Ungeheuer) — nur an Duell-Tagen mit Ungeheuer-Wertung + wenn Power Play laeuft */
+  function gw2Window(x){
+    var dd=duelDay(x); if(!dd) return null;
+    if(!ppRuns(x)) return null;
+    if(GW2_DUEL_KEYS.indexOf(DUEL_THEMES[dd-1])<0) return null;
+    return ppSlotFor(x, GW2_PP);
   }
 
   /* +N Stunden auf "HH:00" (UTC), für DE-Umrechnung (Sommer = +2) */
@@ -62,7 +80,7 @@ var ENGINE = (function(){
     DUEL_THEMES:DUEL_THEMES, DUEL_THEMES_DE:DUEL_THEMES_DE, DUEL_WEIGHT:DUEL_WEIGHT, DUEL_TO_PP:DUEL_TO_PP,
     PP_REF:PP_REF, PP_REF_O:PP_REF_O, DUEL_REF:DUEL_REF,
     duelDay:duelDay, ppOffset:ppOffset, ppRuns:ppRuns, duelTheme:duelTheme, duelInfo:duelInfo,
-    ppScheduleForDay:ppScheduleForDay, gwWindow:gwWindow, shiftHHMM:shiftHHMM
+    ppScheduleForDay:ppScheduleForDay, ppSlotFor:ppSlotFor, gwWindow:gwWindow, gw2Window:gw2Window, shiftHHMM:shiftHHMM
   };
 })();
 if(typeof module!=='undefined' && module.exports) module.exports = ENGINE;
