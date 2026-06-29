@@ -2,17 +2,17 @@
    Berechnet Duell-Tag, Power-Play-Rotation und Golden Window aus Ankern.
    Keine Abhängigkeiten. Einbinden VOR strat.js und dem Seiten-Skript: <script src="engine.js"></script>
 
-   Anker (KALENDER-Screenshot Jac 22.06.2026, In-Game = DE-Ortszeit):
-   - Power Play: Tag 1 = MONTAG. Tag-1-Slots DE 02/06/10/14/18/22 = UTC 00/04/08/12/16/20.
-     Reihenfolge: Helden · Siedlung · Kommandant · Tech · Ausrüstung · Ungeheuer. Täglich +1 verschoben.
+   Anker (7-Tage-Verlauf-Screenshots Jac 29.06.2026, In-Game = DE-Ortszeit):
+   - Power Play: läuft DURCHGEHEND 7 Tage/Woche. Slots DE 02/06/10/14/18/22 = UTC 00/04/08/12/16/20.
+     Reihenfolge: Helden · Siedlung · Kommandant · Tech · Ausrüstung · Ungeheuer. Täglich +1 verschoben (6-Themen-Zyklus, Tag 7 = Tag 1). Anker: Mo 29.06. = Offset 0.
    - Duell: 6 Tage Mo–Sa (So Ruhetag), Tag 1 = Montag.
-   - PP/Duell/Turbo gekoppelt -> Golden Windows wöchentlich KONSTANT (montags prüfen).
+   - ACHTUNG: PP-Zyklus = 6 Tage, Duell-Woche = 7 Tage -> Golden Windows verschieben sich WÖCHENTLICH (NICHT konstant). Jede Woche neu rechnen.
    Pflege: Alex. */
 var ENGINE = (function(){
   var PP_THEMES = ["helden","siedlung","kommandant","tech","ausruest","ungeheuer"];
   var PP_THEMES_DE = { helden:"Heldenverbesserung", siedlung:"Siedlungsbau", kommandant:"Kommandant Sammlung", tech:"Technologieforschung", ausruest:"Ausrüstungsaufwertung", ungeheuer:"Ungeheuer-Wachstum" };
   var SLOTS_UTC = [0,4,8,12,16,20];
-  var PP_REF = Date.UTC(2026,5,22), PP_REF_O = 0;   /* Mo 22.06. = PP-Tag 1 */
+  var PP_REF = Date.UTC(2026,5,29), PP_REF_O = 0;   /* Mo 29.06. = Zyklus-Offset 0 (DE 02:00 Helden); voller 7-Tage-Verlauf per Jac-Screenshots verifiziert */
   var DUEL_REF = Date.UTC(2026,5,15);               /* Mo 15.06. = Duell-Tag 1 */
   var DUEL_THEMES = ["radar","basis","tech","helden","truppen","gegner"];
   var DUEL_THEMES_DE = { radar:"Radar-Training", basis:"Basisbau", tech:"Technologieforschung", helden:"Helden-Entwicklung", truppen:"Schlachtvorbereitung", gegner:"Gegner besiegen" };
@@ -37,7 +37,10 @@ var ENGINE = (function(){
 
   /* Duell-Tag 1..6, 0 = Sonntag/Ruhetag */
   function duelDay(x){ var m=toMid(x); var n=((dDays(DUEL_REF,m)%7)+7)%7; return n<6 ? n+1 : 0; }
-  /* Power-Play-Offset 0..5 (welches Thema im 00-UTC-Slot steht) */
+  /* Power-Play-Offset 0..5 (welches Thema im DE-02:00 / UTC-00:00-Slot steht).
+     Rotation läuft DURCHGEHEND 7 Tage/Woche, täglich +1 Schritt (6-Themen-Zyklus -> Tag 7 = Tag 1).
+     KEIN Wochenend-Stopp, KEIN Montags-Reset.
+     Verifiziert: voller 7-Tage-Verlauf per Jac-Screenshots 29.06.2026 (Mo 29.06. = Offset 0). */
   function ppOffset(x){ var m=toMid(x); return (((dDays(PP_REF,m)+PP_REF_O)%6)+6)%6; }
 
   /* Duell-Thema-Schlüssel/-Name/-Gewicht für ein Datum */
@@ -47,8 +50,9 @@ var ENGINE = (function(){
   /* PP-Rotation eines Tages: [{slotUtc, theme, themeDe}] */
   function ppScheduleForDay(x){ var o=ppOffset(x), out=[]; for(var s=0;s<6;s++){ var t=PP_THEMES[(o+s)%6]; out.push({ slotUtc:SLOTS_UTC[s], theme:t, themeDe:PP_THEMES_DE[t] }); } return out; }
 
-  /* Power Play + Turbo-Schildkröte laufen Mo–Fr, Sa+So Pause (Jac 22.06.2026) -> am Wochenende kein GW. */
-  function ppRuns(x){ var wd=new Date(toMid(x)).getUTCDay(); return wd>=1 && wd<=5; }
+  /* Power Play läuft DURCHGEHEND 7 Tage/Woche (Jac 29.06.2026: „läuft tatsächlich 7 Tage durch").
+     Früher fälschlich Mo–Fr angenommen. GW am Wochenende hängt jetzt nur noch am Duell (So Ruhetag -> kein GW). */
+  function ppRuns(x){ return true; }
 
   /* Golden Window für ein Datum: {sUtc,eUtc,round,roundDe} oder null
      (Tag 5 Truppen = kein PP-Partner; Sa/So = Power-Play-Pause -> kein Fenster) */
