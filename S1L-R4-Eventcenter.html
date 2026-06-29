@@ -149,6 +149,7 @@ var LBL={ laeuft:{de:"Läuft",en:"Active",tr:"Aktif",ru:"Активно"}, chat:
   empty:{de:"Noch kein Block aktiv — unten Events auf 'Läuft' + 'Mitteilen' stellen.",en:"No block active yet — set events below to Active + Announce.",tr:"Henüz blok yok — aşağıda Aktif + Duyur yap.",ru:"Пока пусто — включите события ниже на «Активно» + «Сообщить»."},
   napWho:{de:"wer",en:"who",tr:"kim",ru:"кто"}, napWhere:{de:"was",en:"what",tr:"ne",ru:"что"},
   napAdd:{de:"hinzufügen",en:"add",tr:"ekle",ru:"добавить"}, napDel:{de:"entfernen",en:"remove",tr:"kaldır",ru:"удалить"},
+  tzShort:{de:"Zeit kurz",en:"Time short",tr:"Saat kısa",ru:"Время кратко"},
   liveEmpty:{de:"Kein Event auf 'Mitteilen'. Oben ein Event aktivieren + 'Mitteilen' setzen.",en:"No event set to Announce. Activate an event above + set Announce.",tr:"Duyur ayarlı etkinlik yok.",ru:"Нет событий «Сообщить»."},
   gwAuto:{de:"Zeit auto (Duell-Zyklus)",en:"time auto (duel cycle)",tr:"zaman oto (düello)",ru:"время авто (цикл дуэли)"},
   gwOnlyDuell:{de:"nur bei aktivem Allianzduell + Power Play",en:"only with active duel + power play",tr:"yalnızca aktif düello + power play",ru:"только при активной дуэли + power play"},
@@ -164,8 +165,8 @@ function evNameTxt(k){ return t(EV[k]); }
 /* ===== Zeit-Helfer ===== */
 function pad(n){ return (n<10?"0":"")+n; }
 function addH(h,n){ if(!h) return ""; var p=h.split(":"); return pad((parseInt(p[0],10)+n+24)%24)+":"+p[1]; }
-function tzBlock(s,e){ if(!s) return "";
-  var z=[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
+function tzBlock(s,e,short){ if(!s) return "";
+  var z=short?[["UTC",0],["UK",1],["DE",2],["GR",3]]:[["UTC",0],["UK / IE / PT",1],["DE / AT / FR / IT / ES / PL / NL",2],["FI / GR / RO / UA / RU / TR",3]];
   return z.map(function(p){ var x=addH(s,p[1]); return (e?x+" - "+addH(e,p[1]):x)+"  "+p[0]; }).join("\n"); }
 var ZONES=[["UTC",0],["UK",1],["DE",2],["RU",3]];
 function zOff(k){ for(var i=0;i<ZONES.length;i++){ if(ZONES[i][0]===k) return ZONES[i][1]; } return 0; }
@@ -242,8 +243,8 @@ function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTa
 var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"" };
 function baseFor(k){ var typ=EV[k].typ;
   if(typ==='nap') return {imChat:false,list:[{wer:"",wo:""}]};
-  if(typ==='gw') return {imChat:true,len:"kurz"};
-  return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE"}; }
+  if(typ==='gw') return {imChat:true,len:"kurz",tzs:false};
+  return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE",tzs:false}; }
 function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; }catch(e){} ST.rollOffset=0;
   DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
@@ -286,6 +287,7 @@ function renderList(){
       if(!gwComputable()) h+='<span class="ec-muted">'+t(LBL.gwOnlyDuell)+'</span>';
       else if(gw) h+='<span class="ec-muted">'+gw.s+'–'+gw.e+' UTC</span>';
       else h+='<span class="ec-muted">'+t(LBL.gwNoWin)+'</span>';
+      h+='<label class="ec-sw"><input type="checkbox" data-f="tzs"'+(e.tzs?' checked':'')+'>'+t(LBL.tzShort)+'</label>';
     } else {
       h+='<label class="ec-sw"><input type="checkbox" data-f="laeuft"'+(e.laeuft?' checked':'')+'>'+t(LBL.laeuft)+'</label>';
       h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
@@ -293,6 +295,7 @@ function renderList(){
       h+='<select data-f="strat">'+stratOptions(k,e.strat)+'</select>';
       if(m.typ==='termin'){ h+='<span class="ec-time"><select data-f="zbase" title="Zone">'+zoneOpts(e.zbase||'DE')+'</select> Start <input type="time" data-f="start" value="'+(e.start||'')+'"> Ende <input type="time" data-f="ende" value="'+(e.ende||'')+'"></span>'; }
       else { h+='<span class="ec-muted">'+t(LBL.ganztags)+'</span>'; }
+      h+='<label class="ec-sw"><input type="checkbox" data-f="tzs"'+(e.tzs?' checked':'')+'>'+t(LBL.tzShort)+'</label>';
     }
     h+='</div>';
   });
@@ -342,24 +345,24 @@ function renderBriefing(){
 function buildBriefing(){
   var blocks=briefBlocks(); if(!blocks.length) return "";
   var focus=firstRealEvent(blocks), out=[], gw=gwWindow();
-  out.push("#190 "+L("HEUTE - S1L","TODAY - S1L","BUGÜN - S1L","СЕГОДНЯ - S1L"));
   blocks.forEach(function(k){ var m=EV[k], e=ST.ev[k], isFocus=(k===focus);
     if(m.typ==='nap'){ out.push("———", EV.nap.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")+":"); napLinesArr(e).forEach(function(li){ out.push("#080 "+li); }); return; }
     if(m.typ==='gw'){ out.push("———", "#167 ***** "+L("GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW","GOLDEN WINDOW")+" ***** #167");
-      if(gw){ out.push(gwLabel(gw)+":"); out.push(tzBlock(gw.s,gw.e)); }
-      var gw2=gw2Window(); if(gw2){ out.push("———", gwLabel(gw2)+":"); out.push(tzBlock(gw2.s,gw2.e)); }
+      if(gw){ out.push(gwLabel(gw)+":"); out.push(tzBlock(gw.s,gw.e,e.tzs)); }
+      var gw2=gw2Window(); if(gw2){ out.push("———", gwLabel(gw2)+":"); out.push(tzBlock(gw2.s,gw2.e,e.tzs)); }
       if(e.len==='lang') out.push("#080 "+t(GWNOTE)); return; }
     /* echtes Event */
     if(e.len==='lang'){
-      out.push("———", m.mark+" ***** "+evNameTxt(k).toUpperCase()+" ***** "+m.mark+(isFocus?" - FOKUS":""));
-      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):""));
+      out.push("———", m.mark+" ***** "+evNameTxt(k).toUpperCase()+" ***** "+m.mark);
+      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):"", e.tzs));
       var st=e.strat?stratFull(k,e.strat):""; if(st) out.push(st);
     } else {
       var hl=stratHead(k,e.strat);
-      out.push("———", m.mark+" "+evNameTxt(k)+(isFocus?" - FOKUS":"")+(hl?" - "+hl:""));
-      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):""));
+      out.push("———", m.mark+" "+evNameTxt(k)+(hl?" - "+hl:""));
+      if(m.typ==='termin'&&e.start) out.push(tzBlock(baseToUtc(e.start,e.zbase||'DE'), e.ende?baseToUtc(e.ende,e.zbase||'DE'):"", e.tzs));
     }
   });
+  if(out[0]==="———") out.shift();
   out.push("———", t(STDMOTIV), t(STDNOTE));
   return out.join("\n");
 }
@@ -380,15 +383,15 @@ function liveState(k){ var def=(EV[k].typ==='termin')?'time':'now'; if(!ST.live[
 function buildLive(k){
   var m=EV[k], e=ST.ev[k], out=[];
   if(m.typ==='nap'){ out.push("#190 "+m.mark+" "+L("NICHTANGRIFFSPAKT","NON-AGGRESSION PACT","SALDIRMAZLIK PAKTI","ПАКТ О НЕНАПАДЕНИИ")); napLinesArr(e).forEach(function(li){ out.push("#080 "+li); }); out.push("———",t(STDNOTE)); return out.join("\n"); }
-  if(m.typ==='gw'){ var w=gwWindow(); out.push("#190 "+m.mark+" GOLDEN WINDOW"); if(w) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167",gwLabel(w)+":",tzBlock(w.s,w.e)); var w2=gw2Window(); if(w2) out.push("———",gwLabel(w2)+":",tzBlock(w2.s,w2.e)); out.push("———","#080 "+t(GWNOTE),"———",t(STDNOTE)); return out.join("\n"); }
+  if(m.typ==='gw'){ var w=gwWindow(); out.push("#190 "+m.mark+" GOLDEN WINDOW"); if(w) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167",gwLabel(w)+":",tzBlock(w.s,w.e,e.tzs)); var w2=gw2Window(); if(w2) out.push("———",gwLabel(w2)+":",tzBlock(w2.s,w2.e,e.tzs)); out.push("———","#080 "+t(GWNOTE),"———",t(STDNOTE)); return out.join("\n"); }
   var s=liveState(k);
   out.push("#190 "+m.mark+" "+evNameTxt(k).toUpperCase()+(m.typ==='termin'?" - RALLY":""));
   if(m.typ==='termin') out.push("———","#080 "+L("Sammelpunkt: Allianzsammelpunkt","Rally point: alliance rally point","Rally noktası: ittifak rally noktası","Точка сбора: точка сбора альянса"));
   if(s.zmode==='now'){ out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167","#080 "+L("Es geht los - kommt zum Sammelpunkt","It is on - come to the rally point","Başlıyor - rally noktasına gelin","Начинаем - приходите на точку сбора")); }
   else if(s.zmode==='rel'){ var mins=(s.relU==='h'?(parseInt(s.relN,10)||0)*60:(parseInt(s.relN,10)||0)); var su=addMin(nowUtcHHMM(),mins); var rel=(s.relU==='h'?(s.relN+" h"):(s.relN+" min"));
-    out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167","#080 "+L("Start in ","Start in ","Başlangıç ","Старт через ")+rel, tzBlock(su,"")); }
+    out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167","#080 "+L("Start in ","Start in ","Başlangıç ","Старт через ")+rel, tzBlock(su,"",e.tzs)); }
   else if(s.zmode==='time'){ var uS=e.start?baseToUtc(e.start,e.zbase||'DE'):"", uE=e.ende?baseToUtc(e.ende,e.zbase||'DE'):"";
-    if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167", tzBlock(uS,uE)); }
+    if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167", tzBlock(uS,uE,e.tzs)); }
   if(s.inhalt==='strat'){ var st=e.strat?stratFull(k,e.strat):""; if(st) out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY","STRATEJİ","СТРАТЕГИЯ")+" ***** #176", st); }
   out.push("———", t(STDMOTIV), t(STDNOTE));
   return out.join("\n");
