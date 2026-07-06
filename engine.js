@@ -2,18 +2,22 @@
    Berechnet Duell-Tag, Power-Play-Rotation und Golden Window aus Ankern.
    Keine Abhängigkeiten. Einbinden VOR strat.js und dem Seiten-Skript: <script src="engine.js"></script>
 
-   Anker (7-Tage-Verlauf-Screenshots Jac 29.06.2026, In-Game = DE-Ortszeit):
-   - Power Play: läuft DURCHGEHEND 7 Tage/Woche. Slots DE 02/06/10/14/18/22 = UTC 00/04/08/12/16/20.
-     Reihenfolge: Helden · Siedlung · Kommandant · Tech · Ausrüstung · Ungeheuer. Täglich +1 verschoben (6-Themen-Zyklus, Tag 7 = Tag 1). Anker: Mo 29.06. = Offset 0.
+   Anker (In-Game = DE-Ortszeit; korrigiert Jac 06.07.2026):
+   - Power Play: aktiv 7 Tage/Woche, aber NICHT fortlaufend. Wöchentlicher RESET Sonntag->Montag:
+     jeden Montag startet die Rotation neu bei Tag 1. Slots DE 02/06/10/14/18/22 = UTC 00/04/08/12/16/20.
+     Reihenfolge Tag 1: Helden · Siedlung · Kommandant · Tech · Ausrüstung · Ungeheuer (Offset 0).
+     Ab Tag 2 täglich +1 innerhalb der Woche (Mo=Tag1..Sa=Tag6, So=Tag7 -> Offset 0 wie Tag1).
    - Duell: 6 Tage Mo–Sa (So Ruhetag), Tag 1 = Montag.
-   - ACHTUNG: PP-Zyklus = 6 Tage, Duell-Woche = 7 Tage -> Golden Windows verschieben sich WÖCHENTLICH (NICHT konstant). Jede Woche neu rechnen.
+   - PP-Reset und Duell sind an denselben Montag gekoppelt -> an Duell-Tagen gilt Offset = Duell-Tag - 1.
+     Golden Windows sind damit wochenkonstant (kein Wochendrift).
+   Frueheres Modell "durchlaufend +1 ohne Reset" (29.06.2026) war falsch: es driftete jede Woche +1 Slot.
    Pflege: Alex. */
 var ENGINE = (function(){
   var PP_THEMES = ["helden","siedlung","kommandant","tech","ausruest","ungeheuer"];
   var PP_THEMES_DE = { helden:"Heldenverbesserung", siedlung:"Siedlungsbau", kommandant:"Kommandant Sammlung", tech:"Technologieforschung", ausruest:"Ausrüstungsaufwertung", ungeheuer:"Ungeheuer-Wachstum" };
   var SLOTS_UTC = [0,4,8,12,16,20];
-  var PP_REF = Date.UTC(2026,5,29), PP_REF_O = 0;   /* Mo 29.06. = Zyklus-Offset 0 (DE 02:00 Helden); voller 7-Tage-Verlauf per Jac-Screenshots verifiziert */
-  var DUEL_REF = Date.UTC(2026,5,15);               /* Mo 15.06. = Duell-Tag 1 */
+  var MON_REF = Date.UTC(2026,5,15);                /* Mo 15.06. = Wochen-Anker (Montag); PP-Reset + Duell-Tag 1 hier verankert */
+  var DUEL_REF = MON_REF;                            /* Mo 15.06. = Duell-Tag 1 (gleicher Montag) */
   var DUEL_THEMES = ["radar","basis","tech","helden","truppen","gegner"];
   var DUEL_THEMES_DE = { radar:"Radar-Training", basis:"Basisbau", tech:"Technologieforschung", helden:"Helden-Entwicklung", truppen:"Schlachtvorbereitung", gegner:"Gegner besiegen" };
   var DUEL_WEIGHT = { radar:1, basis:2, tech:2, helden:2, truppen:2, gegner:4 };
@@ -38,10 +42,10 @@ var ENGINE = (function(){
   /* Duell-Tag 1..6, 0 = Sonntag/Ruhetag */
   function duelDay(x){ var m=toMid(x); var n=((dDays(DUEL_REF,m)%7)+7)%7; return n<6 ? n+1 : 0; }
   /* Power-Play-Offset 0..5 (welches Thema im DE-02:00 / UTC-00:00-Slot steht).
-     Rotation läuft DURCHGEHEND 7 Tage/Woche, täglich +1 Schritt (6-Themen-Zyklus -> Tag 7 = Tag 1).
-     KEIN Wochenend-Stopp, KEIN Montags-Reset.
-     Verifiziert: voller 7-Tage-Verlauf per Jac-Screenshots 29.06.2026 (Mo 29.06. = Offset 0). */
-  function ppOffset(x){ var m=toMid(x); return (((dDays(PP_REF,m)+PP_REF_O)%6)+6)%6; }
+     WÖCHENTLICHER RESET Sonntag->Montag: jeden Montag zurück auf Tag 1 (Offset 0).
+     Wochentag ab Montag (0=Mo..6=So); Offset = Wochentag mod 6 (So = Tag 7 -> 0 wie Tag 1).
+     KEIN Durchlauf über die Woche hinaus. Verifiziert: Jac 06.07.2026 (Mo -> Offset 0, Ausrüstung 18:00 DE). */
+  function ppOffset(x){ var m=toMid(x); var wd=(((dDays(MON_REF,m))%7)+7)%7; return wd%6; }
 
   /* Duell-Thema-Schlüssel/-Name/-Gewicht für ein Datum */
   function duelTheme(x){ var dd=duelDay(x); return dd ? DUEL_THEMES[dd-1] : null; }
@@ -82,7 +86,7 @@ var ENGINE = (function(){
   return {
     PP_THEMES:PP_THEMES, PP_THEMES_DE:PP_THEMES_DE, SLOTS_UTC:SLOTS_UTC,
     DUEL_THEMES:DUEL_THEMES, DUEL_THEMES_DE:DUEL_THEMES_DE, DUEL_WEIGHT:DUEL_WEIGHT, DUEL_TO_PP:DUEL_TO_PP,
-    PP_REF:PP_REF, PP_REF_O:PP_REF_O, DUEL_REF:DUEL_REF,
+    MON_REF:MON_REF, DUEL_REF:DUEL_REF,
     duelDay:duelDay, ppOffset:ppOffset, ppRuns:ppRuns, duelTheme:duelTheme, duelInfo:duelInfo,
     ppScheduleForDay:ppScheduleForDay, ppSlotFor:ppSlotFor, gwWindow:gwWindow, gw2Window:gw2Window, shiftHHMM:shiftHHMM
   };

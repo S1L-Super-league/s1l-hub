@@ -44,6 +44,9 @@
   .live-blk .hd{ font-weight:800; display:flex; align-items:center; gap:8px; }
   .live-blk .ctl{ display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:8px 0; }
   .live-blk select, .live-blk input[type=number]{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
+  .zt-ctl{ display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:10px; }
+  .zt-ctl label{ font-weight:700; font-size:.85rem; display:inline-flex; gap:6px; align-items:center; }
+  .zt-ctl input[type=time], .zt-ctl select{ padding:6px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font-size:.85rem; }
 </style>
 </head>
 <body>
@@ -115,6 +118,10 @@
   <!-- 4) RR-AUFSTELLUNG — nur wenn Reservoir Raid läuft + Strategie „Aufstellung" -->
   <h2 class="section" id="rrSecHead" hidden>🐟 <span class="lng-de">Aufstellung — Reservoir Raid</span><span class="lng-en">Line-up — Reservoir Raid</span><span class="lng-tr">Dizilim — Reservoir Raid</span><span class="lng-ru">Расстановка — Reservoir Raid</span> <span class="ec-muted">— <span class="lng-de">unten eintragen · erzeugt Phasen-Nachrichten zum Kopieren</span><span class="lng-en">fill in below · generates phase messages to copy</span><span class="lng-tr">aşağıda doldur · faz mesajları üretir</span><span class="lng-ru">заполни ниже · создаёт сообщения по фазам</span></span></h2>
   <div class="ec-card" id="rraufstellung" hidden></div>
+
+  <!-- 5) ZEIT-TEMPLATE — reiner Zeitzonen-Umrechner -->
+  <h2 class="section">🕒 <span class="lng-de">Zeit-Template</span><span class="lng-en">Time template</span><span class="lng-tr">Saat şablonu</span><span class="lng-ru">Шаблон времени</span> <span class="ec-muted">— <span class="lng-de">Uhrzeit eingeben → fertiger Zeitzonen-Block zum Kopieren</span><span class="lng-en">enter a time → ready-made timezone block to copy</span><span class="lng-tr">saat gir → kopyalanmaya hazır saat dilimi bloğu</span><span class="lng-ru">введи время → готовый блок по часовым поясам</span></span></h2>
+  <div class="ec-card" id="zeittpl"></div>
 
   <footer class="ec-muted" style="margin-top:14px"><span class="lng-de">S1L · R4 · Eventcenter · Events, Golden Window &amp; Raid-Zeiten stellen sich automatisch auf den Tag (◀ heute ▶ zum Vor-/Zurückrollen, ↻ Auto setzt zurück). Manuell übersteuerbar. Stand lokal (Firebase-Sync folgt). Pflegt: Alex. Nur Entwürfe — im Spiel-Chat einfügen.</span><span class="lng-en">S1L · R4 · Event center · events, Golden Window &amp; raid times auto-set to the day (◀ today ▶ to roll, ↻ Auto resets). Manual override possible. State local (Firebase sync to come). Maintained by Alex. Drafts only — paste into the game chat.</span><span class="lng-tr">S1L · R4 · Etkinlik merkezi · etkinlikler, Golden Window &amp; raid saatleri güne göre otomatik (◀ bugün ▶ ile rolle, ↻ Oto sıfırlar). Elle değiştirilebilir. Durum yerel (Firebase gelecek). Pflegt: Alex. Sadece taslaklar — oyun sohbetine yapıştır.</span><span class="lng-ru">S1L · R4 · Центр событий · события, Golden Window и время рейдов авто-подстраиваются под день (◀ сегодня ▶ для прокрутки, ↻ Авто сбрасывает). Можно переопределить вручную. Состояние локально (Firebase позже). Ведёт: Alex. Только черновики — вставляй в игровой чат.</span></footer>
 </div>
@@ -240,12 +247,12 @@ function stratFull(k,id){ var x=stratObj(k,id); return x?stratLoc(x,lang()):""; 
 function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTagArr(x,lang()); return tg[0]||""; }
 
 /* ===== Zustand ===== */
-var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"" };
+var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"", zt:{start:"",ende:"",base:"DE",mode:"normal"} };
 function baseFor(k){ var typ=EV[k].typ;
   if(typ==='nap') return {imChat:false,list:[{wer:"",wo:""}]};
   if(typ==='gw') return {imChat:true,len:"kurz",tzs:false};
   return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE",tzs:false}; }
-function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; }catch(e){} ST.rollOffset=0;
+function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; if(s.zt){ for(var zp in s.zt){ ST.zt[zp]=s.zt[zp]; } } }catch(e){} ST.rollOffset=0;
   DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
   ST.order=ST.order.filter(function(k){ return EV[k]; }); }
@@ -455,6 +462,30 @@ function renderRRMsgs(){
   wrap.querySelectorAll('[data-cm]').forEach(function(b){ var i=+b.getAttribute('data-cm'); b.onclick=function(){ copyClip(msgs[i].text,b); }; });
 }
 
+/* ===== Zeit-Template (reiner Zeitzonen-Umrechner) ===== */
+function buildZeit(){ var z=ST.zt; var su=baseToUtc(z.start,z.base); if(!su) return "";
+  var eu=z.ende?baseToUtc(z.ende,z.base):""; return tzBlock(su,eu,z.mode==='kurz'); }
+function updateZeitOut(){ var el=document.getElementById('ztOut'); if(!el) return;
+  var s=buildZeit(); el.textContent = s || L("Startzeit eingeben.","Enter a start time.","Başlangıç saati gir.","Введите время начала."); }
+function renderZeit(){ var box=document.getElementById('zeittpl'); if(!box) return; var z=ST.zt;
+  var h='<div class="zt-ctl">';
+  h+='<label>'+L("Start","Start","Başlangıç","Начало")+' <input type="time" id="ztStart" value="'+esc(z.start)+'"></label>';
+  h+='<label>'+L("Ende (optional)","End (optional)","Bitiş (ops.)","Конец (опц.)")+' <input type="time" id="ztEnde" value="'+esc(z.ende)+'"></label>';
+  h+='<label>'+L("Eingabe-Zone","Input zone","Giriş bölgesi","Зона ввода")+' <select id="ztBase">'+zoneOpts(z.base)+'</select></label>';
+  h+='<span class="seg" id="ztMode"><button type="button" data-m="normal"'+(z.mode==='normal'?' class="on"':'')+'>'+L("alle Länder","all countries","tüm ülkeler","все страны")+'</button><button type="button" data-m="kurz"'+(z.mode==='kurz'?' class="on"':'')+'>'+L("1 Land/Zone","1 country/zone","1 ülke/bölge","1 страна/зона")+'</button></span>';
+  h+='</div>';
+  h+='<pre class="block" id="ztOut"></pre>';
+  h+='<button class="copybtn" id="ztCopy">📋 '+L("Zeit-Block kopieren","Copy time block","Zaman bloğunu kopyala","Копировать блок")+'</button>';
+  box.innerHTML=h;
+  document.getElementById('ztStart').addEventListener('input',function(){ ST.zt.start=this.value; save(); updateZeitOut(); });
+  document.getElementById('ztEnde').addEventListener('input',function(){ ST.zt.ende=this.value; save(); updateZeitOut(); });
+  document.getElementById('ztBase').addEventListener('change',function(){ ST.zt.base=this.value; save(); updateZeitOut(); });
+  var mb=document.getElementById('ztMode');
+  mb.querySelectorAll('button').forEach(function(x){ x.onclick=function(){ mb.querySelectorAll('button').forEach(function(y){y.classList.remove('on');}); x.classList.add('on'); ST.zt.mode=x.getAttribute('data-m'); save(); updateZeitOut(); }; });
+  document.getElementById('ztCopy').onclick=function(){ copyClip(buildZeit(), this); };
+  updateZeitOut();
+}
+
 /* ===== Hilfen ===== */
 function esc(s){ s=(s==null?"":""+s); return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
 function copyClip(text,btn){ function ok(){ btn.classList.add("ok"); var o=btn.innerHTML; btn.textContent="✓"; setTimeout(function(){btn.classList.remove("ok");btn.innerHTML=o;},1200); }
@@ -476,7 +507,7 @@ function setupRoll(){ var b=document.getElementById('segRoll');
   var a=document.getElementById('rollAuto'); if(a) a.onclick=function(){ maybeRoll(true); renderAll(); }; }
 
 /* ===== Boot ===== */
-function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); renderRollInfo(); }
+function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); renderZeit(); renderRollInfo(); }
 function boot(){ load(); maybeRoll();
   var sv=document.getElementById('segView'); if(sv) sv.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-view')===ST.view); });
   renderAll(); setupRoll();
