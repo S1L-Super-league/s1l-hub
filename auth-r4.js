@@ -4,19 +4,19 @@
    + das R4-Passwort, das du SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
    Jeder Eintrag = SHA-256 von "spielername:passwort" — Name UND Passwort klein geschrieben
    (Login ist groß-/kleinschreibungs-unabhängig: Eingabe wird vor dem Hashen kleingeschrieben).
-   Stand 22.06.2026: Trusted-/R4-Kern (10) — +Frenchy78, +Gab3ssss (Jac 22.06.). Löst die alte Verwaltungsseite ab.
+   Stand 08.07.2026: R4-Kern (9) — Roster nach In-Game-Screenshot (Jac 08.07.):
+   +Froschi, +Elsa; −Lady M, −Војвода, −bismillah (stehen nicht mehr im R4-Bereich). Gab3ssss-Schreibweise bestätigt (4x s).
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var R4_ALLOWED = [
   "5cb12da49b65a3e3dc8a1e8c56492d7fe55a8a6d14281f85dbbe00e1feb9bf07", // kingeder
   "9aea7ebeba24779dc7db134bb428dc552b58898bdff23f435758f5a61cab2594", // crexoog
   "2fd6719e67998b69432938a72e0006c08b78522f04bb5f5defe66307b0a3652d", // hmx
-  "43f8e523744923e6a842473538fba2974dde6d587e8a46c7a30e8ad139a22ed4", // lady m
   "7e837083c68e26df18d872c16f18f09e28db7c2ca444f87d0a629ba5ecf7e081", // jac
   "3ef5a8efcea34b84ab13d2e1b5c80415b5333b90a8b6e87a3b7fc79c1c9dea42", // ghob
-  "10755cff90e80c8eed248a5a4ed50c62133f4a8794f36368456b0dcd48fa82c2", // војвода
-  "92b0c80b4999ac172afbd1bf1c1b8f255b2599907931cb2ea830652c871bac93", // bismillah
   "012479e27d0878955456a7c19c22bb686c6112e4edea558124c30e4ea4c64e86", // frenchy78
-  "714e26f9c145514c1791f34da513bc7ba7af3461ffb1681f79eb1662f60040af"  // gab3ssss  (Schreibweise prüfen: 4x s)
+  "714e26f9c145514c1791f34da513bc7ba7af3461ffb1681f79eb1662f60040af", // gab3ssss  (Schreibweise bestätigt: 4x s)
+  "b842d4318c8ec89d76756b3727742edb0524e84a9435ba818f29cbe3afe894dc", // froschi
+  "1236d29eecf61f5ff847f0fa2f03467880b8d8a9e391a53b50c65433abf863ba"  // elsa
 ];
 
 function sha256js(ascii){
