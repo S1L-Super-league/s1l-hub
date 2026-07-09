@@ -95,6 +95,16 @@ body[data-noreview] .legend{ display:none !important; }
 .c-collhead{ cursor:pointer; font-weight:700; font-size:1.08rem; padding:4px 0; user-select:none; }
 .c-collbody{ margin-top:6px; }
 .c-collbody[hidden]{ display:none; }
+/* Format-Leiste im Editor */
+.c-fmt{ display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px; }
+.c-fmt button{ font:inherit; font-size:.9rem; line-height:1; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:7px; padding:4px 8px; }
+.c-fmt button:hover, .c-fmt button:focus-visible{ border-color:var(--focus); }
+/* Gerenderte Mini-Formatierung in Kacheln */
+.c-body .c-mh1, .c-collbody .c-mh1{ font-size:1.25rem; font-weight:700; margin:.35em 0 .2em; border:0; padding:0; }
+.c-body .c-mh2, .c-collbody .c-mh2{ font-size:1.08rem; font-weight:700; margin:.3em 0 .15em; }
+.c-body ul, .c-collbody ul{ margin:.3em 0; padding-left:1.2em; }
+.c-body li, .c-collbody li{ margin:.15em 0; }
+.c-body p, .c-collbody p{ margin:.25em 0; }
 
 .fact{ margin:.5em 0; }
 .fact b{ display:inline-block; min-width:8.5em; }

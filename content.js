@@ -25,6 +25,24 @@
   function curLang(){ try{ var l=localStorage.getItem('s1l_lang'); if(l) return l; }catch(e){} return document.documentElement.getAttribute('data-lang')||'de'; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
   function txt2html(t){ return esc(t).replace(/\n/g,'<br>'); }
+  /* Mini-Formatierung: # H1 · ## H2 · - Liste · **fett**. Übersteht die Auto-Übersetzung (Marker bleiben). */
+  function mdInline(s){ return esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>'); }
+  function mdToHtml(t){
+    var lines=(t||'').split('\n'), out=[], inUl=false;
+    function closeUl(){ if(inUl){ out.push('</ul>'); inUl=false; } }
+    for(var i=0;i<lines.length;i++){ var ln=lines[i];
+      if(/^\s*[-*]\s+/.test(ln)){ if(!inUl){ out.push('<ul>'); inUl=true; } out.push('<li>'+mdInline(ln.replace(/^\s*[-*]\s+/,''))+'</li>'); continue; }
+      closeUl();
+      if(/^##\s+/.test(ln)){ out.push('<h3 class="c-mh2">'+mdInline(ln.replace(/^##\s+/,''))+'</h3>'); continue; }
+      if(/^#\s+/.test(ln)){ out.push('<h2 class="c-mh1">'+mdInline(ln.replace(/^#\s+/,''))+'</h2>'); continue; }
+      if(ln.trim()===''){ out.push('<br>'); continue; }
+      out.push('<p>'+mdInline(ln)+'</p>');
+    }
+    closeUl(); return out.join('');
+  }
+  function taWrap(ta,b,a){ var s=ta.selectionStart,e=ta.selectionEnd,v=ta.value; ta.value=v.slice(0,s)+b+v.slice(s,e)+(a||'')+v.slice(e); ta.focus(); ta.selectionStart=s+b.length; ta.selectionEnd=e+b.length; }
+  function taPrefix(ta,p){ var s=ta.selectionStart,v=ta.value,ls=v.lastIndexOf('\n',s-1)+1; ta.value=v.slice(0,ls)+p+v.slice(ls); ta.focus(); ta.selectionStart=ta.selectionEnd=s+p.length; }
+  function taInsert(ta,t){ var s=ta.selectionStart,e=ta.selectionEnd,v=ta.value; ta.value=v.slice(0,s)+t+v.slice(e); ta.focus(); ta.selectionStart=ta.selectionEnd=s+t.length; }
   function pick(doc){ var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
   function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
 
@@ -132,7 +150,7 @@
         var title=parts.shift()||''; var rest=parts.join('<br>');
         el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+imgHtml(doc)+goHTML;
       } else {
-        el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>';  // editiert -> Text (+Bild)
+        el.innerHTML='<div class="c-body">'+mdToHtml(pick(doc))+imgHtml(doc)+'</div>';  // editiert -> Text (+Bild)
       }
     }
     // ohne doc: Original-DOM unangetastet lassen (lang.js bleibt zuständig)
@@ -144,16 +162,17 @@
     // DB-only „hinzugefügte" Kacheln unten im Wrap
     Object.keys(DATA).forEach(function(cid){
       var doc=DATA[cid]; if(!doc.added || doc.deleted) return;
+      if(cid.indexOf(pageKey+'#')!==0) return;   // NUR Kacheln DIESER Seite anzeigen (Fix: Kachel blieb sonst auf allen Seiten)
       var isCollap=(doc.type==='collapsible');
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
       if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
       el.style.display='';
       if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||'(Überschrift)'), body=parts.join('\n');
-        el.innerHTML='<div class="c-collhead">▸ '+esc(head)+'</div><div class="c-collbody" hidden>'+txt2html(body)+imgHtml(doc)+'</div>';
+        el.innerHTML='<div class="c-collhead">▸ '+esc(head)+'</div><div class="c-collbody" hidden>'+mdToHtml(body)+imgHtml(doc)+'</div>';
         (function(e2,h){ var hd=e2.querySelector('.c-collhead'); hd.addEventListener('click', function(){ var b=e2.querySelector('.c-collbody'); if(b.hasAttribute('hidden')){ b.removeAttribute('hidden'); hd.textContent='▾ '+h; } else { b.setAttribute('hidden',''); hd.textContent='▸ '+h; } }); })(el, head);
       }
-      else { el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>'; }
+      else { el.innerHTML='<div class="c-body">'+mdToHtml(pick(doc))+imgHtml(doc)+'</div>'; }
       controls(el);
     });
     // Seiten-Kacheln (type=pagelink) auf der Elternseite als klickbare Navigation
@@ -221,6 +240,7 @@
     var isStrat = !isLink && !isCollap && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
     box.innerHTML=(isStrat?'<p class="c-warn">⚠️ Achtung: ändert auch die Strategie.</p>':'')+
+      (isLink?'':'<div class="c-fmt"><button type="button" data-md="h1" title="Überschrift 1">H1</button><button type="button" data-md="h2" title="Überschrift 2">H2</button><button type="button" data-md="bold" title="Fett"><b>B</b></button><button type="button" data-md="ul" title="Aufzählung">• Liste</button><button type="button" data-emo="⚔️">⚔️</button><button type="button" data-emo="💧">💧</button><button type="button" data-emo="✅">✅</button><button type="button" data-emo="⛔">⛔</button><button type="button" data-emo="📍">📍</button><button type="button" data-emo="💡">💡</button><button type="button" data-emo="🟡">🟡</button><button type="button" data-emo="🟠">🟠</button><button type="button" data-emo="🔴">🔴</button><button type="button" data-emo="🔵">🔵</button></div>')+
       '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':(isCollap?'Überschrift (1. Zeile), danach der Text':''))+'">'+esc(start)+'</textarea>'+
       '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':(isCollap?'Erste Zeile = Überschrift (zum Aufklappen), danach der Text. Wird in alle Sprachen übersetzt.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.'))+'</div>'+
       (isLink?'':'<div class="c-imgrow"><label>📎 Bild: <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">Nur Spiel-Bezug (Screenshots/Grafiken) — keine privaten Fotos.</div></div>')+
@@ -228,6 +248,15 @@
     el.appendChild(box);
     if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> Bild entfernen</label>'; }
     var ta=box.querySelector('.c-ta'); ta.focus();
+    var fmt=box.querySelector('.c-fmt');
+    if(fmt) fmt.addEventListener('click', function(e){ var b=e.target.closest('button'); if(!b) return; e.preventDefault();
+      var k=b.getAttribute('data-md'), em=b.getAttribute('data-emo');
+      if(em) taInsert(ta,em);
+      else if(k==='bold') taWrap(ta,'**','**');
+      else if(k==='h1') taPrefix(ta,'# ');
+      else if(k==='h2') taPrefix(ta,'## ');
+      else if(k==='ul') taPrefix(ta,'- ');
+    });
     function restore(){ unblock(); box.remove(); hidden.forEach(function(c){ c.style.display=''; }); }
     box.querySelector('.c-cancel').addEventListener('click', function(){ restore();
       if(doc && doc.added && !doc.t_orig){ delete DATA[cid]; if(!el.getAttribute('data-cid').match(/#\d+$/)) el.remove(); } });
