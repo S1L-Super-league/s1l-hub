@@ -187,3 +187,44 @@ var STRAT_EV={
 function stratTagArr(x,lang){ var t=x&&x.tags; if(!t) return []; if(Array.isArray(t)) return t; return t[lang]||t.en||t.de||[]; }
 /* Strategie-Text je Sprache mit Fallback gewaehlt -> EN -> DE. */
 function stratLoc(x,lang){ if(!x) return ""; return x[lang]!=null?x[lang]:(x.en!=null?x.en:(x.de!=null?x.de:"")); }
+
+/* ===== DB-Ebene: Strategien live editierbar (Firestore 'strategies') =====
+   Fest verdrahtete STRAT bleiben Basis/Fallback; DB-Docs ueberlagern (ueberschreiben/hinzufuegen/loeschen).
+   Nur aktiv, wenn eine Seite S1LStrat.init() aufruft (Eventcenter). Auto-Uebersetzung ueber denselben Worker. */
+(function(){
+  var BASE=JSON.parse(JSON.stringify(STRAT));   // Sicherung der fest verdrahteten Strategien
+  var FB={ apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
+  var TRANSLATE_URL="https://s1l-translate.jacqueline-lex.workers.dev";
+  var col=null, DOCS={}, onChange=null;
+  function rebuild(){
+    var s=JSON.parse(JSON.stringify(BASE));
+    Object.keys(DOCS).forEach(function(id){ var d=DOCS[id], ev=d.ev, sid=d.sid; if(!ev||!sid) return;
+      if(!s[ev]) s[ev]=[];
+      s[ev]=s[ev].filter(function(x){ return x.id!==sid; });     // vorhandene mit gleicher Id ersetzen/entfernen
+      if(d.deleted) return;
+      s[ev].push({ id:sid, prio:!!d.prio,
+        tags:{ de:[d.name_de||d.name_orig||sid], en:[d.name_en||d.name_orig||sid], tr:[d.name_tr||d.name_orig||sid], ru:[d.name_ru||d.name_orig||sid] },
+        de:d.t_de||d.t_orig||'', en:d.t_en||'', tr:d.t_tr||'', ru:d.t_ru||'' });
+    });
+    for(var k in STRAT){ delete STRAT[k]; }
+    for(var k2 in s){ STRAT[k2]=s[k2]; }
+  }
+  function loadFb(done){ if(typeof firebase!=='undefined') return done();
+    var a=document.createElement('script'); a.src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js";
+    a.onload=function(){ var b=document.createElement('script'); b.src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"; b.onload=done; b.onerror=done; document.head.appendChild(b); };
+    a.onerror=done; document.head.appendChild(a); }
+  window.S1LStrat={
+    baseList:function(ev){ return (BASE[ev]||[]).slice(); },
+    init:function(cb){ onChange=cb; loadFb(function(){ try{ if(typeof firebase!=='undefined'){ if(!firebase.apps.length) firebase.initializeApp(FB);
+      col=firebase.firestore().collection('strategies');
+      col.onSnapshot(function(snap){ DOCS={}; snap.forEach(function(dd){ DOCS[dd.id]=dd.data()||{}; }); rebuild(); if(onChange) onChange(); }, function(){}); } }catch(e){} }); },
+    isBase:function(ev,sid){ return (BASE[ev]||[]).some(function(x){ return x.id===sid; }); },
+    save:function(ev,sid,data,cb){ if(!col){ if(cb)cb(false); return; }
+      var doc={ ev:ev, sid:sid, tms:Date.now() }; for(var p in data) doc[p]=data[p];
+      col.doc(ev+'#'+sid).set(doc,{merge:true}).then(function(){ cb&&cb(true); },function(){ cb&&cb(false); }); },
+    del:function(ev,sid,cb){ if(!col){ cb&&cb(false); return; }
+      col.doc(ev+'#'+sid).set({ ev:ev, sid:sid, deleted:true, tms:Date.now() },{merge:true}).then(function(){ cb&&cb(true); },function(){ cb&&cb(false); }); },
+    translate:function(text,cb){ try{ fetch(TRANSLATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
+      .then(function(r){ return r.ok?r.json():null; }).then(function(j){ cb(j&&(j.de||j.en||j.tr||j.ru)?j:null); }).catch(function(){ cb(null); }); }catch(e){ cb(null); } }
+  };
+})();
