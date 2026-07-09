@@ -144,10 +144,17 @@
     // DB-only „hinzugefügte" Kacheln unten im Wrap
     Object.keys(DATA).forEach(function(cid){
       var doc=DATA[cid]; if(!doc.added || doc.deleted) return;
+      var isCollap=(doc.type==='collapsible');
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
       if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
-      el.style.display=''; el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>'; controls(el);
+      el.style.display='';
+      if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||'(Überschrift)'), body=parts.join('\n');
+        el.innerHTML='<div class="c-collhead">▸ '+esc(head)+'</div><div class="c-collbody" hidden>'+txt2html(body)+imgHtml(doc)+'</div>';
+        (function(e2,h){ var hd=e2.querySelector('.c-collhead'); hd.addEventListener('click', function(){ var b=e2.querySelector('.c-collbody'); if(b.hasAttribute('hidden')){ b.removeAttribute('hidden'); hd.textContent='▾ '+h; } else { b.setAttribute('hidden',''); hd.textContent='▸ '+h; } }); })(el, head);
+      }
+      else { el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>'; }
+      controls(el);
     });
     // Seiten-Kacheln (type=pagelink) auf der Elternseite als klickbare Navigation
     Object.keys(DATA).forEach(function(cid){
@@ -175,15 +182,23 @@
   function addButton(){
     if(!isR4() || !wrapEl) return;
     var anchor=wrapEl.querySelector('header');
+    function place(btn, afterEl){ if(afterEl && afterEl.insertAdjacentElement) afterEl.insertAdjacentElement('afterend', btn); else if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', btn); else wrapEl.insertBefore(btn, wrapEl.firstChild); }
     if(!document.getElementById('c-add')){
-      var b1=document.createElement('button'); b1.id='c-add'; b1.type='button'; b1.className='c-addbtn'; b1.textContent='➕ neue Info-Kachel';
-      if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', b1); else wrapEl.insertBefore(b1, wrapEl.firstChild);
+      var b1=document.createElement('button'); b1.id='c-add'; b1.type='button'; b1.className='c-addbtn'; b1.textContent='➕ Info-Kachel (immer offen)';
+      place(b1, null);
       b1.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
         var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
     }
-    if(!document.getElementById('c-addpage')){
-      var b2=document.createElement('button'); b2.id='c-addpage'; b2.type='button'; b2.className='c-addbtn'; b2.textContent='➕ neue Seite (Kachel → Seite)';
-      var a=document.getElementById('c-add'); if(a && a.insertAdjacentElement) a.insertAdjacentElement('afterend', b2); else wrapEl.insertBefore(b2, wrapEl.firstChild);
+    if(!document.getElementById('c-addcollap')){
+      var b3=document.createElement('button'); b3.id='c-addcollap'; b3.type='button'; b3.className='c-addbtn'; b3.textContent='➕ aufklappbare Kachel (mit Überschrift)';
+      place(b3, document.getElementById('c-add'));
+      b3.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,type:'collapsible',t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
+        var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
+    }
+    // „Kachel → Seite" nur auf der Entry-Seite (index), nicht in der 2. Ebene
+    if(pageKey==='index' && !document.getElementById('c-addpage')){
+      var b2=document.createElement('button'); b2.id='c-addpage'; b2.type='button'; b2.className='c-addbtn'; b2.textContent='➕ Seite (Kachel → Seite)';
+      place(b2, document.getElementById('c-addcollap')||document.getElementById('c-add'));
       b2.addEventListener('click', function(){ var tgt='page-'+Date.now(), cid=pageKey+'#'+tgt;
         DATA[cid]={cid:cid,type:'pagelink',target:tgt,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
         var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
@@ -202,11 +217,12 @@
     if(aNav) aNav.addEventListener('click', navBlock, true);
     function unblock(){ if(aNav) aNav.removeEventListener('click', navBlock, true); }
     var isLink = !!(doc && doc.type==='pagelink');
-    var isStrat = !isLink && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
+    var isCollap = !!(doc && doc.type==='collapsible');
+    var isStrat = !isLink && !isCollap && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
     box.innerHTML=(isStrat?'<p class="c-warn">⚠️ Achtung: ändert auch die Strategie.</p>':'')+
-      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':'')+'">'+esc(start)+'</textarea>'+
-      '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.')+'</div>'+
+      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':(isCollap?'Überschrift (1. Zeile), danach der Text':''))+'">'+esc(start)+'</textarea>'+
+      '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':(isCollap?'Erste Zeile = Überschrift (zum Aufklappen), danach der Text. Wird in alle Sprachen übersetzt.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.'))+'</div>'+
       (isLink?'':'<div class="c-imgrow"><label>📎 Bild: <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">Nur Spiel-Bezug (Screenshots/Grafiken) — keine privaten Fotos.</div></div>')+
       '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
     el.appendChild(box);
@@ -225,7 +241,7 @@
                  t_de:(tr&&tr.de)||'', t_en:(tr&&tr.en)||'', t_tr:(tr&&tr.tr)||'', t_ru:(tr&&tr.ru)||'',
                  prev_orig:prev.t_orig||'', prev_lang:prev.orig_lang||'', prev_editor:prev.editor||'', prev_tms:prev.tms||0 };
         if(prev.added) nd.added=true;
-        if(prev.type){ nd.type=prev.type; nd.target=prev.target; }   // Seiten-Kachel: type/target erhalten
+        if(prev.type){ nd.type=prev.type; if(prev.target!=null) nd.target=prev.target; }   // type erhalten (Seiten-Kachel: auch target)
         if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
         function finalize(imgVal){
           if(imgVal){ nd.img=imgVal; } else if(prev.img){ nd.img=''; }   // Bild setzen / entfernen / weglassen
