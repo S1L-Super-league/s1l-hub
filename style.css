@@ -69,6 +69,9 @@ table.cal td:first-child{ font-weight:700; white-space:nowrap; }
 .rev-unsicher{ background:#eab308; color:#1a2233; } .rev-unsicher::before{ content:"\25CF  "; }
 .rev-bereit{ background:#0f9d58; color:#fff; } .rev-bereit::before{ content:"\25CF  "; }
 .rev-frei{ background:#fff; color:#1a2233; border:1.5px solid #b9c2d0; } .rev-frei::before{ content:"\2713  "; color:#0f9d58; }
+/* Prüf-/Status-Labels auf Mitglieder-Seiten ausgeblendet (Jac 09.07.2026): nur R4-Seiten zeigen sie noch. Seite trägt dazu <body data-noreview>. */
+body[data-noreview] .rev, body[data-noreview] .badge.tier-fix, body[data-noreview] .badge.tier-prob, body[data-noreview] .badge.tier-test{ display:none !important; }
+body[data-noreview] .legend{ display:none !important; }
 
 .fact{ margin:.5em 0; }
 .fact b{ display:inline-block; min-width:8.5em; }
