@@ -20,6 +20,11 @@ body{ margin:0; background:var(--bg); color:var(--ink);
 .wrap{ max-width:900px; margin:0 auto; padding:24px 18px 72px; }
 a{ color:var(--c-duell); }
 .back{ display:inline-block; font-weight:700; text-decoration:none; margin-bottom:10px; }
+/* Großer, prominenter Button zurück zum öffentlichen Hub (R4-Bereich) */
+.hubbtn{ display:inline-flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; text-decoration:none;
+  background:var(--c-duell); color:#fff; padding:13px 22px; border-radius:14px; box-shadow:var(--shadow); margin:4px 0 14px; }
+.hubbtn:hover, .hubbtn:focus-visible{ filter:brightness(1.08); outline:none; }
+@media(max-width:560px){ .hubbtn{ width:100%; justify-content:center; } }
 header h1{ font-size:1.9rem; margin:.2em 0 .1em; }
 header p, .lead{ color:var(--muted); margin:.2em 0 0; }
 h2.section{ font-size:1.3rem; margin:36px 0 12px; padding-top:12px; border-top:2px solid var(--line);
