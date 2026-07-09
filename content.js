@@ -23,6 +23,40 @@
   function isR4(){ try{ return sessionStorage.getItem('s1l_r4_ok')==='1'; }catch(e){ return false; } }
   function editorName(){ try{ return sessionStorage.getItem('s1l_r4_name')||'R4'; }catch(e){ return 'R4'; } }
   function curLang(){ try{ var l=localStorage.getItem('s1l_lang'); if(l) return l; }catch(e){} return document.documentElement.getAttribute('data-lang')||'de'; }
+  /* Übersetzungen der R4-Bedien-Elemente (Buttons, Editor, Tooltips) */
+  var UI={
+    add:{de:'➕ Info-Kachel (immer offen)',en:'➕ Info tile (always open)',tr:'➕ Bilgi kartı (her zaman açık)',ru:'➕ Инфо-плитка (всегда открыта)'},
+    addcollap:{de:'➕ aufklappbare Kachel (mit Überschrift)',en:'➕ Collapsible tile (with heading)',tr:'➕ Açılır kart (başlıklı)',ru:'➕ Раскрывающаяся плитка (с заголовком)'},
+    addpage:{de:'➕ Seite (Kachel → Seite)',en:'➕ Page (tile → page)',tr:'➕ Sayfa (kart → sayfa)',ru:'➕ Страница (плитка → страница)'},
+    up:{de:'hoch schieben',en:'move up',tr:'yukarı taşı',ru:'вверх'},
+    down:{de:'runter schieben',en:'move down',tr:'aşağı taşı',ru:'вниз'},
+    edit:{de:'ändern',en:'edit',tr:'düzenle',ru:'изменить'},
+    del:{de:'entfernen',en:'remove',tr:'kaldır',ru:'удалить'},
+    save:{de:'Speichern',en:'Save',tr:'Kaydet',ru:'Сохранить'},
+    cancel:{de:'Abbrechen',en:'Cancel',tr:'İptal',ru:'Отмена'},
+    translating:{de:'übersetze…',en:'translating…',tr:'çevriliyor…',ru:'перевод…'},
+    shrinking:{de:'Bild wird verkleinert…',en:'shrinking image…',tr:'görsel küçültülüyor…',ru:'сжатие изображения…'},
+    needtext:{de:'Bitte Text eingeben.',en:'Please enter text.',tr:'Lütfen metin girin.',ru:'Введите текст.'},
+    toobig:{de:'Bild zu groß — bitte kleineres wählen.',en:'Image too large — pick a smaller one.',tr:'Görsel çok büyük — daha küçük seç.',ru:'Изображение слишком большое — выберите меньше.'},
+    saveerr:{de:'Fehler beim Speichern.',en:'Error while saving.',tr:'Kaydederken hata.',ru:'Ошибка при сохранении.'},
+    warn:{de:'⚠️ Achtung: ändert auch die Strategie.',en:'⚠️ Note: this also changes the strategy.',tr:'⚠️ Dikkat: stratejiyi de değiştirir.',ru:'⚠️ Внимание: меняет и стратегию.'},
+    notePage:{de:'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.',en:'Name of the new page — translated into all languages. The tile becomes clickable and opens the page.',tr:'Yeni sayfanın adı — tüm dillere çevrilir. Kart tıklanabilir olur ve sayfayı açar.',ru:'Название новой страницы — переводится на все языки. Плитка станет кликабельной и откроет страницу.'},
+    noteCollap:{de:'Erste Zeile = Überschrift (zum Aufklappen), danach der Text. Wird in alle Sprachen übersetzt.',en:'First line = heading (to expand), then the text. Translated into all languages.',tr:'İlk satır = başlık (açmak için), sonra metin. Tüm dillere çevrilir.',ru:'Первая строка = заголовок (для раскрытия), затем текст. Переводится на все языки.'},
+    noteText:{de:'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.',en:'Write in your language — auto-translated into DE/EN/TR/RU.',tr:'Kendi dilinde yaz — otomatik DE/EN/TR/RU çevrilir.',ru:'Пиши на своём языке — авто-перевод на DE/EN/TR/RU.'},
+    img:{de:'📎 Bild:',en:'📎 Image:',tr:'📎 Görsel:',ru:'📎 Изображение:'},
+    imgnote:{de:'Nur Spiel-Bezug (Screenshots/Grafiken) — keine privaten Fotos.',en:'Game-related only (screenshots/graphics) — no private photos.',tr:'Sadece oyunla ilgili (ekran/grafik) — özel fotoğraf yok.',ru:'Только по игре (скриншоты/графика) — без личных фото.'},
+    imgdel:{de:'Bild entfernen',en:'Remove image',tr:'Görseli kaldır',ru:'Убрать изображение'},
+    phPage:{de:'Name der Seite, z. B. Turbo-Guide',en:'Page name, e.g. Turbo guide',tr:'Sayfa adı, örn. Turbo rehberi',ru:'Название страницы, напр. Turbo-гайд'},
+    phCollap:{de:'Überschrift (1. Zeile), danach der Text',en:'Heading (line 1), then the text',tr:'Başlık (1. satır), sonra metin',ru:'Заголовок (1-я строка), затем текст'},
+    fH1:{de:'Überschrift 1',en:'Heading 1',tr:'Başlık 1',ru:'Заголовок 1'},
+    fH2:{de:'Überschrift 2',en:'Heading 2',tr:'Başlık 2',ru:'Заголовок 2'},
+    fBold:{de:'Fett',en:'Bold',tr:'Kalın',ru:'Жирный'},
+    fList:{de:'Aufzählung',en:'List',tr:'List',ru:'Список'},
+    confirmDel:{de:'Diese Kachel entfernen? (rückholbar über die Versionierung)',en:'Remove this tile? (recoverable via versioning)',tr:'Bu kart kaldırılsın mı? (sürümleme ile geri alınabilir)',ru:'Убрать плитку? (можно вернуть через версии)'},
+    newpage:{de:'(neue Seite)',en:'(new page)',tr:'(yeni sayfa)',ru:'(новая страница)'},
+    heading:{de:L('heading'),en:'(heading)',tr:'(başlık)',ru:'(заголовок)'}
+  };
+  function L(k){ var o=UI[k]||{}; return o[curLang()]||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
   function txt2html(t){ return esc(t).replace(/\n/g,'<br>'); }
   /* Mini-Formatierung: # H1 · ## H2 · - Liste · **fett**. Übersteht die Auto-Übersetzung (Marker bleiben). */
@@ -105,10 +139,10 @@
     if(getComputedStyle(el).position==='static') el.style.position='relative';
     var nav=isNav(el);  // Navigations-Kacheln: nur ändern, kein Entfernen (Link bleibt)
     var bar=document.createElement('div'); bar.className='c-bar';
-    bar.innerHTML='<button type="button" class="c-btn c-up" title="hoch schieben">▲</button>'+
-                  '<button type="button" class="c-btn c-down" title="runter schieben">▼</button>'+
-                  '<button type="button" class="c-btn c-edit" title="ändern">✏️</button>'+
-                  (nav?'':'<button type="button" class="c-btn c-del" title="entfernen">🗑</button>');
+    bar.innerHTML='<button type="button" class="c-btn c-up" title="'+L('up')+'">▲</button>'+
+                  '<button type="button" class="c-btn c-down" title="'+L('down')+'">▼</button>'+
+                  '<button type="button" class="c-btn c-edit" title="'+L('edit')+'">✏️</button>'+
+                  (nav?'':'<button type="button" class="c-btn c-del" title="'+L('del')+'">🗑</button>');
     var host=(isDetails(el) && el.querySelector('summary')) ? el.querySelector('summary') : el;  // bei aufklappbaren: Leiste in die Überschrift, damit sie auch zugeklappt sichtbar ist
     host.insertBefore(bar, host.firstChild);
     bar.querySelector('.c-up').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,-1); });
@@ -160,7 +194,7 @@
         var title=parts.shift()||''; var rest=parts.join('<br>');
         el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+imgHtml(doc)+goHTML;
       } else if(isDetails(el)){
-        var dp=pick(doc).split('\n'), dh=(dp.shift()||'(Überschrift)'), db=dp.join('\n');  // aufklappbar: 1. Zeile = Überschrift
+        var dp=pick(doc).split('\n'), dh=(dp.shift()||L('heading')), db=dp.join('\n');  // aufklappbar: 1. Zeile = Überschrift
         el.innerHTML='<summary>'+esc(dh)+'</summary><div class="c-body">'+mdToHtml(db)+imgHtml(doc)+'</div>';
       } else {
         el.innerHTML='<div class="c-body">'+mdToHtml(pick(doc))+imgHtml(doc)+'</div>';  // editiert -> Text (+Bild)
@@ -181,7 +215,7 @@
       if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
       el.style.display='';
-      if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||'(Überschrift)'), body=parts.join('\n');
+      if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||L('heading')), body=parts.join('\n');
         el.innerHTML='<div class="c-collhead">▸ '+esc(head)+'</div><div class="c-collbody" hidden>'+mdToHtml(body)+imgHtml(doc)+'</div>';
         (function(e2,h){ var hd=e2.querySelector('.c-collhead'); hd.addEventListener('click', function(){ var b=e2.querySelector('.c-collbody'); if(b.hasAttribute('hidden')){ b.removeAttribute('hidden'); hd.textContent='▾ '+h; } else { b.setAttribute('hidden',''); hd.textContent='▸ '+h; } }); })(el, head);
       }
@@ -196,7 +230,7 @@
       if(!el){ el=document.createElement('div'); el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
       el.style.display=''; if(getComputedStyle(el).position==='static') el.style.position='relative';
-      var title=pick(doc)||doc.t_orig||'(neue Seite)';
+      var title=pick(doc)||doc.t_orig||L('newpage');
       el.innerHTML='<a class="cardlink" href="seite.html?p='+encodeURIComponent(doc.target||'')+'"><div class="card" style="border-left:7px solid #7c3aed"><h3>📄 '+esc(title)+'</h3><p class="go">Öffnen →</p></div></a>';
       controls(el);
     });
@@ -211,25 +245,26 @@
     try{ document.title=(t?(t.t_orig||pick(t)):pageKey)+' — S1L Info-Hub'; }catch(e){}
   }
 
+  function relabelBtns(){ var a=document.getElementById('c-add'); if(a)a.textContent=L('add'); var c=document.getElementById('c-addcollap'); if(c)c.textContent=L('addcollap'); var p=document.getElementById('c-addpage'); if(p)p.textContent=L('addpage'); }
   function addButton(){
     if(!isR4() || !wrapEl) return;
     var anchor=wrapEl.querySelector('header');
     function place(btn, afterEl){ if(afterEl && afterEl.insertAdjacentElement) afterEl.insertAdjacentElement('afterend', btn); else if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', btn); else wrapEl.insertBefore(btn, wrapEl.firstChild); }
     if(!document.getElementById('c-add')){
-      var b1=document.createElement('button'); b1.id='c-add'; b1.type='button'; b1.className='c-addbtn'; b1.textContent='➕ Info-Kachel (immer offen)';
+      var b1=document.createElement('button'); b1.id='c-add'; b1.type='button'; b1.className='c-addbtn'; b1.textContent=L('add');
       place(b1, null);
       b1.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
         var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
     }
     if(!document.getElementById('c-addcollap')){
-      var b3=document.createElement('button'); b3.id='c-addcollap'; b3.type='button'; b3.className='c-addbtn'; b3.textContent='➕ aufklappbare Kachel (mit Überschrift)';
+      var b3=document.createElement('button'); b3.id='c-addcollap'; b3.type='button'; b3.className='c-addbtn'; b3.textContent=L('addcollap');
       place(b3, document.getElementById('c-add'));
       b3.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,type:'collapsible',t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
         var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
     }
     // „Kachel → Seite" nur auf der Entry-Seite (index), nicht in der 2. Ebene
     if(pageKey==='index' && !document.getElementById('c-addpage')){
-      var b2=document.createElement('button'); b2.id='c-addpage'; b2.type='button'; b2.className='c-addbtn'; b2.textContent='➕ Seite (Kachel → Seite)';
+      var b2=document.createElement('button'); b2.id='c-addpage'; b2.type='button'; b2.className='c-addbtn'; b2.textContent=L('addpage');
       place(b2, document.getElementById('c-addcollap')||document.getElementById('c-add'));
       b2.addEventListener('click', function(){ var tgt='page-'+Date.now(), cid=pageKey+'#'+tgt;
         DATA[cid]={cid:cid,type:'pagelink',target:tgt,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
@@ -252,14 +287,14 @@
     var isCollap = !!(doc && doc.type==='collapsible');
     var isStrat = !isLink && !isCollap && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
-    box.innerHTML=(isStrat?'<p class="c-warn">⚠️ Achtung: ändert auch die Strategie.</p>':'')+
-      (isLink?'':'<div class="c-fmt"><button type="button" data-md="h1" title="Überschrift 1">H1</button><button type="button" data-md="h2" title="Überschrift 2">H2</button><button type="button" data-md="bold" title="Fett"><b>B</b></button><button type="button" data-md="ul" title="Aufzählung">• Liste</button><button type="button" data-emo="⚔️">⚔️</button><button type="button" data-emo="💧">💧</button><button type="button" data-emo="✅">✅</button><button type="button" data-emo="⛔">⛔</button><button type="button" data-emo="📍">📍</button><button type="button" data-emo="💡">💡</button><button type="button" data-emo="🟡">🟡</button><button type="button" data-emo="🟠">🟠</button><button type="button" data-emo="🔴">🔴</button><button type="button" data-emo="🔵">🔵</button></div>')+
-      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':(isCollap?'Überschrift (1. Zeile), danach der Text':''))+'">'+esc(start)+'</textarea>'+
-      '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':(isCollap?'Erste Zeile = Überschrift (zum Aufklappen), danach der Text. Wird in alle Sprachen übersetzt.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.'))+'</div>'+
-      (isLink?'':'<div class="c-imgrow"><label>📎 Bild: <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">Nur Spiel-Bezug (Screenshots/Grafiken) — keine privaten Fotos.</div></div>')+
-      '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
+    box.innerHTML=(isStrat?'<p class="c-warn">'+L('warn')+'</p>':'')+
+      (isLink?'':'<div class="c-fmt"><button type="button" data-md="h1" title="'+L('fH1')+'">H1</button><button type="button" data-md="h2" title="'+L('fH2')+'">H2</button><button type="button" data-md="bold" title="'+L('fBold')+'"><b>B</b></button><button type="button" data-md="ul" title="'+L('fList')+'">• '+L('fList')+'</button><button type="button" data-emo="⚔️">⚔️</button><button type="button" data-emo="💧">💧</button><button type="button" data-emo="✅">✅</button><button type="button" data-emo="⛔">⛔</button><button type="button" data-emo="📍">📍</button><button type="button" data-emo="💡">💡</button><button type="button" data-emo="🟡">🟡</button><button type="button" data-emo="🟠">🟠</button><button type="button" data-emo="🔴">🔴</button><button type="button" data-emo="🔵">🔵</button></div>')+
+      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?L('phPage'):(isCollap?L('phCollap'):''))+'">'+esc(start)+'</textarea>'+
+      '<div class="c-note">'+(isLink?L('notePage'):(isCollap?L('noteCollap'):L('noteText')))+'</div>'+
+      (isLink?'':'<div class="c-imgrow"><label>'+L('img')+' <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">'+L('imgnote')+'</div></div>')+
+      '<div class="c-row"><button type="button" class="c-save">'+L('save')+'</button><button type="button" class="c-cancel">'+L('cancel')+'</button><span class="c-msg"></span></div>';
     el.appendChild(box);
-    if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> Bild entfernen</label>'; }
+    if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> '+L('imgdel')+'</label>'; }
     if(isDetails(el)) el.open=true;   // aufklappen, damit der Editor sichtbar ist
     var ta=box.querySelector('.c-ta'); ta.focus();
     var fmt=box.querySelector('.c-fmt');
@@ -284,8 +319,8 @@
       if(doc && doc.added && !doc.t_orig){ delete DATA[cid]; if(!el.getAttribute('data-cid').match(/#\d+$/)) el.remove(); } });
     box.querySelector('.c-save').addEventListener('click', function(){
       var text=ta.value.trim(), msg=box.querySelector('.c-msg'), btn=box.querySelector('.c-save');
-      if(!text){ msg.textContent='Bitte Text eingeben.'; return; }
-      btn.disabled=true; msg.textContent='übersetze…';
+      if(!text){ msg.textContent=L('needtext'); return; }
+      btn.disabled=true; msg.textContent=L('translating');
       translate(text, function(tr){
         var prev=DATA[cid]||{};
         var nd={ cid:cid, t_orig:text, orig_lang:curLang(), editor:editorName(), tms:Date.now(),
@@ -296,10 +331,10 @@
         if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
         function finalize(imgVal){
           if(imgVal){ nd.img=imgVal; } else if(prev.img){ nd.img=''; }   // Bild setzen / entfernen / weglassen
-          save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
+          save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent=L('saveerr'); } });
         }
         var fi=box.querySelector('.c-img'), file=fi?fi.files[0]:null, del=box.querySelector('.c-imgdel');
-        if(file){ msg.textContent='Bild wird verkleinert…'; shrinkImage(file, function(d){ if(d && d.length>900000){ btn.disabled=false; msg.textContent='Bild zu groß — bitte kleineres wählen.'; return; } finalize(d||''); }); }
+        if(file){ msg.textContent=L('shrinking'); shrinkImage(file, function(d){ if(d && d.length>900000){ btn.disabled=false; msg.textContent=L('toobig'); return; } finalize(d||''); }); }
         else { finalize((del&&del.checked)?'':(prev.img||'')); }
       });
     });
@@ -307,7 +342,7 @@
 
   function removeTile(el){
     var cid=el.getAttribute('data-cid'), prev=DATA[cid]||{};
-    if(!confirm('Diese Kachel entfernen? (rückholbar über die Versionierung)')) return;
+    if(!confirm(L('confirmDel'))) return;
     var nd={ cid:cid, deleted:true, editor:editorName(), tms:Date.now(),
              t_orig:prev.t_orig||'', orig_lang:prev.orig_lang||'', t_de:prev.t_de||'', t_en:prev.t_en||'', t_tr:prev.t_tr||'', t_ru:prev.t_ru||'',
              prev_orig:prev.t_orig||'', prev_lang:prev.orig_lang||'', prev_editor:prev.editor||'', prev_tms:prev.tms||0 };
@@ -335,7 +370,7 @@
   }
   function boot(){
     prepare(); render(); addButton();
-    document.addEventListener('s1l:lang', function(){ render(); });   // nur doc-Kacheln reagieren neu; Rest macht lang.js
+    document.addEventListener('s1l:lang', function(){ render(); relabelBtns(); });   // doc-Kacheln + R4-Buttons in neuer Sprache; Rest macht lang.js
     initFb(function(){ try{ if(typeof firebase!=='undefined'){ if(!firebase.apps.length) firebase.initializeApp(FB);
       col=firebase.firestore().collection('content');
       col.onSnapshot(function(s){ DATA={}; s.forEach(function(d){ DATA[d.id]=d.data()||{}; }); render(); addButton(); },
