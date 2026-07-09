@@ -56,7 +56,7 @@
   <a class="back" href="S1L-R4.html"><span class="lng-de">← Zurück zum R4-Bereich</span><span class="lng-en">← Back to R4 area</span><span class="lng-tr">← R4 alanına geri dön</span><span class="lng-ru">← Назад в зону R4</span></a>
   <header>
     <h1>🗳️ <span class="lng-de">Abstimmungs-Board</span><span class="lng-en">Voting board</span><span class="lng-tr">Oylama panosu</span><span class="lng-ru">Доска голосования</span></h1>
-    <p class="lead"><span class="lng-de">Jeder R4 kann eine Karte einreichen (Strategie oder Hub). Alle stimmen ab (👍 dafür · ❓ unsicher · 👎 dagegen). Den Status setzt nur Kingeder.</span><span class="lng-en">Any R4 can submit a card (strategy or hub). Everyone votes (👍 yes · ❓ unsure · 👎 no). Only Kingeder sets the status.</span><span class="lng-tr">Her R4 bir kart ekleyebilir (strateji veya hub). Herkes oylar (👍 evet · ❓ emin değil · 👎 hayır). Durumu yalnızca Kingeder belirler.</span><span class="lng-ru">Любой R4 может добавить карточку (стратегия или hub). Все голосуют (👍 да · ❓ не уверен · 👎 нет). Статус ставит только Kingeder.</span></p>
+    <p class="lead"><span class="lng-de">Jeder R4 kann eine Karte einreichen (Strategie oder Hub). Alle stimmen ab (👍 dafür · ❓ unsicher · 👎 dagegen). Den Status setzt jeder R4.</span><span class="lng-en">Any R4 can submit a card (strategy or hub). Everyone votes (👍 yes · ❓ unsure · 👎 no). Any R4 sets the status.</span><span class="lng-tr">Her R4 bir kart ekleyebilir (strateji veya hub). Herkes oylar (👍 evet · ❓ emin değil · 👎 hayır). Durumu her R4 belirleyebilir.</span><span class="lng-ru">Любой R4 может добавить карточку (стратегия или hub). Все голосуют (👍 да · ❓ не уверен · 👎 нет). Статус ставит любой R4.</span></p>
     <p class="lead" id="who"></p>
   </header>
 
@@ -94,7 +94,7 @@ var firebaseConfig = { apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDom
 /* Kingeder-Status-Gate: SHA-256 der PIN (klein geschrieben). Default-PIN "s1l-kingeder" — Jac kann sie wechseln. */
 var KINGEDER_HASH="54c17713bdc3b06ad5dd601d7ed628e700a41fe5178745be823b1246f674713a";
 var COL="votecards";
-var db=null, REF=null, ME="", CARDS={}, FILTER="alle", KING=false;
+var db=null, REF=null, ME="", CARDS={}, FILTER="alle", KING=true;  /* Kingeder-Gate entfernt (Jac 09.07.): jeder R4 setzt Status */
 var STATUSES=["offen","angenommen","abgelehnt","verschoben"];
 
 function curLang(){ return document.documentElement.getAttribute('data-lang')||'de'; }
@@ -122,7 +122,7 @@ function names(votes,k){ var a=[]; for(var x in votes){ if(votes[x]===k) a.push(
 
 function render(){
   var w=document.getElementById("who"); if(w) w.textContent= ME? (L("Du bist angemeldet als: ","You are signed in as: ","Şu adla giriş: ","Ты вошёл как: ")+ME):L("Beim ersten Abstimmen/Einreichen wirst du nach deinem R4-Namen gefragt.","On your first vote/submit you'll be asked for your R4 name.","İlk oy/gönderide R4 adın sorulacak.","При первом голосовании/отправке спросят твоё имя R4.");
-  var kb=document.getElementById("kingBox"); if(kb){ kb.parentNode.classList.toggle("ok",KING); kb.innerHTML='<span class="king'+(KING?' ok':'')+'"><button id="kingBtn">'+(KING?"🔓 "+L("Kingeder aktiv","Kingeder active","Kingeder aktif","Kingeder активен"):"🔑 "+L("Status freischalten (Kingeder)","Unlock status (Kingeder)","Durumu aç (Kingeder)","Открыть статус (Kingeder)"))+'</button></span>'; document.getElementById("kingBtn").onclick=kingUnlock; }
+  var kb=document.getElementById("kingBox"); if(kb){ kb.innerHTML=''; }  /* Kingeder-Freischalt-Knopf entfernt */
   document.getElementById("ncHint").textContent=L("sichtbar für alle R4 · Stufe 1 (keine privaten Daten)","visible to all R4 · level 1 (no private data)","tüm R4 görür · seviye 1","видно всем R4 · уровень 1");
   var ids=Object.keys(CARDS).sort(function(a,b){ return (CARDS[b].tms||0)-(CARDS[a].tms||0); });
   if(FILTER!=="alle") ids=ids.filter(function(id){ return (CARDS[id].bereich||"strategie")===FILTER; });
@@ -176,7 +176,7 @@ function fbErr(e){ alert(L("Konnte nicht speichern: ","Could not save: ","Kayded
 function boot(){
   try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); db=firebase.firestore(); }catch(e){ return; }
   ME=sessionStorage.getItem("s1l_r4_name")||"";
-  try{ KING=sessionStorage.getItem("s1l_king_ok")==="1"; }catch(e){}
+  KING=true;  /* immer erlaubt (kein Kingeder-Gate mehr) */
   REF=db.collection(COL);
   REF.onSnapshot(function(snap){ CARDS={}; snap.forEach(function(d){ CARDS[d.id]=d.data()||{}; }); render(); }, function(){ render(); });
   document.querySelectorAll(".vb-tab").forEach(function(b){ b.onclick=function(){ FILTER=b.getAttribute("data-f"); document.querySelectorAll(".vb-tab").forEach(function(x){x.classList.toggle("on",x===b);}); render(); }; });
