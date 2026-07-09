@@ -57,7 +57,9 @@ function r4Init(){
     var n=nm.value.trim().toLowerCase(), p=pw.value.trim().toLowerCase();
     if(!n||!p){ err.textContent='Bitte Name und R4-Passwort eingeben.'; return; }
     var hsh=await hashInput(n+':'+p);
-    if(R4_ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_r4_ok','1'); sessionStorage.setItem('s1l_r4_name', nm.value.trim()); reveal(); }
+    if(R4_ALLOWED.indexOf(hsh)>-1){ sessionStorage.setItem('s1l_r4_ok','1'); sessionStorage.setItem('s1l_r4_name', nm.value.trim());
+      /* R4-Login schaltet zugleich den Mitglieder-Bereich frei (Jac 09.07.2026): ein Login für alles. */
+      sessionStorage.setItem('s1l_ok','1'); sessionStorage.setItem('s1l_name', nm.value.trim()); reveal(); }
     else { err.textContent='Kein R4-Zugriff (Name oder Passwort stimmt nicht).'; pw.value=''; pw.focus(); }
   }
   go.addEventListener('click', tryOpen);

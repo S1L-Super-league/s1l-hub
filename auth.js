@@ -50,7 +50,8 @@ async function hashInput(s){
 }
 function reveal(){ var g=document.getElementById('gate'), c=document.getElementById('content'); if(g) g.style.display='none'; if(c) c.hidden=false; }
 function s1lInit(){
-  if(sessionStorage.getItem('s1l_ok')==='1'){ reveal(); return; }
+  /* Wer als R4 angemeldet ist, ist automatisch auch fürs Mitglieder-Tor freigeschaltet (ein Login für alles). */
+  if(sessionStorage.getItem('s1l_ok')==='1' || sessionStorage.getItem('s1l_r4_ok')==='1'){ sessionStorage.setItem('s1l_ok','1'); reveal(); return; }
   var go=document.getElementById('go'); if(!go) return;
   var nm=document.getElementById('nm'), pw=document.getElementById('pw'), err=document.getElementById('err');
   async function tryOpen(){
