@@ -30,19 +30,22 @@
   /* Nur den Text der AKTUELLEN Sprache aus der Original-Kachel holen (für Editor-Vorbelegung). */
   function extractCurrentText(el){
     var cur=curLang(), clone=el.cloneNode(true);
-    clone.querySelectorAll('.c-bar,.c-editor').forEach(function(n){ n.remove(); });
+    clone.querySelectorAll('.c-bar,.c-editor,.go,.badge,.rev').forEach(function(n){ n.remove(); });
     // Fremdsprachen-Spans entfernen (robust, auch falls lang.js sie nicht per .lng-off versteckt hat)
     clone.querySelectorAll('[class*="lng-"]').forEach(function(n){ var m=n.className.match(/lng-(de|en|tr|ru)/); if(m && m[1]!==cur) n.remove(); });
     clone.querySelectorAll('p,div,li,h1,h2,h3,br').forEach(function(n){ n.appendChild(document.createTextNode('\n')); });
     return (clone.textContent||'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
   }
 
-  /* Editierbare Kacheln: Inhalts-Karten. KEINE Navigations-Karten/Legende/HEUTE-Block. */
+  /* Editierbare Kacheln: Inhalts-Karten + Navigations-Karten (Link bleibt, nur ändern).
+     Ausgenommen: Legende, HEUTE-Block, sowie Nav-Karten zu Mitmachen/Glossar. */
+  function isNav(el){ return !!el.closest('a.cardlink'); }
   function tiles(){
     var out=[];
     document.querySelectorAll('.card').forEach(function(el){
-      if(el.closest('a.cardlink')) return;
       if(el.closest('.legend')) return;
+      var a=el.closest('a.cardlink');
+      if(a && /S1L-Mitmachen|howto/i.test(a.getAttribute('href')||'')) return;  // Feedback/Glossar ausgenommen
       out.push(el);
     });
     return out;
@@ -59,19 +62,30 @@
     if(!isR4()){ var b0=el.querySelector('.c-bar'); if(b0) b0.remove(); return; }
     if(el.querySelector('.c-bar')) return;
     if(getComputedStyle(el).position==='static') el.style.position='relative';
+    var nav=isNav(el);  // Navigations-Kacheln: nur ändern, kein Entfernen (Link bleibt)
     var bar=document.createElement('div'); bar.className='c-bar';
     bar.innerHTML='<button type="button" class="c-btn c-edit" title="ändern">✏️</button>'+
-                  '<button type="button" class="c-btn c-del" title="entfernen">🗑</button>';
+                  (nav?'':'<button type="button" class="c-btn c-del" title="entfernen">🗑</button>');
     el.insertBefore(bar, el.firstChild);
     bar.querySelector('.c-edit').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); openEditor(el); });
-    bar.querySelector('.c-del').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); removeTile(el); });
+    var d=bar.querySelector('.c-del'); if(d) d.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); removeTile(el); });
   }
 
   function renderTile(el){
     var cid=el.getAttribute('data-cid'), doc=DATA[cid];
     if(doc && doc.deleted){ el.style.display='none'; return; }
     el.style.display='';
-    if(doc){ el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+'</div>'; }  // editiert -> Text übernehmen
+    if(doc){
+      if(isNav(el)){
+        // Navigations-Kachel: Link + „Öffnen →" behalten, nur Titel/Text ersetzen (1. Zeile = Titel)
+        var go=el.querySelector('.go'), goHTML=go?go.outerHTML:'';
+        var parts=pick(doc).split('\n').filter(function(s){return s.trim();});
+        var title=parts.shift()||''; var rest=parts.join('<br>');
+        el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+goHTML;
+      } else {
+        el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+'</div>';  // editiert -> Text übernehmen
+      }
+    }
     // ohne doc: Original-DOM unangetastet lassen (lang.js bleibt zuständig)
     controls(el);
   }
@@ -133,6 +147,10 @@
     // Original-Inhalt verstecken (außer Werkzeugleiste)
     var hidden=[];
     Array.prototype.forEach.call(el.children, function(c){ if(!c.classList.contains('c-bar')){ hidden.push(c); c.style.display='none'; } });
+    // Navigations-Kachel: Link-Klick während des Editierens unterbinden
+    var aNav=el.closest('a.cardlink'), navBlock=function(e){ e.preventDefault(); };
+    if(aNav) aNav.addEventListener('click', navBlock, true);
+    function unblock(){ if(aNav) aNav.removeEventListener('click', navBlock, true); }
     var isLink = !!(doc && doc.type==='pagelink');
     var isStrat = !isLink && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
@@ -142,7 +160,7 @@
       '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
     el.appendChild(box);
     var ta=box.querySelector('.c-ta'); ta.focus();
-    function restore(){ box.remove(); hidden.forEach(function(c){ c.style.display=''; }); }
+    function restore(){ unblock(); box.remove(); hidden.forEach(function(c){ c.style.display=''; }); }
     box.querySelector('.c-cancel').addEventListener('click', function(){ restore();
       if(doc && doc.added && !doc.t_orig){ delete DATA[cid]; if(!el.getAttribute('data-cid').match(/#\d+$/)) el.remove(); } });
     box.querySelector('.c-save').addEventListener('click', function(){
@@ -157,7 +175,7 @@
         if(prev.added) nd.added=true;
         if(prev.type){ nd.type=prev.type; nd.target=prev.target; }   // Seiten-Kachel: type/target erhalten
         if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
-        save(cid, nd, function(ok){ if(ok){ /* render() ersetzt die Kachel */ } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
+        save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
       });
     });
   }
