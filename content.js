@@ -78,11 +78,46 @@
     if(getComputedStyle(el).position==='static') el.style.position='relative';
     var nav=isNav(el);  // Navigations-Kacheln: nur ändern, kein Entfernen (Link bleibt)
     var bar=document.createElement('div'); bar.className='c-bar';
-    bar.innerHTML='<button type="button" class="c-btn c-edit" title="ändern">✏️</button>'+
+    bar.innerHTML='<button type="button" class="c-btn c-up" title="hoch schieben">▲</button>'+
+                  '<button type="button" class="c-btn c-down" title="runter schieben">▼</button>'+
+                  '<button type="button" class="c-btn c-edit" title="ändern">✏️</button>'+
                   (nav?'':'<button type="button" class="c-btn c-del" title="entfernen">🗑</button>');
     el.insertBefore(bar, el.firstChild);
+    bar.querySelector('.c-up').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,-1); });
+    bar.querySelector('.c-down').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,1); });
     bar.querySelector('.c-edit').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); openEditor(el); });
     var d=bar.querySelector('.c-del'); if(d) d.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); removeTile(el); });
+  }
+
+  /* ==== Reihenfolge: Kacheln hoch/runter schieben (R4), in Firestore-Doc <seite>#__order gemerkt ==== */
+  function currentSeq(){
+    var seq=[]; document.querySelectorAll('[data-cid]').forEach(function(t){ var c=t.getAttribute('data-cid'); if(c && c.indexOf('#__order')<0) seq.push(c); }); return seq;
+  }
+  function move(el, dir){
+    var cid=el.getAttribute('data-cid'), seq=currentSeq(), i=seq.indexOf(cid), j=i+dir;
+    if(i<0 || j<0 || j>=seq.length) return;
+    var t=seq[i]; seq[i]=seq[j]; seq[j]=t;
+    var od={ cid:pageKey+'#__order', ord:seq, editor:editorName(), tms:Date.now() };
+    DATA[pageKey+'#__order']=od; render();
+    if(col) col.doc(pageKey+'#__order').set(od).catch(function(){});
+  }
+  function applyOrder(){
+    var od=DATA[pageKey+'#__order']; if(!od || !od.ord || !od.ord.length) return;
+    var ord=od.ord, groups=[];
+    document.querySelectorAll('[data-cid]').forEach(function(t){ var c=t.getAttribute('data-cid'); if(c.indexOf('#__order')>=0) return;
+      var b=t.closest('a.cardlink')||t, g=null;
+      for(var i=0;i<groups.length;i++){ if(groups[i].p===b.parentNode){ g=groups[i]; break; } }
+      if(!g){ g={p:b.parentNode, items:[]}; groups.push(g); } g.items.push({b:b,c:c});
+    });
+    groups.forEach(function(g){
+      if(g.items.length<2) return;
+      var nodes=g.items.map(function(x){return x.b;});
+      var sorted=g.items.slice().sort(function(a,b){ var ia=ord.indexOf(a.c), ib=ord.indexOf(b.c); if(ia<0)ia=1e6; if(ib<0)ib=1e6; return ia-ib; }).map(function(x){return x.b;});
+      var same=true; for(var i=0;i<nodes.length;i++){ if(nodes[i]!==sorted[i]){ same=false; break; } }
+      if(same) return;
+      var phs=nodes.map(function(n){ var ph=document.createComment('o'); g.p.replaceChild(ph,n); return ph; });
+      for(var j=0;j<phs.length;j++){ g.p.replaceChild(sorted[j], phs[j]); }
+    });
   }
 
   function renderTile(el){
@@ -127,6 +162,7 @@
       controls(el);
     });
     if(isDynPage) dynHeader();
+    applyOrder();
   }
 
   /* Titel + Zurück-Link auf der generischen Seite (seite.html) aus der zugehörigen Seiten-Kachel. */
