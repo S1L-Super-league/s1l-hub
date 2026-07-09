@@ -26,6 +26,20 @@
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
   function txt2html(t){ return esc(t).replace(/\n/g,'<br>'); }
   function pick(doc){ var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
+  function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
+
+  /* Bild klein rechnen (wie der Blog): max ~1000px, JPEG ~0.7 -> als Daten-URL direkt in die DB.
+     Kein Firebase Storage/Blaze nötig — bleibt gratis (Firestore-Limit 1 MB/Doc; verkleinert weit darunter). */
+  function shrinkImage(file, cb){
+    var fr=new FileReader();
+    fr.onload=function(){ var img=new Image();
+      img.onload=function(){ var max=1000, w=img.width, h=img.height;
+        if(w>max||h>max){ if(w>h){ h=Math.round(h*max/w); w=max; } else { w=Math.round(w*max/h); h=max; } }
+        var c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+        try{ cb(c.toDataURL('image/jpeg',0.7)); }catch(e){ cb(''); } };
+      img.onerror=function(){ cb(''); }; img.src=fr.result; };
+    fr.onerror=function(){ cb(''); }; fr.readAsDataURL(file);
+  }
 
   /* Nur den Text der AKTUELLEN Sprache aus der Original-Kachel holen (für Editor-Vorbelegung). */
   function extractCurrentText(el){
@@ -81,9 +95,9 @@
         var go=el.querySelector('.go'), goHTML=go?go.outerHTML:'';
         var parts=pick(doc).split('\n').filter(function(s){return s.trim();});
         var title=parts.shift()||''; var rest=parts.join('<br>');
-        el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+goHTML;
+        el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+imgHtml(doc)+goHTML;
       } else {
-        el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+'</div>';  // editiert -> Text übernehmen
+        el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>';  // editiert -> Text (+Bild)
       }
     }
     // ohne doc: Original-DOM unangetastet lassen (lang.js bleibt zuständig)
@@ -98,7 +112,7 @@
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
       if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
-      el.style.display=''; el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+'</div>'; controls(el);
+      el.style.display=''; el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+imgHtml(doc)+'</div>'; controls(el);
     });
     // Seiten-Kacheln (type=pagelink) auf der Elternseite als klickbare Navigation
     Object.keys(DATA).forEach(function(cid){
@@ -157,8 +171,10 @@
     box.innerHTML=(isStrat?'<p class="c-warn">⚠️ Achtung: ändert auch die Strategie.</p>':'')+
       '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':'')+'">'+esc(start)+'</textarea>'+
       '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.')+'</div>'+
+      (isLink?'':'<div class="c-imgrow"><label>📎 Bild: <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">Nur Spiel-Bezug (Screenshots/Grafiken) — keine privaten Fotos.</div></div>')+
       '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
     el.appendChild(box);
+    if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> Bild entfernen</label>'; }
     var ta=box.querySelector('.c-ta'); ta.focus();
     function restore(){ unblock(); box.remove(); hidden.forEach(function(c){ c.style.display=''; }); }
     box.querySelector('.c-cancel').addEventListener('click', function(){ restore();
@@ -175,7 +191,13 @@
         if(prev.added) nd.added=true;
         if(prev.type){ nd.type=prev.type; nd.target=prev.target; }   // Seiten-Kachel: type/target erhalten
         if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
-        save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
+        function finalize(imgVal){
+          if(imgVal){ nd.img=imgVal; } else if(prev.img){ nd.img=''; }   // Bild setzen / entfernen / weglassen
+          save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
+        }
+        var fi=box.querySelector('.c-img'), file=fi?fi.files[0]:null, del=box.querySelector('.c-imgdel');
+        if(file){ msg.textContent='Bild wird verkleinert…'; shrinkImage(file, function(d){ if(d && d.length>900000){ btn.disabled=false; msg.textContent='Bild zu groß — bitte kleineres wählen.'; return; } finalize(d||''); }); }
+        else { finalize((del&&del.checked)?'':(prev.img||'')); }
       });
     });
   }
