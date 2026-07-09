@@ -106,6 +106,43 @@ body[data-noreview] .legend{ display:none !important; }
 .c-body li, .c-collbody li{ margin:.15em 0; }
 .c-body p, .c-collbody p{ margin:.25em 0; }
 
+/* ===================================================================
+   Hub-Feinschliff (09.07.2026): mehr Struktur & Luft, Wichtiges sichtbar
+   =================================================================== */
+/* 1) Gestapelte Karten/Tabellen/Klappblöcke bekommen Abstand (im Raster nicht doppelt) */
+.card, table.cal, details, .today{ margin-bottom:18px; }
+.grid .card, .grid table.cal, .grid details{ margin-bottom:0; }
+.wrap > .card:last-of-type, .wrap > details:last-of-type{ margin-bottom:26px; }
+
+/* 2) Rhythmus innerhalb der Karten */
+.card{ padding:16px 20px; }
+.card p, .c-body p, .c-collbody p{ margin:.5em 0; }
+.card p:first-child, .c-body p:first-child{ margin-top:0; }
+.card p:last-child, .c-body p:last-child{ margin-bottom:0; }
+.card h3{ margin:0 0 .55em; font-size:1.14rem; line-height:1.3; }
+.card h3:not(:first-child){ margin-top:.35em; }
+.fact{ margin:.6em 0; } .fact b{ color:var(--ink); }
+
+/* 3) Abschnitte klarer trennen + Überschriften kräftiger */
+h2.section{ font-size:1.38rem; font-weight:800; margin:42px 0 16px; padding-top:14px; }
+h2.section:first-of-type{ margin-top:22px; }
+header{ margin-bottom:10px; }
+header p, .lead{ line-height:1.55; }
+
+/* 4) Listen luftiger */
+.card ul, .c-body ul, .c-collbody ul{ margin:.45em 0; padding-left:1.25em; }
+.card li, .c-body li, .c-collbody li{ margin:.3em 0; line-height:1.5; }
+
+/* 5) Aufklappbare Blöcke: mehr Luft, klare Überschrift */
+details{ padding:6px 20px; }
+details>summary{ font-size:1.14rem; padding:14px 0; }
+
+/* 6) Tabellen etwas höher & lesbarer */
+table.cal th, table.cal td{ padding:12px 14px; line-height:1.4; }
+
+/* 7) Bilder in Kacheln sauber abgesetzt */
+.c-body img, .card img.tilepic{ margin-top:10px; }
+
 .fact{ margin:.5em 0; }
 .fact b{ display:inline-block; min-width:8.5em; }
 a.term{ color:var(--c-howto); font-weight:700; text-decoration:underline dotted; }

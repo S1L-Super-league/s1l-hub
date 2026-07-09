@@ -16,7 +16,8 @@ var R4_ALLOWED = [
   "012479e27d0878955456a7c19c22bb686c6112e4edea558124c30e4ea4c64e86", // frenchy78
   "714e26f9c145514c1791f34da513bc7ba7af3461ffb1681f79eb1662f60040af", // gab3ssss  (Schreibweise bestätigt: 4x s)
   "b842d4318c8ec89d76756b3727742edb0524e84a9435ba818f29cbe3afe894dc", // froschi
-  "1236d29eecf61f5ff847f0fa2f03467880b8d8a9e391a53b50c65433abf863ba"  // elsa
+  "1236d29eecf61f5ff847f0fa2f03467880b8d8a9e391a53b50c65433abf863ba", // elsa
+  "775555b6aff87baa8d0e49adcf6e2ba54a2edb722758258ca49ed0d48416cf56"  // bendix_pl (BEnDIX_PL, zugelassen 09.07.)
 ];
 
 function sha256js(ascii){
