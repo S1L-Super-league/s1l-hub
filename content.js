@@ -43,6 +43,13 @@
   function taWrap(ta,b,a){ var s=ta.selectionStart,e=ta.selectionEnd,v=ta.value; ta.value=v.slice(0,s)+b+v.slice(s,e)+(a||'')+v.slice(e); ta.focus(); ta.selectionStart=s+b.length; ta.selectionEnd=e+b.length; }
   function taPrefix(ta,p){ var s=ta.selectionStart,v=ta.value,ls=v.lastIndexOf('\n',s-1)+1; ta.value=v.slice(0,ls)+p+v.slice(ls); ta.focus(); ta.selectionStart=ta.selectionEnd=s+p.length; }
   function taInsert(ta,t){ var s=ta.selectionStart,e=ta.selectionEnd,v=ta.value; ta.value=v.slice(0,s)+t+v.slice(e); ta.focus(); ta.selectionStart=ta.selectionEnd=s+t.length; }
+  /* Präfix (z. B. „- ", „# ") auf ALLE markierten Zeilen setzen (nicht nur die erste). */
+  function taLinePrefix(ta,p){
+    var v=ta.value, s=ta.selectionStart, e=ta.selectionEnd;
+    var ls=v.lastIndexOf('\n',s-1)+1, le=v.indexOf('\n',e); if(le<0) le=v.length;
+    var seg=v.slice(ls,le).split('\n').map(function(l){ return l.indexOf(p)===0 ? l : p+l; }).join('\n');
+    ta.value=v.slice(0,ls)+seg+v.slice(le); ta.focus(); ta.selectionStart=ls; ta.selectionEnd=ls+seg.length;
+  }
   function pick(doc){ var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
   function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
 
@@ -65,19 +72,21 @@
     clone.querySelectorAll('.c-bar,.c-editor,.go,.badge,.rev').forEach(function(n){ n.remove(); });
     // Fremdsprachen-Spans entfernen (robust, auch falls lang.js sie nicht per .lng-off versteckt hat)
     clone.querySelectorAll('[class*="lng-"]').forEach(function(n){ var m=n.className.match(/lng-(de|en|tr|ru)/); if(m && m[1]!==cur) n.remove(); });
-    clone.querySelectorAll('p,div,li,h1,h2,h3,br').forEach(function(n){ n.appendChild(document.createTextNode('\n')); });
+    clone.querySelectorAll('p,div,li,h1,h2,h3,br,summary').forEach(function(n){ n.appendChild(document.createTextNode('\n')); });
     return (clone.textContent||'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
   }
 
   /* Editierbare Kacheln: Inhalts-Karten + Navigations-Karten (Link bleibt, nur ändern).
      Ausgenommen: Legende, HEUTE-Block, sowie Nav-Karten zu Mitmachen/Glossar. */
   function isNav(el){ return !!el.closest('a.cardlink'); }
+  function isDetails(el){ return el.tagName==='DETAILS'; }
   function tiles(){
     var out=[];
-    document.querySelectorAll('.card').forEach(function(el){
+    document.querySelectorAll('.card, details').forEach(function(el){
       if(el.closest('.legend')) return;
       var a=el.closest('a.cardlink');
       if(a && /S1L-Mitmachen|howto/i.test(a.getAttribute('href')||'')) return;  // Feedback/Glossar ausgenommen
+      var dp=el.closest('details'); if(dp && dp!==el) return;  // keine Kachel innerhalb eines aufklappbaren Blocks doppelt zählen
       out.push(el);
     });
     return out;
@@ -100,7 +109,8 @@
                   '<button type="button" class="c-btn c-down" title="runter schieben">▼</button>'+
                   '<button type="button" class="c-btn c-edit" title="ändern">✏️</button>'+
                   (nav?'':'<button type="button" class="c-btn c-del" title="entfernen">🗑</button>');
-    el.insertBefore(bar, el.firstChild);
+    var host=(isDetails(el) && el.querySelector('summary')) ? el.querySelector('summary') : el;  // bei aufklappbaren: Leiste in die Überschrift, damit sie auch zugeklappt sichtbar ist
+    host.insertBefore(bar, host.firstChild);
     bar.querySelector('.c-up').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,-1); });
     bar.querySelector('.c-down').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,1); });
     bar.querySelector('.c-edit').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); openEditor(el); });
@@ -149,6 +159,9 @@
         var parts=pick(doc).split('\n').filter(function(s){return s.trim();});
         var title=parts.shift()||''; var rest=parts.join('<br>');
         el.innerHTML='<h3>'+esc(title)+'</h3>'+(rest?'<p>'+esc(rest)+'</p>':'')+imgHtml(doc)+goHTML;
+      } else if(isDetails(el)){
+        var dp=pick(doc).split('\n'), dh=(dp.shift()||'(Überschrift)'), db=dp.join('\n');  // aufklappbar: 1. Zeile = Überschrift
+        el.innerHTML='<summary>'+esc(dh)+'</summary><div class="c-body">'+mdToHtml(db)+imgHtml(doc)+'</div>';
       } else {
         el.innerHTML='<div class="c-body">'+mdToHtml(pick(doc))+imgHtml(doc)+'</div>';  // editiert -> Text (+Bild)
       }
@@ -247,15 +260,24 @@
       '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
     el.appendChild(box);
     if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> Bild entfernen</label>'; }
+    if(isDetails(el)) el.open=true;   // aufklappen, damit der Editor sichtbar ist
     var ta=box.querySelector('.c-ta'); ta.focus();
     var fmt=box.querySelector('.c-fmt');
     if(fmt) fmt.addEventListener('click', function(e){ var b=e.target.closest('button'); if(!b) return; e.preventDefault();
       var k=b.getAttribute('data-md'), em=b.getAttribute('data-emo');
       if(em) taInsert(ta,em);
       else if(k==='bold') taWrap(ta,'**','**');
-      else if(k==='h1') taPrefix(ta,'# ');
-      else if(k==='h2') taPrefix(ta,'## ');
-      else if(k==='ul') taPrefix(ta,'- ');
+      else if(k==='h1') taLinePrefix(ta,'# ');
+      else if(k==='h2') taLinePrefix(ta,'## ');
+      else if(k==='ul') taLinePrefix(ta,'- ');
+    });
+    /* Enter in einer Aufzählung -> nächste Zeile automatisch mit „- "; leerer Punkt beendet die Liste. */
+    ta.addEventListener('keydown', function(ev){
+      if(ev.key!=='Enter') return;
+      var v=ta.value, s=ta.selectionStart, ls=v.lastIndexOf('\n',s-1)+1, line=v.slice(ls,s), m=line.match(/^(\s*[-*]\s+)/);
+      if(!m) return; ev.preventDefault();
+      if(line.trim()===m[1].trim()){ ta.value=v.slice(0,ls)+v.slice(s); ta.selectionStart=ta.selectionEnd=ls; }
+      else { var ins='\n'+m[1]; ta.value=v.slice(0,s)+ins+v.slice(ta.selectionEnd); ta.selectionStart=ta.selectionEnd=s+ins.length; }
     });
     function restore(){ unblock(); box.remove(); hidden.forEach(function(c){ c.style.display=''; }); }
     box.querySelector('.c-cancel').addEventListener('click', function(){ restore();
