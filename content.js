@@ -14,7 +14,10 @@
   var TRANSLATE_URL="https://s1l-translate.jacqueline-lex.workers.dev";
   var STORAGE_READY=false;  // true, sobald Storage-Bucket + Regeln stehen (Bild-Upload)
   var PRIO={de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']};
-  var pageKey=(location.pathname.split('/').pop()||'index').replace(/\.html?$/,'');
+  function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
+  var rawPage=(location.pathname.split('/').pop()||'index').replace(/\.html?$/,'');
+  var isDynPage=(rawPage==='seite');
+  var pageKey=isDynPage ? (qp('p')||'seite') : rawPage;   // generische Seite: Namensraum aus ?p=
   var DATA={}, col=null, wrapEl=null, TILES=[];
 
   function isR4(){ try{ return sessionStorage.getItem('s1l_r4_ok')==='1'; }catch(e){ return false; } }
@@ -83,15 +86,44 @@
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
       el.style.display=''; el.innerHTML='<div class="c-body">'+txt2html(pick(doc))+'</div>'; controls(el);
     });
+    // Seiten-Kacheln (type=pagelink) auf der Elternseite als klickbare Navigation
+    Object.keys(DATA).forEach(function(cid){
+      var doc=DATA[cid]; if(doc.type!=='pagelink' || doc.deleted) return;
+      if(cid.indexOf(pageKey+'#')!==0) return;
+      var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
+      if(!el){ el=document.createElement('div'); el.setAttribute('data-cid',cid);
+        if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
+      el.style.display=''; if(getComputedStyle(el).position==='static') el.style.position='relative';
+      var title=pick(doc)||doc.t_orig||'(neue Seite)';
+      el.innerHTML='<a class="cardlink" href="seite.html?p='+encodeURIComponent(doc.target||'')+'"><div class="card" style="border-left:7px solid #7c3aed"><h3>📄 '+esc(title)+'</h3><p class="go">Öffnen →</p></div></a>';
+      controls(el);
+    });
+    if(isDynPage) dynHeader();
+  }
+
+  /* Titel + Zurück-Link auf der generischen Seite (seite.html) aus der zugehörigen Seiten-Kachel. */
+  function dynHeader(){
+    var t=null; Object.keys(DATA).forEach(function(cid){ var d=DATA[cid]; if(d.type==='pagelink' && d.target===pageKey && !d.deleted) t=d; });
+    var h=document.getElementById('p-title'); if(h) h.textContent='📄 '+(t?(pick(t)||t.t_orig||pageKey):pageKey);
+    try{ document.title=(t?(t.t_orig||pick(t)):pageKey)+' — S1L Info-Hub'; }catch(e){}
   }
 
   function addButton(){
-    if(!isR4() || !wrapEl || document.getElementById('c-add')) return;
-    var btn=document.createElement('button');
-    btn.id='c-add'; btn.type='button'; btn.className='c-addbtn'; btn.textContent='➕ neue Info-Kachel';
-    var h=wrapEl.querySelector('header'); if(h && h.insertAdjacentElement) h.insertAdjacentElement('afterend', btn); else wrapEl.insertBefore(btn, wrapEl.firstChild);
-    btn.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
-      var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
+    if(!isR4() || !wrapEl) return;
+    var anchor=wrapEl.querySelector('header');
+    if(!document.getElementById('c-add')){
+      var b1=document.createElement('button'); b1.id='c-add'; b1.type='button'; b1.className='c-addbtn'; b1.textContent='➕ neue Info-Kachel';
+      if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', b1); else wrapEl.insertBefore(b1, wrapEl.firstChild);
+      b1.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
+        var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
+    }
+    if(!document.getElementById('c-addpage')){
+      var b2=document.createElement('button'); b2.id='c-addpage'; b2.type='button'; b2.className='c-addbtn'; b2.textContent='➕ neue Seite (Kachel → Seite)';
+      var a=document.getElementById('c-add'); if(a && a.insertAdjacentElement) a.insertAdjacentElement('afterend', b2); else wrapEl.insertBefore(b2, wrapEl.firstChild);
+      b2.addEventListener('click', function(){ var tgt='page-'+Date.now(), cid=pageKey+'#'+tgt;
+        DATA[cid]={cid:cid,type:'pagelink',target:tgt,t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
+        var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
+    }
   }
 
   function openEditor(el){
@@ -101,11 +133,12 @@
     // Original-Inhalt verstecken (außer Werkzeugleiste)
     var hidden=[];
     Array.prototype.forEach.call(el.children, function(c){ if(!c.classList.contains('c-bar')){ hidden.push(c); c.style.display='none'; } });
-    var isStrat = /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
+    var isLink = !!(doc && doc.type==='pagelink');
+    var isStrat = !isLink && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
     box.innerHTML=(isStrat?'<p class="c-warn">⚠️ Achtung: ändert auch die Strategie.</p>':'')+
-      '<textarea class="c-ta" rows="6">'+esc(start)+'</textarea>'+
-      '<div class="c-note">Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.</div>'+
+      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?'Name der Seite, z. B. Turbo-Guide':'')+'">'+esc(start)+'</textarea>'+
+      '<div class="c-note">'+(isLink?'Name der neuen Seite — wird in alle Sprachen übersetzt. Die Kachel wird anklickbar und führt auf die neue Seite.':'Schreib in deiner Sprache — wird automatisch in DE/EN/TR/RU übersetzt.')+'</div>'+
       '<div class="c-row"><button type="button" class="c-save">Speichern</button><button type="button" class="c-cancel">Abbrechen</button><span class="c-msg"></span></div>';
     el.appendChild(box);
     var ta=box.querySelector('.c-ta'); ta.focus();
@@ -122,6 +155,7 @@
                  t_de:(tr&&tr.de)||'', t_en:(tr&&tr.en)||'', t_tr:(tr&&tr.tr)||'', t_ru:(tr&&tr.ru)||'',
                  prev_orig:prev.t_orig||'', prev_lang:prev.orig_lang||'', prev_editor:prev.editor||'', prev_tms:prev.tms||0 };
         if(prev.added) nd.added=true;
+        if(prev.type){ nd.type=prev.type; nd.target=prev.target; }   // Seiten-Kachel: type/target erhalten
         if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
         save(cid, nd, function(ok){ if(ok){ /* render() ersetzt die Kachel */ } else { btn.disabled=false; msg.textContent='Fehler beim Speichern.'; } });
       });
