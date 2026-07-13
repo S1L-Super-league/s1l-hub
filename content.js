@@ -63,7 +63,11 @@
     show:{de:'wieder einblenden',en:'show again',fr:'réafficher',it:'mostra di nuovo',es:'mostrar de nuevo',tr:'tekrar göster',ru:'показать снова'},
     hiddenTag:{de:'ausgeblendet',en:'hidden',fr:'masqué',it:'nascosto',es:'oculto',tr:'gizli',ru:'скрыто'},
     previewOn:{de:'R3-Vorschau',en:'R3 preview',fr:'Aperçu R3',it:'Anteprima R3',es:'Vista R3',tr:'R3 önizleme',ru:'Просмотр R3'},
-    previewOff:{de:'Vorschau beenden',en:'exit preview',fr:'Quitter l\'aperçu',it:'Esci anteprima',es:'Salir de la vista',tr:'Önizlemeyi kapat',ru:'Выйти из просмотра'}
+    previewOff:{de:'Vorschau beenden',en:'exit preview',fr:'Quitter l\'aperçu',it:'Esci anteprima',es:'Salir de la vista',tr:'Önizlemeyi kapat',ru:'Выйти из просмотра'},
+    addsection:{de:'➕ Sektionsüberschrift',en:'➕ Section heading',fr:'➕ Titre de section',it:'➕ Titolo di sezione',es:'➕ Título de sección',tr:'➕ Bölüm başlığı',ru:'➕ Заголовок раздела'},
+    phSection:{de:'Überschrift des Abschnitts, z. B. 📌 Das Wichtigste',en:'Section heading, e.g. 📌 The Essentials',fr:'Titre de section, p. ex. 📌 L\'essentiel',it:'Titolo di sezione, es. 📌 L\'essenziale',es:'Título de sección, p. ej. 📌 Lo esencial',tr:'Bölüm başlığı, örn. 📌 En önemlisi',ru:'Заголовок раздела, напр. 📌 Самое важное'},
+    noteSection:{de:'Kurze Abschnitts-Überschrift (eine Zeile, Emoji erlaubt) — wird in alle Sprachen übersetzt.',en:'Short section heading (one line, emoji ok) — translated into all languages.',fr:'Titre de section court (une ligne, emoji ok) — traduit dans toutes les langues.',it:'Titolo di sezione breve (una riga, emoji ok) — tradotto in tutte le lingue.',es:'Título de sección corto (una línea, emoji ok) — se traduce a todos los idiomas.',tr:'Kısa bölüm başlığı (tek satır, emoji olur) — tüm dillere çevrilir.',ru:'Короткий заголовок раздела (одна строка, эмодзи можно) — переводится на все языки.'},
+    secHeading:{de:'(Abschnitt)',en:'(section)',fr:'(section)',it:'(sezione)',es:'(sección)',tr:'(bölüm)',ru:'(раздел)'}
   };
   function L(k){ var o=UI[k]||{}; return o[curLang()]||o.en||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
@@ -115,7 +119,7 @@
     var cur=curLang(), clone=el.cloneNode(true);
     clone.querySelectorAll('.c-bar,.c-editor,.go,.badge,.rev').forEach(function(n){ n.remove(); });
     // Fremdsprachen-Spans entfernen (robust, auch falls lang.js sie nicht per .lng-off versteckt hat)
-    clone.querySelectorAll('[class*="lng-"]').forEach(function(n){ var m=n.className.match(/lng-(de|en|tr|ru)/); if(m && m[1]!==cur) n.remove(); });
+    clone.querySelectorAll('[class*="lng-"]').forEach(function(n){ var m=n.className.match(/lng-(de|en|fr|it|es|tr|ru)/); if(m && m[1]!==cur) n.remove(); });
     clone.querySelectorAll('p,div,li,h1,h2,h3,br,summary').forEach(function(n){ n.appendChild(document.createTextNode('\n')); });
     return (clone.textContent||'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
   }
@@ -124,6 +128,8 @@
      Ausgenommen: Legende, HEUTE-Block, sowie Nav-Karten zu Mitmachen/Glossar. */
   function isNav(el){ return !!el.closest('a.cardlink'); }
   function isDetails(el){ return el.tagName==='DETAILS'; }
+  function isHeading(el){ return el.tagName==='H2' && el.classList && el.classList.contains('section'); }  // Abschnitts-Überschrift
+  function headingTiles(){ return Array.prototype.slice.call(document.querySelectorAll('h2.section')); }
   function tiles(){
     var out=[];
     document.querySelectorAll('.card, details').forEach(function(el){
@@ -139,8 +145,11 @@
 
   function prepare(){
     wrapEl=document.querySelector('.wrap')||document.body;
-    TILES=tiles();
-    TILES.forEach(function(el,i){ if(!el.getAttribute('data-cid')) el.setAttribute('data-cid', pageKey+'#'+i); });
+    var cards=tiles();
+    cards.forEach(function(el,i){ if(!el.getAttribute('data-cid')) el.setAttribute('data-cid', pageKey+'#'+i); });   // Kachel-IDs wie bisher (#0,#1,…)
+    var heads=headingTiles();
+    heads.forEach(function(el,i){ if(!el.getAttribute('data-cid')) el.setAttribute('data-cid', pageKey+'#h'+i); });  // Überschriften eigenes Schema (#h0,…) → verschiebt keine Kachel-IDs
+    TILES=cards.concat(heads);
   }
 
   function controls(el){
@@ -208,7 +217,9 @@
     if(doc.hidden && !r4Active()){ el.style.display='none'; return; }   // ausgeblendet: R3/Vorschau sehen es nicht
     el.style.display='';
     if(hasContent(doc)){
-      if(isNav(el)){
+      if(isHeading(el)){
+        el.innerHTML=esc(pick(doc));   // Abschnitts-Überschrift: nur der (einzeilige) Text, h2 bleibt h2
+      } else if(isNav(el)){
         // Navigations-Kachel: Link + „Öffnen →" behalten, nur Titel/Text ersetzen (1. Zeile = Titel)
         var go=el.querySelector('.go'), goHTML=go?go.outerHTML:'';
         var parts=pick(doc).split('\n').filter(function(s){return s.trim();});
@@ -232,12 +243,13 @@
       var doc=DATA[cid]; if(!doc.added || doc.deleted) return;
       if(cid.indexOf(pageKey+'#')!==0) return;   // NUR Kacheln DIESER Seite anzeigen (Fix: Kachel blieb sonst auf allen Seiten)
       if(doc.hidden && !r4Active()){ var exH=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(exH) exH.style.display='none'; return; }
-      var isCollap=(doc.type==='collapsible');
+      var isCollap=(doc.type==='collapsible'), isSection=(doc.type==='section');
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
-      if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
+      if(!el){ el=document.createElement(isSection?'h2':'div'); el.className=isSection?'section':'card'; el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
       el.style.display='';
-      if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||L('heading')), body=parts.join('\n');
+      if(isSection){ el.innerHTML=esc(pick(doc)||L('secHeading')); }
+      else if(isCollap){ var parts=pick(doc).split('\n'), head=(parts.shift()||L('heading')), body=parts.join('\n');
         el.innerHTML='<div class="c-collhead">▸ '+esc(head)+'</div><div class="c-collbody" hidden>'+mdToHtml(body)+imgHtml(doc)+'</div>';
         (function(e2,h){ var hd=e2.querySelector('.c-collhead'); hd.addEventListener('click', function(){ var b=e2.querySelector('.c-collbody'); if(b.hasAttribute('hidden')){ b.removeAttribute('hidden'); hd.textContent='▾ '+h; } else { b.setAttribute('hidden',''); hd.textContent='▸ '+h; } }); })(el, head);
       }
@@ -268,10 +280,10 @@
     try{ document.title=(t?(t.t_orig||pick(t)):pageKey)+' — S1L Info-Hub'; }catch(e){}
   }
 
-  function relabelBtns(){ var a=document.getElementById('c-add'); if(a)a.textContent=L('add'); var c=document.getElementById('c-addcollap'); if(c)c.textContent=L('addcollap'); var p=document.getElementById('c-addpage'); if(p)p.textContent=L('addpage'); }
+  function relabelBtns(){ var a=document.getElementById('c-add'); if(a)a.textContent=L('add'); var c=document.getElementById('c-addcollap'); if(c)c.textContent=L('addcollap'); var s=document.getElementById('c-addsection'); if(s)s.textContent=L('addsection'); var p=document.getElementById('c-addpage'); if(p)p.textContent=L('addpage'); }
   function addButton(){
     if(!wrapEl) return;
-    if(!r4Active()){ ['c-add','c-addcollap','c-addpage'].forEach(function(id){ var b=document.getElementById(id); if(b) b.remove(); }); return; }
+    if(!r4Active()){ ['c-add','c-addcollap','c-addsection','c-addpage'].forEach(function(id){ var b=document.getElementById(id); if(b) b.remove(); }); return; }
     var anchor=wrapEl.querySelector('header');
     function place(btn, afterEl){ if(afterEl && afterEl.insertAdjacentElement) afterEl.insertAdjacentElement('afterend', btn); else if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', btn); else wrapEl.insertBefore(btn, wrapEl.firstChild); }
     if(!document.getElementById('c-add')){
@@ -284,6 +296,12 @@
       var b3=document.createElement('button'); b3.id='c-addcollap'; b3.type='button'; b3.className='c-addbtn'; b3.textContent=L('addcollap');
       place(b3, document.getElementById('c-add'));
       b3.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,type:'collapsible',t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
+        var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
+    }
+    if(!document.getElementById('c-addsection')){
+      var b4=document.createElement('button'); b4.id='c-addsection'; b4.type='button'; b4.className='c-addbtn'; b4.textContent=L('addsection');
+      place(b4, document.getElementById('c-addcollap')||document.getElementById('c-add'));
+      b4.addEventListener('click', function(){ var cid=pageKey+'#add-'+Date.now(); DATA[cid]={cid:cid,added:true,type:'section',t_orig:'',t_de:'',t_en:'',t_tr:'',t_ru:''}; render();
         var el=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(el) openEditor(el); });
     }
     // „Kachel → Seite" nur auf der Entry-Seite (index), nicht in der 2. Ebene
@@ -309,16 +327,18 @@
     function unblock(){ if(aNav) aNav.removeEventListener('click', navBlock, true); }
     var isLink = !!(doc && doc.type==='pagelink');
     var isCollap = !!(doc && doc.type==='collapsible');
-    var isStrat = !isLink && !isCollap && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
+    var isHeadingEl = isHeading(el);
+    var simple = isLink || isHeadingEl;   // einzeilig, ohne Formatierleiste + ohne Bild
+    var isStrat = !simple && !isCollap && /allianzduell|powerplay|stadtduell|reservoir|ghuloewe|ehren|event|strat/i.test(pageKey);
     var box=document.createElement('div'); box.className='c-editor';
     box.innerHTML=(isStrat?'<p class="c-warn">'+L('warn')+'</p>':'')+
-      (isLink?'':'<div class="c-fmt"><button type="button" data-md="h1" title="'+L('fH1')+'">H1</button><button type="button" data-md="h2" title="'+L('fH2')+'">H2</button><button type="button" data-md="bold" title="'+L('fBold')+'"><b>B</b></button><button type="button" data-md="ul" title="'+L('fList')+'">• '+L('fList')+'</button><button type="button" data-emo="⚔️">⚔️</button><button type="button" data-emo="💧">💧</button><button type="button" data-emo="✅">✅</button><button type="button" data-emo="⛔">⛔</button><button type="button" data-emo="📍">📍</button><button type="button" data-emo="💡">💡</button><button type="button" data-emo="🟡">🟡</button><button type="button" data-emo="🟠">🟠</button><button type="button" data-emo="🔴">🔴</button><button type="button" data-emo="🔵">🔵</button></div>')+
-      '<textarea class="c-ta" rows="'+(isLink?2:6)+'" placeholder="'+(isLink?L('phPage'):(isCollap?L('phCollap'):''))+'">'+esc(start)+'</textarea>'+
-      '<div class="c-note">'+(isLink?L('notePage'):(isCollap?L('noteCollap'):L('noteText')))+'</div>'+
-      (isLink?'':'<div class="c-imgrow"><label>'+L('img')+' <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">'+L('imgnote')+'</div></div>')+
+      (simple?'':'<div class="c-fmt"><button type="button" data-md="h1" title="'+L('fH1')+'">H1</button><button type="button" data-md="h2" title="'+L('fH2')+'">H2</button><button type="button" data-md="bold" title="'+L('fBold')+'"><b>B</b></button><button type="button" data-md="ul" title="'+L('fList')+'">• '+L('fList')+'</button><button type="button" data-emo="⚔️">⚔️</button><button type="button" data-emo="💧">💧</button><button type="button" data-emo="✅">✅</button><button type="button" data-emo="⛔">⛔</button><button type="button" data-emo="📍">📍</button><button type="button" data-emo="💡">💡</button><button type="button" data-emo="🟡">🟡</button><button type="button" data-emo="🟠">🟠</button><button type="button" data-emo="🔴">🔴</button><button type="button" data-emo="🔵">🔵</button></div>')+
+      '<textarea class="c-ta" rows="'+(simple?2:6)+'" placeholder="'+(isLink?L('phPage'):(isHeadingEl?L('phSection'):(isCollap?L('phCollap'):'')))+'">'+esc(start)+'</textarea>'+
+      '<div class="c-note">'+(isLink?L('notePage'):(isHeadingEl?L('noteSection'):(isCollap?L('noteCollap'):L('noteText'))))+'</div>'+
+      (simple?'':'<div class="c-imgrow"><label>'+L('img')+' <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">'+L('imgnote')+'</div></div>')+
       '<div class="c-row"><button type="button" class="c-save">'+L('save')+'</button><button type="button" class="c-cancel">'+L('cancel')+'</button><span class="c-msg"></span></div>';
     el.appendChild(box);
-    if(!isLink && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> '+L('imgdel')+'</label>'; }
+    if(!simple && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> '+L('imgdel')+'</label>'; }
     if(isDetails(el)) el.open=true;   // aufklappen, damit der Editor sichtbar ist
     var ta=box.querySelector('.c-ta'); ta.focus();
     var fmt=box.querySelector('.c-fmt');
