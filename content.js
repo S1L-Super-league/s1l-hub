@@ -84,7 +84,8 @@
     var seg=v.slice(ls,le).split('\n').map(function(l){ return l.indexOf(p)===0 ? l : p+l; }).join('\n');
     ta.value=v.slice(0,ls)+seg+v.slice(le); ta.focus(); ta.selectionStart=ls; ta.selectionEnd=ls+seg.length;
   }
-  function pick(doc){ var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
+  function pick(doc){ if(doc.orig_lang && doc.orig_lang===curLang() && doc.t_orig) return doc.t_orig; /* Original-Sprache: exakt so wie eingegeben (Formatierung bleibt) */
+    var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
   function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
 
   /* Bild klein rechnen (wie der Blog): max ~1000px, JPEG ~0.7 -> als Daten-URL direkt in die DB.

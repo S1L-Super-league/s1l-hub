@@ -95,7 +95,7 @@
       o.push('<p>'+inl(l)+'</p>'); }
     cu(); return o.join(''); }
   function cl(){ return document.documentElement.getAttribute('data-lang')||'de'; }
-  function pick(o){ var p=({de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']})[cl()]||['de','en','tr','ru']; for(var i=0;i<p.length;i++){ if(o['t_'+p[i]]) return o['t_'+p[i]]; } return o.t_orig||''; }
+  function pick(o){ if(o.orig_lang && o.orig_lang===cl() && o.t_orig) return o.t_orig; var p=({de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']})[cl()]||['de','en','tr','ru']; for(var i=0;i<p.length;i++){ if(o['t_'+p[i]]) return o['t_'+p[i]]; } return o.t_orig||''; }
   try{ if(typeof firebase==='undefined') return; if(!firebase.apps.length) firebase.initializeApp(FB); var db=firebase.firestore();
     db.collection('hubinfo').doc('nap').get().then(function(d){ if(!d.exists) return; var o=d.data()||{};
       var list=(o.list||[]).map(function(it){ var a=(it.wer||'').trim(), b=(it.wo||'').trim(); return (a&&b)?(a+' — '+b):(a||b); }).filter(Boolean);
