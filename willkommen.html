@@ -50,7 +50,7 @@
   </div>
 
   <h2 class="section">💎 <span class="lng-de">Golden Window</span><span class="lng-en">Golden Window</span><span class="lng-fr">Golden Window</span><span class="lng-it">Golden Window</span><span class="lng-es">Golden Window</span><span class="lng-tr">Golden Window</span><span class="lng-ru">Golden Window</span></h2>
-  <div class="card season" id="gwInfo">
+  <div class="card season">
     <p><span class="lng-de">Das <b>Golden Window</b> ist die Zeit, in der die Anforderungen vom <b>Allianzduell (VS)</b> und vom <b>Rüstungswettlauf</b> übereinstimmen (jeweils ein <b>4-Stunden-Fenster</b>) — dann bekommst du die <b>maximalen Belohnungen</b>. Deshalb <b>Ressourcen und Speedups genau hier einsetzen</b>.</span><span class="lng-en">The <b>Golden Window</b> is the time when the requirements of the <b>Alliance Duel (VS)</b> and the <b>Power Play</b> line up (a <b>4-hour window</b> each) — that's when you get the <b>maximum rewards</b>. So <b>use resources and speedups right here</b>.</span><span class="lng-fr">Le <b>Golden Window</b> est le moment où les exigences de l'<b>Alliance Duel (VS)</b> et du <b>Power Play</b> coïncident (une <b>fenêtre de 4 heures</b> chacune) — c'est là que tu obtiens les <b>récompenses maximales</b>. Donc <b>utilise ressources et speedups juste ici</b>.</span><span class="lng-it">Il <b>Golden Window</b> è il momento in cui i requisiti dell'<b>Alliance Duel (VS)</b> e del <b>Power Play</b> coincidono (una <b>finestra di 4 ore</b> ciascuna) — è allora che ottieni le <b>ricompense massime</b>. Quindi <b>usa risorse e speedup proprio qui</b>.</span><span class="lng-es">El <b>Golden Window</b> es el momento en que coinciden los requisitos del <b>Alliance Duel (VS)</b> y del <b>Power Play</b> (una <b>ventana de 4 horas</b> cada uno) — ahí obtienes las <b>recompensas máximas</b>. Por eso <b>usa recursos y speedups justo aquí</b>.</span><span class="lng-tr"><b>Golden Window</b>, <b>Alliance Duel (VS)</b> ile <b>Power Play</b> gereksinimlerinin çakıştığı zamandır (her biri <b>4 saatlik pencere</b>) — o zaman <b>maksimum ödül</b> alırsın. Bu yüzden <b>kaynakları ve hızlandırıcıları tam burada kullan</b>.</span><span class="lng-ru"><b>Golden Window</b> — это время, когда требования <b>Alliance Duel (VS)</b> и <b>Power Play</b> совпадают (по <b>4-часовому окну</b>) — тогда ты получаешь <b>максимальные награды</b>. Поэтому <b>трать ресурсы и ускорения именно здесь</b>.</span></p>
   </div>
 
@@ -97,7 +97,7 @@
       if(img){ var box=document.getElementById('rrMap'); if(box) box.innerHTML='<img src="'+img+'" alt="RR-Zonen" style="max-width:100%;border-radius:12px">'; }
     }).catch(function(){});
     function fill(id,el){ db.collection('content').doc(id).get().then(function(d){ if(!d.exists) return; var o=d.data()||{}; if(o.deleted) return; var tx=pick(o); if(tx){ var g=document.getElementById(el); if(g) g.innerHTML=mdToHtml(tx); } }).catch(function(){}); }
-    fill('gw-info','gwInfo');   /* Löwe ist jetzt statisch (7-sprachig) direkt oben — keine DB-Verknüpfung mehr */
+    /* Löwe + Golden Window sind statisch (7-sprachig) — keine DB-Verknüpfung mehr (FR/IT/ES immer da) */
   }catch(e){}
 })();
 </script>
