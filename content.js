@@ -54,7 +54,7 @@
     fList:{de:'Aufzählung',en:'List',tr:'List',ru:'Список'},
     confirmDel:{de:'Diese Kachel entfernen? (rückholbar über die Versionierung)',en:'Remove this tile? (recoverable via versioning)',tr:'Bu kart kaldırılsın mı? (sürümleme ile geri alınabilir)',ru:'Убрать плитку? (можно вернуть через версии)'},
     newpage:{de:'(neue Seite)',en:'(new page)',tr:'(yeni sayfa)',ru:'(новая страница)'},
-    heading:{de:L('heading'),en:'(heading)',tr:'(başlık)',ru:'(заголовок)'}
+    heading:{de:'(Überschrift)',en:'(heading)',tr:'(başlık)',ru:'(заголовок)'}
   };
   function L(k){ var o=UI[k]||{}; return o[curLang()]||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }

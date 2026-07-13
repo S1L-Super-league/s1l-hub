@@ -36,7 +36,7 @@
 
   <!-- 3. Ghulöwe -->
   <h2 class="section">🦁 <span class="lng-de">Ghulöwe (der „Löwe")</span><span class="lng-en">Ghoulion (the "lion")</span><span class="lng-tr">Ghoulion ("aslan")</span><span class="lng-ru">Ghoulion («лев»)</span></h2>
-  <div class="card loewe">
+  <div class="card loewe" id="loeweInfo">
     <p class="fact"><b><span class="lng-de">Wann:</span><span class="lng-en">When:</span><span class="lng-tr">Ne zaman:</span><span class="lng-ru">Когда:</span></b> <span class="lng-de">etwa jeden <b>2. Tag gegen 19:20</b>.</span><span class="lng-en">roughly every <b>2nd day around 19:20</b>.</span><span class="lng-tr">yaklaşık <b>2 günde bir, 19:20 civarı</b>.</span><span class="lng-ru">примерно <b>каждый 2-й день около 19:20</b>.</span></p>
     <p class="fact"><b><span class="lng-de">So machen wir's:</span><span class="lng-en">How we do it:</span><span class="lng-tr">Nasıl yapıyoruz:</span><span class="lng-ru">Как мы делаем:</span></b> <span class="lng-de">Eine <b>schwächere Gruppe startet die Rally</b>, die anderen Gruppen <b>treten bei</b> — so greifen wir möglichst oft mit den <b>starken Truppen</b> an. Den Platz <b>direkt beim Löwen</b> für die ganz Starken <b>freihalten</b>.</span><span class="lng-en">A <b>weaker group starts the rally</b>, the other groups <b>join in</b> — so we attack as often as possible with the <b>strong troops</b>. Keep the spot <b>right next to the lion</b> free for the very strongest.</span><span class="lng-tr">Bir <b>zayıf grup rally başlatır</b>, diğer gruplar <b>katılır</b> — böylece <b>güçlü birliklerle</b> mümkün olduğunca sık saldırırız. <b>Aslanın hemen yanındaki</b> yeri en güçlüler için <b>boş bırak</b>.</span><span class="lng-ru">Более <b>слабая группа начинает rally</b>, остальные <b>присоединяются</b> — так мы чаще атакуем <b>сильными войсками</b>. Место <b>прямо у льва</b> держи свободным для самых сильных.</span></p>
   </div>
@@ -100,14 +100,14 @@
     db.collection('hubinfo').doc('nap').get().then(function(d){ if(!d.exists) return; var o=d.data()||{};
       var list=(o.list||[]).map(function(it){ var a=(it.wer||'').trim(), b=(it.wo||'').trim(); return (a&&b)?(a+' — '+b):(a||b); }).filter(Boolean);
       if(list.length){ var el=document.getElementById('napList'); if(el) el.textContent=list.join(' · '); } }).catch(function(){});
-    db.collection('content').get().then(function(s){ var img=null, gw=null;
+    db.collection('content').get().then(function(s){ var img=null;
       s.forEach(function(dd){ var o=dd.data()||{}; if(o.deleted) return;
         if(!img && dd.id.indexOf('s1l-event-reservoir-raid#')===0 && o.img) img=o.img;
-        if(!gw && dd.id.indexOf('index#')===0){ var tx=pick(o); if(tx && /golden window/i.test(tx)) gw=tx; }
       });
       if(img){ var box=document.getElementById('rrMap'); if(box) box.innerHTML='<img src="'+img+'" alt="RR-Zonen" style="max-width:100%;border-radius:12px">'; }
-      if(gw){ var g=document.getElementById('gwInfo'); if(g) g.innerHTML=mdToHtml(gw); }
     }).catch(function(){});
+    db.collection('content').doc('gw-info').get().then(function(d){ if(!d.exists) return; var o=d.data()||{}; if(o.deleted) return; var tx=pick(o); if(tx){ var g=document.getElementById('gwInfo'); if(g) g.innerHTML=mdToHtml(tx); } }).catch(function(){});
+    db.collection('content').doc('loewe-info').get().then(function(d){ if(!d.exists) return; var o=d.data()||{}; if(o.deleted) return; var tx=pick(o); if(tx){ var g=document.getElementById('loeweInfo'); if(g) g.innerHTML=mdToHtml(tx); } }).catch(function(){});
   }catch(e){}
 })();
 </script>
