@@ -69,7 +69,9 @@
     noteSection:{de:'Kurze Abschnitts-Überschrift (eine Zeile, Emoji erlaubt) — wird in alle Sprachen übersetzt.',en:'Short section heading (one line, emoji ok) — translated into all languages.',fr:'Titre de section court (une ligne, emoji ok) — traduit dans toutes les langues.',it:'Titolo di sezione breve (una riga, emoji ok) — tradotto in tutte le lingue.',es:'Título de sección corto (una línea, emoji ok) — se traduce a todos los idiomas.',tr:'Kısa bölüm başlığı (tek satır, emoji olur) — tüm dillere çevrilir.',ru:'Короткий заголовок раздела (одна строка, эмодзи можно) — переводится на все языки.'},
     secHeading:{de:'(Abschnitt)',en:'(section)',fr:'(section)',it:'(sezione)',es:'(sección)',tr:'(bölüm)',ru:'(раздел)'},
     color:{de:'🎨 Farbe:',en:'🎨 Color:',fr:'🎨 Couleur :',it:'🎨 Colore:',es:'🎨 Color:',tr:'🎨 Renk:',ru:'🎨 Цвет:'},
-    colDefault:{de:'Standard',en:'Default',fr:'Standard',it:'Predefinito',es:'Predeterminado',tr:'Varsayılan',ru:'По умолчанию'}
+    colDefault:{de:'Standard',en:'Default',fr:'Standard',it:'Predefinito',es:'Predeterminado',tr:'Varsayılan',ru:'По умолчанию'},
+    publicTag:{de:'🌐 Neu hier?',en:'🌐 New here?',fr:'🌐 Nouveau ?',it:'🌐 Nuovo?',es:'🌐 ¿Nuevo?',tr:'🌐 Yeni?',ru:'🌐 Впервые?'},
+    publicTagTip:{de:'Dieser Inhalt erscheint auch auf der öffentlichen Seite „Neu hier?".',en:'This content also appears on the public "New here?" page.',fr:'Ce contenu apparaît aussi sur la page publique « Nouveau ? ».',it:'Questo contenuto appare anche sulla pagina pubblica «Nuovo?».',es:'Este contenido también aparece en la página pública «¿Nuevo?».',tr:'Bu içerik herkese açık "Yeni?" sayfasında da görünür.',ru:'Этот контент также показывается на публичной странице «Впервые?».'}
   };
   function L(k){ var o=UI[k]||{}; return o[curLang()]||o.en||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
@@ -104,6 +106,8 @@
   function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
   /* Kachel-Farbpalette (passend zur Hub-Palette). Leerer Wert = Standard (CSS-Klasse entscheidet). */
   var COLORS=['#2563eb','#dc2626','#b45309','#ca8a04','#0f9d58','#0891b2','#7c3aed','#9333ea','#0e7490','#475569'];
+  /* Kacheln, deren Inhalt auch auf der öffentlichen Seite „Neu hier?" (willkommen.html) gespiegelt wird → R4-Markierung. */
+  var PUBLIC_CIDS={ 'gw-info':1, 'loewe-info':1 };
   function applyColor(el, doc){
     if(!el || isHeading(el)) return;
     var c=doc&&doc.color;
@@ -163,7 +167,7 @@
   }
 
   function controls(el){
-    if(!r4Active()){ var b0=el.querySelector('.c-bar'); if(b0) b0.remove(); el.classList.remove('c-hidden'); return; }
+    if(!r4Active()){ var b0=el.querySelector('.c-bar'); if(b0) b0.remove(); var pr0=el.querySelector('.c-pubribbon'); if(pr0) pr0.remove(); el.classList.remove('c-hidden'); return; }
     var cid=el.getAttribute('data-cid'), isHid=!!(DATA[cid]&&DATA[cid].hidden);
     el.classList.toggle('c-hidden', isHid);   // grau, wenn ausgeblendet (nur R4 sieht das überhaupt)
     var bar=el.querySelector('.c-bar');
@@ -188,6 +192,10 @@
     var badge=bar.querySelector('.c-hidtag');
     if(isHid && !badge){ badge=document.createElement('span'); badge.className='c-hidtag'; bar.insertBefore(badge, bar.firstChild); }
     if(badge){ badge.textContent=L('hiddenTag'); badge.style.display=isHid?'':'none'; }
+    // Markierung: Kachel wird auch auf der öffentlichen Seite „Neu hier?" gespiegelt
+    var pr=el.querySelector('.c-pubribbon');
+    if(PUBLIC_CIDS[cid]){ if(!pr){ pr=document.createElement('div'); pr.className='c-pubribbon'; el.appendChild(pr); } pr.textContent=L('publicTag'); pr.title=L('publicTagTip'); }
+    else if(pr){ pr.remove(); }
   }
 
   /* ==== Reihenfolge: Kacheln hoch/runter schieben (R4), in Firestore-Doc <seite>#__order gemerkt ==== */
