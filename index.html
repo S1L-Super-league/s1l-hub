@@ -210,7 +210,8 @@
     var l=lng(), d=new Date(), dow=d.getDay(), off=(dow===0?-6:1-dow);
     var mon=new Date(d); mon.setDate(d.getDate()+off);
     var todayMid=midOf(d);
-    var h='<tr><th>'+(l==='de'?'Tag':l==='ru'?'День':l==='tr'?'Gün':l==='fr'?'Jour':l==='it'?'Giorno':l==='es'?'Día':'Day')+'</th><th>'+(l==='de'?'Duell':'Duel')+'</th><th>'+T[l].hcol+'</th></tr>';
+    var dayL=(l==='de'?'Tag':l==='ru'?'День':l==='tr'?'Gün':l==='fr'?'Jour':l==='it'?'Giorno':l==='es'?'Día':'Day'), duelL=(l==='de'?'Duell':'Duel');
+    var h='<tr><th style="width:34%">'+dayL+' / '+duelL+'</th><th>'+T[l].hcol+'</th></tr>';
     for(var i=0;i<7;i++){ var dd=new Date(mon); dd.setDate(mon.getDate()+i); var x=midOf(dd); var di=ENGINE.duelInfo(x);
       var isToday=(x===todayMid); var g=gwStr(x); var g2=gw2Str(x);
       var duelCell = di.day ? ('T'+di.day+' '+THEME[l][di.key]) : T[l].ruhe;
@@ -218,7 +219,8 @@
       var trAttr = di.day
         ? ' style="cursor:pointer'+(isToday?';background:rgba(202,138,4,.12)':'')+'" title="'+(l==='de'?'Zum Tag':l==='en'?'Open day':l==='tr'?'Güne git':l==='fr'?'Voir le jour':l==='it'?'Vai al giorno':l==='es'?'Ir al día':'К дню')+'" onclick="location.href=\'S1L-Event-Allianzduell.html#tag'+di.day+'\'"'
         : (isToday?' style="background:rgba(202,138,4,.12)"':'');
-      h+='<tr'+trAttr+'><td>'+(isToday?'👉 ':'')+WDS[l][dd.getDay()]+' '+pad(dd.getDate())+'.</td><td>'+duelCell+(di.day?' <span style="opacity:.5">›</span>':'')+'</td><td>'+gwCell+'</td></tr>';
+      var dayStr=(isToday?'👉 ':'')+WDS[l][dd.getDay()]+' '+pad(dd.getDate())+'.';
+      h+='<tr'+trAttr+'><td><b style="white-space:nowrap">'+dayStr+'</b><br><span style="opacity:.8;font-size:.92em">'+duelCell+(di.day?' ›':'')+'</span></td><td>'+gwCell+'</td></tr>';
     }
     tbl.innerHTML=h;
   }
