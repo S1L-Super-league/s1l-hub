@@ -268,6 +268,10 @@ function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
   ST.order=ST.order.filter(function(k){ return EV[k]; }); }
 function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(ST)); }catch(e){} }
+/* NAP-Liste zusätzlich geteilt speichern (Firestore hubinfo/nap) — speist die öffentliche Willkommens-Seite. */
+function syncNap(){ try{ if(typeof firebase==='undefined'||!firebase.apps.length) return;
+  var e=ST.ev.nap, list=((e&&e.list)||[]).map(function(it){ return {wer:(it.wer||''),wo:(it.wo||'')}; }).filter(function(x){ return x.wer||x.wo; });
+  firebase.firestore().collection('hubinfo').doc('nap').set({ list:list, tms:Date.now(), editor:(function(){ try{ return sessionStorage.getItem('s1l_r4_name')||'R4'; }catch(e){ return 'R4'; } })() }); }catch(e){} }
 
 /* „vorbei": Termin-Event mit Endzeit, deren UTC-Ende heute schon vergangen ist */
 function isOver(k){ if(rollOff()!==0) return false; var e=ST.ev[k]; if(EV[k].typ!=='termin'||!e.ende) return false;
@@ -326,10 +330,10 @@ function renderList(){
     });
     row.querySelectorAll('[data-napf]').forEach(function(inp){
       inp.addEventListener('input',function(){ napList(ST.ev[k])[+inp.getAttribute('data-napi')][inp.getAttribute('data-napf')]=inp.value; save(); });
-      inp.addEventListener('change',function(){ save(); renderAll(); });
+      inp.addEventListener('change',function(){ save(); syncNap(); renderAll(); });
     });
-    row.querySelectorAll('[data-napadd]').forEach(function(b){ b.addEventListener('click',function(){ napList(ST.ev[k]).push({wer:"",wo:""}); save(); renderAll(); }); });
-    row.querySelectorAll('[data-napdel]').forEach(function(b){ b.addEventListener('click',function(){ var l=napList(ST.ev[k]); l.splice(+b.getAttribute('data-napdel'),1); if(!l.length) l.push({wer:"",wo:""}); save(); renderAll(); }); });
+    row.querySelectorAll('[data-napadd]').forEach(function(b){ b.addEventListener('click',function(){ napList(ST.ev[k]).push({wer:"",wo:""}); save(); syncNap(); renderAll(); }); });
+    row.querySelectorAll('[data-napdel]').forEach(function(b){ b.addEventListener('click',function(){ var l=napList(ST.ev[k]); l.splice(+b.getAttribute('data-napdel'),1); if(!l.length) l.push({wer:"",wo:""}); save(); syncNap(); renderAll(); }); });
     var be=row.querySelector('[data-sedit]'); if(be) be.onclick=function(){ var sid=ST.ev[k].strat; if(sid) openStratEditor(k,sid); else alert(L('Erst eine Strategie im Dropdown wählen (oder ➕ für neu).','Pick a strategy first (or ➕ for new).','Önce bir strateji seç (veya ➕).','Сначала выбери стратегию (или ➕).')); };
     var bn=row.querySelector('[data-snew]'); if(bn) bn.onclick=function(){ openStratEditor(k,''); };
     var bd=row.querySelector('[data-sdel]'); if(bd) bd.onclick=function(){ var sid=ST.ev[k].strat; if(!sid) return; if(!window.S1LStrat.isBase(k,sid)||confirm(L('Basis-Strategie ausblenden?','Hide base strategy?','Temel strateji gizlensin mi?','Скрыть базовую стратегию?'))){ if(confirm(L('Diese Strategie löschen?','Delete this strategy?','Bu strateji silinsin mi?','Удалить стратегию?'))) window.S1LStrat.del(k,sid,function(){ ST.ev[k].strat=''; save(); }); } };
