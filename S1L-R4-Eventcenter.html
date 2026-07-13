@@ -550,10 +550,10 @@ function openStratEditor(k, sid){
     var cl=lang(), nsid=isNew?('r4-'+Date.now()):sid;
     window.S1LStrat.translate(bd,function(tb){ window.S1LStrat.translate(nm,function(tn){
       var data={ prio:pr, editor:editorName(),
-        name_orig:nm, name_lang:cl, name_de:(tn&&tn.de)||nm, name_en:(tn&&tn.en)||'', name_tr:(tn&&tn.tr)||'', name_ru:(tn&&tn.ru)||'',
-        t_orig:bd, orig_lang:cl, t_de:(tb&&tb.de)||bd, t_en:(tb&&tb.en)||'', t_tr:(tb&&tb.tr)||'', t_ru:(tb&&tb.ru)||'' };
-      if(!(tb&&(tb.de||tb.en||tb.tr||tb.ru))) data['t_'+cl]=bd;
-      if(!(tn&&(tn.de||tn.en||tn.tr||tn.ru))) data['name_'+cl]=nm;
+        name_orig:nm, name_lang:cl, name_de:(tn&&tn.de)||nm, name_en:(tn&&tn.en)||'', name_fr:(tn&&tn.fr)||'', name_it:(tn&&tn.it)||'', name_es:(tn&&tn.es)||'', name_tr:(tn&&tn.tr)||'', name_ru:(tn&&tn.ru)||'',
+        t_orig:bd, orig_lang:cl, t_de:(tb&&tb.de)||bd, t_en:(tb&&tb.en)||'', t_fr:(tb&&tb.fr)||'', t_it:(tb&&tb.it)||'', t_es:(tb&&tb.es)||'', t_tr:(tb&&tb.tr)||'', t_ru:(tb&&tb.ru)||'' };
+      if(!(tb&&(tb.de||tb.en||tb.fr||tb.it||tb.es||tb.tr||tb.ru))) data['t_'+cl]=bd;
+      if(!(tn&&(tn.de||tn.en||tn.fr||tn.it||tn.es||tn.tr||tn.ru))) data['name_'+cl]=nm;
       window.S1LStrat.save(k,nsid,data,function(ok){ if(ok){ ST.ev[k].strat=nsid; save(); host.remove(); } else { btn.disabled=false; msg.textContent=L('Fehler beim Speichern.','Error saving.','Kaydetme hatası.','Ошибка сохранения.'); } });
     }); });
   };

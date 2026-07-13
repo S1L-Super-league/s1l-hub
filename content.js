@@ -13,7 +13,7 @@
   var FB={ apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18", authDomain:"s1l-hub.firebaseapp.com", projectId:"s1l-hub", storageBucket:"s1l-hub.firebasestorage.app", messagingSenderId:"761448020039", appId:"1:761448020039:web:b65a7e1c1bac2f31831962" };
   var TRANSLATE_URL="https://s1l-translate.jacqueline-lex.workers.dev";
   var STORAGE_READY=false;  // true, sobald Storage-Bucket + Regeln stehen (Bild-Upload)
-  var PRIO={de:['de','en','tr','ru'],en:['en','de','tr','ru'],tr:['tr','en','de','ru'],ru:['ru','en','de','tr']};
+  var PRIO={de:['de','en','fr','it','es','tr','ru'],en:['en','de','fr','it','es','tr','ru'],fr:['fr','en','de','it','es','tr','ru'],it:['it','en','de','fr','es','tr','ru'],es:['es','en','de','fr','it','tr','ru'],tr:['tr','en','de','fr','it','es','ru'],ru:['ru','en','de','fr','it','es','tr']};
   function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
   var rawPage=(location.pathname.split('/').pop()||'index').replace(/\.html?$/,'');
   var isDynPage=(rawPage==='seite');
@@ -325,11 +325,11 @@
       translate(text, function(tr){
         var prev=DATA[cid]||{};
         var nd={ cid:cid, t_orig:text, orig_lang:curLang(), editor:editorName(), tms:Date.now(),
-                 t_de:(tr&&tr.de)||'', t_en:(tr&&tr.en)||'', t_tr:(tr&&tr.tr)||'', t_ru:(tr&&tr.ru)||'',
+                 t_de:(tr&&tr.de)||'', t_en:(tr&&tr.en)||'', t_fr:(tr&&tr.fr)||'', t_it:(tr&&tr.it)||'', t_es:(tr&&tr.es)||'', t_tr:(tr&&tr.tr)||'', t_ru:(tr&&tr.ru)||'',
                  prev_orig:prev.t_orig||'', prev_lang:prev.orig_lang||'', prev_editor:prev.editor||'', prev_tms:prev.tms||0 };
         if(prev.added) nd.added=true;
         if(prev.type){ nd.type=prev.type; if(prev.target!=null) nd.target=prev.target; }   // type erhalten (Seiten-Kachel: auch target)
-        if(!(tr&&(tr.de||tr.en||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
+        if(!(tr&&(tr.de||tr.en||tr.fr||tr.it||tr.es||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
         function finalize(imgVal){
           if(imgVal){ nd.img=imgVal; } else if(prev.img){ nd.img=''; }   // Bild setzen / entfernen / weglassen
           save(cid, nd, function(ok){ if(ok){ unblock(); } else { btn.disabled=false; msg.textContent=L('saveerr'); } });

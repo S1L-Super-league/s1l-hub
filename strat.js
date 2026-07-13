@@ -203,8 +203,8 @@ function stratLoc(x,lang){ if(!x) return ""; return x[lang]!=null?x[lang]:(x.en!
       s[ev]=s[ev].filter(function(x){ return x.id!==sid; });     // vorhandene mit gleicher Id ersetzen/entfernen
       if(d.deleted) return;
       s[ev].push({ id:sid, prio:!!d.prio,
-        tags:{ de:[d.name_de||d.name_orig||sid], en:[d.name_en||d.name_orig||sid], tr:[d.name_tr||d.name_orig||sid], ru:[d.name_ru||d.name_orig||sid] },
-        de:d.t_de||d.t_orig||'', en:d.t_en||'', tr:d.t_tr||'', ru:d.t_ru||'' });
+        tags:{ de:[d.name_de||d.name_orig||sid], en:[d.name_en||d.name_orig||sid], fr:[d.name_fr||d.name_orig||sid], it:[d.name_it||d.name_orig||sid], es:[d.name_es||d.name_orig||sid], tr:[d.name_tr||d.name_orig||sid], ru:[d.name_ru||d.name_orig||sid] },
+        de:d.t_de||d.t_orig||'', en:d.t_en||'', fr:d.t_fr||'', it:d.t_it||'', es:d.t_es||'', tr:d.t_tr||'', ru:d.t_ru||'' });
     });
     for(var k in STRAT){ delete STRAT[k]; }
     for(var k2 in s){ STRAT[k2]=s[k2]; }
