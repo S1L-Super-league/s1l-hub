@@ -67,7 +67,9 @@
     addsection:{de:'➕ Sektionsüberschrift',en:'➕ Section heading',fr:'➕ Titre de section',it:'➕ Titolo di sezione',es:'➕ Título de sección',tr:'➕ Bölüm başlığı',ru:'➕ Заголовок раздела'},
     phSection:{de:'Überschrift des Abschnitts, z. B. 📌 Das Wichtigste',en:'Section heading, e.g. 📌 The Essentials',fr:'Titre de section, p. ex. 📌 L\'essentiel',it:'Titolo di sezione, es. 📌 L\'essenziale',es:'Título de sección, p. ej. 📌 Lo esencial',tr:'Bölüm başlığı, örn. 📌 En önemlisi',ru:'Заголовок раздела, напр. 📌 Самое важное'},
     noteSection:{de:'Kurze Abschnitts-Überschrift (eine Zeile, Emoji erlaubt) — wird in alle Sprachen übersetzt.',en:'Short section heading (one line, emoji ok) — translated into all languages.',fr:'Titre de section court (une ligne, emoji ok) — traduit dans toutes les langues.',it:'Titolo di sezione breve (una riga, emoji ok) — tradotto in tutte le lingue.',es:'Título de sección corto (una línea, emoji ok) — se traduce a todos los idiomas.',tr:'Kısa bölüm başlığı (tek satır, emoji olur) — tüm dillere çevrilir.',ru:'Короткий заголовок раздела (одна строка, эмодзи можно) — переводится на все языки.'},
-    secHeading:{de:'(Abschnitt)',en:'(section)',fr:'(section)',it:'(sezione)',es:'(sección)',tr:'(bölüm)',ru:'(раздел)'}
+    secHeading:{de:'(Abschnitt)',en:'(section)',fr:'(section)',it:'(sezione)',es:'(sección)',tr:'(bölüm)',ru:'(раздел)'},
+    color:{de:'🎨 Farbe:',en:'🎨 Color:',fr:'🎨 Couleur :',it:'🎨 Colore:',es:'🎨 Color:',tr:'🎨 Renk:',ru:'🎨 Цвет:'},
+    colDefault:{de:'Standard',en:'Default',fr:'Standard',it:'Predefinito',es:'Predeterminado',tr:'Varsayılan',ru:'По умолчанию'}
   };
   function L(k){ var o=UI[k]||{}; return o[curLang()]||o.en||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
@@ -100,6 +102,14 @@
   function pick(doc){ if(doc.orig_lang && doc.orig_lang===curLang() && doc.t_orig) return doc.t_orig; /* Original-Sprache: exakt so wie eingegeben (Formatierung bleibt) */
     var o=PRIO[curLang()]||PRIO.de; for(var i=0;i<o.length;i++){ var v=doc['t_'+o[i]]; if(v) return v; } return doc.t_orig||''; }
   function imgHtml(doc){ return doc.img?'<p><img src="'+doc.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>':''; }
+  /* Kachel-Farbpalette (passend zur Hub-Palette). Leerer Wert = Standard (CSS-Klasse entscheidet). */
+  var COLORS=['#2563eb','#dc2626','#b45309','#ca8a04','#0f9d58','#0891b2','#7c3aed','#9333ea','#0e7490','#475569'];
+  function applyColor(el, doc){
+    if(!el || isHeading(el)) return;
+    var c=doc&&doc.color;
+    if(c){ el.style.borderLeftColor=c; el.style.borderLeftWidth='7px'; el.style.borderLeftStyle='solid'; }
+    else { el.style.borderLeftColor=''; el.style.borderLeftWidth=''; el.style.borderLeftStyle=''; }
+  }
 
   /* Bild klein rechnen (wie der Blog): max ~1000px, JPEG ~0.7 -> als Daten-URL direkt in die DB.
      Kein Firebase Storage/Blaze nötig — bleibt gratis (Firestore-Limit 1 MB/Doc; verkleinert weit darunter). */
@@ -233,6 +243,7 @@
       }
     }
     // ohne doc: Original-DOM unangetastet lassen (lang.js bleibt zuständig)
+    applyColor(el, doc);
     controls(el);
   }
 
@@ -254,6 +265,7 @@
         (function(e2,h){ var hd=e2.querySelector('.c-collhead'); hd.addEventListener('click', function(){ var b=e2.querySelector('.c-collbody'); if(b.hasAttribute('hidden')){ b.removeAttribute('hidden'); hd.textContent='▾ '+h; } else { b.setAttribute('hidden',''); hd.textContent='▸ '+h; } }); })(el, head);
       }
       else { el.innerHTML='<div class="c-body">'+mdToHtml(pick(doc))+imgHtml(doc)+'</div>'; }
+      applyColor(el, doc);
       controls(el);
     });
     // Seiten-Kacheln (type=pagelink) auf der Elternseite als klickbare Navigation
@@ -336,8 +348,20 @@
       '<textarea class="c-ta" rows="'+(simple?2:6)+'" placeholder="'+(isLink?L('phPage'):(isHeadingEl?L('phSection'):(isCollap?L('phCollap'):'')))+'">'+esc(start)+'</textarea>'+
       '<div class="c-note">'+(isLink?L('notePage'):(isHeadingEl?L('noteSection'):(isCollap?L('noteCollap'):L('noteText'))))+'</div>'+
       (simple?'':'<div class="c-imgrow"><label>'+L('img')+' <input type="file" class="c-img" accept="image/*"></label> <span class="c-imgcur"></span><div class="c-note">'+L('imgnote')+'</div></div>')+
+      (simple?'':'<div class="c-colorrow"><span class="c-note">'+L('color')+'</span> <span class="c-swatches"><button type="button" class="c-swatch def" data-color="" title="'+L('colDefault')+'"></button>'+COLORS.map(function(c){ return '<button type="button" class="c-swatch" data-color="'+c+'" style="background:'+c+'"></button>'; }).join('')+'</span></div>')+
       '<div class="c-row"><button type="button" class="c-save">'+L('save')+'</button><button type="button" class="c-cancel">'+L('cancel')+'</button><span class="c-msg"></span></div>';
     el.appendChild(box);
+    var selColor=(doc && doc.color)||'';
+    var sw=box.querySelector('.c-swatches');
+    if(sw){
+      function markSel(){ Array.prototype.forEach.call(sw.querySelectorAll('.c-swatch'), function(b){ b.classList.toggle('sel', (b.getAttribute('data-color')||'')===selColor); }); }
+      markSel();
+      sw.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.c-swatch'):null; if(!b) return; e.preventDefault();
+        selColor=b.getAttribute('data-color')||''; markSel();
+        if(selColor){ el.style.borderLeftColor=selColor; el.style.borderLeftWidth='7px'; el.style.borderLeftStyle='solid'; }  // Live-Vorschau
+        else { el.style.borderLeftColor=''; el.style.borderLeftWidth=''; el.style.borderLeftStyle=''; }
+      });
+    }
     if(!simple && doc && doc.img){ var cur=box.querySelector('.c-imgcur'); if(cur) cur.innerHTML='<img src="'+doc.img+'" style="max-height:60px;border-radius:6px;vertical-align:middle"> <label style="font-size:.85rem"><input type="checkbox" class="c-imgdel"> '+L('imgdel')+'</label>'; }
     if(isDetails(el)) el.open=true;   // aufklappen, damit der Editor sichtbar ist
     var ta=box.querySelector('.c-ta'); ta.focus();
@@ -372,6 +396,7 @@
                  prev_orig:prev.t_orig||'', prev_lang:prev.orig_lang||'', prev_editor:prev.editor||'', prev_tms:prev.tms||0 };
         if(prev.added) nd.added=true;
         if(prev.type){ nd.type=prev.type; if(prev.target!=null) nd.target=prev.target; }   // type erhalten (Seiten-Kachel: auch target)
+        if(selColor) nd.color=selColor; else if(prev.color) nd.color='';   // Kachel-Farbe setzen / auf Standard zurück
         if(!(tr&&(tr.de||tr.en||tr.fr||tr.it||tr.es||tr.tr||tr.ru))) nd['t_'+curLang()]=text;  // Worker aus -> Original übernehmen
         function finalize(imgVal){
           if(imgVal){ nd.img=imgVal; } else if(prev.img){ nd.img=''; }   // Bild setzen / entfernen / weglassen
