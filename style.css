@@ -84,6 +84,12 @@ body[data-noreview] .legend{ display:none !important; }
 .c-btn:hover, .c-btn:focus-visible{ border-color:var(--focus); }
 .c-addbtn{ font:inherit; font-weight:700; cursor:pointer; border:1.5px dashed var(--c-duell); background:transparent; color:var(--c-duell); border-radius:12px; padding:9px 14px; margin:12px 0; }
 .c-addbtn:hover{ background:rgba(37,99,235,.08); }
+/* Ausgeblendete Kachel: nur R4 sieht sie, grau + Badge. Mitglieder (R3) bekommen sie gar nicht. */
+.c-hidden{ opacity:.5; filter:grayscale(.35); }
+.c-hidtag{ font-size:.68rem; font-weight:700; background:#64748b; color:#fff; border-radius:6px; padding:2px 6px; align-self:center; }
+/* R3-Vorschau-Taste beim Sprachschalter */
+#c-preview{ background:var(--c-duell)!important; color:#fff!important; font-weight:800; }
+#c-preview.on{ background:#b45309!important; }
 .c-editor{ margin-top:8px; }
 .c-editor .c-ta{ width:100%; padding:11px; border:2px solid var(--line); border-radius:10px; background:var(--bg); color:var(--ink); font-family:inherit; font-size:1rem; }
 .c-editor .c-note{ font-size:.8rem; color:var(--muted); margin:5px 0; }

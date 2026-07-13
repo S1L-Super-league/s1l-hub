@@ -23,6 +23,10 @@
   function isR4(){ try{ return sessionStorage.getItem('s1l_r4_ok')==='1'; }catch(e){ return false; } }
   function editorName(){ try{ return sessionStorage.getItem('s1l_r4_name')||'R4'; }catch(e){ return 'R4'; } }
   function curLang(){ try{ var l=localStorage.getItem('s1l_lang'); if(l) return l; }catch(e){} return document.documentElement.getAttribute('data-lang')||'de'; }
+  /* R3-Vorschau: R4 sieht den Hub wie ein Mitglied (keine Bedien-Knöpfe, ausgeblendete Kacheln weg). Zustand nur für diese Sitzung. */
+  function previewOn(){ try{ return sessionStorage.getItem('s1l_preview')==='1'; }catch(e){ return false; } }
+  function r4Active(){ return isR4() && !previewOn(); }   // „darf editieren + sieht Ausgeblendetes" — überall statt isR4() fürs Anzeigen der R4-Sachen
+  function hasContent(doc){ return !!(doc && (doc.t_orig||doc.t_de||doc.t_en||doc.t_fr||doc.t_it||doc.t_es||doc.t_tr||doc.t_ru||doc.img||doc.type)); }
   /* Übersetzungen der R4-Bedien-Elemente (Buttons, Editor, Tooltips) */
   var UI={
     add:{de:'➕ Info-Kachel (immer offen)',en:'➕ Info tile (always open)',fr:"➕ Tuile d'info (toujours ouverte)",it:'➕ Riquadro info (sempre aperto)',es:'➕ Tarjeta de info (siempre abierta)',tr:'➕ Bilgi kartı (her zaman açık)',ru:'➕ Инфо-плитка (всегда открыта)'},
@@ -54,7 +58,12 @@
     fList:{de:'Aufzählung',en:'List',fr:'Liste',it:'Elenco',es:'Lista',tr:'List',ru:'Список'},
     confirmDel:{de:'Diese Kachel entfernen? (rückholbar über die Versionierung)',en:'Remove this tile? (recoverable via versioning)',fr:'Supprimer cette tuile ? (récupérable via le versionnage)',it:'Rimuovere questo riquadro? (recuperabile tramite il versionamento)',es:'¿Eliminar esta tarjeta? (recuperable mediante el versionado)',tr:'Bu kart kaldırılsın mı? (sürümleme ile geri alınabilir)',ru:'Убрать плитку? (можно вернуть через версии)'},
     newpage:{de:'(neue Seite)',en:'(new page)',fr:'(nouvelle page)',it:'(nuova pagina)',es:'(nueva página)',tr:'(yeni sayfa)',ru:'(новая страница)'},
-    heading:{de:'(Überschrift)',en:'(heading)',fr:'(titre)',it:'(titolo)',es:'(título)',tr:'(başlık)',ru:'(заголовок)'}
+    heading:{de:'(Überschrift)',en:'(heading)',fr:'(titre)',it:'(titolo)',es:'(título)',tr:'(başlık)',ru:'(заголовок)'},
+    hide:{de:'ausblenden (R3 sieht es nicht)',en:'hide (members don\'t see it)',fr:'masquer (les membres ne le voient pas)',it:'nascondi (i membri non lo vedono)',es:'ocultar (los miembros no lo ven)',tr:'gizle (üyeler görmez)',ru:'скрыть (участники не видят)'},
+    show:{de:'wieder einblenden',en:'show again',fr:'réafficher',it:'mostra di nuovo',es:'mostrar de nuevo',tr:'tekrar göster',ru:'показать снова'},
+    hiddenTag:{de:'ausgeblendet',en:'hidden',fr:'masqué',it:'nascosto',es:'oculto',tr:'gizli',ru:'скрыто'},
+    previewOn:{de:'R3-Vorschau',en:'R3 preview',fr:'Aperçu R3',it:'Anteprima R3',es:'Vista R3',tr:'R3 önizleme',ru:'Просмотр R3'},
+    previewOff:{de:'Vorschau beenden',en:'exit preview',fr:'Quitter l\'aperçu',it:'Esci anteprima',es:'Salir de la vista',tr:'Önizlemeyi kapat',ru:'Выйти из просмотра'}
   };
   function L(k){ var o=UI[k]||{}; return o[curLang()]||o.en||o.de||''; }
   function esc(t){ var d=document.createElement('div'); d.textContent=(t==null?'':t); return d.innerHTML; }
@@ -135,21 +144,31 @@
   }
 
   function controls(el){
-    if(!isR4()){ var b0=el.querySelector('.c-bar'); if(b0) b0.remove(); return; }
-    if(el.querySelector('.c-bar')) return;
-    if(getComputedStyle(el).position==='static') el.style.position='relative';
-    var nav=isNav(el);  // Navigations-Kacheln: nur ändern, kein Entfernen (Link bleibt)
-    var bar=document.createElement('div'); bar.className='c-bar';
-    bar.innerHTML='<button type="button" class="c-btn c-up" title="'+L('up')+'">▲</button>'+
-                  '<button type="button" class="c-btn c-down" title="'+L('down')+'">▼</button>'+
-                  '<button type="button" class="c-btn c-edit" title="'+L('edit')+'">✏️</button>'+
-                  (nav?'':'<button type="button" class="c-btn c-del" title="'+L('del')+'">🗑</button>');
-    var host=(isDetails(el) && el.querySelector('summary')) ? el.querySelector('summary') : el;  // bei aufklappbaren: Leiste in die Überschrift, damit sie auch zugeklappt sichtbar ist
-    host.insertBefore(bar, host.firstChild);
-    bar.querySelector('.c-up').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,-1); });
-    bar.querySelector('.c-down').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,1); });
-    bar.querySelector('.c-edit').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); openEditor(el); });
-    var d=bar.querySelector('.c-del'); if(d) d.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); removeTile(el); });
+    if(!r4Active()){ var b0=el.querySelector('.c-bar'); if(b0) b0.remove(); el.classList.remove('c-hidden'); return; }
+    var cid=el.getAttribute('data-cid'), isHid=!!(DATA[cid]&&DATA[cid].hidden);
+    el.classList.toggle('c-hidden', isHid);   // grau, wenn ausgeblendet (nur R4 sieht das überhaupt)
+    var bar=el.querySelector('.c-bar');
+    if(!bar){
+      if(getComputedStyle(el).position==='static') el.style.position='relative';
+      var nav=isNav(el);  // Navigations-Kacheln: nur ändern, kein Entfernen (Link bleibt)
+      bar=document.createElement('div'); bar.className='c-bar';
+      bar.innerHTML='<button type="button" class="c-btn c-up" title="'+L('up')+'">▲</button>'+
+                    '<button type="button" class="c-btn c-down" title="'+L('down')+'">▼</button>'+
+                    '<button type="button" class="c-btn c-edit" title="'+L('edit')+'">✏️</button>'+
+                    '<button type="button" class="c-btn c-hide" title="'+L('hide')+'">🙈</button>'+
+                    (nav?'':'<button type="button" class="c-btn c-del" title="'+L('del')+'">🗑</button>');
+      var host=(isDetails(el) && el.querySelector('summary')) ? el.querySelector('summary') : el;  // bei aufklappbaren: Leiste in die Überschrift, damit sie auch zugeklappt sichtbar ist
+      host.insertBefore(bar, host.firstChild);
+      bar.querySelector('.c-up').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,-1); });
+      bar.querySelector('.c-down').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); move(el,1); });
+      bar.querySelector('.c-edit').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); openEditor(el); });
+      bar.querySelector('.c-hide').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggleHide(el); });
+      var d=bar.querySelector('.c-del'); if(d) d.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); removeTile(el); });
+    }
+    var hb=bar.querySelector('.c-hide'); if(hb){ hb.textContent=isHid?'👁':'🙈'; hb.title=isHid?L('show'):L('hide'); }
+    var badge=bar.querySelector('.c-hidtag');
+    if(isHid && !badge){ badge=document.createElement('span'); badge.className='c-hidtag'; bar.insertBefore(badge, bar.firstChild); }
+    if(badge){ badge.textContent=L('hiddenTag'); badge.style.display=isHid?'':'none'; }
   }
 
   /* ==== Reihenfolge: Kacheln hoch/runter schieben (R4), in Firestore-Doc <seite>#__order gemerkt ==== */
@@ -184,10 +203,11 @@
   }
 
   function renderTile(el){
-    var cid=el.getAttribute('data-cid'), doc=DATA[cid];
-    if(doc && doc.deleted){ el.style.display='none'; return; }
+    var cid=el.getAttribute('data-cid'), doc=DATA[cid]||{};
+    if(doc.deleted){ el.style.display='none'; return; }
+    if(doc.hidden && !r4Active()){ el.style.display='none'; return; }   // ausgeblendet: R3/Vorschau sehen es nicht
     el.style.display='';
-    if(doc){
+    if(hasContent(doc)){
       if(isNav(el)){
         // Navigations-Kachel: Link + „Öffnen →" behalten, nur Titel/Text ersetzen (1. Zeile = Titel)
         var go=el.querySelector('.go'), goHTML=go?go.outerHTML:'';
@@ -211,6 +231,7 @@
     Object.keys(DATA).forEach(function(cid){
       var doc=DATA[cid]; if(!doc.added || doc.deleted) return;
       if(cid.indexOf(pageKey+'#')!==0) return;   // NUR Kacheln DIESER Seite anzeigen (Fix: Kachel blieb sonst auf allen Seiten)
+      if(doc.hidden && !r4Active()){ var exH=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(exH) exH.style.display='none'; return; }
       var isCollap=(doc.type==='collapsible');
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
       if(!el){ el=document.createElement('div'); el.className='card'; el.setAttribute('data-cid',cid);
@@ -227,6 +248,7 @@
     Object.keys(DATA).forEach(function(cid){
       var doc=DATA[cid]; if(doc.type!=='pagelink' || doc.deleted) return;
       if(cid.indexOf(pageKey+'#')!==0) return;
+      if(doc.hidden && !r4Active()){ var exP=document.querySelector('[data-cid="'+cssq(cid)+'"]'); if(exP) exP.style.display='none'; return; }
       var el=document.querySelector('[data-cid="'+cssq(cid)+'"]');
       if(!el){ el=document.createElement('div'); el.setAttribute('data-cid',cid);
         if(wrapEl){ var ft=wrapEl.querySelector('footer'); wrapEl.insertBefore(el, ft||null); } }
@@ -248,7 +270,8 @@
 
   function relabelBtns(){ var a=document.getElementById('c-add'); if(a)a.textContent=L('add'); var c=document.getElementById('c-addcollap'); if(c)c.textContent=L('addcollap'); var p=document.getElementById('c-addpage'); if(p)p.textContent=L('addpage'); }
   function addButton(){
-    if(!isR4() || !wrapEl) return;
+    if(!wrapEl) return;
+    if(!r4Active()){ ['c-add','c-addcollap','c-addpage'].forEach(function(id){ var b=document.getElementById(id); if(b) b.remove(); }); return; }
     var anchor=wrapEl.querySelector('header');
     function place(btn, afterEl){ if(afterEl && afterEl.insertAdjacentElement) afterEl.insertAdjacentElement('afterend', btn); else if(anchor && anchor.insertAdjacentElement) anchor.insertAdjacentElement('afterend', btn); else wrapEl.insertBefore(btn, wrapEl.firstChild); }
     if(!document.getElementById('c-add')){
@@ -341,6 +364,14 @@
     });
   }
 
+  /* Ausblenden/Einblenden: setzt nur das Feld hidden (Inhalt bleibt, rein umschaltbar). */
+  function toggleHide(el){
+    var cid=el.getAttribute('data-cid'), prev=DATA[cid]||{}, nd={};
+    Object.keys(prev).forEach(function(k){ nd[k]=prev[k]; });
+    nd.cid=cid; nd.hidden=!prev.hidden; nd.editor=editorName(); nd.tms=Date.now();
+    save(cid, nd, function(){});
+  }
+
   function removeTile(el){
     var cid=el.getAttribute('data-cid'), prev=DATA[cid]||{};
     if(!confirm(L('confirmDel'))) return;
@@ -363,6 +394,20 @@
     else { cb(true); }
   }
 
+  /* ==== R3-Vorschau-Taste — sitzt beim Sprachschalter (#langtoggle), nur echtes R4 sieht sie ==== */
+  function syncPreviewBtn(b){ b=b||document.getElementById('c-preview'); if(!b) return; var on=previewOn();
+    b.textContent=on?('● '+L('previewOff')):('👁 '+L('previewOn')); b.title=on?L('previewOff'):L('previewOn'); b.classList.toggle('on',on); }
+  function mountPreview(){
+    if(!isR4()){ var ex=document.getElementById('c-preview'); if(ex) ex.remove(); return; }
+    var host=document.getElementById('langtoggle'); if(!host){ setTimeout(mountPreview,150); return; }   // wartet auf lang.js
+    var b=document.getElementById('c-preview');
+    if(!b){ b=document.createElement('button'); b.id='c-preview'; b.type='button'; b.className='c-preview';
+      host.insertBefore(b, host.firstChild);
+      b.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); setPreview(!previewOn()); }); }
+    syncPreviewBtn(b);
+  }
+  function setPreview(on){ try{ if(on) sessionStorage.setItem('s1l_preview','1'); else sessionStorage.removeItem('s1l_preview'); }catch(e){} render(); addButton(); mountPreview(); }
+
   function loadScript(src,cb){ var s=document.createElement('script'); s.src=src; s.onload=cb; s.onerror=cb; document.head.appendChild(s); }
   function initFb(done){
     if(typeof firebase!=='undefined') return done();
@@ -370,11 +415,11 @@
       loadScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js",done); });
   }
   function boot(){
-    prepare(); render(); addButton();
-    document.addEventListener('s1l:lang', function(){ render(); relabelBtns(); });   // doc-Kacheln + R4-Buttons in neuer Sprache; Rest macht lang.js
+    prepare(); render(); addButton(); mountPreview();
+    document.addEventListener('s1l:lang', function(){ render(); relabelBtns(); mountPreview(); });   // doc-Kacheln + R4-Buttons in neuer Sprache; Rest macht lang.js
     initFb(function(){ try{ if(typeof firebase!=='undefined'){ if(!firebase.apps.length) firebase.initializeApp(FB);
       col=firebase.firestore().collection('content');
-      col.onSnapshot(function(s){ DATA={}; s.forEach(function(d){ DATA[d.id]=d.data()||{}; }); render(); addButton(); },
+      col.onSnapshot(function(s){ DATA={}; s.forEach(function(d){ DATA[d.id]=d.data()||{}; }); render(); addButton(); mountPreview(); },
         function(){ col=null; }); } }catch(e){ col=null; } });
   }
   if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
