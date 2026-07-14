@@ -8,17 +8,18 @@
    verfügbare gezeigt — TR/RU fallen auf EN, dann DE. So bleibt nie etwas leer, solange
    die TR/RU-Texte noch nicht überall ergänzt sind. Standardsprache = Deutsch. */
 (function(){
-  var LANGS=['de','en','fr','it','es','tr','ru'];
-  var LABEL={de:'DE',en:'EN',fr:'FR',it:'IT',es:'ES',tr:'TR',ru:'RU'};
+  var LANGS=['de','en','fr','it','es','pt','tr','ru'];
+  var LABEL={de:'DE',en:'EN',fr:'FR',it:'IT',es:'ES',pt:'PT',tr:'TR',ru:'RU'};
   /* Reihenfolge der Fallbacks je gewählter Sprache */
   var PRIO={
-    de:['de','en','fr','it','es','tr','ru'],
-    en:['en','de','fr','it','es','tr','ru'],
-    fr:['fr','en','de','it','es','tr','ru'],
-    it:['it','en','de','fr','es','tr','ru'],
-    es:['es','en','de','fr','it','tr','ru'],
-    tr:['tr','en','de','fr','it','es','ru'],
-    ru:['ru','en','de','fr','it','es','tr']
+    de:['de','en','fr','it','es','pt','tr','ru'],
+    en:['en','de','fr','it','es','pt','tr','ru'],
+    fr:['fr','en','de','it','es','pt','tr','ru'],
+    it:['it','en','de','fr','es','pt','tr','ru'],
+    es:['es','pt','en','de','fr','it','tr','ru'],
+    pt:['pt','es','en','de','fr','it','tr','ru'],
+    tr:['tr','en','de','fr','it','es','pt','ru'],
+    ru:['ru','en','de','fr','it','es','pt','tr']
   };
 
   function lcode(el){
@@ -75,7 +76,7 @@
     var hl=document.querySelector('#langtoggle .langhandle-lbl'); if(hl) hl.textContent=LABEL[l]||String(l).toUpperCase();
     /* „Ungeprüft"-Hinweis: erscheint NUR für TR/RU (maschinell übersetzt, von Muttersprachlern zu prüfen). */
     var note=document.getElementById('langnote');
-    if(note){ var NT={tr:'⚠️ Makine çevirisi — henüz doğrulanmadı.', ru:'⚠️ Машинный перевод — ещё не проверено.', fr:'⚠️ Traduction automatique — non vérifiée.', it:'⚠️ Traduzione automatica — non verificata.', es:'⚠️ Traducción automática — sin verificar.'};
+    if(note){ var NT={tr:'⚠️ Makine çevirisi — henüz doğrulanmadı.', ru:'⚠️ Машинный перевод — ещё не проверено.', fr:'⚠️ Traduction automatique — non vérifiée.', it:'⚠️ Traduzione automatica — non verificata.', es:'⚠️ Traducción automática — sin verificar.', pt:'⚠️ Tradução automática — não verificada.'};
       if(NT[l]){ note.textContent=NT[l]; note.removeAttribute('hidden'); } else { note.setAttribute('hidden',''); } }
     /* Tool-Seiten (Raid/Templates) hören darauf, um ihren JS-Generator mitzuschalten. */
     try{ document.dispatchEvent(new CustomEvent('s1l:lang',{detail:l})); }catch(e){}
