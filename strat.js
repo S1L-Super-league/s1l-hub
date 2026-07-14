@@ -78,7 +78,7 @@ var STRAT={
     ru:"Городской дуэль против вражеского альянса - бьём вместе!\n#080 Бьём вместе, пока город не станет НАШИМ\n#080 Потом все шлют войска на 30 мин в оборону - так останется нашим\n#080 Только первый захват даёт мгновенные очки, повторный - нет, не тратьте Gem\n#080 Когда зовёт R4, приходите на точку сбора" }
   ],
   belagerung:[ { id:"bela-halten", prio:true, tags:{de:["Halten","Schild","Rollen"],en:["Hold","Shield","Roles"],tr:["Tut","Shield","Roller"],ru:["Удержание","Shield","Роли"]},
-    de:"Allianzbelagerung - Arcadia + 4 Tuerme halten, gemeinsam stark!\n#080 T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion)\n#080 60 Sek Halten = 10.000 Punkte - Dauerbesetzung schlaegt Kills\n#080 Schild-Disziplin; Hospital/Enlistment vorher leeren",
+    de:"Eroberung von Arcadia - Arcadia + 4 Tuerme halten, gemeinsam stark!\n#080 T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion)\n#080 60 Sek Halten = 10.000 Punkte - Dauerbesetzung schlaegt Kills\n#080 Schild-Disziplin; Hospital/Enlistment vorher leeren",
     en:"Arcadian Conquest - hold Arcadia + 4 towers, strong together!\n#080 Relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction)\n#080 60 sec held = 10,000 points - continuous occupation beats kills\n#080 Shield discipline; empty hospital/enlistment beforehand",
     tr:"Arcadian Conquest - Arcadia + 4 kuleyi tut, birlikte gucluyuz!\n#080 T-50'de birlikte isinlan, rolleri dagit (Arcadia tutucular, kule ekipleri, reaksiyon)\n#080 60 sn tutmak = 10.000 puan - surekli isgal kill'leri yener\n#080 Shield disiplini; Hospital/Enlistment'i onceden bosalt",
     ru:"Arcadian Conquest - удерживай Arcadia + 4 башни, вместе сильны!\n#080 Телепорт вместе на T-50, распределите роли (держатели Arcadia, команды башен, реакция)\n#080 60 сек удержания = 10.000 очков - постоянное удержание сильнее киллов\n#080 Дисциплина Shield; заранее очистить Hospital/Enlistment" } ]
@@ -170,7 +170,7 @@ var STRAT_EV={
   loewe:{emo:"🦁",name:{de:"Ghulöwe",en:"Ghoulion",tr:"Ghoulion",ru:"Ghoulion"}},
   reservoir:{emo:"🐟",name:{de:"Reservoir Raid",en:"Reservoir Raid",tr:"Reservoir Raid",ru:"Reservoir Raid"}},
   stadt:{emo:"🌃",name:{de:"Stadtduell",en:"City Duel",tr:"City Duel",ru:"City Duel"}},
-  belagerung:{emo:"👑",name:{de:"Allianzbelagerung",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest"}}
+  belagerung:{emo:"👑",name:{de:"Eroberung von Arcadia",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest"}}
 };
 
 /* Tag-Labels je Sprache: x.tags kann Array (alt) ODER {de,en,tr,ru} sein. */
