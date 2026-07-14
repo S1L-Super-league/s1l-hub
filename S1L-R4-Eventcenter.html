@@ -259,12 +259,15 @@ function stratHead(k,id){ var x=stratObj(k,id); if(!x) return ""; var tg=stratTa
 
 /* ===== Zustand ===== */
 var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0, rolledFor:"", zt:{start:"",ende:"",base:"DE",mode:"normal"} };
+/* Dauerhaft laufende Events: Allianzduell (duell), Power Play (power), Turbo-Schildkröte (turbo) → immer aktiv. */
+var ALWAYS_ON=['duell','power','turbo'];
 function baseFor(k){ var typ=EV[k].typ;
   if(typ==='nap') return {imChat:false,list:[{wer:"",wo:""}]};
   if(typ==='gw') return {imChat:true,len:"kurz",tzs:false};
-  return {laeuft:false,imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE",tzs:false}; }
+  return {laeuft:(ALWAYS_ON.indexOf(k)>=0),imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE",tzs:false}; }
 function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')||'{}'); if(s.ev)ST.ev=s.ev; if(s.order)ST.order=s.order; if(s.view)ST.view=s.view; if(s.live)ST.live=s.live; if(s.rolledFor)ST.rolledFor=s.rolledFor; if(s.zt){ for(var zp in s.zt){ ST.zt[zp]=s.zt[zp]; } } }catch(e){} ST.rollOffset=0;
   DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
+  ALWAYS_ON.forEach(function(k){ if(ST.ev[k]) ST.ev[k].laeuft=true; });   // dauerhaft aktive Events immer auf „Läuft"
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
   ST.order=ST.order.filter(function(k){ return EV[k]; }); }
 function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(ST)); }catch(e){} }
