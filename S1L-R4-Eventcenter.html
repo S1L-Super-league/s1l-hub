@@ -275,6 +275,13 @@ function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(S
 function syncNap(){ try{ if(typeof firebase==='undefined'||!firebase.apps.length) return;
   var e=ST.ev.nap, list=((e&&e.list)||[]).map(function(it){ return {wer:(it.wer||''),wo:(it.wo||'')}; }).filter(function(x){ return x.wer||x.wo; });
   firebase.firestore().collection('hubinfo').doc('nap').set({ list:list, tms:Date.now(), editor:(function(){ try{ return sessionStorage.getItem('s1l_r4_name')||'R4'; }catch(e){ return 'R4'; } })() }); }catch(e){} }
+/* NAP beim Start aus der DB laden (DB = Wahrheit) → verhindert, dass ein alter lokaler Stand die geteilte Liste überschreibt. */
+function loadNapFromDB(tries){ tries=tries||0;
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){ if(tries<40) setTimeout(function(){ loadNapFromDB(tries+1); },250); return; }
+  try{ firebase.firestore().collection('hubinfo').doc('nap').get().then(function(d){
+    if(!d.exists) return; var o=d.data()||{}; var list=((o.list)||[]).map(function(it){ return {wer:(it.wer||''),wo:(it.wo||'')}; });
+    if(list.length){ if(!ST.ev.nap) ST.ev.nap=baseFor('nap'); ST.ev.nap.list=list; save(); renderAll(); }
+  }).catch(function(){}); }catch(e){} }
 
 /* „vorbei": Termin-Event mit Endzeit, deren UTC-Ende heute schon vergangen ist */
 function isOver(k){ if(rollOff()!==0) return false; var e=ST.ev[k]; if(EV[k].typ!=='termin'||!e.ende) return false;
@@ -571,6 +578,7 @@ function boot(){ load(); maybeRoll();
   document.getElementById('briefCopy').onclick=function(){ copyClip(viewText(buildBriefing()), this); };
   document.addEventListener('s1l:lang', function(){ renderAll(); });
   if(window.S1LStrat) window.S1LStrat.init(renderAll);   // DB-Strategien laden + bei Änderung neu rendern
+  loadNapFromDB();   // geteilte NAP-Liste aus der DB übernehmen (DB = Wahrheit)
 }
 function waitContent(){ var c=document.getElementById('content'); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
 if(document.readyState!=='loading') waitContent(); else document.addEventListener('DOMContentLoaded', waitContent);
