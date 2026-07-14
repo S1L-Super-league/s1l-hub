@@ -16,7 +16,9 @@ var ALLOWED = [
   "52c2b66e319c7e64ac77bcb9e935999b4e44df10b15cd4525378901ee084beb9", // bismillah
   "8ddfe0d79f4fae0500570111d9c724975c4785625310e9bb907bf5842e6a199d", // drdr387 (R3 — nur S1L, kein R4)
   "6946908a32e018b9f21b25a42d8de1dbcc34713c196fdd7ea7bf969d822c939b", // shadow (R3 — nur S1L, kein R4)
-  "24f9bbecbf1ca2c56bdd692373c19b779643a99ae917cf6f9178374d277efe45"  // blümchen (reguläres Mitglied — nur S1L, kein R4; hinzugefügt 22.06.2026)
+  "24f9bbecbf1ca2c56bdd692373c19b779643a99ae917cf6f9178374d277efe45", // blümchen (reguläres Mitglied — nur S1L, kein R4; hinzugefügt 22.06.2026)
+  "f46f09ca848b5bd2d17520ebca8ba30418695ccddb0a9664f4b308a2eb3493a6", // lili (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
+  "3290b4ad79f601ef6de3bdae0cb81be958ab8b08b43e94bfb6a99551cfe3fb2c"  // jcarvalho (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
 ];
 
 function sha256js(ascii){
