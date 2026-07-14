@@ -220,7 +220,7 @@
     for(var i=0;i<7;i++){ var dd=new Date(mon); dd.setDate(mon.getDate()+i); var x=midOf(dd); var di=ENGINE.duelInfo(x);
       var isToday=(x===todayMid); var g=gwStr(x); var g2=gw2Str(x);
       var duelCell = di.day ? ('T'+di.day+' '+THEME[l][di.key]) : T[l].ruhe;
-      var gwCell = (g!=null ? g : (di.day===5?T[l].none5:(di.day===6?T[l].none6:T[l].none))) + (g2!=null ? '<br><span style="opacity:.85">🐲 '+g2+'</span>' : '');
+      var gwCell = (g!=null ? g : T[l].none) + (g2!=null ? '<br><span style="opacity:.85">🐲 '+g2+'</span>' : '');   // kein GW → nur „—" (auch Fr/Sa, ohne Erklärtext)
       var trAttr = di.day
         ? ' style="cursor:pointer'+(isToday?';background:rgba(202,138,4,.12)':'')+'" title="'+(l==='de'?'Zum Tag':l==='en'?'Open day':l==='tr'?'Güne git':l==='fr'?'Voir le jour':l==='it'?'Vai al giorno':l==='es'?'Ir al día':l==='pt'?'Ver o dia':'К дню')+'" onclick="location.href=\'S1L-Event-Allianzduell.html#tag'+di.day+'\'"'
         : (isToday?' style="background:rgba(202,138,4,.12)"':'');
