@@ -335,3 +335,13 @@ pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); borde
   white-space:pre-wrap; word-break:break-word; font-family:"Segoe UI", system-ui, -apple-system, Verdana, Arial, sans-serif; font-size:.95rem; }
 .copybtn{ border:0; background:var(--c-duell); color:#fff; font-weight:700; padding:8px 14px; border-radius:9px; cursor:pointer; font-size:.85rem; }
 .copybtn.ok{ background:var(--t-fix); }
+
+/* Strategie-Feld (oben, R4) + Mitglieder-Leseansicht (Emoji-Version) */
+.plstratbox{ background:rgba(37,99,235,.06); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:0 0 14px; }
+.plstrat-l{ display:block; font-weight:700; font-size:.9rem; margin-bottom:6px; color:var(--muted); }
+.plstrat{ width:100%; resize:vertical; font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
+.plread{ border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin:9px 0; background:var(--card); }
+.plread-h{ font-weight:800; margin-bottom:4px; }
+.plread pre.block{ margin:0; }
+
+.plhid{ font-size:.85rem; opacity:.8; }
