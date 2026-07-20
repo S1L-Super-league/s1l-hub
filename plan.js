@@ -18,24 +18,29 @@
   var TRANSLATE_URL="https://s1l-translate.jacqueline-lex.workers.dev";
   var LANGS=['de','en','fr','it','es','pt','tr','ru'];
 
+  /* Spiel-Emoji-Codes (wie im Eventcenter). Der Spiel-Chat rendert diese Codes als Emojis.
+     → Kopiert wird IMMER der Code; die Vorschau zeigt via toEmoji() das lesbare Emoji. */
+  var EMO={ "#190":"📣","#189":"✅","#188":"❌","#176":"⚔️","#167":"🚨","#163":"🏆","#170":"📍","#093":"👑","#098":"🦁","#117":"🐟","#169":"🌃","#078":"💪","#079":"🤝","#080":"🤘","#074":"👍" };
+  function toEmoji(s){ return String(s==null?'':s).replace(/#\d{3}/g,function(m){ return EMO[m]||m; }); }
+
   /* ---------- Wörterbuch (Oberfläche) ---------- */
   var T={
     de:{h:"Aufstellungen",tpl:"Vorlagen",newtpl:"Neue Vorlage",newtplq:"Wie soll die Vorlage heißen? (z. B. Arcadia)",empty:"Noch keine Vorlage. R4 kann oben eine anlegen.",noneSel:"Wähle links eine Vorlage.",stand:"Stand",never:"noch leer",runde:"Neue Runde",rundeq:"Neue Runde starten? Der jetzige Stand wird im Verlauf gesichert und als Startpunkt übernommen.",felder:"Felder",verlauf:"Verlauf",save:"Speichern",saved:"✓ gespeichert & für alle sichtbar",savefail:"Konnte nicht speichern (offline oder keine R4-Rechte).",saving:"speichere & übersetze …",addsec:"+ Abschnitt",addblk:"+ Block",addper:"+ Person",free:"— Freitext —",none:"— leer —",del:"löschen",delq:"Wirklich entfernen?",up:"nach oben",down:"nach unten",copy:"📋 Abschnitt kopieren",copydiff:"📋 Nur Änderungen",copied:"✓ kopiert",nodiff:"Seit der letzten Runde hat sich nichts geändert.",mine:"⭐ Dein Einsatz",notyou:"Du bist in dieser Vorlage nicht eingeteilt.",onlyr4:"Bearbeiten kann nur R4.",r4hint:"Du bist als R4 angemeldet — du kannst bearbeiten.",src:"Stand",cloud:"live (für alle)",local:"nur lokal (nicht gespeichert)",changed:"geändert",fieldname:"Feldname",fieldtype:"Typ",addfield:"+ Feld",opts:"Auswahl-Möglichkeiten (mit Komma trennen)",blkname:"Name des Blocks",secname:"Name des Abschnitts",roster:"Mitgliederliste",rosterhint:"Ein Gamertag pro Zeile. Füttert alle Vorlagen.",sendhint:"Senden in den Spiel-Chat machst du selbst.",histempty:"Noch kein Verlauf.",restore:"als Startpunkt laden",restoreq:"Diesen alten Stand als Startpunkt laden? Der jetzige Stand wird vorher gesichert.",
-      ty_text:"Freitext kurz",ty_longtext:"Freitext lang",ty_person:"Eine Person",ty_people:"Personen-Liste",ty_check:"Häkchen",ty_select:"Auswahl"},
+      ty_text:"Freitext kurz",ty_longtext:"Freitext lang",ty_person:"Eine Person",ty_people:"Personen-Liste",ty_check:"Häkchen",ty_select:"Auswahl",chat:"Chat-Text (nur R4)",chathint:"Fertige Nachricht je Abschnitt — nach dem Bearbeiten „aktualisieren“, dann kopieren und selbst in den Spiel-Chat einfügen.",chatupd:"🔄 aktualisieren",chars:"Zeichen",copy2:"Kopieren",codehint:"Emoji-Codes wie #117 werden im Spiel-Chat zu Emojis. Kopiert wird der Code, nicht das Bild."},
     en:{h:"Line-ups",tpl:"Templates",newtpl:"New template",newtplq:"What should the template be called? (e.g. Arcadia)",empty:"No template yet. R4 can create one above.",noneSel:"Pick a template on the left.",stand:"As of",never:"still empty",runde:"New round",rundeq:"Start a new round? The current state is saved to the history and carried over as the starting point.",felder:"Fields",verlauf:"History",save:"Save",saved:"✓ saved & visible to all",savefail:"Could not save (offline or no R4 rights).",saving:"saving & translating …",addsec:"+ Section",addblk:"+ Block",addper:"+ Person",free:"— Free text —",none:"— empty —",del:"delete",delq:"Really remove?",up:"move up",down:"move down",copy:"📋 Copy section",copydiff:"📋 Changes only",copied:"✓ copied",nodiff:"Nothing has changed since the last round.",mine:"⭐ Your assignment",notyou:"You are not assigned in this template.",onlyr4:"Only R4 can edit.",r4hint:"You are signed in as R4 — you can edit.",src:"Status",cloud:"live (for all)",local:"local only (not saved)",changed:"changed",fieldname:"Field name",fieldtype:"Type",addfield:"+ Field",opts:"Choices (separate with commas)",blkname:"Block name",secname:"Section name",roster:"Member list",rosterhint:"One gamertag per line. Feeds every template.",sendhint:"Sending to the game chat is up to you.",histempty:"No history yet.",restore:"load as starting point",restoreq:"Load this old state as the starting point? The current state is saved first.",
-      ty_text:"Short free text",ty_longtext:"Long free text",ty_person:"One person",ty_people:"People list",ty_check:"Checkbox",ty_select:"Choice"},
+      ty_text:"Short free text",ty_longtext:"Long free text",ty_person:"One person",ty_people:"People list",ty_check:"Checkbox",ty_select:"Choice",chat:"Chat text (R4 only)",chathint:"Ready message per section — after editing hit “update”, then copy and paste it into the game chat yourself.",chatupd:"🔄 update",chars:"chars",copy2:"Copy",codehint:"Emoji codes like #117 turn into emojis in the game chat. The code is copied, not the picture."},
     fr:{h:"Formations",tpl:"Modèles",newtpl:"Nouveau modèle",newtplq:"Comment nommer le modèle ? (p. ex. Arcadia)",empty:"Aucun modèle. R4 peut en créer un ci-dessus.",noneSel:"Choisis un modèle à gauche.",stand:"État",never:"encore vide",runde:"Nouveau tour",rundeq:"Démarrer un nouveau tour ? L'état actuel est archivé et repris comme point de départ.",felder:"Champs",verlauf:"Historique",save:"Enregistrer",saved:"✓ enregistré et visible par tous",savefail:"Impossible d'enregistrer (hors ligne ou pas de droits R4).",saving:"enregistrement et traduction …",addsec:"+ Section",addblk:"+ Bloc",addper:"+ Personne",free:"— Texte libre —",none:"— vide —",del:"supprimer",delq:"Vraiment supprimer ?",up:"monter",down:"descendre",copy:"📋 Copier la section",copydiff:"📋 Changements seulement",copied:"✓ copié",nodiff:"Rien n'a changé depuis le dernier tour.",mine:"⭐ Ton affectation",notyou:"Tu n'es pas affecté dans ce modèle.",onlyr4:"Seul R4 peut modifier.",r4hint:"Tu es connecté en R4 — tu peux modifier.",src:"État",cloud:"en direct (pour tous)",local:"local uniquement (non enregistré)",changed:"modifié",fieldname:"Nom du champ",fieldtype:"Type",addfield:"+ Champ",opts:"Choix (séparés par des virgules)",blkname:"Nom du bloc",secname:"Nom de la section",roster:"Liste des membres",rosterhint:"Un gamertag par ligne. Alimente tous les modèles.",sendhint:"L'envoi dans le chat du jeu, c'est toi qui le fais.",histempty:"Pas encore d'historique.",restore:"charger comme point de départ",restoreq:"Charger cet ancien état comme point de départ ? L'état actuel est archivé avant.",
-      ty_text:"Texte libre court",ty_longtext:"Texte libre long",ty_person:"Une personne",ty_people:"Liste de personnes",ty_check:"Case à cocher",ty_select:"Choix"},
+      ty_text:"Texte libre court",ty_longtext:"Texte libre long",ty_person:"Une personne",ty_people:"Liste de personnes",ty_check:"Case à cocher",ty_select:"Choix",chat:"Texte de chat (R4 seulement)",chathint:"Message prêt par section — après édition, clique sur « actualiser », puis copie et colle-le toi-même dans le chat du jeu.",chatupd:"🔄 actualiser",chars:"caractères",copy2:"Copier",codehint:"Les codes emoji comme #117 deviennent des emojis dans le chat du jeu. C'est le code qui est copié, pas l'image."},
     it:{h:"Formazioni",tpl:"Modelli",newtpl:"Nuovo modello",newtplq:"Come si chiama il modello? (es. Arcadia)",empty:"Nessun modello. R4 può crearne uno qui sopra.",noneSel:"Scegli un modello a sinistra.",stand:"Stato",never:"ancora vuoto",runde:"Nuovo turno",rundeq:"Avviare un nuovo turno? Lo stato attuale viene archiviato e ripreso come punto di partenza.",felder:"Campi",verlauf:"Cronologia",save:"Salva",saved:"✓ salvato e visibile a tutti",savefail:"Impossibile salvare (offline o senza diritti R4).",saving:"salvataggio e traduzione …",addsec:"+ Sezione",addblk:"+ Blocco",addper:"+ Persona",free:"— Testo libero —",none:"— vuoto —",del:"elimina",delq:"Rimuovere davvero?",up:"su",down:"giù",copy:"📋 Copia sezione",copydiff:"📋 Solo modifiche",copied:"✓ copiato",nodiff:"Nulla è cambiato dall'ultimo turno.",mine:"⭐ Il tuo incarico",notyou:"Non sei assegnato in questo modello.",onlyr4:"Solo R4 può modificare.",r4hint:"Sei connesso come R4 — puoi modificare.",src:"Stato",cloud:"live (per tutti)",local:"solo locale (non salvato)",changed:"modificato",fieldname:"Nome del campo",fieldtype:"Tipo",addfield:"+ Campo",opts:"Opzioni (separate da virgole)",blkname:"Nome del blocco",secname:"Nome della sezione",roster:"Elenco membri",rosterhint:"Un gamertag per riga. Alimenta tutti i modelli.",sendhint:"L'invio nella chat di gioco lo fai tu.",histempty:"Ancora nessuna cronologia.",restore:"carica come punto di partenza",restoreq:"Caricare questo stato come punto di partenza? Lo stato attuale viene prima archiviato.",
-      ty_text:"Testo libero breve",ty_longtext:"Testo libero lungo",ty_person:"Una persona",ty_people:"Elenco di persone",ty_check:"Casella",ty_select:"Scelta"},
+      ty_text:"Testo libero breve",ty_longtext:"Testo libero lungo",ty_person:"Una persona",ty_people:"Elenco di persone",ty_check:"Casella",ty_select:"Scelta",chat:"Testo chat (solo R4)",chathint:"Messaggio pronto per sezione — dopo la modifica premi «aggiorna», poi copia e incollalo tu nella chat di gioco.",chatupd:"🔄 aggiorna",chars:"caratteri",copy2:"Copia",codehint:"I codici emoji come #117 diventano emoji nella chat di gioco. Viene copiato il codice, non l'immagine."},
     es:{h:"Formaciones",tpl:"Plantillas",newtpl:"Nueva plantilla",newtplq:"¿Cómo se llama la plantilla? (p. ej. Arcadia)",empty:"Aún no hay plantillas. R4 puede crear una arriba.",noneSel:"Elige una plantilla a la izquierda.",stand:"Estado",never:"aún vacío",runde:"Nueva ronda",rundeq:"¿Iniciar una nueva ronda? El estado actual se archiva y se toma como punto de partida.",felder:"Campos",verlauf:"Historial",save:"Guardar",saved:"✓ guardado y visible para todos",savefail:"No se pudo guardar (sin conexión o sin permisos R4).",saving:"guardando y traduciendo …",addsec:"+ Sección",addblk:"+ Bloque",addper:"+ Persona",free:"— Texto libre —",none:"— vacío —",del:"eliminar",delq:"¿Eliminar de verdad?",up:"subir",down:"bajar",copy:"📋 Copiar sección",copydiff:"📋 Solo cambios",copied:"✓ copiado",nodiff:"Nada ha cambiado desde la última ronda.",mine:"⭐ Tu asignación",notyou:"No estás asignado en esta plantilla.",onlyr4:"Solo R4 puede editar.",r4hint:"Estás conectado como R4 — puedes editar.",src:"Estado",cloud:"en vivo (para todos)",local:"solo local (no guardado)",changed:"cambiado",fieldname:"Nombre del campo",fieldtype:"Tipo",addfield:"+ Campo",opts:"Opciones (separadas por comas)",blkname:"Nombre del bloque",secname:"Nombre de la sección",roster:"Lista de miembros",rosterhint:"Un gamertag por línea. Alimenta todas las plantillas.",sendhint:"Enviar al chat del juego lo haces tú.",histempty:"Aún no hay historial.",restore:"cargar como punto de partida",restoreq:"¿Cargar este estado antiguo como punto de partida? El estado actual se archiva antes.",
-      ty_text:"Texto libre corto",ty_longtext:"Texto libre largo",ty_person:"Una persona",ty_people:"Lista de personas",ty_check:"Casilla",ty_select:"Opción"},
+      ty_text:"Texto libre corto",ty_longtext:"Texto libre largo",ty_person:"Una persona",ty_people:"Lista de personas",ty_check:"Casilla",ty_select:"Opción",chat:"Texto de chat (solo R4)",chathint:"Mensaje listo por sección — tras editar pulsa «actualizar», luego cópialo y pégalo tú en el chat del juego.",chatupd:"🔄 actualizar",chars:"caracteres",copy2:"Copiar",codehint:"Los códigos de emoji como #117 se convierten en emojis en el chat del juego. Se copia el código, no la imagen."},
     pt:{h:"Formações",tpl:"Modelos",newtpl:"Novo modelo",newtplq:"Como se chama o modelo? (p. ex. Arcadia)",empty:"Ainda não há modelos. R4 pode criar um acima.",noneSel:"Escolhe um modelo à esquerda.",stand:"Estado",never:"ainda vazio",runde:"Nova ronda",rundeq:"Iniciar uma nova ronda? O estado atual é arquivado e assumido como ponto de partida.",felder:"Campos",verlauf:"Histórico",save:"Guardar",saved:"✓ guardado e visível para todos",savefail:"Não foi possível guardar (offline ou sem permissões R4).",saving:"a guardar e traduzir …",addsec:"+ Secção",addblk:"+ Bloco",addper:"+ Pessoa",free:"— Texto livre —",none:"— vazio —",del:"eliminar",delq:"Remover mesmo?",up:"subir",down:"descer",copy:"📋 Copiar secção",copydiff:"📋 Só alterações",copied:"✓ copiado",nodiff:"Nada mudou desde a última ronda.",mine:"⭐ A tua atribuição",notyou:"Não estás atribuído neste modelo.",onlyr4:"Só o R4 pode editar.",r4hint:"Estás autenticado como R4 — podes editar.",src:"Estado",cloud:"ao vivo (para todos)",local:"apenas local (não guardado)",changed:"alterado",fieldname:"Nome do campo",fieldtype:"Tipo",addfield:"+ Campo",opts:"Opções (separadas por vírgulas)",blkname:"Nome do bloco",secname:"Nome da secção",roster:"Lista de membros",rosterhint:"Um gamertag por linha. Alimenta todos os modelos.",sendhint:"Enviar para o chat do jogo és tu que fazes.",histempty:"Ainda sem histórico.",restore:"carregar como ponto de partida",restoreq:"Carregar este estado antigo como ponto de partida? O estado atual é arquivado antes.",
-      ty_text:"Texto livre curto",ty_longtext:"Texto livre longo",ty_person:"Uma pessoa",ty_people:"Lista de pessoas",ty_check:"Caixa",ty_select:"Escolha"},
+      ty_text:"Texto livre curto",ty_longtext:"Texto livre longo",ty_person:"Uma pessoa",ty_people:"Lista de pessoas",ty_check:"Caixa",ty_select:"Escolha",chat:"Texto de chat (só R4)",chathint:"Mensagem pronta por secção — depois de editar clica em «atualizar», depois copia e cola tu no chat do jogo.",chatupd:"🔄 atualizar",chars:"caracteres",copy2:"Copiar",codehint:"Os códigos de emoji como #117 tornam-se emojis no chat do jogo. É copiado o código, não a imagem."},
     tr:{h:"Dizilimler",tpl:"Şablonlar",newtpl:"Yeni şablon",newtplq:"Şablonun adı ne olsun? (örn. Arcadia)",empty:"Henüz şablon yok. R4 yukarıdan oluşturabilir.",noneSel:"Soldan bir şablon seç.",stand:"Durum",never:"hâlâ boş",runde:"Yeni tur",rundeq:"Yeni tur başlatılsın mı? Mevcut durum geçmişe kaydedilir ve başlangıç noktası olarak devralınır.",felder:"Alanlar",verlauf:"Geçmiş",save:"Kaydet",saved:"✓ kaydedildi & herkese görünür",savefail:"Kaydedilemedi (çevrimdışı veya R4 yetkisi yok).",saving:"kaydediliyor ve çevriliyor …",addsec:"+ Bölüm",addblk:"+ Blok",addper:"+ Kişi",free:"— Serbest metin —",none:"— boş —",del:"sil",delq:"Gerçekten kaldırılsın mı?",up:"yukarı",down:"aşağı",copy:"📋 Bölümü kopyala",copydiff:"📋 Sadece değişiklikler",copied:"✓ kopyalandı",nodiff:"Son turdan beri hiçbir şey değişmedi.",mine:"⭐ Senin görevin",notyou:"Bu şablonda görevlendirilmedin.",onlyr4:"Sadece R4 düzenleyebilir.",r4hint:"R4 olarak giriş yaptın — düzenleyebilirsin.",src:"Durum",cloud:"canlı (herkese)",local:"sadece yerel (kaydedilmedi)",changed:"değişti",fieldname:"Alan adı",fieldtype:"Tür",addfield:"+ Alan",opts:"Seçenekler (virgülle ayır)",blkname:"Blok adı",secname:"Bölüm adı",roster:"Üye listesi",rosterhint:"Satır başına bir gamertag. Tüm şablonları besler.",sendhint:"Oyun sohbetine göndermeyi sen yaparsın.",histempty:"Henüz geçmiş yok.",restore:"başlangıç noktası olarak yükle",restoreq:"Bu eski durum başlangıç noktası olarak yüklensin mi? Mevcut durum önce kaydedilir.",
-      ty_text:"Kısa serbest metin",ty_longtext:"Uzun serbest metin",ty_person:"Bir kişi",ty_people:"Kişi listesi",ty_check:"Onay kutusu",ty_select:"Seçim"},
+      ty_text:"Kısa serbest metin",ty_longtext:"Uzun serbest metin",ty_person:"Bir kişi",ty_people:"Kişi listesi",ty_check:"Onay kutusu",ty_select:"Seçim",chat:"Sohbet metni (sadece R4)",chathint:"Bölüm başına hazır mesaj — düzenledikten sonra «güncelle»ye bas, sonra kopyalayıp oyun sohbetine kendin yapıştır.",chatupd:"🔄 güncelle",chars:"karakter",copy2:"Kopyala",codehint:"#117 gibi emoji kodları oyun sohbetinde emojiye dönüşür. Resim değil, kod kopyalanır."},
     ru:{h:"Расстановки",tpl:"Шаблоны",newtpl:"Новый шаблон",newtplq:"Как назвать шаблон? (напр. Arcadia)",empty:"Шаблонов пока нет. R4 может создать выше.",noneSel:"Выбери шаблон слева.",stand:"Состояние",never:"пока пусто",runde:"Новый раунд",rundeq:"Начать новый раунд? Текущее состояние сохранится в истории и станет отправной точкой.",felder:"Поля",verlauf:"История",save:"Сохранить",saved:"✓ сохранено и видно всем",savefail:"Не удалось сохранить (офлайн или нет прав R4).",saving:"сохраняю и перевожу …",addsec:"+ Раздел",addblk:"+ Блок",addper:"+ Участник",free:"— Свой текст —",none:"— пусто —",del:"удалить",delq:"Точно удалить?",up:"вверх",down:"вниз",copy:"📋 Копировать раздел",copydiff:"📋 Только изменения",copied:"✓ скопировано",nodiff:"С прошлого раунда ничего не изменилось.",mine:"⭐ Твоя задача",notyou:"В этом шаблоне ты не назначен.",onlyr4:"Редактировать может только R4.",r4hint:"Ты вошёл как R4 — можешь редактировать.",src:"Статус",cloud:"live (для всех)",local:"только локально (не сохранено)",changed:"изменено",fieldname:"Название поля",fieldtype:"Тип",addfield:"+ Поле",opts:"Варианты (через запятую)",blkname:"Название блока",secname:"Название раздела",roster:"Список участников",rosterhint:"По одному гамертегу в строке. Питает все шаблоны.",sendhint:"Отправку в игровой чат делаешь ты сам.",histempty:"Истории пока нет.",restore:"загрузить как отправную точку",restoreq:"Загрузить это старое состояние как отправную точку? Текущее состояние сначала сохранится.",
-      ty_text:"Короткий текст",ty_longtext:"Длинный текст",ty_person:"Один участник",ty_people:"Список участников",ty_check:"Галочка",ty_select:"Выбор"}
+      ty_text:"Короткий текст",ty_longtext:"Длинный текст",ty_person:"Один участник",ty_people:"Список участников",ty_check:"Галочка",ty_select:"Выбор",chat:"Текст для чата (только R4)",chathint:"Готовое сообщение по разделу — после правок нажми «обновить», затем скопируй и вставь в игровой чат сам.",chatupd:"🔄 обновить",chars:"симв.",copy2:"Копировать",codehint:"Коды эмодзи вроде #117 превращаются в эмодзи в игровом чате. Копируется код, а не картинка."}
   };
   var TYPES=['text','longtext','person','people','check','select'];
 
@@ -69,7 +74,7 @@
     var fCrew={id:'fc',typ:'people',label:{orig:'Truppe',lang:'de',de:'Truppe',en:'Crew',fr:'Équipe',it:'Squadra',es:'Tropa',pt:'Tropa',tr:'Birlik',ru:'Отряд'}};
     function blk(name,lead,task,crew){ var w={}; w.fl=lead; w.ft={orig:task,lang:'de',de:task}; w.fc=crew;
       return {id:uid('b'),name:{orig:name,lang:'de',de:name},w:w}; }
-    return { key:'rr', ord:0,
+    return { key:'rr', ord:0, mark:'#117',
       titel:{orig:'Reservoir Raid',lang:'de',de:'Reservoir Raid',en:'Reservoir Raid',fr:'Reservoir Raid',it:'Reservoir Raid',es:'Reservoir Raid',pt:'Reservoir Raid',tr:'Reservoir Raid',ru:'Reservoir Raid'},
       felder:[fLead,fTask,fCrew],
       abschnitte:[
@@ -215,13 +220,52 @@
     return h+'</div>';
   }
   function viewSection(doc,sec,idx){
+    /* Mitglieder-Ansicht = reine Info (kein Kopieren — das ist R4-Sache). */
     var h='<div class="plsec"><div class="plsec-h">'+esc(L(sec.name))+'</div>';
     (sec.bloecke||[]).forEach(function(b){ h+=viewBlock(doc,sec,b); });
-    h+='<div class="plbar">'
-      +'<button type="button" class="plbtn" data-act="copy" data-sec="'+idx+'">'+esc(t('copy'))+'</button>'
-      +'<button type="button" class="plbtn" data-act="copydiff" data-sec="'+idx+'">'+esc(t('copydiff'))+'</button>'
-      +'</div></div>';
-    return h;
+    return h+'</div>';
+  }
+
+  /* ---------- Chat-Text (nur R4) — GLEICHE Bau-Logik wie Eventcenter/rr.js ----------
+     Block:  🏭 <Name>  (<Anführer-Label>: X)  [ 📣 falls Häkchen an]
+             • <Person aus Personen-Liste>
+             <Freitext-Zeilen>
+     Nachricht je Abschnitt, Header „<Emoji> S1L — <Titel> · <Abschnitt>",
+     900-Zeichen-Limit mit (1/2)-Splitting (wie rr.js messages()). */
+  var CHATLIM=900;
+  function blockLines(doc,b){
+    var head='#170 '+L(b.name), flag='', body=[];   /* #170 = 📍 im Spiel */
+    doc.felder.forEach(function(f){
+      var v=b.w?b.w[f.id]:null;
+      if(f.typ==='person'){ if(v) head+='  ('+L(f.label)+': '+v+')'; }
+      else if(f.typ==='select'){ if(v) head+='  ('+L(f.label)+': '+v+')'; }
+      else if(f.typ==='check'){ if(v) flag+=' #190'; }   /* #190 = 📣 im Spiel */
+      else if(f.typ==='people'){ (v||[]).forEach(function(n){ if(n) body.push('• '+n); }); }
+      else { var s=L(v); if(s) body.push(s); }
+    });
+    return [head+flag].concat(body).join('\n');
+  }
+  function blockEmpty(doc,b){ return !L(b.name) && blockLines(doc,b).indexOf('\n')<0; }
+  function messages(doc){
+    var mark=doc.mark||'', out=[];
+    (doc.abschnitte||[]).forEach(function(sec){
+      var header=(mark?mark+' ':'')+'S1L — '+L(doc.titel)+' · '+L(sec.name);
+      var blocks=(sec.bloecke||[]).filter(function(b){ return !blockEmpty(doc,b); }).map(function(b){ return blockLines(doc,b); });
+      if(!blocks.length){ out.push({title:L(sec.name),text:header}); return; }
+      var chunks=[], chunk=[header];
+      blocks.forEach(function(blk){
+        var tentative=chunk.concat(['',blk]).join('\n');
+        if(tentative.length>CHATLIM && chunk.length>1){ chunks.push(chunk); chunk=[header]; }
+        chunk.push(''); chunk.push(blk);
+      });
+      chunks.push(chunk);
+      chunks.forEach(function(c,i){
+        var part=chunks.length>1?(' ('+(i+1)+'/'+chunks.length+')'):'';
+        var txt=c.join('\n'); if(part) txt=txt.replace(header,header+part);
+        out.push({title:L(sec.name)+part,text:txt});
+      });
+    });
+    return out;
   }
 
   /* ---------- Bearbeiten ---------- */
@@ -270,7 +314,7 @@
       +'<button type="button" class="plmini" data-act="sdown" title="'+esc(t('down'))+'">▼</button>'
       +'<button type="button" class="plmini" data-act="sdel" title="'+esc(t('del'))+'">🗑</button></span></div>';
     (sec.bloecke||[]).forEach(function(b,bi){ h+=editBlock(doc,b,si,bi); });
-    h+='<button type="button" class="plbtn" data-act="addblk" data-si="'+si+'">'+esc(t('addblk'))+'</button></div>';
+    h+='<div class="plbar"><button type="button" class="plbtn" data-act="addblk" data-si="'+si+'">'+esc(t('addblk'))+'</button></div></div>';
     return h;
   }
   function fieldEditor(doc){
@@ -305,6 +349,23 @@
     return h+'</div></details>';
   }
 
+  var chatMsgs=[];   /* zuletzt erzeugte Nachrichten (roh, mit Spiel-Codes) — für exaktes Kopieren */
+  function chatArea(doc){
+    chatMsgs=messages(doc);
+    var h='<div class="plchat"><h3 class="plchat-h">'+esc(t('chat'))+'</h3>'
+      +'<p class="plhint">'+esc(t('chathint'))+'</p>'
+      +'<p class="plhint">'+esc(t('codehint'))+'</p>'
+      +'<div class="plbar"><button type="button" class="plbtn" data-act="chatrefresh">'+esc(t('chatupd'))+'</button></div>';
+    chatMsgs.forEach(function(mm,i){
+      var n=mm.text.length;   /* Zeichenzahl = roher Text (das, was ins Spiel geht) */
+      h+='<div class="live-blk"><div class="hd">'+esc(mm.title)
+        +' <span class="cnt'+(n>CHATLIM?' warn':'')+'">'+n+' '+esc(t('chars'))+(n>CHATLIM?' ⚠️':'')+'</span></div>'
+        +'<pre class="block">'+esc(toEmoji(mm.text))+'</pre>'
+        +'<button type="button" class="copybtn" data-act="chatcopy" data-mi="'+i+'">📋 '+esc(t('copy2'))+'</button></div>';
+    });
+    return h+'</div>';
+  }
+
   /* ---------- Rendern ---------- */
   function render(){
     if(!root) return;
@@ -335,6 +396,7 @@
         (doc.abschnitte||[]).forEach(function(sec,si){ main+=editSection(doc,sec,si); });
         main+='<div class="plbar"><button type="button" class="plbtn" data-act="addsec">'+esc(t('addsec'))+'</button>'
           +'<button type="button" class="plbtn save" data-act="save">'+esc(t('save'))+'</button></div>';
+        main+=chatArea(doc);
         main+='<p class="plhint">'+esc(t('sendhint'))+'</p>';
       } else {
         (doc.abschnitte||[]).forEach(function(sec,si){ main+=viewSection(doc,sec,si); });
@@ -441,7 +503,7 @@
       var name=window.prompt(t('newtplq'),''); if(!name||!name.trim()) return;
       var key=name.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||uid('v');
       if(DOCS[key]){ sel=key; render(); return; }
-      var d=demo(); d.key=key; d.abschnitte=[]; d.historie=[]; d.vor=null; d.ausgabe=today();
+      var d=demo(); d.key=key; d.abschnitte=[]; d.historie=[]; d.vor=null; d.ausgabe=today(); d.mark='';
       d.titel={orig:name.trim(),lang:lang()}; d.titel[lang()]=name.trim();
       d.ord=keys().length;
       DOCS[key]=d; sel=key; msg=t('saving'); render();
@@ -451,13 +513,17 @@
     }
     if(!doc) return;
 
-    if(act==='copy'||act==='copydiff'){
-      var sec=doc.abschnitte[+b.getAttribute('data-sec')]; if(!sec) return;
-      var txt=sectionText(doc,sec,act==='copydiff');
-      if(!txt){ msg=t('nodiff'); render(); return; }
-      copy(txt,b); return;
+    if(act==='chatcopy'){
+      /* kopiert den ROHEN Text MIT Spiel-Codes (#117 …), nicht die lesbare Emoji-Vorschau */
+      var mi=+b.getAttribute('data-mi'); var mm=chatMsgs[mi];
+      if(mm) copy(mm.text,b); return;
     }
     if(!r4Active()) return;
+
+    if(act==='chatrefresh'){
+      /* ungespeicherte Formular-Eingaben übernehmen (synchron), dann Chat-Text neu bauen */
+      harvestInto(DOCS[sel]); render(); return;
+    }
 
     if(act==='save'){ doSave(); return; }
     if(act==='runde'){ neueRunde(); return; }
@@ -563,5 +629,5 @@
     try{ window.addEventListener('storage',function(ev){ if(ev.key==='s1l_lang') render(); }); }catch(e){}
   }
 
-  window.S1LPLAN={ mount:mount, _demo:demo, _sectionText:sectionText, _blockChanged:blockChanged, _docs:DOCS };
+  window.S1LPLAN={ mount:mount, _demo:demo, _messages:messages, _blockChanged:blockChanged, _docs:DOCS };
 })();

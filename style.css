@@ -323,3 +323,15 @@ footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px so
 .rrsrc{ font-size:.74rem; border-radius:999px; padding:1px 8px; border:1px solid var(--line); }
 .rrsrc.on{ color:#16a34a; border-color:#16a34a; }
 .rrsrc.off{ color:var(--muted); }
+
+/* Chat-Text im R4-Bereich (Format wie Eventcenter) */
+.plchat{ margin-top:18px; border-top:2px dashed var(--line); padding-top:12px; }
+.plchat-h{ font-size:1.1rem; margin:.2em 0 .4em; }
+.live-blk{ border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:9px 0; background:var(--card); }
+.live-blk .hd{ font-weight:800; display:flex; align-items:center; gap:8px; }
+.cnt{ font-size:.78rem; font-weight:700; color:var(--muted); }
+.cnt.warn{ color:#dc2626; }
+pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0;
+  white-space:pre-wrap; word-break:break-word; font-family:"Segoe UI", system-ui, -apple-system, Verdana, Arial, sans-serif; font-size:.95rem; }
+.copybtn{ border:0; background:var(--c-duell); color:#fff; font-weight:700; padding:8px 14px; border-radius:9px; cursor:pointer; font-size:.85rem; }
+.copybtn.ok{ background:var(--t-fix); }
