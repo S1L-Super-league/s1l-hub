@@ -266,3 +266,60 @@ footer{ color:var(--muted); font-size:.85rem; margin-top:44px; border-top:1px so
 .rrbn{ flex:1; min-width:180px; }
 .rrx,.rrxb{ font:inherit; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--muted); border-radius:8px; padding:2px 9px; }
 .rrx:hover,.rrxb:hover{ color:#dc2626; border-color:#dc2626; }
+
+/* ============ Aufstellungs-Vorlagen (plan.js) ============ */
+.plgrid{ display:grid; grid-template-columns:220px minmax(0,1fr); gap:16px; }
+@media(max-width:640px){ .plgrid{ grid-template-columns:1fr; } }
+.plside{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px; align-self:start; }
+.plside-h{ font-size:.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:8px; }
+.pltpl{ display:block; width:100%; text-align:left; background:var(--bg); border:1px solid var(--line); border-radius:10px;
+  padding:8px 10px; margin-bottom:6px; cursor:pointer; color:var(--ink); font:inherit; }
+.pltpl.on{ border-color:var(--c-duell); border-width:2px; }
+.pltpl-n{ display:block; font-weight:700; }
+.pltpl-s{ display:block; font-size:.78rem; color:var(--muted); }
+.plmain{ min-width:0; }
+.plhead{ display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
+.plttl{ font-size:1.3rem; font-weight:800; }
+.plsub{ font-size:.82rem; color:var(--muted); }
+.plmine{ background:rgba(37,99,235,.08); border:1px solid rgba(37,99,235,.3); border-radius:12px; padding:10px 13px; margin:0 0 14px; }
+.plmine.none{ color:var(--muted); font-size:.9rem; background:transparent; border-style:dashed; }
+.plmine ul{ margin:.35em 0 0; padding-left:1.2em; }
+.plsec{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin:0 0 14px; }
+.plsec-h{ font-weight:800; font-size:1.05rem; margin-bottom:8px; display:flex; gap:8px; align-items:center; }
+.plsec-h input{ flex:1; }
+.plblk{ background:rgba(125,125,160,.06); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0; }
+.plblk.chg{ border-left:4px solid var(--c-season); }
+.plblk-h{ font-weight:700; margin-bottom:6px; display:flex; gap:8px; align-items:center; }
+.plblk-h input{ flex:1; }
+.plchg{ font-size:.72rem; font-weight:700; color:var(--c-season); border:1px solid var(--c-season); border-radius:999px; padding:0 7px; }
+.plrow{ display:flex; flex-wrap:wrap; gap:6px 10px; align-items:baseline; padding:4px 0; }
+.plrow.edit{ align-items:flex-start; }
+.pllbl{ color:var(--muted); font-size:.85rem; min-width:92px; font-weight:600; }
+.plval{ flex:1; min-width:180px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.plval .plv, .plval .plsel, .plval textarea, .plval input[type=text]{ font:inherit; padding:6px 8px; border:1px solid var(--line);
+  border-radius:8px; background:var(--bg); color:var(--ink); }
+.plval textarea.plv{ width:100%; resize:vertical; }
+.plval input[type=text].plv, .plval select.plv, .plval select.plsel{ min-width:130px; }
+.plpeople{ display:flex; flex-direction:column; gap:6px; width:100%; }
+.plprow{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pltools{ display:inline-flex; gap:3px; }
+.plmini{ font:inherit; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink);
+  border-radius:7px; padding:3px 8px; font-size:.8rem; }
+.plmini.add{ margin-top:2px; }
+.plbtn{ font:inherit; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink);
+  border-radius:9px; padding:7px 13px; font-weight:600; }
+.plbtn.save{ background:#16a34a; color:#fff; border-color:#16a34a; }
+.plbar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:8px; }
+.plfields{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:6px 12px; margin:0 0 12px; }
+.plfields summary{ cursor:pointer; font-weight:700; padding:4px 0; }
+.plfwrap{ padding:8px 0; }
+.plfrow{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:4px 0; }
+.plflbl{ min-width:120px; }
+.plfrow input[type=text], .plfrow select, .plroster{ font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
+.plfopt{ flex:1; min-width:160px; }
+.plroster{ width:100%; resize:vertical; }
+.plhint{ color:var(--muted); font-size:.84rem; margin:.3em 0; }
+.plmsg{ font-size:.88rem; font-weight:600; color:var(--c-duell); }
+.rrsrc{ font-size:.74rem; border-radius:999px; padding:1px 8px; border:1px solid var(--line); }
+.rrsrc.on{ color:#16a34a; border-color:#16a34a; }
+.rrsrc.off{ color:var(--muted); }

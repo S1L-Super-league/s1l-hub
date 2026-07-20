@@ -90,6 +90,8 @@ var ALLOWED = [
   "a785055538949ac1c04d47e3adad21e7aafd7b0e3f095c3259cde22c9ba20846", // ROYAL MOOD (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
   "629e92dd256b4f34cab0a956c5b94782815b27fea8effa7aefeeb0c223fb6340", // KAIJAX (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
   "1d25276f043d76fd486862d69ed0591873ef9d3d44cca80326972e4ff8c31fe6", // Bodzio 73 (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
+  "4946cf631a27d9c4fdd35dcc4f59501faa641092edc06bd4411d35d6f8fc52c2", // Meshman (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
+  "cdc92e28f453d897a833857095102daba17902fb9c8491586ef906343092de29", // TITAN (R3 — nur S1L, kein R4; hinzugefügt 14.07.2026)
 ];
 
 function sha256js(ascii){

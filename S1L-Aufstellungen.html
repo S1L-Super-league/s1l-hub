@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="de"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aufstellungen — S1L Info-Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-noreview="">
+
+<div id="gate" role="dialog" aria-label="Anmelden">
+  <div class="box">
+    <h1>🔒 S1L Info-Hub</h1>
+    <p><span class="lng-de">Nur für [S1L]-Mitglieder. Bitte Spielername und Passwort eingeben.</span><span class="lng-en">Members only [S1L]. Please enter your player name and password.</span><span class="lng-fr">Réservé aux membres [S1L]. Merci de saisir ton nom de joueur et ton mot de passe.</span><span class="lng-it">Solo per i membri [S1L]. Inserisci il tuo nome giocatore e la password.</span><span class="lng-es">Solo para miembros [S1L]. Introduce tu nombre de jugador y tu contraseña.</span><span class="lng-pt">Apenas para membros [S1L]. Introduz o teu nome de jogador e a palavra-passe.</span><span class="lng-tr">Sadece [S1L] üyeleri için. Lütfen oyuncu adınızı ve şifrenizi girin.</span><span class="lng-ru">Только для участников [S1L]. Пожалуйста, введите имя игрока и пароль.</span></p>
+    <label for="nm" style="position:absolute;left:-9999px"><span class="lng-de">Spielername</span><span class="lng-en">Player name</span><span class="lng-fr">Nom de joueur</span><span class="lng-it">Nome giocatore</span><span class="lng-es">Nombre de jugador</span><span class="lng-pt">Nome do jogador</span><span class="lng-tr">Oyuncu adı</span><span class="lng-ru">Имя игрока</span></label>
+    <input id="nm" type="text" autocomplete="off" placeholder="Dein Spielername">
+    <label for="pw" style="position:absolute;left:-9999px"><span class="lng-de">Passwort</span><span class="lng-en">Password</span><span class="lng-fr">Mot de passe</span><span class="lng-it">Password</span><span class="lng-es">Contraseña</span><span class="lng-pt">Palavra-passe</span><span class="lng-tr">Şifre</span><span class="lng-ru">Пароль</span></label>
+    <input id="pw" type="password" autocomplete="off" placeholder="Passwort" style="margin-top:10px">
+    <button id="go" type="button"><span class="lng-de">Anmelden</span><span class="lng-en">Sign in</span><span class="lng-fr">Se connecter</span><span class="lng-it">Accedi</span><span class="lng-es">Iniciar sesión</span><span class="lng-pt">Iniciar sessão</span><span class="lng-tr">Giriş yap</span><span class="lng-ru">Войти</span></button>
+    <div class="err" id="err" role="alert"></div>
+    <p style="margin-top:14px;font-size:.9rem"><a href="S1L-R4.html"><span class="lng-de">🛡️ R4? Hier mit R4-Login anmelden →</span><span class="lng-en">🛡️ R4? Sign in with your R4 login →</span><span class="lng-fr">🛡️ R4 ? Connecte-toi ici avec ton login R4 →</span><span class="lng-it">🛡️ R4? Accedi qui con il tuo login R4 →</span><span class="lng-es">🛡️ ¿R4? Inicia sesión aquí con tu login R4 →</span><span class="lng-pt">🛡️ R4? Inicia sessão aqui com o teu login R4 →</span><span class="lng-tr">🛡️ R4? R4 girişinle bağlan →</span><span class="lng-ru">🛡️ R4? Войти через R4-логин →</span></a></p>
+  </div>
+</div>
+
+<div id="content" hidden="">
+<div class="wrap">
+  <a class="back" href="index.html"><span class="lng-de">← Zurück zum Hub</span><span class="lng-en">← Back to Hub</span><span class="lng-fr">← Retour au Hub</span><span class="lng-it">← Torna al Hub</span><span class="lng-es">← Volver al Hub</span><span class="lng-pt">← Voltar ao Hub</span><span class="lng-tr">← Hub'a geri dön</span><span class="lng-ru">← Назад в Hub</span></a>
+  <header>
+    <h1>🗂️ <span class="lng-de">Aufstellungen</span><span class="lng-en">Line-ups</span><span class="lng-fr">Formations</span><span class="lng-it">Formazioni</span><span class="lng-es">Formaciones</span><span class="lng-pt">Formações</span><span class="lng-tr">Dizilimler</span><span class="lng-ru">Расстановки</span></h1>
+    <p class="lead"><span class="lng-de">Eine Vorlage je Event. R4 baut Felder selbst, trägt ein, wer wo steht — der Stand bleibt bis zur nächsten Runde.</span><span class="lng-en">One template per event. R4 builds the fields, enters who stands where — the state stays until the next round.</span><span class="lng-fr">Un modèle par événement. R4 crée les champs, saisit qui est où — l'état reste jusqu'au prochain tour.</span><span class="lng-it">Un modello per evento. R4 crea i campi, inserisce chi sta dove — lo stato resta fino al turno successivo.</span><span class="lng-es">Una plantilla por evento. R4 crea los campos, indica quién está dónde — el estado permanece hasta la próxima ronda.</span><span class="lng-pt">Um modelo por evento. R4 cria os campos, indica quem está onde — o estado mantém-se até à próxima ronda.</span><span class="lng-tr">Etkinlik başına bir şablon. R4 alanları oluşturur, kimin nerede olduğunu girer — durum bir sonraki tura kadar kalır.</span><span class="lng-ru">Один шаблон на событие. R4 создаёт поля, вносит, кто где — состояние сохраняется до следующего раунда.</span></p>
+  </header>
+
+  <div id="plan"></div>
+
+  <footer><span class="lng-de">S1L Info-Hub · Aufstellungen · modulare Vorlagen · Stufe-1-Gamertags · Senden macht R4 selbst.</span><span class="lng-en">S1L Info-Hub · Line-ups · modular templates · tier-1 gamertags · R4 sends manually.</span><span class="lng-fr">S1L Info-Hub · Formations · modèles modulaires · gamertags niveau 1 · l'envoi est fait par R4.</span><span class="lng-it">S1L Info-Hub · Formazioni · modelli modulari · gamertag livello 1 · l'invio lo fa R4.</span><span class="lng-es">S1L Info-Hub · Formaciones · plantillas modulares · gamertags nivel 1 · el envío lo hace R4.</span><span class="lng-pt">S1L Info-Hub · Formações · modelos modulares · gamertags nível 1 · o envio é feito pelo R4.</span><span class="lng-tr">S1L Info-Hub · Dizilimler · modüler şablonlar · seviye 1 gamertag · gönderimi R4 yapar.</span><span class="lng-ru">S1L Info-Hub · Расстановки · модульные шаблоны · гамертеги уровня 1 · отправку делает R4.</span></footer>
+</div>
+</div>
+
+<script src="auth.js"></script>
+<script src="lang.js"></script>
+<script src="plan.js"></script>
+<script src="banner.js"></script>
+<script>
+(function(){
+  function boot(){ var el=document.getElementById('plan'); if(el&&window.S1LPLAN) window.S1LPLAN.mount(el); }
+  if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
+})();
+</script>
+
+</body></html>
