@@ -28,6 +28,7 @@
   <header>
     <h1>💬 <span class="lng-de">R4Board</span><span class="lng-en">R4Board</span><span class="lng-fr">R4Board</span><span class="lng-it">R4Board</span><span class="lng-es">R4Board</span><span class="lng-pt">R4Board</span><span class="lng-tr">R4Board</span><span class="lng-ru">R4Board</span></h1>
     <p class="lead"><span class="lng-de">Schreiben & Bilder posten — bleibt für alle R4 sichtbar. Ältere Beiträge werden automatisch aufgeräumt.</span><span class="lng-en">Write & post images — stays visible for all R4. Older posts are cleaned up automatically.</span><span class="lng-fr">Écrire & publier des images — reste visible pour tous les R4. Les anciens messages sont nettoyés automatiquement.</span><span class="lng-it">Scrivere & pubblicare immagini — resta visibile per tutti i R4. I messaggi più vecchi vengono rimossi automaticamente.</span><span class="lng-es">Escribir y publicar imágenes — permanece visible para todos los R4. Los mensajes antiguos se limpian automáticamente.</span><span class="lng-pt">Escrever & publicar imagens — permanece visível para todos os R4. As mensagens mais antigas são limpas automaticamente.</span><span class="lng-tr">Yazın ve resim paylaşın — tüm R4 için görünür kalır. Eski gönderiler otomatik olarak temizlenir.</span><span class="lng-ru">Пишите и публикуйте изображения — остаётся видимым для всех R4. Старые сообщения удаляются автоматически.</span></p>
+    <p class="lead" style="margin-top:6px"><span class="lng-de">Tipp: Mit <b>📌 „verfügbar lassen"</b> bleibt ein Beitrag dauerhaft — die 14-Tage-Frist startet erst neu, wenn du die Markierung wieder entfernst.</span><span class="lng-en">Tip: with <b>📌 “Keep available”</b> a post stays permanently — the 14-day timer only restarts once you remove the mark.</span><span class="lng-fr">Astuce : avec <b>📌 « Garder disponible »</b>, un message reste en permanence — le délai de 14 jours ne redémarre qu'une fois la marque retirée.</span><span class="lng-it">Consiglio: con <b>📌 «Mantieni disponibile»</b> un messaggio resta in modo permanente — il conto dei 14 giorni riparte solo quando togli il contrassegno.</span><span class="lng-es">Consejo: con <b>📌 «Mantener disponible»</b> una publicación permanece de forma permanente — el plazo de 14 días solo se reinicia cuando quitas la marca.</span><span class="lng-pt">Dica: com <b>📌 «Manter disponível»</b> uma mensagem permanece de forma permanente — o prazo de 14 dias só reinicia quando removes a marca.</span><span class="lng-tr">İpucu: <b>📌 „Kullanımda tut"</b> ile bir gönderi kalıcı olur — 14 günlük süre yalnızca işareti kaldırdığında yeniden başlar.</span><span class="lng-ru">Совет: с <b>📌 «Оставить доступным»</b> сообщение остаётся навсегда — отсчёт 14 дней начнётся заново только когда снимешь отметку.</span></p>
   </header>
 
   <!-- ===== Die Pinnwand (In-Hub, Firebase) ===== -->
@@ -130,9 +131,17 @@ function boardInit(){
     var taEl=document.getElementById('p-text'), cntEl=document.getElementById('p-count');
     if(taEl && cntEl){ var upd=function(){ var n=taEl.value.length; cntEl.textContent=n+' / 2000'; cntEl.style.color=(n>=2000?'var(--c-admin)':'var(--muted)'); }; taEl.addEventListener('input',upd); upd(); }
 
-    // Auto-Pruning: alte Beiträge entfernen
+    // Auto-Pruning: alte Beiträge entfernen — ABER "verfügbar lassen" (keep) schützt dauerhaft.
+    // Frist-Anker = ptms (fällt auf tms zurück). Beim Entfernen der Markierung wird ptms auf JETZT
+    // gesetzt -> die 14 Tage zählen ab da neu. Kandidaten holen wir per tms (immer vorhanden, auch
+    // bei Alt-Beiträgen ohne ptms); gelöscht wird nur, wenn NICHT gepinnt UND Anker älter als 14 Tage.
     var cutoff=Date.now()-PRUNE_DAYS*864e5;
-    col.where('tms','<',cutoff).get().then(function(s){ s.forEach(function(d){ d.ref.delete(); }); }).catch(function(){});
+    col.where('tms','<',cutoff).get().then(function(s){ s.forEach(function(d){
+      var p=d.data()||{};
+      if(p.keep) return;                                             // dauerhaft verfügbar -> nie auto-löschen
+      var anchor=(typeof p.ptms==='number'?p.ptms:p.tms)||0;         // Frist-Anker
+      if(anchor<cutoff) d.ref.delete();
+    }); }).catch(function(){});
 
     // Live-Anzeige (sprachreaktiv: zeigt den Beitrag in der eingestellten Hub-Sprache)
     var POSTS=[], SHOW_ORIG={};
@@ -150,7 +159,8 @@ function boardInit(){
       var html='';
       POSTS.forEach(function(p){
         var when=p.tms?new Date(p.tms).toLocaleString():'';
-        html+='<div class="card"><p><b>'+esc(p.name)+'</b> <span class="lead" style="font-size:.78em">'+when+'</span></p>';
+        var keptBadge=p.keep?' <span class="keepbadge" style="font-size:.72em;background:#fde68a;color:#92400e;border-radius:6px;padding:1px 7px;white-space:nowrap">📌 '+L('verfügbar','pinned','kalıcı','закреплено')+'</span>':'';
+        html+='<div class="card'+(p.keep?' kept':'')+'"><p><b>'+esc(p.name)+'</b> <span class="lead" style="font-size:.78em">'+when+'</span>'+keptBadge+'</p>';
         var body=pickBody(p);
         if(body) html+='<p>'+esc(body).replace(/\n/g,'<br>')+'</p>';
         if(hasTrans(p)){
@@ -158,7 +168,14 @@ function boardInit(){
           html+='<p style="margin:.1em 0"><a href="#" class="tgl" data-id="'+p.__id+'" style="color:var(--muted);font-size:.78em;text-decoration:none">🌐 '+lbl+'</a></p>';
         }
         if(p.img)  html+='<p><img src="'+p.img+'" alt="Bild" style="max-width:100%;border-radius:10px"></p>';
-        html+='<p><a href="#" class="del" data-id="'+p.__id+'" style="color:var(--c-admin);font-size:.82em;text-decoration:none">🗑 '+L('löschen','delete','sil','удалить')+'</a></p></div>';
+        var keepLbl=p.keep
+          ? ('🔓 '+L('Frist wieder starten (14 Tage)','Restart 14-day timer','14 günlük süreyi yeniden başlat','Запустить отсчёт 14 дней'))
+          : ('📌 '+L('verfügbar lassen','Keep available','Kullanımda tut','Оставить доступным'));
+        html+='<p style="margin:.2em 0 0">'
+          +'<a href="#" class="keep" data-id="'+p.__id+'" data-keep="'+(p.keep?'1':'0')+'" style="color:var(--muted);font-size:.82em;text-decoration:none">'+keepLbl+'</a>'
+          +' <span class="lead" style="font-size:.82em">·</span> '
+          +'<a href="#" class="del" data-id="'+p.__id+'" style="color:var(--c-admin);font-size:.82em;text-decoration:none">🗑 '+L('löschen','delete','sil','удалить')+'</a>'
+          +'</p></div>';
       });
       postsEl.innerHTML=html;
       var dels=postsEl.getElementsByClassName('del');
@@ -168,6 +185,15 @@ function boardInit(){
       var tgls=postsEl.getElementsByClassName('tgl');
       for(var j=0;j<tgls.length;j++){ tgls[j].addEventListener('click', function(e){
         e.preventDefault(); var id=this.getAttribute('data-id'); SHOW_ORIG[id]=!SHOW_ORIG[id]; renderPosts();
+      }); }
+      // "verfügbar lassen" an/aus. Anpinnen: keep=true (nie auto-löschen). Lösen: keep=false + ptms=jetzt
+      // -> die 14-Tage-Frist beginnt ab jetzt neu. onSnapshot rendert danach automatisch neu.
+      var keeps=postsEl.getElementsByClassName('keep');
+      for(var m=0;m<keeps.length;m++){ keeps[m].addEventListener('click', function(e){
+        e.preventDefault();
+        var id=this.getAttribute('data-id'), isKept=this.getAttribute('data-keep')==='1';
+        var upd=isKept?{ keep:false, ptms:Date.now() }:{ keep:true };
+        col.doc(id).update(upd).catch(function(err){ alert('Fehler: '+(err.code||err.message)); });
       }); }
     }
     col.orderBy('tms','desc').limit(MAX_SHOW).onSnapshot(function(snap){
@@ -187,7 +213,8 @@ function boardInit(){
       btn.disabled=true; btn.textContent='…';
       function reset(){ btn.disabled=false; btn.textContent=L('Posten','Post','Paylaş','Опубликовать'); }
       function finish(imgData, tr){
-        var doc={ name:name, text:text, img:imgData||'', tms:Date.now() };
+        var now=Date.now();
+        var doc={ name:name, text:text, img:imgData||'', tms:now, ptms:now };
         if(text){ doc.t_orig=text; if(tr){ doc.t_de=tr.de||''; doc.t_en=tr.en||''; doc.t_tr=tr.tr||''; doc.t_ru=tr.ru||''; } }
         col.add(doc).then(function(){
           document.getElementById('p-text').value=''; document.getElementById('p-img').value=''; reset();
