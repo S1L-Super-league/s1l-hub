@@ -125,6 +125,10 @@ async function hashInput(s){
 }
 function reveal(){ var g=document.getElementById('gate'), c=document.getElementById('content'); if(g) g.style.display='none'; if(c) c.hidden=false; }
 function s1lInit(){
+  /* ===== SEIT 17.08.2026 (Jacquelines Entscheid): Mitglieder-Hub OHNE Passwort. =====
+     Das Tor öffnet sofort für alle Besucher. Der R4-Bereich (auth-r4.js) bleibt geschützt.
+     Reaktivieren: die zwei Zeilen unten entfernen — der alte Login-Code ist unverändert erhalten. */
+  sessionStorage.setItem('s1l_ok','1'); reveal(); return;
   /* Wer als R4 angemeldet ist, ist automatisch auch fürs Mitglieder-Tor freigeschaltet (ein Login für alles). */
   if(sessionStorage.getItem('s1l_ok')==='1' || sessionStorage.getItem('s1l_r4_ok')==='1'){ sessionStorage.setItem('s1l_ok','1'); reveal(); return; }
   var go=document.getElementById('go'); if(!go) return;

@@ -8,16 +8,16 @@
    +Froschi, +Elsa; −Lady M, −Војвода, −bismillah (stehen nicht mehr im R4-Bereich). Gab3ssss-Schreibweise bestätigt (4x s).
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var R4_ALLOWED = [
-  "5cb12da49b65a3e3dc8a1e8c56492d7fe55a8a6d14281f85dbbe00e1feb9bf07", // kingeder
-  "9aea7ebeba24779dc7db134bb428dc552b58898bdff23f435758f5a61cab2594", // crexoog
-  "2fd6719e67998b69432938a72e0006c08b78522f04bb5f5defe66307b0a3652d", // hmx
-  "7e837083c68e26df18d872c16f18f09e28db7c2ca444f87d0a629ba5ecf7e081", // jac
-  "3ef5a8efcea34b84ab13d2e1b5c80415b5333b90a8b6e87a3b7fc79c1c9dea42", // ghob
-  "012479e27d0878955456a7c19c22bb686c6112e4edea558124c30e4ea4c64e86", // frenchy78
-  "714e26f9c145514c1791f34da513bc7ba7af3461ffb1681f79eb1662f60040af", // gab3ssss  (Schreibweise bestätigt: 4x s)
-  "b842d4318c8ec89d76756b3727742edb0524e84a9435ba818f29cbe3afe894dc", // froschi
-  "1236d29eecf61f5ff847f0fa2f03467880b8d8a9e391a53b50c65433abf863ba", // elsa
-  "775555b6aff87baa8d0e49adcf6e2ba54a2edb722758258ca49ed0d48416cf56"  // bendix_pl (BEnDIX_PL, zugelassen 09.07.)
+  "e994c837e798ff6f6e58d9579733759171f9e20a7f791d1d16e8170087e65838", // kingeder
+  "ddd54b31ccd8112bd940fc46fc4d426958fc1b4f4c10bc85907d8a12bd74729b", // crexoog
+  "fc6c219e256c806898fe96d3d7c6b150d05172934d99408e0bf71a571e768376", // hmx
+  "7601160efad98f702c48be3b356648870a2298bb823b611cc5c5216d1868ae75", // jac
+  "f9999752e7b6ff3603379461b162281e9ccdfa95cfe81288f9e91063ca2f65a3", // ghob
+  "a2f3fd238287dfcd5c1057beefcc7c94647d097b6b5757778245e9acbb7c68a4", // frenchy78
+  "a5053b1976bf77ccf7444d82fc1e2a5a9d69b0b26bf7d2f70e2eb3ae2683bffa", // gab3ssss
+  "c49d46a7451e3aec6028310aec1c6fa35e36685f2294ab7cdb0a3da2d68b6c40", // froschi
+  "d3af7e7134536bd27a5b43810eb347537f6c9adb1e03d757e68d20f4ec2bd717", // elsa
+  "9ac557b2b69c718c3a8e761eaf0768b3561ef65f78d6932ebbda53703748ee76"  // bendix_pl
 ];
 
 function sha256js(ascii){
