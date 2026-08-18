@@ -77,6 +77,11 @@ var STRAT={
     tr:"Dusman ittifakli sehir duellosu - birlikte vuralim!\n#080 Sehir BIZIM olana kadar birlikte vururuz\n#080 Sonra herkes 30 dk savunma icin birlik gonderir - boylece bizim kalir\n#080 Yalnizca ilk ele gecirme aninda puan verir, geri alma vermez - Gem harcamayin\n#080 R4 cagirinca lutfen rally noktasina gelin",
     ru:"Городской дуэль против вражеского альянса - бьём вместе!\n#080 Бьём вместе, пока город не станет НАШИМ\n#080 Потом все шлют войска на 30 мин в оборону - так останется нашим\n#080 Только первый захват даёт мгновенные очки, повторный - нет, не тратьте Gem\n#080 Когда зовёт R4, приходите на точку сбора" }
   ],
+  abschied:[ { id:"abschied-standard", prio:true, tags:{de:["Standard"],en:["Standard"],tr:["Standart"],ru:["Стандарт"]},
+    de:"#079 Danke fuer euren Einsatz - gemeinsam sind wir stark, stolz, mit euch zu kaempfen!\n#080 Nicht vergessen: bei allen Events immer auf den Allianz-Chat achten - Strategien können sich spontan ändern, R4 sagt Bescheid.",
+    en:"#079 Thank you for your effort - together we are strong, proud to fight alongside you!\n#080 Don't forget: always watch the alliance chat at every event - strategies can change at any time, R4 will tell you.",
+    tr:"#079 Emeginiz icin tesekkurler - birlikte gucluyuz, sizinle birlikte savasmaktan gurur duyuyorum!\n#080 Unutmayın: her etkinlikte her zaman ittifak sohbetini takip edin - stratejiler her an değişebilir, R4 haber verir.",
+    ru:"#079 Спасибо за ваш вклад - вместе мы сильны, горжусь тем, что сражаюсь вместе с вами!\n#080 Не забывайте: на всех событиях всегда следите за чатом альянса - стратегии могут в любой момент измениться, R4 сообщит." } ],
   oil:[ { id:"oil-ueberblick", prio:true, tags:{de:["Überblick"],en:["Overview"],tr:["Genel bakış"],ru:["Обзор"]},
     de:"Oil Clash - Fokus + Anker sparen!\n#080 Wenige WICHTIGE Stationen - nicht aufteilen\n#080 Haelfte der Tages-Maximalpunkte = Station gehoert UNS\n#080 Ohne Gegner KEINE Anker setzen - 100% staerkste Partei = sicher\n#080 Anker: +8/Tag (+10 mit Pass), max 15 - vor dem Refill auf 7 (5) runter\n#080 Die meisten Anker fuer den LETZTEN Tag aufheben",
     en:"Oil Clash - focus + save anchors!\n#080 Few IMPORTANT stations - do not spread out\n#080 Half of the daily max points = station is OURS\n#080 No enemy = NO anchors - 100% strongest party = secured\n#080 Anchors: +8/day (+10 with pass), max 15 - go below 7 (5) before refill\n#080 Save most anchors for the LAST day",
@@ -175,6 +180,7 @@ var STRAT_EV={
   loewe:{emo:"🦁",name:{de:"Ghulöwe",en:"Ghoulion",tr:"Ghoulion",ru:"Ghoulion"}},
   reservoir:{emo:"🐟",name:{de:"Reservoir Raid",en:"Reservoir Raid",tr:"Reservoir Raid",ru:"Reservoir Raid"}},
   stadt:{emo:"🌃",name:{de:"Stadtduell",en:"City Duel",tr:"City Duel",ru:"City Duel"}},
+  abschied:{emo:"👋",name:{de:"Verabschiedung",en:"Farewell",tr:"Veda",ru:"Прощание"}},
   oil:{emo:"🛢️",name:{de:"Ölkampf (Oil Clash)",en:"Oil Clash",tr:"Oil Clash",ru:"Oil Clash"}},
   belagerung:{emo:"👑",name:{de:"Eroberung von Arcadia",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest"}}
 };

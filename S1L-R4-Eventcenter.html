@@ -160,9 +160,10 @@ var EV={
  stadt:{emo:"🌃",mark:"#169",de:"Stadtkampf",en:"City Duel",fr:"City Duel",it:"City Duel",es:"City Duel",pt:"City Duel",tr:"City Duel",ru:"City Duel",typ:"termin"},
  oil:{emo:"🛢️",mark:"#171",de:"Ölkampf (Oil Clash)",en:"Oil Clash",fr:"Oil Clash",it:"Oil Clash",es:"Oil Clash",pt:"Oil Clash",tr:"Oil Clash",ru:"Oil Clash",typ:"termin"},
  belagerung:{emo:"👑",mark:"#093",de:"Eroberung von Arcadia",en:"Arcadian Conquest",fr:"Arcadian Conquest",it:"Arcadian Conquest",es:"Arcadian Conquest",pt:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest",typ:"termin"},
+ abschied:{emo:"👋",mark:"#079",de:"Verabschiedung",en:"Farewell",fr:"Conclusion",it:"Congedo",es:"Despedida",pt:"Despedida",tr:"Veda",ru:"Прощание",typ:"abschied"},
  nap:{emo:"🤝",mark:"#079",de:"Nichtangriffspakt (NAP)",en:"Non-aggression pact",fr:"Pacte de non-agression",it:"Patto di non aggressione",es:"Pacto de no agresión",pt:"Pacto de não agressão",tr:"Saldırmazlık paktı",ru:"Пакт о ненападении",typ:"nap"}
 };
-var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung","oil","nap"];
+var DEFAULT_ORDER=["duell","gw","power","turbo","loewe","reservoir","stadt","belagerung","oil","nap","abschied"];
 
 var LBL={ laeuft:{de:"Läuft",en:"Active",fr:"En cours",it:"In corso",es:"Activo",pt:"Ativo",tr:"Aktif",ru:"Активно"}, chat:{de:"Mitteilen",en:"Announce",fr:"Annoncer",it:"Annuncia",es:"Anunciar",pt:"Anunciar",tr:"Duyur",ru:"Сообщить"},
   none:{de:"— keine Strategie —",en:"— no strategy —",fr:"— pas de stratégie —",it:"— nessuna strategia —",es:"— sin estrategia —",pt:"— sem estratégia —",tr:"— strateji yok —",ru:"— без стратегии —"},
@@ -266,6 +267,7 @@ var ST={ ev:{}, order:DEFAULT_ORDER.slice(), view:"code", live:{}, rollOffset:0,
 /* Dauerhaft laufende Events: Allianzduell (duell), Power Play (power), Turbo-Schildkröte (turbo) → immer aktiv. */
 var ALWAYS_ON=['duell','power','turbo'];
 function baseFor(k){ var typ=EV[k].typ;
+  if(typ==='abschied') return {imChat:true,strat:"abschied-standard"};   /* Endzeilen: Standard = bisheriges Verhalten */
   if(typ==='nap') return {imChat:false,list:[{wer:"",wo:""}]};
   if(typ==='gw') return {imChat:true,len:"kurz",tzs:false};
   return {laeuft:(ALWAYS_ON.indexOf(k)>=0),imChat:false,strat:"",len:"kurz",start:"",ende:"",zbase:"DE",tzs:false}; }
@@ -316,6 +318,11 @@ function renderList(){
       });
       h+='</span>';
       h+='<button type="button" data-napadd="1">+ '+t(LBL.napAdd)+'</button>';
+    } else if(m.typ==='abschied'){
+      h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
+      h+='<select data-f="strat">'+stratOptions(k,e.strat)+'</select>';
+      h+=' <span class="ec-stratbtns"><button type="button" class="ec-sbtn" data-sedit="1" title="'+L("Verabschiedung bearbeiten","Edit farewell","Vedayı düzenle","Изм. прощание")+'">✏️</button><button type="button" class="ec-sbtn" data-snew="1" title="'+L("neue Verabschiedung","new farewell","yeni veda","новое прощание")+'">➕</button><button type="button" class="ec-sbtn" data-sdel="1" title="'+L("Verabschiedung löschen","delete farewell","vedayı sil","удалить прощание")+'">🗑</button></span>';
+      h+='<span class="ec-muted">'+L("Endzeilen von Briefing & Live-Ansagen","closing lines of briefing & live calls","brifing & canlı duyuru son satırları","финальные строки брифинга и live")+'</span>';
     } else if(m.typ==='gw'){
       h+='<label class="ec-sw"><input type="checkbox" data-f="imChat"'+(e.imChat?' checked':'')+'>'+t(LBL.chat)+'</label>';
       h+=lenSelect(k);
@@ -360,6 +367,7 @@ function renderList(){
 
 /* ===== Tagesbriefing ===== */
 function briefBlocks(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k]; if(!e||!m) return false;
+  if(m.typ==='abschied') return false;
   if(m.typ==='nap') return e.imChat && napHas(e);
   if(m.typ==='gw') return e.imChat && gwComputable();
   return e.laeuft && e.imChat && !isOver(k); }); }
@@ -386,6 +394,10 @@ function renderBriefing(){
     var k=b.closest('.brief-block').getAttribute('data-k'); var i=ST.order.indexOf(k); var dir=b.getAttribute('data-mv')==='up'?-1:1; var j=i+dir;
     if(j<0||j>=ST.order.length) return; var tmp=ST.order[i]; ST.order[i]=ST.order[j]; ST.order[j]=tmp; save(); renderAll(); }; });
 }
+/* Verabschiedung (Endzeilen) — waehlbar wie eine Strategie; "Standard" = bisherige zwei Zeilen */
+function abschiedText(){ var e=ST.ev.abschied; if(!e||!e.imChat) return "";
+  var s=(e.strat?stratFull('abschied',e.strat):""); if(s) return s;
+  return t(STDMOTIV)+"\n"+t(STDNOTE); }
 function buildBriefing(){
   var blocks=briefBlocks(); if(!blocks.length) return "";
   var focus=firstRealEvent(blocks), out=[], gw=gwWindow();
@@ -407,7 +419,7 @@ function buildBriefing(){
     }
   });
   if(out[0]==="———") out.shift();
-  out.push("———", t(STDMOTIV), t(STDNOTE));
+  var __ab=abschiedText(); if(__ab) out.push("———", __ab);
   return out.join("\n");
 }
 function renderBriefOut(){
@@ -419,7 +431,7 @@ function renderBriefOut(){
 }
 
 /* ===== Live-Ansagen (je Mitteilen-Event) ===== */
-function liveEvents(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k]; if(!e||!m) return false;   /* x-Events existieren erst nach DB-Antwort */
+function liveEvents(){ return ST.order.filter(function(k){ var e=ST.ev[k], m=EV[k]; if(!e||!m) return false;   /* x-Events existieren erst nach DB-Antwort */ if(m.typ==='abschied') return false;
   if(m.typ==='nap') return e.imChat && napHas(e);
   if(m.typ==='gw') return e.imChat && gwComputable();
   return e.laeuft && e.imChat; }); }
@@ -437,7 +449,7 @@ function buildLive(k){
   else if(s.zmode==='time'){ var uS=e.start?baseToUtc(e.start,e.zbase||'DE'):"", uE=e.ende?baseToUtc(e.ende,e.zbase||'DE'):"";
     if(uS) out.push("———","#167 ***** "+L("ZEIT","TIME","ZAMAN","ВРЕМЯ")+" ***** #167", tzBlock(uS,uE,e.tzs)); }
   if(s.inhalt==='strat'){ var st=e.strat?stratFull(k,e.strat):""; if(st) out.push("———","#176 ***** "+L("STRATEGIE","STRATEGY","STRATEJİ","СТРАТЕГИЯ")+" ***** #176", st); }
-  out.push("———", t(STDMOTIV), t(STDNOTE));
+  var __ab=abschiedText(); if(__ab) out.push("———", __ab);
   return out.join("\n");
 }
 function renderLive(){
