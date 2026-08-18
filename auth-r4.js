@@ -4,20 +4,20 @@
    + das R4-Passwort, das du SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
    Jeder Eintrag = SHA-256 von "spielername:passwort" — Name UND Passwort klein geschrieben
    (Login ist groß-/kleinschreibungs-unabhängig: Eingabe wird vor dem Hashen kleingeschrieben).
-   Stand 08.07.2026: R4-Kern (9) — Roster nach In-Game-Screenshot (Jac 08.07.):
-   +Froschi, +Elsa; −Lady M, −Војвода, −bismillah (stehen nicht mehr im R4-Bereich). Gab3ssss-Schreibweise bestätigt (4x s).
+   Stand 17.08.2026: R4-Kern (10), NEUES R4-Passwort gesetzt (Jac 17.08.2026) — alte Hashes ersetzt.
+   Roster unverändert wie 08.07. (+Froschi, +Elsa; −Lady M, −Војвода, −bismillah). Gab3ssss: 4x s.
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var R4_ALLOWED = [
-  "e994c837e798ff6f6e58d9579733759171f9e20a7f791d1d16e8170087e65838", // kingeder
-  "ddd54b31ccd8112bd940fc46fc4d426958fc1b4f4c10bc85907d8a12bd74729b", // crexoog
-  "fc6c219e256c806898fe96d3d7c6b150d05172934d99408e0bf71a571e768376", // hmx
-  "7601160efad98f702c48be3b356648870a2298bb823b611cc5c5216d1868ae75", // jac
-  "f9999752e7b6ff3603379461b162281e9ccdfa95cfe81288f9e91063ca2f65a3", // ghob
-  "a2f3fd238287dfcd5c1057beefcc7c94647d097b6b5757778245e9acbb7c68a4", // frenchy78
-  "a5053b1976bf77ccf7444d82fc1e2a5a9d69b0b26bf7d2f70e2eb3ae2683bffa", // gab3ssss
-  "c49d46a7451e3aec6028310aec1c6fa35e36685f2294ab7cdb0a3da2d68b6c40", // froschi
-  "d3af7e7134536bd27a5b43810eb347537f6c9adb1e03d757e68d20f4ec2bd717", // elsa
-  "9ac557b2b69c718c3a8e761eaf0768b3561ef65f78d6932ebbda53703748ee76"  // bendix_pl
+  "09790daf442e97e08a6853771a0b57148885059819b9cb57cd42bf9cba49a018", // kingeder
+  "4ba775b4f76b6e30ef80ef37dcaf1c2294eacd68515ba31a31aa3e1de4cb6716", // crexoog
+  "42c9668c10c7f1367798e7c8906bc2ec1c5fa6d5971e9e84da2f4c801ddad8b2", // hmx
+  "4c9410a117e0fd7e9b17f970251c9176f21115f38c8a461b3dfa8f47e47b9347", // jac
+  "e6a4b5bf320361717dea5dc2f91c676681d2a2a263d08c54147f16aff68a7dcc", // ghob
+  "e6e154d1321e6906622216531a8a38a4c2d8a5aca78bcfc7fec253121b3e24f4", // frenchy78
+  "7a9ebf9b1b5ca8d73d09174f3fe055228ce41eb41afae7aa4c6c245099f2b80f", // gab3ssss
+  "efde889777a55cd3a28ff3268ccc959d526d8e16e6073a48efca32409adfae98", // froschi
+  "ddacfafb3cf4d5eb456d10558ac0350dc4fcac7c7b6e1e6953c3eb9ce5662201", // elsa
+  "12d3b11168e8b213b8575b7ab566fb3e0ecf9930dfd5ff5b1c1d496b2104b1fe"  // bendix_pl
 ];
 
 function sha256js(ascii){
