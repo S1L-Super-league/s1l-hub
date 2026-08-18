@@ -202,9 +202,21 @@
   function currentSeq(){
     var seq=[]; document.querySelectorAll('[data-cid]').forEach(function(t){ var c=t.getAttribute('data-cid'); if(c && c.indexOf('#__order')<0) seq.push(c); }); return seq;
   }
+  function blockOf(t){ return t.closest('a.cardlink')||t; }
+  function isMovableCid(cid){ var d=DATA[cid]||{}; return !!(d.added||d.type==='pagelink'); }
   function move(el, dir){
     var cid=el.getAttribute('data-cid'), seq=currentSeq(), i=seq.indexOf(cid), j=i+dir;
     if(i<0 || j<0 || j>=seq.length) return;
+    /* Gruppen-Grenze: hinzugefügte Kacheln/Seiten-Links duerfen in den Nachbar-Container umziehen
+       (z. B. vom Seitenende hinein ins Event-Raster). Statische Kacheln bleiben wie bisher in ihrer Gruppe. */
+    var nEl=document.querySelector('[data-cid="'+cssq(seq[j])+'"]');
+    if(nEl && isMovableCid(cid)){
+      var myB=blockOf(el), nB=blockOf(nEl);
+      if(nB.parentNode && nB.parentNode!==myB.parentNode){
+        if(dir<0){ nB.parentNode.insertBefore(myB, nB.nextSibling); }
+        else { nB.parentNode.insertBefore(myB, nB); }
+      }
+    }
     var t=seq[i]; seq[i]=seq[j]; seq[j]=t;
     var od={ cid:pageKey+'#__order', ord:seq, editor:editorName(), tms:Date.now() };
     DATA[pageKey+'#__order']=od; render();
@@ -213,6 +225,15 @@
   function applyOrder(){
     var od=DATA[pageKey+'#__order']; if(!od || !od.ord || !od.ord.length) return;
     var ord=od.ord, groups=[];
+    /* Schritt 0: bewegliche Kacheln (hinzugefuegt/Seiten-Link) an den Container ihres Reihenfolge-Vorgaengers anheften */
+    document.querySelectorAll('[data-cid]').forEach(function(t){ var c=t.getAttribute('data-cid');
+      if(c.indexOf('#__order')>=0 || !isMovableCid(c)) return;
+      var idx=ord.indexOf(c); if(idx<0) return;
+      var myB=blockOf(t), p, cand;
+      for(p=idx-1;p>=0;p--){ cand=document.querySelector('[data-cid="'+cssq(ord[p])+'"]'); if(cand) break; cand=null; }
+      if(cand){ var aB=blockOf(cand); if(aB.parentNode && myB.parentNode!==aB.parentNode) aB.parentNode.insertBefore(myB, aB.nextSibling); return; }
+      for(p=idx+1;p<ord.length;p++){ cand=document.querySelector('[data-cid="'+cssq(ord[p])+'"]'); if(cand){ var sB=blockOf(cand); if(sB.parentNode && myB.parentNode!==sB.parentNode) sB.parentNode.insertBefore(myB, sB); return; } cand=null; }
+    });
     document.querySelectorAll('[data-cid]').forEach(function(t){ var c=t.getAttribute('data-cid'); if(c.indexOf('#__order')>=0) return;
       var b=t.closest('a.cardlink')||t, g=null;
       for(var i=0;i<groups.length;i++){ if(groups[i].p===b.parentNode){ g=groups[i]; break; } }
@@ -475,5 +496,6 @@
       col.onSnapshot(function(s){ DATA={}; s.forEach(function(d){ DATA[d.id]=d.data()||{}; }); render(); addButton(); mountPreview(); },
         function(){ col=null; }); } }catch(e){ col=null; } });
   }
+  window.S1LContent={ refresh:function(){ render(); }, _debugSetDocs:function(d){ DATA=d||{}; render(); } };
   if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
 })();
