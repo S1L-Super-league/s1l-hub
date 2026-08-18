@@ -4,20 +4,26 @@
    + das R4-Passwort, das du SEPARAT mitteilst — NIE hier im Klartext (Quelltext ist öffentlich!).
    Jeder Eintrag = SHA-256 von "spielername:passwort" — Name UND Passwort klein geschrieben
    (Login ist groß-/kleinschreibungs-unabhängig: Eingabe wird vor dem Hashen kleingeschrieben).
-   Stand 17.08.2026: R4-Kern (10), NEUES R4-Passwort gesetzt (Jac 17.08.2026) — alte Hashes ersetzt.
-   Roster unverändert wie 08.07. (+Froschi, +Elsa; −Lady M, −Војвода, −bismillah). Gab3ssss: 4x s.
+   Stand 17.08.2026 (2. Update): R4-Liste neu nach Jacs Ansage — 15 Logins:
+   kingeder, crexoog, jac, ghob, gab3ssss, froschi, Shadow, Yagyu, Anonymous, Alo, Lignum, EmoMuc, Neumi, Kleene, White Horse.
+   Entfernt: hmx, frenchy78, elsa, bendix_pl. Passwort unverändert (heute gesetzt).
    Sicherheit bewusst leicht (clientseitig); keine sensiblen Daten ablegen. */
 var R4_ALLOWED = [
   "09790daf442e97e08a6853771a0b57148885059819b9cb57cd42bf9cba49a018", // kingeder
   "4ba775b4f76b6e30ef80ef37dcaf1c2294eacd68515ba31a31aa3e1de4cb6716", // crexoog
-  "42c9668c10c7f1367798e7c8906bc2ec1c5fa6d5971e9e84da2f4c801ddad8b2", // hmx
   "4c9410a117e0fd7e9b17f970251c9176f21115f38c8a461b3dfa8f47e47b9347", // jac
   "e6a4b5bf320361717dea5dc2f91c676681d2a2a263d08c54147f16aff68a7dcc", // ghob
-  "e6e154d1321e6906622216531a8a38a4c2d8a5aca78bcfc7fec253121b3e24f4", // frenchy78
   "7a9ebf9b1b5ca8d73d09174f3fe055228ce41eb41afae7aa4c6c245099f2b80f", // gab3ssss
   "efde889777a55cd3a28ff3268ccc959d526d8e16e6073a48efca32409adfae98", // froschi
-  "ddacfafb3cf4d5eb456d10558ac0350dc4fcac7c7b6e1e6953c3eb9ce5662201", // elsa
-  "12d3b11168e8b213b8575b7ab566fb3e0ecf9930dfd5ff5b1c1d496b2104b1fe"  // bendix_pl
+  "9ac2ee70db3f0cca0c5f2e28d8a09c4977cd0286e7077aa6751480af183fb4c2", // shadow
+  "b0ed736151bafcf2d9b4e0dad268f5a2e198a5d7cc4a4226602d3ecc34dc43e9", // yagyu
+  "def3379c3c829f6bcc2a8959829271db5beebb4430fa753ff1837f76ae9a6539", // anonymous
+  "e617cdf3e703dcd7834484cc41eef7b6c84eb63dcb012f5f04e4bb6d772b0ba5", // alo
+  "48133f877ce96c7eb694b126589b4493a164970e73c3897c3705f305d2f28bbc", // lignum
+  "49959517d362799777bb80dc4ce0f19e9c666c240a85fa6320699fd36320ae35", // emomuc
+  "ca3664f89430fb540835180f90c5b4ad90209a0d6881e6aff1379296e8e94265", // neumi
+  "854772b98bdc7603e8740e4bf8ab4fb3c3b52fbad1f34f4a5388955ccc81e26a", // kleene
+  "9efcad1c5e1b44f5fdd287f664ca185517fb73561dafad69fd592685551bee50"  // white horse
 ];
 
 function sha256js(ascii){
