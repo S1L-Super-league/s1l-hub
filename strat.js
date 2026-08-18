@@ -77,6 +77,11 @@ var STRAT={
     tr:"Dusman ittifakli sehir duellosu - birlikte vuralim!\n#080 Sehir BIZIM olana kadar birlikte vururuz\n#080 Sonra herkes 30 dk savunma icin birlik gonderir - boylece bizim kalir\n#080 Yalnizca ilk ele gecirme aninda puan verir, geri alma vermez - Gem harcamayin\n#080 R4 cagirinca lutfen rally noktasina gelin",
     ru:"Городской дуэль против вражеского альянса - бьём вместе!\n#080 Бьём вместе, пока город не станет НАШИМ\n#080 Потом все шлют войска на 30 мин в оборону - так останется нашим\n#080 Только первый захват даёт мгновенные очки, повторный - нет, не тратьте Gem\n#080 Когда зовёт R4, приходите на точку сбора" }
   ],
+  oil:[ { id:"oil-ueberblick", prio:true, tags:{de:["Überblick"],en:["Overview"],tr:["Genel bakış"],ru:["Обзор"]},
+    de:"Oil Clash - Fokus + Anker sparen!\n#080 Wenige WICHTIGE Stationen - nicht aufteilen\n#080 Haelfte der Tages-Maximalpunkte = Station gehoert UNS\n#080 Ohne Gegner KEINE Anker setzen - 100% staerkste Partei = sicher\n#080 Anker: +8/Tag (+10 mit Pass), max 15 - vor dem Refill auf 7 (5) runter\n#080 Die meisten Anker fuer den LETZTEN Tag aufheben",
+    en:"Oil Clash - focus + save anchors!\n#080 Few IMPORTANT stations - do not spread out\n#080 Half of the daily max points = station is OURS\n#080 No enemy = NO anchors - 100% strongest party = secured\n#080 Anchors: +8/day (+10 with pass), max 15 - go below 7 (5) before refill\n#080 Save most anchors for the LAST day",
+    tr:"Oil Clash - odak + capa biriktir!\n#080 Az sayida ONEMLI istasyon - dagilmayin\n#080 Gunluk maksimum puanin yarisi = istasyon BIZIM\n#080 Dusman yoksa capa YOK - %100 en guclu taraf = garanti\n#080 Capa: +8/gun (+10 pass ile), max 15 - yenilemeden once 7 (5) altina in\n#080 Capalarin cogunu SON gune sakla",
+    ru:"Oil Clash - фокус + беречь якоря!\n#080 Немного ВАЖНЫХ станций - не распыляться\n#080 Половина дневного максимума очков = станция НАША\n#080 Без врага якоря НЕ ставим - 100% сильнейшая сторона = закреплено\n#080 Якоря: +8/день (+10 с пассом), макс 15 - перед пополнением вниз до 7 (5)\n#080 Большинство якорей беречь на ПОСЛЕДНИЙ день" } ],
   belagerung:[ { id:"bela-halten", prio:true, tags:{de:["Halten","Schild","Rollen"],en:["Hold","Shield","Roles"],tr:["Tut","Shield","Roller"],ru:["Удержание","Shield","Роли"]},
     de:"Eroberung von Arcadia - Arcadia + 4 Tuerme halten, gemeinsam stark!\n#080 T-50 gemeinsam versetzen, Rollen verteilen (Arcadia-Halter, Turm-Teams, Reaktion)\n#080 60 Sek Halten = 10.000 Punkte - Dauerbesetzung schlaegt Kills\n#080 Schild-Disziplin; Hospital/Enlistment vorher leeren",
     en:"Arcadian Conquest - hold Arcadia + 4 towers, strong together!\n#080 Relocate together at T-50, assign roles (Arcadia holders, tower teams, reaction)\n#080 60 sec held = 10,000 points - continuous occupation beats kills\n#080 Shield discipline; empty hospital/enlistment beforehand",
@@ -170,6 +175,7 @@ var STRAT_EV={
   loewe:{emo:"🦁",name:{de:"Ghulöwe",en:"Ghoulion",tr:"Ghoulion",ru:"Ghoulion"}},
   reservoir:{emo:"🐟",name:{de:"Reservoir Raid",en:"Reservoir Raid",tr:"Reservoir Raid",ru:"Reservoir Raid"}},
   stadt:{emo:"🌃",name:{de:"Stadtduell",en:"City Duel",tr:"City Duel",ru:"City Duel"}},
+  oil:{emo:"🛢️",name:{de:"Ölkampf (Oil Clash)",en:"Oil Clash",tr:"Oil Clash",ru:"Oil Clash"}},
   belagerung:{emo:"👑",name:{de:"Eroberung von Arcadia",en:"Arcadian Conquest",tr:"Arcadian Conquest",ru:"Arcadian Conquest"}}
 };
 
