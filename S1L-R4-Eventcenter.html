@@ -121,6 +121,7 @@
   <!-- 2) EVENT-AUSWAHL -->
   <h2 class="section">🎛️ <span class="lng-de">Event-Auswahl</span><span class="lng-en">Event selection</span><span class="lng-fr">Sélection d'événements</span><span class="lng-it">Selezione eventi</span><span class="lng-es">Selección de eventos</span><span class="lng-pt">Seleção de eventos</span><span class="lng-tr">Etkinlik seçimi</span><span class="lng-ru">Выбор событий</span></h2>
   <div class="ec-card" id="eventlist"></div>
+  <div class="ec-card" id="evNewBox"></div>
 
   <!-- 3) LIVE-ANSAGEN -->
   <h2 class="section">📢 <span class="lng-de">Live-Ansagen</span><span class="lng-en">Live calls</span><span class="lng-fr">Annonces live</span><span class="lng-it">Annunci live</span><span class="lng-es">Anuncios en vivo</span><span class="lng-pt">Anúncios ao vivo</span><span class="lng-tr">Canlı duyurular</span><span class="lng-ru">Live-объявления</span> <span class="ec-muted">— <span class="lng-de">je „Mitteilen"-Event ein Block · einzeln anpassen & senden</span><span class="lng-en">one block per announced event · adjust & send individually</span><span class="lng-fr">un bloc par événement annoncé · ajuster & envoyer individuellement</span><span class="lng-it">un blocco per evento annunciato · regola & invia singolarmente</span><span class="lng-es">un bloque por evento anunciado · ajustar y enviar individualmente</span><span class="lng-pt">um bloco por evento anunciado · ajustar e enviar individualmente</span><span class="lng-tr">duyurulan etkinlik başına blok · ayrı ayrı</span><span class="lng-ru">блок на каждое событие · по отдельности</span></span></h2>
@@ -269,7 +270,7 @@ function load(){ try{ var s=JSON.parse(localStorage.getItem('s1l_eventstate_v2')
   DEFAULT_ORDER.forEach(function(k){ var b=baseFor(k); if(!ST.ev[k]) ST.ev[k]=b; else { for(var p in b){ if(ST.ev[k][p]===undefined) ST.ev[k][p]=b[p]; } } });
   ALWAYS_ON.forEach(function(k){ if(ST.ev[k]) ST.ev[k].laeuft=true; });   // dauerhaft aktive Events immer auf „Läuft"
   DEFAULT_ORDER.forEach(function(k){ if(ST.order.indexOf(k)<0) ST.order.push(k); });
-  ST.order=ST.order.filter(function(k){ return EV[k]; }); }
+  ST.order=ST.order.filter(function(k){ return EV[k] || /^x-/.test(k); }); }  /* x-… = eigene Events, kommen erst aus der DB */
 function save(){ try{ localStorage.setItem('s1l_eventstate_v2', JSON.stringify(ST)); }catch(e){} }
 /* NAP-Liste zusätzlich geteilt speichern (Firestore hubinfo/nap) — speist die öffentliche Willkommens-Seite. */
 function syncNap(){ try{ if(typeof firebase==='undefined'||!firebase.apps.length) return;
@@ -329,6 +330,7 @@ function renderList(){
       if(m.typ==='termin'){ h+='<span class="ec-time"><select data-f="zbase" title="Zone">'+zoneOpts(e.zbase||'DE')+'</select> Start <input type="time" data-f="start" value="'+(e.start||'')+'"> Ende <input type="time" data-f="ende" value="'+(e.ende||'')+'"></span>'; }
       else { h+='<span class="ec-muted">'+t(LBL.ganztags)+'</span>'; }
       h+='<label class="ec-sw"><input type="checkbox" data-f="tzs"'+(e.tzs?' checked':'')+'>'+t(LBL.tzShort)+'</label>';
+      if(m.custom){ h+='<span class="ec-stratbtns"><button type="button" class="ec-sbtn" data-evedit="1" title="'+L("Event bearbeiten","Edit event","Etkinliği düzenle","Изменить событие")+'">⚙️</button><button type="button" class="ec-sbtn" data-evdel="1" title="'+L("Event entfernen","Remove event","Etkinliği kaldır","Удалить событие")+'">❌</button></span>'; }
     }
     h+='</div>';
   });
@@ -346,6 +348,9 @@ function renderList(){
     row.querySelectorAll('[data-napdel]').forEach(function(b){ b.addEventListener('click',function(){ var l=napList(ST.ev[k]); l.splice(+b.getAttribute('data-napdel'),1); if(!l.length) l.push({wer:"",wo:""}); save(); syncNap(); renderAll(); }); });
     var be=row.querySelector('[data-sedit]'); if(be) be.onclick=function(){ var sid=ST.ev[k].strat; if(sid) openStratEditor(k,sid); else alert(L('Erst eine Strategie im Dropdown wählen (oder ➕ für neu).','Pick a strategy first (or ➕ for new).','Önce bir strateji seç (veya ➕).','Сначала выбери стратегию (или ➕).')); };
     var bn=row.querySelector('[data-snew]'); if(bn) bn.onclick=function(){ openStratEditor(k,''); };
+    var ee=row.querySelector('[data-evedit]'); if(ee) ee.onclick=function(){ EVNEW_OPEN=true; EVNEW_EDIT=k; renderEvNew(); var bx=document.getElementById('evNewBox'); if(bx&&bx.scrollIntoView) bx.scrollIntoView({behavior:'smooth',block:'center'}); };
+    var ex=row.querySelector('[data-evdel]'); if(ex) ex.onclick=function(){ if(!confirm(L('Dieses Event komplett entfernen (für alle R4)?','Remove this event completely (for all R4)?','Bu etkinlik tamamen kaldırılsın mı (tüm R4 için)?','Удалить это событие полностью (для всех R4)?'))) return;
+      saveCustomEvents(CUSTOM_LIST.filter(function(x){return x.k!==k;}),function(ok){ if(!ok) alert(L('Entfernen fehlgeschlagen (offline?).','Remove failed (offline?).','Kaldırma başarısız (çevrimdışı mı?).','Не удалось удалить (офлайн?).')); }); };
     var bd=row.querySelector('[data-sdel]'); if(bd) bd.onclick=function(){ var sid=ST.ev[k].strat; if(!sid) return; if(!window.S1LStrat.isBase(k,sid)||confirm(L('Basis-Strategie ausblenden?','Hide base strategy?','Temel strateji gizlensin mi?','Скрыть базовую стратегию?'))){ if(confirm(L('Diese Strategie löschen?','Delete this strategy?','Bu strateji silinsin mi?','Удалить стратегию?'))) window.S1LStrat.del(k,sid,function(){ ST.ev[k].strat=''; save(); }); } };
   });
 }
@@ -571,14 +576,83 @@ function openStratEditor(k, sid){
 
 /* ===== Boot ===== */
 function renderAll(){ renderList(); renderBriefing(); renderBriefOut(); renderLive(); renderRRAufstellung(); renderZeit(); renderRollInfo(); }
+/* ===== EIGENE EVENTS — R4 legt ganze Events an (wie Stadtkampf) =====
+   Geteilt über Firestore hubinfo/events (ein Doc, Felder list/tms/editor — von den Regeln erlaubt).
+   Key-Schema 'x-…'; Basis-Events im Code werden NIE überschrieben. Name wird auto-übersetzt (DE/EN/TR/RU),
+   FR/IT/ES/PT fallen auf EN zurück. Strategien je eigenem Event laufen über das vorhandene System (S1LStrat). */
+var CUSTOM_LIST=[], EVNEW_OPEN=false, EVNEW_EDIT=null;
+function applyCustomEvents(list){
+  var incoming={}; (list||[]).forEach(function(x){ if(x&&x.k) incoming[x.k]=1; });
+  Object.keys(EV).forEach(function(k){ if(EV[k].custom && !incoming[k]){ delete EV[k]; delete ST.ev[k]; var i=ST.order.indexOf(k); if(i>=0) ST.order.splice(i,1); } });
+  CUSTOM_LIST=[];
+  (list||[]).forEach(function(x){ if(!x||!x.k) return; if(EV[x.k]&&!EV[x.k].custom) return;
+    CUSTOM_LIST.push(x);
+    EV[x.k]={ custom:true, emo:x.emo||'🎪', mark:x.mark||'#190', typ:(x.typ==='fokus'?'fokus':'termin'),
+      de:x.de||x.en||'Event', en:x.en||x.de||'Event', fr:x.fr||x.en||x.de||'Event', it:x.it||x.en||x.de||'Event',
+      es:x.es||x.en||x.de||'Event', pt:x.pt||x.en||x.de||'Event', tr:x.tr||x.en||x.de||'Event', ru:x.ru||x.en||x.de||'Event' };
+    if(!ST.ev[x.k]) ST.ev[x.k]=baseFor(x.k);
+    if(ST.order.indexOf(x.k)<0) ST.order.push(x.k);
+  });
+  save(); renderAll();
+}
+function saveCustomEvents(list,cb){ try{
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){ cb&&cb(false); return; }
+  firebase.firestore().collection('hubinfo').doc('events').set({ list:list, tms:Date.now(),
+    editor:(function(){ try{ return sessionStorage.getItem('s1l_r4_name')||'R4'; }catch(e){ return 'R4'; } })() })
+    .then(function(){ cb&&cb(true); },function(){ cb&&cb(false); });
+}catch(e){ cb&&cb(false); } }
+function initCustomEvents(tries){ tries=tries||0;
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){ if(tries<40) setTimeout(function(){ initCustomEvents(tries+1); },250); return; }
+  try{ firebase.firestore().collection('hubinfo').doc('events').onSnapshot(function(d){
+    var o=(d&&d.exists)?(d.data()||{}):{}; applyCustomEvents(o.list||[]); renderEvNew();
+  }, function(){}); }catch(e){} }
+function renderEvNew(){
+  var box=document.getElementById('evNewBox'); if(!box) return;
+  if(!EVNEW_OPEN){
+    box.innerHTML='<button type="button" class="copybtn" id="evNewBtn">➕ '+L('Neues Event anlegen','Create new event','Yeni etkinlik oluştur','Создать новое событие')+'</button> <span class="ec-muted">'
+      +L('Legt ein ganzes Event an (wie Stadtkampf) — erscheint für alle R4 in der Liste; Strategien dann wie gewohnt über ➕.','Creates a whole event (like City Duel) — appears for all R4; add strategies via ➕ as usual.','Bütün bir etkinlik oluşturur — tüm R4 listesinde görünür; stratejiler her zamanki gibi ➕ ile.','Создаёт целое событие — видно всем R4; стратегии как обычно через ➕.')+'</span>';
+    var b=document.getElementById('evNewBtn'); if(b) b.onclick=function(){ EVNEW_OPEN=true; EVNEW_EDIT=null; renderEvNew(); };
+    return;
+  }
+  var ed=null; if(EVNEW_EDIT){ CUSTOM_LIST.forEach(function(x){ if(x.k===EVNEW_EDIT) ed=x; }); }
+  box.innerHTML='<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">'
+    +'<b>'+(ed?L('Event bearbeiten','Edit event','Etkinliği düzenle','Изменить событие'):L('Neues Event','New event','Yeni etkinlik','Новое событие'))+'</b>'
+    +'<label>Emoji <input type="text" id="evnEmo" value="'+esc(ed?(ed.emo||'🎪'):'🎪')+'" style="max-width:64px"></label>'
+    +'<label>'+L('Name','Name','Ad','Название')+' <input type="text" id="evnName" value="'+esc(ed?(ed.de||ed.en||''):'')+'" placeholder="'+L('z. B. Oil Clash','e.g. Oil Clash','örn. Oil Clash','напр. Oil Clash')+'" style="min-width:190px"></label>'
+    +'<label>'+L('Typ','Type','Tür','Тип')+' <select id="evnTyp"><option value="termin"'+((ed&&ed.typ==='fokus')?'':' selected')+'>'+L('Termin (mit Uhrzeit)','Scheduled (with time)','Zamanlı (saatli)','По времени')+'</option><option value="fokus"'+((ed&&ed.typ==='fokus')?' selected':'')+'>'+L('ganztags (Fokus)','all day (focus)','tüm gün (odak)','весь день (фокус)')+'</option></select></label>'
+    +'<label>'+L('Chat-Marker','Chat marker','Sohbet işareti','Маркер')+' <input type="text" id="evnMark" value="'+esc(ed?(ed.mark||'#190'):'#190')+'" style="max-width:72px"></label>'
+    +'<button type="button" class="copybtn" id="evnSave">💾 '+L('Speichern','Save','Kaydet','Сохранить')+'</button>'
+    +'<button type="button" class="ec-sbtn" id="evnCancel">'+L('Abbrechen','Cancel','İptal','Отмена')+'</button>'
+    +'</div><div class="ec-muted" style="margin-top:6px">'
+    +L('Name wird automatisch übersetzt (DE/EN/TR/RU). Marker = #-Code fürs Spiel (Standard #190).','Name is translated automatically (DE/EN/TR/RU). Marker = #-code for the game (default #190).','Ad otomatik çevrilir. İşaret = oyun için #-kodu (varsayılan #190).','Название переводится автоматически. Маркер = #-код для игры (по умолчанию #190).')+'</div>';
+  document.getElementById('evnCancel').onclick=function(){ EVNEW_OPEN=false; EVNEW_EDIT=null; renderEvNew(); };
+  document.getElementById('evnSave').onclick=function(){
+    var name=(document.getElementById('evnName').value||'').trim();
+    var emo=(document.getElementById('evnEmo').value||'').trim()||'🎪';
+    var typ=(document.getElementById('evnTyp').value==='fokus')?'fokus':'termin';
+    var mark=(document.getElementById('evnMark').value||'').trim(); if(!/^#\d{3}$/.test(mark)) mark='#190';
+    if(!name){ alert(L('Bitte einen Namen eingeben.','Please enter a name.','Lütfen bir ad gir.','Введите название.')); return; }
+    var key=EVNEW_EDIT;
+    if(!key){ key='x-'+(name.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,16)||'event'); while(EV[key]){ key+='2'; } }
+    var btn=document.getElementById('evnSave'); btn.disabled=true; btn.textContent='…';
+    function done(entry){ var list=CUSTOM_LIST.filter(function(x){ return x.k!==key; }); list.push(entry);
+      saveCustomEvents(list,function(ok){ btn.disabled=false;
+        if(ok){ EVNEW_OPEN=false; EVNEW_EDIT=null; renderEvNew(); }
+        else { btn.textContent='💾'; alert(L('Speichern fehlgeschlagen (offline? Internet nötig).','Saving failed (offline? internet required).','Kaydetme başarısız (çevrimdışı mı?).','Не удалось сохранить (офлайн?).')); } }); }
+    var mk=function(j){ j=j||{}; done({ k:key, emo:emo, mark:mark, typ:typ, de:j.de||name, en:j.en||name, tr:j.tr||name, ru:j.ru||name }); };
+    if(window.S1LStrat&&window.S1LStrat.translate){ window.S1LStrat.translate(name, mk); } else { mk(null); }
+  };
+}
+
 function boot(){ load(); maybeRoll();
   var sv=document.getElementById('segView'); if(sv) sv.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-view')===ST.view); });
   renderAll(); setupRoll();
   seg('segView','data-view',function(v){ ST.view=v; save(); renderBriefOut(); renderLive(); });
   document.getElementById('briefCopy').onclick=function(){ copyClip(viewText(buildBriefing()), this); };
-  document.addEventListener('s1l:lang', function(){ renderAll(); });
+  document.addEventListener('s1l:lang', function(){ renderAll(); renderEvNew(); });
   if(window.S1LStrat) window.S1LStrat.init(renderAll);   // DB-Strategien laden + bei Änderung neu rendern
   loadNapFromDB();   // geteilte NAP-Liste aus der DB übernehmen (DB = Wahrheit)
+  initCustomEvents(); renderEvNew();   // eigene Events (hubinfo/events) laden + Anlage-Knopf zeigen
 }
 function waitContent(){ var c=document.getElementById('content'); if(c&&!c.hidden){ boot(); return; } setTimeout(waitContent,200); }
 if(document.readyState!=='loading') waitContent(); else document.addEventListener('DOMContentLoaded', waitContent);
