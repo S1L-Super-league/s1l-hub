@@ -345,3 +345,18 @@ pre.block{ background:rgba(127,127,127,.10); border:1px solid var(--line); borde
 .plread pre.block{ margin:0; }
 
 .plhid{ font-size:.85rem; opacity:.8; }
+
+/* ===================================================================
+   Handy-Feinschliff (21.08.2026): Tabellen passen auf schmale Displays
+   Vorher lief der Wochenkalender auf 420-px-Handys seitlich über
+   (Ursache: nowrap in Spalte 1 + grosszuegiges Padding).
+   =================================================================== */
+@media (max-width:600px){
+  table.cal{ font-size:.86rem; }
+  table.cal th, table.cal td{ padding:9px 8px; overflow-wrap:break-word; }
+  table.cal td:first-child{ white-space:normal; }
+}
+/* Sehr schmale Geraete (iPhone SE u. ae.): notfalls auch im Wort umbrechen */
+@media (max-width:380px){
+  table.cal th, table.cal td{ padding:8px 6px; overflow-wrap:anywhere; }
+}
