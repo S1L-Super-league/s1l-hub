@@ -1,0 +1,563 @@
+<!DOCTYPE html><html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S1L Mitglieder-Register (R4)</title>
+<link rel="stylesheet" href="style.css">
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--line:#dde4ef;--tx:#152238;--mut:#6a7b93;--acc:#2563eb;--acc2:#eef3fd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.rw{max-width:1560px;margin:0 auto;padding:16px 14px 70px}
+.hd{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+h1{font-size:1.4rem;margin:0}
+.sub{color:var(--mut);font-size:.88rem;margin:2px 0 0}
+.warnbox{background:#fff8e6;border:1px solid #f5d78e;border-left:5px solid #e8a317;border-radius:10px;
+ padding:11px 14px;margin:14px 0;font-size:.88rem;color:#6b4c05}
+.warnbox b{color:#5a3f00}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.panel h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0 0 9px}
+.qrow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:7px}
+.qrow select,.qrow input{font:inherit;font-size:.86rem;padding:5px 8px;border:1px solid var(--line);
+ border-radius:7px;background:#fff;color:var(--tx)}
+.qrow .lk{font-weight:800;color:var(--acc);min-width:38px;text-align:center;font-size:.8rem}
+.btn{font:inherit;font-size:.85rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
+ background:#fff;cursor:pointer;color:var(--tx)}
+.btn:hover{background:var(--acc2)}
+.btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.x{color:#b91c1c;border-color:#f0c8c8}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;font-size:.83rem;cursor:pointer}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.tools input.search{min-width:220px;flex:1}
+.cnt{color:var(--mut);font-size:.85rem;margin-left:auto}
+.tw{overflow:auto;max-height:74vh;background:var(--card);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:.85rem}
+th,td{padding:6px 9px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:left}
+thead th{position:sticky;top:0;z-index:3;background:#eaf0fa;font-size:.74rem;text-transform:uppercase;
+ letter-spacing:.03em;color:var(--mut);cursor:pointer;user-select:none;border-bottom:2px solid var(--line)}
+thead th .ar{opacity:.45;font-size:.7rem}
+tbody td:first-child,thead th:first-child{position:sticky;left:0;z-index:2;background:var(--card);
+ border-right:1px solid var(--line);font-weight:650}
+thead th:first-child{z-index:4;background:#eaf0fa}
+tbody tr:hover td{background:#f7faff}
+tbody tr:hover td:first-child{background:#f0f5ff}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.ed{cursor:pointer}
+td.ed:hover{outline:2px solid var(--acc);outline-offset:-2px;border-radius:5px}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.75rem;font-weight:700;color:#fff}
+.r-R5{background:#dc2626}.r-R4{background:#7c3aed}.r-R3{background:#0891b2}.r-R2{background:#0f9d58}.r-R1{background:#8b97a8}
+.rr-kom{background:#b45309}.rr-grp{background:#0f766e}.rr-rly{background:#4d7c0f}.rr-kmp{background:#94a3b8}.rr-unb{background:#e2e8f0;color:#64748b}
+.unb{color:#aeb8c7;font-style:italic}
+.ja{color:#0f9d58;font-weight:700}.nein{color:#c2410c}
+.tag{display:inline-block;background:#eef2f9;border:1px solid #dde4ef;border-radius:6px;
+ padding:1px 7px;margin:1px 2px 1px 0;font-size:.76rem}
+.lad{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:6px;color:#fff;font-weight:800;font-size:.74rem}
+.l0{background:#94a3b8}.l1{background:#0891b2}.l2{background:#0f9d58}.l3{background:#ca8a04}.l4{background:#7c3aed}.l5{background:#dc2626}.lx{background:#e2e8f0;color:#94a3b8}
+.k-on{color:#0f9d58;font-weight:700}.k-w{color:#b45309}.k-a{color:#dc2626;font-weight:700}
+.soon{background:repeating-linear-gradient(45deg,#fafbfd,#fafbfd 6px,#f2f5f9 6px,#f2f5f9 12px);color:#b3bccb;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(15,25,45,.45);display:none;place-items:center;z-index:50;padding:16px}
+.modal.on{display:grid}
+.mbox{background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:88vh;overflow:auto;padding:18px 20px}
+.mbox h3{margin:0 0 4px;font-size:1.05rem}
+.mbox .who{color:var(--mut);font-size:.85rem;margin-bottom:14px}
+.fld{margin-bottom:13px}
+.fld label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);margin-bottom:4px;font-weight:700}
+.fld select,.fld input,.fld textarea{width:100%;font:inherit;font-size:.9rem;padding:7px 9px;
+ border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--tx)}
+.fld textarea{min-height:60px;resize:vertical}
+.tsel{display:flex;flex-wrap:wrap;gap:6px}
+.tsel .chip{font-size:.8rem}
+.mrow{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.saved{color:#0f9d58;font-size:.85rem;margin-right:auto;align-self:center}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--mut);margin-top:10px}
+.legend span b{color:var(--tx)}
+@media(max-width:700px){.tw{max-height:66vh}.rw{padding:12px 8px 60px}}
+</style></head><body>
+<div class="rw">
+
+<div class="hd">
+  <div>
+    <h1>🗂️ Mitglieder-Register <span style="font-size:.8rem;color:var(--mut);font-weight:400">[S1L] · nur R4</span></h1>
+    <p class="sub">Eine Zeile je Spieler. Felder mit Stift-Rand sind anklickbar und werden für alle gespeichert.</p>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <a class="btn" href="S1L-R4.html">← R4-Bereich</a>
+    <button class="btn" id="lng" type="button">EN</button>
+  </div>
+</div>
+
+<div class="warnbox" id="wDaten">
+  <b>⚠️ Die VS-Zahlen sind noch nicht aussagekräftig.</b>
+  Die Woche hat gerade erst begonnen — erhoben am <b>Montag, 31.08.2026</b>. Was in der Spalte
+  „VS Woche" steht, ist damit praktisch <b>ein einziger Tag</b>, kein Wochenwert. Wer hier wenig hat,
+  hat womöglich nur noch nicht gespielt. <b>Erst nach ein paar vollen Wochen</b> wird daraus ein echter
+  Wochendurchschnitt, und daraus der geglättete Verlauf (SMA). Die beiden Spalten stehen schon bereit,
+  bleiben aber leer, bis genug Wochen gesammelt sind. <b>Bitte bis dahin niemanden an diesen Zahlen messen.</b>
+</div>
+
+<div class="panel">
+  <h2>Abfrage</h2>
+  <div id="qb"></div>
+  <div class="qrow" style="margin-top:9px">
+    <button class="btn p" id="qAdd" type="button">+ Bedingung</button>
+    <button class="btn x" id="qClr" type="button">Abfrage leeren</button>
+    <span style="color:var(--mut);font-size:.82rem" id="qHint">z. B. „zuletzt online ist ≤ 24 h" und „VS Woche ist 0"</span>
+  </div>
+  <div class="chips" style="margin-top:9px" id="presets"></div>
+</div>
+
+<div class="tools">
+  <input class="search" id="q" type="search" placeholder="Suche nach Name, Aufgabe, Notiz …">
+  <button class="btn" id="csv" type="button">⬇ CSV</button>
+  <button class="btn" id="jsn" type="button">⬇ JSON</button>
+  <span class="cnt" id="cnt"></span>
+</div>
+
+<div class="tw"><table id="t"><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
+
+<div class="legend" id="leg"></div>
+
+<div class="modal" id="md"><div class="mbox">
+  <h3 id="mdT">—</h3>
+  <div class="who" id="mdW"></div>
+  <div id="mdB"></div>
+  <div class="mrow">
+    <span class="saved" id="mdS"></span>
+    <button class="btn" id="mdC" type="button">Abbrechen</button>
+    <button class="btn p" id="mdOK" type="button">Speichern</button>
+  </div>
+</div></div>
+<script>
+/* ===== S1L Mitglieder-Register (R4) =====================================
+   Stammdaten (Kraft/Level/zuletzt/VS) = Erhebung im Spiel, hier fest eingebettet.
+   Pflegefelder (Rang, Raid-Rang, Aufgaben, Kanäle, Event-Teilnahme, Chat, Notiz)
+   liegen in Firestore 'register' — Doc-Id = normalisierter Gamertag.
+   Sicherheit bewusst leicht wie beim übrigen Hub (Jac 31.08.2026, R4-Bereich).
+   ===================================================================== */
+var ROWS = [{"gt": "ANONYMOUS", "rank": "R4", "pw": 294.94, "lv": 30, "seen": "Vor 2 h", "seenh": 2.0, "vs": 108.73, "chat": "viel", "lang": "ru", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "CrexoOG", "rank": "R4", "pw": 235.24, "lv": 30, "seen": "Vor 1 h", "seenh": 1.0, "vs": 92.94, "chat": null, "lang": null, "disc": null, "tg": null, "ein": true, "einT": "Aufstellung: Starke vorne, 40 Mio. im ersten Trupp; 35-Mio.-Grenze klein/groß; Beschleuniger nur bei Märschen", "lad": 5, "note": "Diplomatie", "pruef": "in der Notiz als 'Crexo' geführt"}, {"gt": "З кило", "rank": "R3", "pw": 234.63, "lv": 30, "seen": "Online", "seenh": 0.0, "vs": 11.97, "chat": "mehrfach", "lang": "ru", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "ALO", "rank": "R4", "pw": 224.87, "lv": 30, "seen": "Vor 1 h", "seenh": 1.0, "vs": 42.69, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Meshman", "rank": "R3", "pw": 210.75, "lv": 29, "seen": "Online", "seenh": 0.0, "vs": 14.95, "chat": null, "lang": null, "disc": null, "tg": null, "ein": true, "einT": "Timing, Sprachchat", "lad": 5, "note": "", "pruef": "in der Notiz separat als 'Meshman'; ob 'MeshTeam' im Sammelblock dieselbe Person meint, ist offen"}, {"gt": "Just Jack", "rank": "R3", "pw": 199.21, "lv": 29, "seen": "Vor 30 m", "seenh": 0.5, "vs": 7.13, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "Schreibweise aus Kingeder-Screenshot 21.06.", "pruef": null}, {"gt": "Trinket Lipslums", "rank": "R3", "pw": 189.03, "lv": 30, "seen": "Vor 1 d", "seenh": 24.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "CleoGreen", "rank": "R3", "pw": 185.53, "lv": 28, "seen": "Vor 18 h", "seenh": 18.0, "vs": 6.24, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "BAD BUDDHA", "rank": "R3", "pw": 185.06, "lv": 28, "seen": "Vor 3 h", "seenh": 3.0, "vs": 84.0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Gabysssss", "rank": "R4", "pw": 183.98, "lv": 29, "seen": "Vor 1 d", "seenh": 24.0, "vs": 1.47, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Frenchy78", "rank": "R1", "pw": 178.44, "lv": 30, "seen": "Vor 19 h", "seenh": 19.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "Schreibweise = R4-Login/Screenshot (Jac 20.07.)", "pruef": null}, {"gt": "Lignum", "rank": "R4", "pw": 177.4, "lv": 29, "seen": "Online", "seenh": 0.0, "vs": 37.19, "chat": null, "lang": null, "disc": null, "tg": null, "ein": true, "einT": "hat den Beitrag eines (namentlich unbekannten) russischsprachigen Mitglieds weitergeleitet: am Anfang 2–3 Raids mit starken Trupps, alle anderen in Garnisons-Verteidigung", "lad": 5, "note": "", "pruef": null}, {"gt": "Аида29", "rank": "R3", "pw": 161.8, "lv": 28, "seen": "Vor 8 h", "seenh": 8.0, "vs": 15.24, "chat": "viel", "lang": "ru", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "Yagyu", "rank": "R4", "pw": 157.66, "lv": 28, "seen": "Vor 25 m", "seenh": 0.42, "vs": 48.08, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "FeNoMeN", "rank": "R3", "pw": 155.74, "lv": 27, "seen": "Vor 8 h", "seenh": 8.0, "vs": 5.91, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Blümchen", "rank": "R3", "pw": 154.31, "lv": 27, "seen": "Vor 14 m", "seenh": 0.23, "vs": 59.99, "chat": "einzeln", "lang": "de", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "Pedro", "rank": "R3", "pw": 151.97, "lv": 27, "seen": "Online", "seenh": 0.0, "vs": 18.24, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Kingeder", "rank": "R5", "pw": 150.6, "lv": 30, "seen": "—", "seenh": null, "vs": 58.08, "chat": null, "lang": null, "disc": null, "tg": null, "ein": true, "einT": "gemeinsamer Block mit Crexo/MeshTeam: Raid-Einladungen, Regeln fürs Rauskicken", "lad": 5, "note": "Allianz-Besitzer (VIP9)", "pruef": "in der Notiz als 'King' geführt"}, {"gt": "Uur67", "rank": "R3", "pw": 148.55, "lv": 27, "seen": "Vor 33 m", "seenh": 0.55, "vs": 16.49, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Elsa", "rank": "R1", "pw": 147.4, "lv": 29, "seen": "Vor 23 d", "seenh": 552.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "R4-Kern (08.07.)", "pruef": null}, {"gt": "Burzowy", "rank": "R3", "pw": 145.6, "lv": 29, "seen": "Vor 55 m", "seenh": 0.92, "vs": 5.91, "chat": "viel", "lang": "pl", "disc": null, "tg": true, "ein": true, "einT": "Nur Anführer schreiben in die Gruppen; Anführer in den Sprachchat; Server-Buffs an alle mit Warteschlange; Hauptschloss der Top 2 überlassen; R4 zögern beim Löwen-Start", "lad": 5, "note": "", "pruef": null}, {"gt": "BEOWULF", "rank": "R3", "pw": 143.55, "lv": 29, "seen": "Vor 1 h", "seenh": 1.0, "vs": 11.78, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Waldorf", "rank": "R3", "pw": 142.91, "lv": 29, "seen": "Vor 5 h", "seenh": 5.0, "vs": 9.04, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "KABKA3", "rank": "R3", "pw": 142.08, "lv": 27, "seen": "Vor 8 m", "seenh": 0.13, "vs": 15.44, "chat": "einzeln", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "CzarnaRóża", "rank": "R3", "pw": 142.03, "lv": 27, "seen": "Vor 42 m", "seenh": 0.7, "vs": 56.32, "chat": "mehrfach", "lang": "pl,de", "disc": true, "tg": true, "ein": true, "einT": "Chat-Kommunikation im Event aufs Minimum; Aufteilung nach Koordinaten; eigener Chat je Team; Infos werden auf beiden Kanälen vernachlässigt", "lad": 5, "note": "Sprachbrücke: mit Polnisch aufgewachsen, dann Deutsch; laut eigener Aussage im Chat auch Französisch und Spanisch. Hat Burzowy am 31.08.2026 im Allianzchat aktiv Übersetzungshilfe angeboten.", "pruef": "ZUORDNUNG UNSICHER: in der Notiz nur 'Roza' — CzarnaRóża ist der einzige passende Gamertag im Roster, von Jac bestätigen lassen | gestützt: schreibt im Chat auf Deutsch UND Polnisch, passt zu 'Roza' in der Meeting-Notiz"}, {"gt": "DrDr387", "rank": "R3", "pw": 138.7, "lv": 26, "seen": "Vor 12 m", "seenh": 0.2, "vs": 9.15, "chat": "mehrfach", "lang": "de", "disc": null, "tg": null, "ein": true, "einT": "RR-Gruppenchats mit R4 als Anführer zurück; wöchentliche Wiederholung der Event-Erklärung; Gruppen nach Sprachen ordnen", "lad": 5, "note": "in JSON zuvor drdr387", "pruef": null}, {"gt": "Chris1909", "rank": "R3", "pw": 137.92, "lv": 27, "seen": "Vor 6 m", "seenh": 0.1, "vs": 58.52, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "OppaiDragon", "rank": "R3", "pw": 136.33, "lv": 27, "seen": "Vor 2 h", "seenh": 2.0, "vs": 55.84, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "Schreibweise aus Kingeder-Screenshot 21.06.", "pruef": null}, {"gt": "a_maevskaya", "rank": "R3", "pw": 135.58, "lv": 27, "seen": "Vor 1 h", "seenh": 1.0, "vs": 17.79, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "AffenJunge", "rank": "R3", "pw": 132.05, "lv": 26, "seen": "Vor 35 m", "seenh": 0.58, "vs": 31.08, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Lilija", "rank": "R3", "pw": 131.83, "lv": 26, "seen": "Vor 2 h", "seenh": 2.0, "vs": 7.56, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": "frueher evtl. 'Lili' — Zuordnung von Jac bestaetigen lassen"}, {"gt": "ROYAL MOOD", "rank": "R3", "pw": 130.29, "lv": 27, "seen": "Vor 1 h", "seenh": 1.0, "vs": 14.46, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "IBMVI", "rank": "R3", "pw": 129.88, "lv": 26, "seen": "Vor 10 h", "seenh": 10.0, "vs": 14.56, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Hysté", "rank": "R3", "pw": 129.86, "lv": 26, "seen": "Online", "seenh": 0.0, "vs": 34.37, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Бес 01", "rank": "R3", "pw": 128.43, "lv": 27, "seen": "Vor 14 m", "seenh": 0.23, "vs": 64.86, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Neumi", "rank": "R3", "pw": 127.57, "lv": 26, "seen": "Vor 25 m", "seenh": 0.42, "vs": 3.51, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "ScytheMare.exe", "rank": "R3", "pw": 125.78, "lv": 27, "seen": "Vor 19 h", "seenh": 19.0, "vs": 8.19, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Sirdeath89", "rank": "R3", "pw": 125.78, "lv": 27, "seen": "Vor 7 h", "seenh": 7.0, "vs": 0.56812, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "DivineSpectre326", "rank": "R3", "pw": 123.79, "lv": 25, "seen": "Vor 31 m", "seenh": 0.52, "vs": 11.4, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": "frueher evtl. 'DivineSpectre' — Zuordnung von Jac bestaetigen lassen"}, {"gt": "LAL", "rank": "R3", "pw": 122.79, "lv": 28, "seen": "Vor 7 m", "seenh": 0.12, "vs": 35.47, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Shadow", "rank": "R4", "pw": 121.51, "lv": 27, "seen": "Vor 40 m", "seenh": 0.67, "vs": 29.27, "chat": null, "lang": "de", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "? T I T A N ?", "rank": "R3", "pw": 121.44, "lv": 27, "seen": "Vor 3 h", "seenh": 3.0, "vs": 4.77, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Golbeus", "rank": "R3", "pw": 121.26, "lv": 27, "seen": "Vor 11 h", "seenh": 11.0, "vs": 4.49, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Morrígan", "rank": "R3", "pw": 119.72, "lv": 26, "seen": "Vor 2 h", "seenh": 2.0, "vs": 24.51, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Ёжик ВД", "rank": "R3", "pw": 119.03, "lv": 28, "seen": "Vor 2 h", "seenh": 2.0, "vs": 7.83, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "DoNN133", "rank": "R1", "pw": 117.35, "lv": 26, "seen": "Vor 7 d", "seenh": 168.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "Schotti", "rank": "R3", "pw": 115.68, "lv": 25, "seen": "Vor 2 h", "seenh": 2.0, "vs": 11.34, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Don Ponteleimon", "rank": "R3", "pw": 113.79, "lv": 26, "seen": "Vor 2 h", "seenh": 2.0, "vs": 4.52, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Stels", "rank": "R3", "pw": 113.24, "lv": 27, "seen": "Vor 1 h", "seenh": 1.0, "vs": 7.18, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Malina", "rank": "R3", "pw": 112.82, "lv": 25, "seen": "Vor 3 h", "seenh": 3.0, "vs": 8.44, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Carletto", "rank": "R3", "pw": 112.2, "lv": 26, "seen": "Online", "seenh": 0.0, "vs": 6.21, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Lady M", "rank": "R3", "pw": 111.33, "lv": 28, "seen": "Vor 3 h", "seenh": 3.0, "vs": 36.75, "chat": "mehrfach", "lang": "de", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "aus R4-Bereich raus (08.07.), noch Mitglied/Ersatz", "pruef": null}, {"gt": "JCarvalho", "rank": "R3", "pw": 110.03, "lv": 26, "seen": "Vor 15 h", "seenh": 15.0, "vs": 2.94, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Qwe", "rank": "R3", "pw": 109.96, "lv": 26, "seen": "Vor 9 h", "seenh": 9.0, "vs": 2.45, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Elias", "rank": "R3", "pw": 107.45, "lv": 26, "seen": "Vor 1 h", "seenh": 1.0, "vs": 8.43, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "John Doe", "rank": "R3", "pw": 106.0, "lv": 25, "seen": "Vor 8 h", "seenh": 8.0, "vs": 4.63, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Перчик", "rank": "R4", "pw": 105.95, "lv": 26, "seen": "Vor 14 h", "seenh": 14.0, "vs": 5.28, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Mèo", "rank": "R1", "pw": 103.07, "lv": 25, "seen": "Vor 6 d", "seenh": 144.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "Schreibweise aus Kingeder-Screenshot 21.06.", "pruef": null}, {"gt": "UnfaintfuL", "rank": "R1", "pw": 102.8, "lv": 25, "seen": "Vor 8 h", "seenh": 8.0, "vs": 4.65, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "St Valentine", "rank": "R1", "pw": 100.95, "lv": 26, "seen": "Vor 22 d", "seenh": 528.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": null}, {"gt": "HALIF", "rank": "R3", "pw": 100.93, "lv": 26, "seen": "Vor 1 h", "seenh": 1.0, "vs": 5.82, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Jac", "rank": "R4", "pw": 100.06, "lv": 27, "seen": "Online", "seenh": 0.0, "vs": 59.3, "chat": "viel", "lang": "de", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "Event-Planung", "pruef": null}, {"gt": "русич", "rank": "R3", "pw": 99.35, "lv": 26, "seen": "Vor 9 m", "seenh": 0.15, "vs": 7.62, "chat": "einzeln", "lang": "ru", "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "MaxPayne", "rank": "R3", "pw": 99.2, "lv": 23, "seen": "Vor 4 h", "seenh": 4.0, "vs": 2.46, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Tanya", "rank": "R3", "pw": 98.86, "lv": 25, "seen": "Vor 53 m", "seenh": 0.88, "vs": 28.22, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "TilouTW", "rank": "R3", "pw": 96.98, "lv": 27, "seen": "Online", "seenh": 0.0, "vs": 8.88, "chat": "mehrfach", "lang": "fr", "disc": null, "tg": null, "ein": true, "einT": "3–4 Gruppen mit benannten Chefs, feste Missionen, Rest nur im Notfall im Chat", "lad": 5, "note": "", "pruef": "in der Notiz als 'Tilou' geführt"}, {"gt": "NeuroSpicey", "rank": "R3", "pw": 96.15, "lv": 25, "seen": "Vor 6 h", "seenh": 6.0, "vs": 12.81, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Chainger", "rank": "R3", "pw": 95.55, "lv": 25, "seen": "Vor 29 m", "seenh": 0.48, "vs": 26.88, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Merowinger", "rank": "R3", "pw": 94.4, "lv": 25, "seen": "Vor 8 h", "seenh": 8.0, "vs": 3.08, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Мохентохен", "rank": "R3", "pw": 93.23, "lv": 25, "seen": "Vor 27 m", "seenh": 0.45, "vs": 2.85, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Nelson Mandela", "rank": "R1", "pw": 92.52, "lv": 25, "seen": "Vor 18 d", "seenh": 432.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": null}, {"gt": "Mad0404", "rank": "R2", "pw": 91.26, "lv": 24, "seen": "Vor 4 h", "seenh": 4.0, "vs": 0.96868, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "KuZeN", "rank": "R3", "pw": 91.15, "lv": 24, "seen": "Vor 3 h", "seenh": 3.0, "vs": 4.91, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "DigeDag", "rank": "R3", "pw": 90.78, "lv": 25, "seen": "Vor 20 h", "seenh": 20.0, "vs": 3.75, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "ghob", "rank": "R1", "pw": 90.54, "lv": 26, "seen": "Vor 31 d", "seenh": 744.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "Technologie/Recruiting", "pruef": null}, {"gt": "Stefan Silni", "rank": "R3", "pw": 90.07, "lv": 25, "seen": "Vor 3 h", "seenh": 3.0, "vs": 5.07, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "amr201436", "rank": "R2", "pw": 88.83, "lv": 24, "seen": "Vor 3 d", "seenh": 72.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "Elias A", "rank": "R3", "pw": 87.99, "lv": 26, "seen": "Vor 2 d", "seenh": 48.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "Lameruka", "rank": "R1", "pw": 83.82, "lv": 26, "seen": "Vor 19 d", "seenh": 456.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": null}, {"gt": "jamal", "rank": "R1", "pw": 83.62, "lv": 25, "seen": "Vor 22 h", "seenh": 22.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "GeoSwaer", "rank": "R1", "pw": 83.38, "lv": 24, "seen": "Vor 11 d", "seenh": 264.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": "frueher evtl. 'GeoSwear' — Zuordnung von Jac bestaetigen lassen"}, {"gt": "Kingventu", "rank": "R3", "pw": 83.09, "lv": 25, "seen": "Vor 8 h", "seenh": 8.0, "vs": 5.32, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Алёна93", "rank": "R3", "pw": 82.93, "lv": 26, "seen": "Vor 11 m", "seenh": 0.18, "vs": 16.78, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Froschi", "rank": "R4", "pw": 82.83, "lv": 27, "seen": "Vor 47 m", "seenh": 0.78, "vs": 12.98, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "R4-Kern (08.07.)", "pruef": null}, {"gt": "B2B", "rank": "R2", "pw": 82.15, "lv": 26, "seen": "Vor 5 h", "seenh": 5.0, "vs": 6.44, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Лисса", "rank": "R1", "pw": 81.2, "lv": 24, "seen": "Vor 22 d", "seenh": 528.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": null}, {"gt": "Johnny88", "rank": "R3", "pw": 80.49, "lv": 25, "seen": "Vor 2 d", "seenh": 48.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "White Horse", "rank": "R3", "pw": 78.05, "lv": 25, "seen": "Vor 20 m", "seenh": 0.33, "vs": 36.6, "chat": "einzeln", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 3, "note": "", "pruef": null}, {"gt": "Der_Rosi", "rank": "R3", "pw": 77.53, "lv": 23, "seen": "Vor 6 h", "seenh": 6.0, "vs": 2.29, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Bauer2goApp", "rank": "R1", "pw": 69.27, "lv": 24, "seen": "Vor 9 d", "seenh": 216.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 0, "note": "", "pruef": null}, {"gt": "Neison", "rank": "R3", "pw": 67.59, "lv": 24, "seen": "Vor 1 h", "seenh": 1.0, "vs": 7.28, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Miche", "rank": "R3", "pw": 67.37, "lv": 22, "seen": "Vor 6 h", "seenh": 6.0, "vs": 1.49, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "HateCore", "rank": "R3", "pw": 59.72, "lv": 24, "seen": "Vor 51 m", "seenh": 0.85, "vs": 2.82, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Bodzio 73", "rank": "R3", "pw": 59.71, "lv": 24, "seen": "Vor 5 h", "seenh": 5.0, "vs": 1.63, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "theallenkitt", "rank": "R1", "pw": 54.47, "lv": 24, "seen": "Vor 5 d", "seenh": 120.0, "vs": 0, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 1, "note": "", "pruef": null}, {"gt": "Darksen", "rank": "R3", "pw": 41.65, "lv": 24, "seen": "Vor 13 m", "seenh": 0.22, "vs": 3.06, "chat": "nur Systemmeldung", "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}, {"gt": "Baby_Jac", "rank": "R2", "pw": 26.57, "lv": 22, "seen": "Vor 7 h", "seenh": 7.0, "vs": 4.58, "chat": null, "lang": null, "disc": null, "tg": null, "ein": false, "einT": null, "lad": 2, "note": "", "pruef": null}];
+var STAND = "31.08.2026";
+
+/* ---------- Auswahllisten (immer inkl. "unbekannt") ---------- */
+var U = "unbekannt";
+var OPT = {
+  rank:     ["R5","R4","R3","R2","R1",U],
+  raidrank: ["Kommandant","Gruppenführer","Rally-Caller","Kämpfer",U],
+  jn:       ["ja","nein",U],
+  chat:     ["viel","mehrfach","einzeln","nur Systemmeldung","nie",U],
+  mit:      ["ja","nein","teilweise",U]
+};
+var TASKS_STD = ["Rekrutierung","Diplomatie","Technik","Tagesdienst","Wissen & Tipps",
+                 "Übersetzer / Sprachbrücke","Event-Planung","Raid-Kommando"];
+var RAIDHINT = {
+  "Kommandant":"kann ein ganzes Event/Raid führen",
+  "Gruppenführer":"kann eine Gruppe oder Zone führen",
+  "Rally-Caller":"kann Rallys ansagen",
+  "Kämpfer":"macht mit, führt nicht",
+  "unbekannt":"noch nicht eingeschätzt"
+};
+
+/* ---------- Spalten ---------- */
+var COLS = [
+ {k:"gt",   t:"Spieler",        ty:"txt",  fix:1},
+ {k:"rank", t:"Rang",           ty:"sel",  o:"rank",     ed:1},
+ {k:"raidrank",t:"Raid-Rang",   ty:"sel",  o:"raidrank", ed:1, hint:"Wer kann bei Raids wirklich führen?"},
+ {k:"tasks",t:"Aufgaben",       ty:"tags", ed:1},
+ {k:"pw",   t:"Kraft (Mio.)",   ty:"num"},
+ {k:"lv",   t:"Level",          ty:"num"},
+ {k:"seenh",t:"Zuletzt",        ty:"seen"},
+ {k:"vs",   t:"VS Woche",       ty:"num",  warn:1},
+ {k:"vsavg",t:"Ø Woche",        ty:"soon"},
+ {k:"vssma",t:"SMA",            ty:"soon"},
+ {k:"arcadia",t:"Arcadia",      ty:"sel",  o:"mit", ed:1},
+ {k:"loewe",t:"Ghulöwe",        ty:"sel",  o:"mit", ed:1},
+ {k:"rr",   t:"Reservoir Raid", ty:"sel",  o:"mit", ed:1},
+ {k:"chat", t:"Chat",           ty:"sel",  o:"chat",ed:1},
+ {k:"disc", t:"Discord",        ty:"sel",  o:"jn",  ed:1},
+ {k:"tg",   t:"Telegram",       ty:"sel",  o:"jn",  ed:1},
+ {k:"lang", t:"Sprache",        ty:"txt",  ed:1},
+ {k:"ein",  t:"Bringt sich ein",ty:"sel",  o:"jn",  ed:1},
+ {k:"lad",  t:"Stufe",          ty:"lad"},
+ {k:"note", t:"Notiz",          ty:"txt",  ed:1, wide:1}
+];
+
+/* ---------- Firestore ---------- */
+var FB={apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18",authDomain:"s1l-hub.firebaseapp.com",
+        projectId:"s1l-hub",storageBucket:"s1l-hub.firebasestorage.app",
+        messagingSenderId:"761448020039",appId:"1:761448020039:web:b65a7e1c1bac2f31831962"};
+var col=null, DB={}, CUSTOM=[];
+function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9а-яё]/gi,""); }
+function who(){ try{ return sessionStorage.getItem("s1l_r4_name")||"R4"; }catch(e){ return "R4"; } }
+function ldScript(src,cb){ var s=document.createElement("script"); s.src=src; s.onload=cb; s.onerror=cb; document.head.appendChild(s); }
+function initFB(done){
+  if(typeof firebase!=="undefined") return done();
+  ldScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js",function(){
+    ldScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js",done); });
+}
+function boot(){
+  initFB(function(){
+    try{
+      if(typeof firebase==="undefined") return render();
+      if(!firebase.apps.length) firebase.initializeApp(FB);
+      col=firebase.firestore().collection("register");
+      col.onSnapshot(function(s){
+        DB={};
+        s.forEach(function(dc){
+          if(dc.id==="__tasks"){ CUSTOM=(dc.data()||{}).list||[]; return; }
+          DB[dc.id]=dc.data()||{};
+        });
+        render();
+      }, function(){ col=null; render(); });
+    }catch(e){ col=null; render(); }
+  });
+}
+function save(id,patch,cb){
+  var cur=DB[id]||{}, nd={};
+  Object.keys(cur).forEach(function(k){ nd[k]=cur[k]; });
+  Object.keys(patch).forEach(function(k){ nd[k]=patch[k]; });
+  nd.editor=who(); nd.tms=Date.now();
+  DB[id]=nd; render();
+  if(col) col.doc(id).set(nd).then(function(){cb&&cb(1);}).catch(function(){cb&&cb(0);});
+  else cb&&cb(-1);
+}
+function saveTasks(list,cb){
+  CUSTOM=list;
+  if(col) col.doc("__tasks").set({list:list,editor:who(),tms:Date.now()}).then(function(){cb&&cb(1);}).catch(function(){cb&&cb(0);});
+  else cb&&cb(-1);
+}
+function allTasks(){
+  var s=TASKS_STD.slice();
+  CUSTOM.forEach(function(t){ if(s.indexOf(t)<0) s.push(t); });
+  Object.keys(DB).forEach(function(id){ (DB[id].tasks||[]).forEach(function(t){ if(s.indexOf(t)<0) s.push(t); }); });
+  return s;
+}
+
+/* ---------- Wert lesen: DB gewinnt über Stammdaten ---------- */
+function val(r,k){
+  var o=DB[norm(r.gt)]||{};
+  if(k in o && o[k]!==undefined && o[k]!==null && o[k]!=="") return o[k];
+  if(k==="rank") return r.rank;
+  if(k==="chat"){ return r.chat || U; }
+  if(k==="disc") return r.disc===true?"ja":(r.disc===false?"nein":U);
+  if(k==="tg")   return r.tg===true?"ja":(r.tg===false?"nein":U);
+  if(k==="lang") return r.lang || U;
+  if(k==="ein")  return r.ein?"ja":U;
+  if(k==="tasks") return [];
+  if(k==="raidrank"||k==="arcadia"||k==="loewe"||k==="rr") return U;
+  if(k==="note") return r.note||"";
+  return r[k];
+}
+/* Stufe = höchste belegte — live aus den aktuellen Werten */
+function ladder(r){
+  if(val(r,"ein")==="ja") return 5;
+  if(val(r,"disc")==="ja"||val(r,"tg")==="ja") return 4;
+  var c=val(r,"chat");
+  if(c==="viel"||c==="mehrfach"||c==="einzeln") return 3;
+  if((r.vs||0)>0||val(r,"arcadia")==="ja"||val(r,"loewe")==="ja"||val(r,"rr")==="ja") return 2;
+  if(r.seenh===null||r.seenh===undefined) return null;
+  return r.seenh>168?0:1;
+}
+</script><script>
+/* ---------- Rendering ---------- */
+var SORT={k:"pw",d:-1}, FILT=[], QMODE="und";
+function fmtSeen(h){
+  if(h===null||h===undefined) return '<span class="unb">'+U+'</span>';
+  if(h===0) return '<span class="k-on">online</span>';
+  if(h<1) return Math.round(h*60)+" min";
+  if(h<48) return '<span class="'+(h<=24?"":"k-w")+'">'+(h%1?h.toFixed(1):h)+" h</span>";
+  return '<span class="k-a">'+Math.round(h/24)+" d</span>";
+}
+function cellHTML(r,c){
+  var v=val(r,c.k);
+  if(c.ty==="soon") return '<td class="soon" title="wird berechnet, sobald mehrere Wochen erfasst sind">–</td>';
+  if(c.ty==="seen") return '<td class="num">'+fmtSeen(r.seenh)+'</td>';
+  if(c.ty==="lad"){ var L=ladder(r); return '<td style="text-align:center"><span class="lad '+(L===null?"lx":"l"+L)+'">'+(L===null?"?":L)+'</span></td>'; }
+  if(c.ty==="num"){
+    if(v===null||v===undefined) return '<td class="num"><span class="unb">–</span></td>';
+    var s=(c.k==="lv")?v:Number(v).toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(c.k==="vs"&&Number(v)===0) s='<span class="nein">0</span>';
+    return '<td class="num">'+s+'</td>';
+  }
+  if(c.ty==="tags"){
+    var a=val(r,"tasks")||[];
+    var h=a.length?a.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join(""):'<span class="unb">'+U+'</span>';
+    return '<td class="ed" data-k="tasks">'+h+'</td>';
+  }
+  var cls=(c.ed?"ed":""), extra=c.ed?' data-k="'+c.k+'"':"";
+  var disp;
+  if(v===U||v===""||v===null||v===undefined) disp='<span class="unb">'+U+'</span>';
+  else if(c.k==="rank") disp='<span class="pill r-'+v+'">'+v+'</span>';
+  else if(c.k==="raidrank"){
+    var m={"Kommandant":"kom","Gruppenführer":"grp","Rally-Caller":"rly","Kämpfer":"kmp"};
+    disp='<span class="pill rr-'+(m[v]||"unb")+'" title="'+esc(RAIDHINT[v]||"")+'">'+esc(v)+'</span>';
+  }
+  else if(v==="ja") disp='<span class="ja">ja</span>';
+  else if(v==="nein") disp='<span class="nein">nein</span>';
+  else disp=esc(String(v));
+  if(c.k==="note"&&String(v).length>44) disp='<span title="'+esc(String(v))+'">'+esc(String(v).slice(0,44))+'…</span>';
+  return '<td class="'+cls+'"'+extra+'>'+disp+'</td>';
+}
+function esc(s){ var d=document.createElement("div"); d.textContent=s==null?"":s; return d.innerHTML; }
+
+function passes(r){
+  var q=(document.getElementById("q").value||"").trim().toLowerCase();
+  if(q){
+    var hay=[r.gt,val(r,"lang"),val(r,"note"),(val(r,"tasks")||[]).join(" "),val(r,"raidrank"),r.rank].join(" ").toLowerCase();
+    if(hay.indexOf(q)<0) return false;
+  }
+  if(!FILT.length) return true;
+  var res=FILT.map(function(f){
+    var v, k=f.k;
+    if(k==="seenh") v=r.seenh; else if(k==="lad") v=ladder(r);
+    else if(k==="pw"||k==="lv"||k==="vs") v=r[k];
+    else v=val(r,k);
+    if(f.op==="ist")   return String(v)===f.v;
+    if(f.op==="nicht") return String(v)!==f.v;
+    if(f.op==="<=")    return v!==null&&v!==undefined&&Number(v)<=Number(f.v);
+    if(f.op===">=")    return v!==null&&v!==undefined&&Number(v)>=Number(f.v);
+    if(f.op==="hat")   return (val(r,"tasks")||[]).indexOf(f.v)>=0;
+    if(f.op==="enth")  return String(v||"").toLowerCase().indexOf(String(f.v).toLowerCase())>=0;
+    return true;
+  });
+  return QMODE==="und" ? res.every(Boolean) : res.some(Boolean);
+}
+function render(){
+  var th=document.getElementById("th"); th.innerHTML="";
+  COLS.forEach(function(c){
+    var s=SORT.k===c.k?(SORT.d>0?" ▲":" ▼"):"";
+    th.insertAdjacentHTML("beforeend",'<th data-k="'+c.k+'" title="'+esc(c.hint||"")+'">'+esc(c.t)+'<span class="ar">'+s+'</span></th>');
+  });
+  var list=ROWS.filter(passes);
+  var k=SORT.k,d=SORT.d;
+  list.sort(function(a,b){
+    var x,y;
+    if(k==="lad"){x=ladder(a);y=ladder(b);}
+    else if(k==="seenh"){x=a.seenh===null?1e9:a.seenh;y=b.seenh===null?1e9:b.seenh;}
+    else if(k==="pw"||k==="lv"||k==="vs"){x=a[k]||0;y=b[k]||0;}
+    else {x=String(val(a,k)||"");y=String(val(b,k)||"");}
+    if(typeof x==="string") return x.localeCompare(y,"de")*(-d);
+    return (x-y)*d;
+  });
+  var tb=document.getElementById("tb"); tb.innerHTML="";
+  list.forEach(function(r){
+    var tr=document.createElement("tr"); tr.dataset.gt=r.gt;
+    tr.innerHTML=COLS.map(function(c){return cellHTML(r,c);}).join("");
+    tb.appendChild(tr);
+  });
+  if(!list.length) tb.innerHTML='<tr><td colspan="'+COLS.length+'" style="text-align:center;padding:26px;color:var(--mut)">Kein Spieler passt auf diese Abfrage.</td></tr>';
+  document.getElementById("cnt").textContent=list.length+" von "+ROWS.length+" Spielern"+(col?"":" · offline, Änderungen werden nicht gespeichert");
+  var L={}; ROWS.forEach(function(r){var x=ladder(r); L[x]=(L[x]||0)+1;});
+  document.getElementById("leg").innerHTML=
+    '<span><b>Stufen:</b></span>'+[0,1,2,3,4,5].map(function(i){
+      var n=["schlafend","spielt","macht mit","im Chat","extern erreichbar","bringt sich ein"][i];
+      return '<span><span class="lad l'+i+'">'+i+'</span> '+n+' <b>'+(L[i]||0)+'</b></span>';}).join("")+
+    '<span style="margin-left:auto">Stand '+STAND+'</span>';
+}
+</script><script>
+/* ---------- Abfrage-Bauer ---------- */
+var QF=[
+ {k:"seenh",t:"zuletzt online (h)",ops:["<=",">="]},
+ {k:"vs",   t:"VS Woche (Mio.)",   ops:["<=",">="]},
+ {k:"pw",   t:"Kampfkraft (Mio.)", ops:["<=",">="]},
+ {k:"lv",   t:"Level",             ops:["<=",">="]},
+ {k:"lad",  t:"Stufe",             ops:["ist","nicht","<=",">="]},
+ {k:"rank", t:"Rang",              ops:["ist","nicht"], o:"rank"},
+ {k:"raidrank",t:"Raid-Rang",      ops:["ist","nicht"], o:"raidrank"},
+ {k:"tasks",t:"Aufgabe",           ops:["hat"], dyn:1},
+ {k:"chat", t:"Chat",              ops:["ist","nicht"], o:"chat"},
+ {k:"arcadia",t:"Arcadia",         ops:["ist","nicht"], o:"mit"},
+ {k:"loewe",t:"Ghulöwe",           ops:["ist","nicht"], o:"mit"},
+ {k:"rr",   t:"Reservoir Raid",    ops:["ist","nicht"], o:"mit"},
+ {k:"disc", t:"Discord",           ops:["ist","nicht"], o:"jn"},
+ {k:"tg",   t:"Telegram",          ops:["ist","nicht"], o:"jn"},
+ {k:"ein",  t:"Bringt sich ein",   ops:["ist","nicht"], o:"jn"},
+ {k:"lang", t:"Sprache",           ops:["ist","nicht","enth"], dyn:2}
+];
+var OPT_T={"<=":"ist höchstens",">=":"ist mindestens","ist":"ist","nicht":"ist nicht","hat":"hat","enth":"enthält"};
+function qfBy(k){ for(var i=0;i<QF.length;i++) if(QF[i].k===k) return QF[i]; return QF[0]; }
+function valsFor(f){
+  if(f.o) return OPT[f.o];
+  if(f.dyn===1) return allTasks();
+  if(f.dyn===2){ var s=[]; ROWS.forEach(function(r){var v=val(r,"lang"); if(v&&s.indexOf(v)<0) s.push(v);}); return s.sort(); }
+  return [];
+}
+function drawQB(){
+  var b=document.getElementById("qb"); b.innerHTML="";
+  if(!FILT.length){ b.innerHTML='<div style="color:var(--mut);font-size:.86rem">Keine Bedingung — es werden alle '+ROWS.length+' Spieler gezeigt.</div>'; return; }
+  FILT.forEach(function(f,i){
+    var fd=qfBy(f.k), vals=valsFor(fd);
+    var row=document.createElement("div"); row.className="qrow";
+    var lk=i===0?'<span class="lk">WO</span>':'<span class="lk" style="cursor:pointer" data-lk="1">'+(QMODE==="und"?"UND":"ODER")+'</span>';
+    row.innerHTML=lk+
+      '<select data-i="'+i+'" data-p="k">'+QF.map(function(x){return '<option value="'+x.k+'"'+(x.k===f.k?" selected":"")+'>'+x.t+'</option>';}).join("")+'</select>'+
+      '<select data-i="'+i+'" data-p="op">'+fd.ops.map(function(o){return '<option value="'+o+'"'+(o===f.op?" selected":"")+'>'+OPT_T[o]+'</option>';}).join("")+'</select>'+
+      (vals.length
+        ? '<select data-i="'+i+'" data-p="v">'+vals.map(function(v){return '<option'+(String(v)===String(f.v)?" selected":"")+'>'+esc(v)+'</option>';}).join("")+'</select>'
+        : '<input data-i="'+i+'" data-p="v" value="'+esc(f.v)+'" style="width:110px">')+
+      '<button class="btn x" data-del="'+i+'" type="button">✕</button>';
+    b.appendChild(row);
+  });
+}
+document.getElementById("qb").addEventListener("change",function(e){
+  var t=e.target, i=t.dataset.i, p=t.dataset.p; if(i===undefined) return;
+  FILT[i][p]=t.value;
+  if(p==="k"){ var fd=qfBy(t.value); FILT[i].op=fd.ops[0]; var vv=valsFor(fd); FILT[i].v=vv.length?vv[0]:""; }
+  drawQB(); render();
+});
+document.getElementById("qb").addEventListener("click",function(e){
+  var d=e.target.dataset.del;
+  if(d!==undefined){ FILT.splice(+d,1); drawQB(); render(); return; }
+  if(e.target.dataset.lk){ QMODE=QMODE==="und"?"oder":"und"; drawQB(); render(); }
+});
+document.getElementById("qAdd").onclick=function(){
+  var fd=QF[0], vv=valsFor(fd);
+  FILT.push({k:fd.k,op:fd.ops[0],v:vv.length?vv[0]:"24"}); drawQB(); render();
+};
+document.getElementById("qClr").onclick=function(){ FILT=[]; drawQB(); render(); };
+
+var PRESETS=[
+ {n:"heute aktiv",         f:[{k:"seenh",op:"<=",v:"24"}]},
+ {n:"aktiv, aber kein VS", f:[{k:"seenh",op:"<=",v:"24"},{k:"vs",op:"<=",v:"0"}]},
+ {n:"kann führen",         f:[{k:"raidrank",op:"nicht",v:"unbekannt"}]},
+ {n:"schläft (>7 Tage)",   f:[{k:"lad",op:"ist",v:"0"}]},
+ {n:"bringt sich ein",     f:[{k:"ein",op:"ist",v:"ja"}]},
+ {n:"Raid-Rang noch offen",f:[{k:"raidrank",op:"ist",v:"unbekannt"}]},
+ {n:"Discord unbekannt",   f:[{k:"disc",op:"ist",v:"unbekannt"}]},
+ {n:"stark & still",       f:[{k:"pw",op:">=",v:"100"},{k:"chat",op:"ist",v:"unbekannt"}]}
+];
+(function(){
+  var p=document.getElementById("presets");
+  PRESETS.forEach(function(x,i){
+    var b=document.createElement("button"); b.className="chip"; b.type="button"; b.textContent=x.n;
+    b.onclick=function(){
+      var same=JSON.stringify(FILT)===JSON.stringify(x.f);
+      FILT=same?[]:JSON.parse(JSON.stringify(x.f)); QMODE="und";
+      [].forEach.call(p.children,function(c){c.classList.remove("on");});
+      if(!same) b.classList.add("on");
+      drawQB(); render();
+    };
+    p.appendChild(b);
+  });
+})();
+document.getElementById("q").addEventListener("input",render);
+document.getElementById("th").addEventListener("click",function(e){
+  var th=e.target.closest("th"); if(!th) return;
+  var k=th.dataset.k;
+  if(SORT.k===k) SORT.d=-SORT.d; else { SORT.k=k; SORT.d=-1; }
+  render();
+});
+</script><script>
+/* ---------- Editor ---------- */
+var EDR=null, EDK=null, TMP=null;
+document.getElementById("tb").addEventListener("click",function(e){
+  var td=e.target.closest("td.ed"); if(!td) return;
+  var gt=td.closest("tr").dataset.gt, k=td.dataset.k;
+  var r=null; ROWS.forEach(function(x){ if(x.gt===gt) r=x; }); if(!r) return;
+  openEd(r,k);
+});
+function openEd(r,k){
+  EDR=r; EDK=k;
+  var c=null; COLS.forEach(function(x){ if(x.k===k) c=x; });
+  document.getElementById("mdT").textContent=c.t;
+  document.getElementById("mdW").textContent=r.gt+" · "+r.rank+" · "+Number(r.pw).toLocaleString("de-DE")+" Mio. · Level "+r.lv;
+  document.getElementById("mdS").textContent="";
+  var b=document.getElementById("mdB"), cur=val(r,k);
+  if(k==="tasks"){
+    TMP=(cur||[]).slice();
+    b.innerHTML='<div class="fld"><label>Aufgaben — mehrere möglich</label><div class="tsel" id="tsel"></div></div>'+
+      '<div class="fld"><label>Eigene Aufgabe anlegen</label>'+
+      '<div style="display:flex;gap:7px"><input id="tnew" placeholder="z. B. Discord-Betreuung">'+
+      '<button class="btn" id="tadd" type="button">+</button></div>'+
+      '<div style="color:var(--mut);font-size:.78rem;margin-top:5px">Eine Aufgabe kann mehrere Leute haben, und einer mehrere Aufgaben.</div></div>';
+    drawTsel();
+    document.getElementById("tadd").onclick=function(){
+      var v=document.getElementById("tnew").value.trim(); if(!v) return;
+      if(TMP.indexOf(v)<0) TMP.push(v);
+      var all=allTasks(); if(all.indexOf(v)<0) saveTasks(CUSTOM.concat([v]));
+      document.getElementById("tnew").value=""; drawTsel();
+    };
+  } else if(c.ty==="sel"){
+    var o=OPT[c.o];
+    b.innerHTML='<div class="fld"><label>Wert</label><select id="ev">'+
+      o.map(function(x){return '<option'+(String(x)===String(cur)?" selected":"")+'>'+esc(x)+'</option>';}).join("")+
+      '</select>'+(k==="raidrank"?'<div style="color:var(--mut);font-size:.78rem;margin-top:6px" id="rrh"></div>':'')+'</div>';
+    if(k==="raidrank"){
+      var upd=function(){ document.getElementById("rrh").textContent=RAIDHINT[document.getElementById("ev").value]||""; };
+      document.getElementById("ev").onchange=upd; upd();
+    }
+  } else if(k==="note"){
+    b.innerHTML='<div class="fld"><label>Notiz</label><textarea id="ev">'+esc(cur===U?"":cur)+'</textarea></div>';
+  } else {
+    b.innerHTML='<div class="fld"><label>Wert (leer = unbekannt)</label><input id="ev" value="'+esc(cur===U?"":cur)+'"></div>';
+  }
+  document.getElementById("md").classList.add("on");
+}
+function drawTsel(){
+  var w=document.getElementById("tsel"); w.innerHTML="";
+  allTasks().forEach(function(t){
+    var b=document.createElement("button"); b.type="button";
+    b.className="chip"+(TMP.indexOf(t)>=0?" on":""); b.textContent=t;
+    b.onclick=function(){ var i=TMP.indexOf(t); if(i>=0) TMP.splice(i,1); else TMP.push(t); drawTsel(); };
+    w.appendChild(b);
+  });
+}
+document.getElementById("mdC").onclick=function(){ document.getElementById("md").classList.remove("on"); };
+document.getElementById("md").addEventListener("click",function(e){ if(e.target.id==="md") e.target.classList.remove("on"); });
+document.getElementById("mdOK").onclick=function(){
+  var p={}, id=norm(EDR.gt);
+  if(EDK==="tasks") p.tasks=TMP.slice();
+  else { var v=document.getElementById("ev").value; p[EDK]=(v===""||v===U)?U:v; }
+  p.gt=EDR.gt;
+  var s=document.getElementById("mdS"); s.textContent="speichere …";
+  save(id,p,function(ok){
+    s.textContent = ok===1?"gespeichert ✓" : (ok===-1?"offline — nur lokal":"Fehler beim Speichern");
+    if(ok===1) setTimeout(function(){ document.getElementById("md").classList.remove("on"); },520);
+  });
+};
+
+/* ---------- Export ---------- */
+function expRows(){
+  return ROWS.filter(passes).map(function(r){
+    var o={};
+    COLS.forEach(function(c){
+      if(c.ty==="soon"){ o[c.t]=""; return; }
+      if(c.k==="tasks"){ o[c.t]=(val(r,"tasks")||[]).join("; "); return; }
+      if(c.k==="lad"){ o[c.t]=ladder(r); return; }
+      if(c.k==="seenh"){ o[c.t]=r.seen||""; return; }
+      var v=val(r,c.k); o[c.t]=(v===null||v===undefined)?"":v;
+    });
+    return o;
+  });
+}
+function dl(name,txt,mime){
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([txt],{type:mime})); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+document.getElementById("csv").onclick=function(){
+  var d=expRows(); if(!d.length) return;
+  var h=Object.keys(d[0]);
+  var s=h.join(";")+"\n"+d.map(function(o){
+    return h.map(function(k){ var v=String(o[k]==null?"":o[k]); return /[";\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(";");
+  }).join("\n");
+  dl("S1L-Register-"+STAND.replace(/\./g,"-")+".csv","\ufeff"+s,"text/csv;charset=utf-8");
+};
+document.getElementById("jsn").onclick=function(){
+  dl("S1L-Register-"+STAND.replace(/\./g,"-")+".json",JSON.stringify(expRows(),null,1),"application/json");
+};
+
+/* ---------- Sprache (DE/EN) ---------- */
+var EN=false;
+var T_EN={"Abfrage":"Query","+ Bedingung":"+ Condition","Abfrage leeren":"Clear query",
+ "Spieler":"Player","Rang":"Rank","Raid-Rang":"Raid rank","Aufgaben":"Tasks","Kraft (Mio.)":"Power (M)",
+ "Level":"Level","Zuletzt":"Last seen","VS Woche":"VS week","Ø Woche":"Weekly avg","SMA":"SMA",
+ "Arcadia":"Arcadia","Ghulöwe":"Ghoulion","Reservoir Raid":"Reservoir Raid","Chat":"Chat",
+ "Discord":"Discord","Telegram":"Telegram","Sprache":"Language","Bringt sich ein":"Contributes",
+ "Stufe":"Level","Notiz":"Note","Speichern":"Save","Abbrechen":"Cancel"};
+document.getElementById("lng").onclick=function(){
+  EN=!EN; this.textContent=EN?"DE":"EN";
+  COLS.forEach(function(c){ if(!c._de) c._de=c.t; c.t=EN?(T_EN[c._de]||c._de):c._de; });
+  render();
+};
+
+drawQB(); boot(); render();
+</script></div></body></html>
