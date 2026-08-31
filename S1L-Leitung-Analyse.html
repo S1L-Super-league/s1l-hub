@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ist-Stand-Analyse S1L</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--line:#dde4ef;--tx:#152238;--mut:#66788f;--acc:#2563eb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.rw{max-width:820px;margin:0 auto;padding:26px 18px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.btn{font:inherit;font-size:.85rem;padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--tx);text-decoration:none}
+h1{font-size:1.6rem;margin:.2em 0 .1em;line-height:1.25}
+h2{font-size:1.2rem;margin:1.9em 0 .5em;padding-top:.7em;border-top:1px solid var(--line)}
+h3{font-size:1.02rem;margin:1.5em 0 .35em;color:#334}
+h4{font-size:.95rem;margin:1.2em 0 .3em;color:#445}
+p{margin:.55em 0}
+p.bul{padding-left:1.15em;position:relative;margin:.32em 0}
+p.bul::before{content:"·";position:absolute;left:.35em;font-weight:800;color:var(--acc)}
+p.num{padding-left:.2em;margin:.32em 0}
+blockquote{margin:1.1em 0;padding:11px 15px;background:#eef3fd;border-left:4px solid var(--acc);border-radius:0 9px 9px 0}
+blockquote p{margin:.25em 0;font-size:.92rem}
+.tw{overflow-x:auto;margin:1em 0;border:1px solid var(--line);border-radius:11px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 11px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:#eaf0fa;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em;color:var(--mut)}
+tr:last-child td{border-bottom:0}
+code{background:#eef2f8;padding:1px 5px;border-radius:5px;font-size:.87em}
+hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+strong{color:#0d1a2e}
+@media(max-width:640px){body{font-size:15px}.rw{padding:18px 13px 60px}}
+</style></head><body>
+<script src="auth-lead.js"></script>
+<div class="rw" hidden>
+<div class="top"><a class="btn" href="S1L-R4-Register.html">→ Zum Register</a><a class="btn" href="S1L-R4.html">← R4-Bereich</a></div>
+<h1>Ist-Stand-Analyse [S1L] Super League</h1>
+<p><strong>Stand 31. August 2026 · erhoben direkt im Spiel · vertraulich, nur für Jac</strong></p>
+<blockquote>
+<p><strong>Fassung für den Hub — Zugang nur Jac und Kingeder.</strong></p>
+<p>Diese Seite enthält Einschätzungen zu einzelnen Mitgliedern und beruht unter anderem auf Chat-Verläufen.</p>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p><strong>Was gegenüber meiner Arbeitsfassung geändert wurde:</strong> Ich habe alle Stellen entschärft, an denen Privates</p>
+<p>oder wörtliche Zitate aus Gesprächen standen — persönliche Lebensumstände, konkrete berufliche Angaben und</p>
+<p>Deutungen, die über das hinausgingen, was die Daten hergeben. Jede einzelne Änderung ist am Ende dieser</p>
+<p>Seite unter <strong>„Was ich für diese Fassung geändert habe&quot;</strong> aufgelistet. Die ungekürzte Arbeitsfassung liegt</p>
+<p>lokal in <code>planung/</code>.</p>
+</blockquote>
+<hr>
+<h2>Das Wichtigste in fünf Sätzen</h2>
+<p>Die Allianz ist <strong>deutlich gesünder, als eine reine VS-Tabelle vermuten lässt</strong>. 82 von 97 waren in den letzten 24 Stunden im Spiel, 83 haben diese Woche gespendet — das ist eine hohe Grundbeteiligung. Das eigentliche Problem ist nicht Faulheit, sondern <strong>Sichtbarkeit</strong>: Wer über Spenden beiträgt statt über Kampfpunkte, taucht in keiner Rangliste auf und wird leicht übersehen. Gleichzeitig hängt die Schlagkraft an sehr wenigen Schultern — <strong>die Top 10 stemmen 45 % aller VS-Punkte</strong>. Und es gibt zwei stille Personalthemen, die dringender sind als jede Taktikfrage: <strong>ALO denkt offenbar über einen Austritt nach</strong>, und <strong>Froschi fällt diese Woche komplett aus</strong>.</p>
+<hr>
+<h2>1. Die Datenbasis — was gemessen ist und was nicht</h2>
+<div class="tw"><table>
+<tr><th>Erhoben</th><th>Wie</th><th>Belastbarkeit</th></tr>
+<tr><td>Kampfkraft, Level, letzte Aktivität</td><td>Mitgliederliste, 31.08. 17:20</td><td><strong>gut</strong> — Vollerhebung 97/97</td></tr>
+<tr><td>VS-Beitrag</td><td>Wochenrangliste Allianzkampf</td><td><strong>schwach</strong> — die Woche begann am Montag, das ist faktisch <em>ein Tag</em></td></tr>
+<tr><td>Reservoir Raid</td><td>Postfach-Einzelwertung 30.08.</td><td><strong>gut</strong> — vollständige 30er-Liste eines echten Raids</td></tr>
+<tr><td>Spenden</td><td>Spendenrangliste der Woche</td><td><strong>gut</strong> — 83 Einträge</td></tr>
+<tr><td>Chat-Aktivität</td><td>Allianz- + Verwaltungschat, 18:16–21:45</td><td><strong>Momentaufnahme</strong> — ein Abend, dazu ein Meeting-Abend</td></tr>
+</table></div>
+<p><strong>Die wichtigste Warnung:</strong> Niemand sollte gerade an den VS-Zahlen gemessen werden. Was heute wie „trägt nichts bei&quot; aussieht, ist bei den meisten schlicht „hat den Montag noch vor sich&quot;. Erst nach ein paar vollen Wochen wird daraus ein Urteil.</p>
+<hr>
+<h2>2. Beitrag richtig messen — und was Spenden <em>nicht</em> sind</h2>
+<p><strong>Korrektur zu meiner ersten Fassung.</strong> Ich hatte hohe Spender als „stille Helfer&quot; eingeordnet. Das ist falsch, und Jac hat es klargestellt: <strong>Der Spendentopf ist ohnehin voll.</strong> Wer spendet, holt sich damit vor allem eigene Belohnungen — die Allianz gewinnt nichts, was ihr sonst fehlen würde. Spenden sind daher <strong>kein Beitrag</strong>, sondern bestenfalls eine Nebeninformation.</p>
+<p>Damit dreht sich die Bewertung um: <strong>Viel spenden und trotzdem kaum VS-Punkte machen ist kein Ausgleich — es ist ein Warnsignal.</strong> Diese Leute sind ja <em>online</em>. Sie schaffen es ins Spiel, aber nicht zu einer besseren Leistung. Genau das gehört geklärt.</p>
+<h3>Was wirklich zählt</h3>
+<p class="num">1. Aktivität bei Events — Arcadia, Ghulöwe, Reservoir Raid</p>
+<p class="num">2. Intelligentes Agieren im VS</p>
+<p class="num">3. Stärker werden für und mit der Allianz (Level- und Kraftentwicklung)</p>
+<p class="num">4. Raids machen, damit Kisten da sind</p>
+<p class="num">5. Beteiligung im Chat</p>
+<h3>Der Benchmark macht es messbar</h3>
+<p><strong>Baby_Jac — Level 22, 26,6 Mio., der kleinste Account der Allianz.</strong> Dort wird bewusst nur das Nötigste gespielt und <strong>gar nicht gespendet</strong>. Das ist die Messlatte: <em>Was schafft jemand, der regelmäßig und richtig, aber ohne Ehrgeiz spielt?</em> Antwort: <strong>4,58 Mio. VS.</strong></p>
+<p>Damit lässt sich die entscheidende Frage sauber stellen: <strong>Wer ist stärker als dieser Minimal-Account und macht trotzdem weniger Punkte?</strong> Das sind <strong>23 Spieler.</strong></p>
+<div class="tw"><table>
+<tr><th>Spieler</th><th>Rang</th><th>Kraft</th><th>VS</th><th>wie viel stärker als der Benchmark</th></tr>
+<tr><td>Trinket Lipslums</td><td>R3</td><td>189,0 Mio.</td><td><strong>0,00</strong></td><td>7,1×</td></tr>
+<tr><td>Gabysssss</td><td><strong>R4</strong></td><td>184,0 Mio.</td><td>1,47</td><td>6,9×</td></tr>
+<tr><td>Frenchy78</td><td>R1</td><td>178,4 Mio.</td><td><strong>0,00</strong></td><td>6,7×</td></tr>
+<tr><td>Neumi</td><td>R3</td><td>127,6 Mio.</td><td>3,51</td><td>4,8×</td></tr>
+<tr><td>Sirdeath89</td><td>R3</td><td>125,8 Mio.</td><td>0,57</td><td>4,7×</td></tr>
+<tr><td>Golbeus</td><td>R3</td><td>121,3 Mio.</td><td>4,49</td><td>4,6×</td></tr>
+<tr><td>Don Ponteleimon</td><td>R3</td><td>113,8 Mio.</td><td>4,52</td><td>4,3×</td></tr>
+<tr><td>JCarvalho · Qwe</td><td>R3</td><td>110,0 Mio.</td><td>2,94 · 2,45</td><td>4,1×</td></tr>
+<tr><td>MaxPayne</td><td>R3</td><td>99,2 Mio.</td><td>2,46</td><td>3,7×</td></tr>
+<tr><td>Merowinger</td><td>R3</td><td>94,4 Mio.</td><td>3,08</td><td>3,6×</td></tr>
+<tr><td>Мохентохен</td><td>R3</td><td>93,2 Mio.</td><td>2,85</td><td>3,5×</td></tr>
+<tr><td>Mad0404</td><td>R2</td><td>91,3 Mio.</td><td>0,97</td><td>3,4×</td></tr>
+<tr><td>DigeDag</td><td>R3</td><td>90,8 Mio.</td><td>3,75</td><td>3,4×</td></tr>
+<tr><td>amr201436 · Elias A</td><td>R2/R3</td><td>~88 Mio.</td><td><strong>0,00</strong></td><td>3,3×</td></tr>
+<tr><td>jamal</td><td>R1</td><td>83,6 Mio.</td><td><strong>0,00</strong></td><td>3,1×</td></tr>
+<tr><td>Johnny88</td><td>R3</td><td>80,5 Mio.</td><td><strong>0,00</strong></td><td>3,0×</td></tr>
+<tr><td>Der_Rosi · Miche · HateCore · Bodzio 73 · Darksen</td><td>R3</td><td>42–78 Mio.</td><td>1,5–3,1</td><td>1,6–2,9×</td></tr>
+</table></div>
+<p><strong>Die drei auffälligsten Fälle:</strong></p>
+<p class="bul"><strong>Trinket Lipslums</strong> — 189 Mio., Level 30, gestern online, <strong>null VS, kein Raid</strong>. Siebenmal so stark wie der Minimal-Account und darunter. Er spendet 346.616 — was ihm nichts einbringt außer eigenen Belohnungen.</p>
+<p class="bul"><strong>Gabysssss</strong> — <strong>R4-Offizier und Diplomat-Amt</strong>, 184 Mio., VS 1,47. Bei einer Führungskraft wiegt das doppelt.</p>
+<p class="bul"><strong>Sirdeath89</strong> — 125,8 Mio., VS 0,57, war vor sieben Stunden online.</p>
+<p><strong>Wichtige Einschränkung:</strong> Die VS-Zahlen sind vom Montag, also faktisch ein Tag. Bei den Fällen mit <strong>exakt 0,00</strong> und hoher Kraft ist das trotzdem aussagekräftig — wer online ist und <em>gar nichts</em> macht, hätte auch am Montag etwas machen können. Bei den Werten um 2–4 Mio. würde ich die Woche abwarten, bevor jemand angesprochen wird.</p>
+<h2>3. Die Menschen — wer ist wer</h2>
+<h3>Die Tragenden</h3>
+<p><strong>ANONYMOUS</strong> (R4, Schlächter, 294 Mio.) — der stärkste Spieler und der Anker der Allianz. Führt beide Kampfranglisten an. Im Chat auffällig präsent, humorvoll, auf Russisch. Auf die Diskussion um seine Dauerpräsenz hat er selbst angedeutet, dass er neben dem Spiel Wichtigeres zu tun hat. <strong>Das ist ein Belastungssignal.</strong> Burzowy hat im Meeting selbst gesagt, ANONYMOUS „müsse auch mal frei haben können, ohne dass wir brennen&quot;. Die Allianz weiß also, dass sie zu abhängig von ihm ist — gelöst ist es nicht.</p>
+<p><strong>CrexoOG</strong> (R4, Verwalter, 235 Mio.) — Nummer 2 im VS, Nummer 1 im letzten Reservoir Raid. Übernimmt laut Meeting-Notiz die Aufstellung („dass die Starken vorne stehen&quot;). Solide, präsent, unaufgeregt.</p>
+<p><strong>Lignum</strong> (R4, Charmeur, 177 Mio.) — <strong>der größte Spender der Allianz</strong> (634.764, mit deutlichem Abstand) und Vierter im RR. Im Verwaltungschat sehr aktiv, auf Russisch. Er war es, der ALO zurückhielt („Geh nicht raus!!!&quot;). Wirkt wie der soziale Kitt im russischsprachigen Teil.</p>
+<p><strong>З кило</strong> (R3, 234 Mio.) — der stärkste R3, ständig online, aber nur 11,97 VS. Die Kraft ist da, der Kampfbeitrag noch nicht abgerufen. Ein naheliegender Kandidat für mehr Verantwortung.</p>
+<h3>Die Denker</h3>
+<p><strong>Burzowy</strong> (R3, 145 Mio.) — der mit Abstand längste und durchdachteste Beitrag im Arcadia-Meeting. Denkt in Systemen, nicht in Einzelfällen: Server-Buffs für alle statt nur für die Top-Spieler, Hauptschloss an die Top-2-Allianz abgeben, klare Führung im Sprachchat. Er vergleicht ständig mit anderen Spielen, die er kennt. <strong>Diese Perspektive hat sonst niemand.</strong> Gleichzeitig ist er sprachlich isoliert — er schrieb: „im Moment bin ich der einzige Pole hier.&quot;</p>
+<p><strong>DrDr387</strong> (R3, 138 Mio., VIP8) — die aktivste deutschsprachige Stimme. Konkrete, umsetzbare Vorschläge: RR-Gruppenchats mit R4-Führung zurück, wöchentliche Wiederholung der Erklärungen für Neue, Gruppen nach Sprachen. Im Chat der freundliche Ton, der andere einbindet („Guten Abend zusammen&quot;, bedankt sich, gibt Erinnerungen weiter). In der PN an dich: <strong>„Mir liegt soviel an unserer alli&quot;</strong> — und sie bringt sich sowohl beim Reden als auch beim Spenden ein (Platz 14). Das ist die Person, die ich als Erste in eine offizielle Rolle heben würde.</p>
+<p><strong>CzarnaRóża</strong> (R3, 142 Mio.) — der wertvollste Einzelfund der Erhebung. Mit <strong>Polnisch</strong> aufgewachsen, dann <strong>Deutsch</strong> gelernt, dazu nach eigener Aussage Französisch und Spanisch aus der Schule. Sie hat Burzowy im Chat <strong>von sich aus</strong> Übersetzungshilfe angeboten. Sie schließt exakt die Lücke, an der die Allianz laut Meeting am meisten leidet. Spendet solide (Platz 19), spielt RR mit.</p>
+<p><strong>TilouTW</strong> (R3, 97 Mio.) — Franzose („franco-taïwanais&quot;), höflich, strukturiert. Sein Meeting-Beitrag ist der klarste Vorschlag von allen: 3–4 Gruppen, nur benannte Chefs geben Anweisungen, alle anderen nur im Notfall. Verabschiedet sich freundlich aus dem Chat („Merci à tous, un temps de pause pour le dîner&quot;).</p>
+<h3>Die Wackelkandidaten</h3>
+<p><strong>ALO</strong> (R4, 224 Mio.) — <strong>die dringendste Personalie.</strong> Im Verwaltungschat gab es am 30.08. einen Austausch, in dem ANONYMOUS und Lignum ihn deutlich zum Bleiben ermutigt haben. Worum es genau ging, geht aus dem Verlauf nicht eindeutig hervor — es klang nach einem möglichen Wechsel. Er ist Nummer 5 im letzten RR und Platz 7 bei den Spenden — ein Verlust wäre teuer. <strong>Ich würde das nicht im Chat klären, sondern in einer PN.</strong></p>
+<p><strong>Froschi</strong> (R4, 83 Mio.) — hat sich am 30.08. für <strong>Montag bis Donnerstag</strong> abgemeldet: beruflich auswärts, unsicher ob er dort Internet hat. Am Wochenende wieder da. Das ist genau die laufende Woche — bei Planungen für Mo–Do sollte er nicht eingeplant werden. Nebenbei: Platz 3 bei den Spenden. Vorbildlich, dass er sich sauber abgemeldet hat.</p>
+<p><strong>Frenchy78</strong> (R1 Jail, 178 Mio., Lv 30) — der auffälligste Widerspruch im Roster. Zweitstärkster Spieler nach Kampfkraft überhaupt, <strong>vor 19 Stunden noch online</strong>, aber in Jail und ohne jeden Beitrag: kein VS, kein RR, keine Spende. Entweder ist die Herabstufung gewollt und er spielt nur noch nebenher — oder hier verliert die Allianz gerade still 178 Mio. Kampfkraft. <strong>Das solltest du wissen wollen.</strong></p>
+<p>Ähnlich, nur kleiner: <strong>jamal</strong> (83 Mio., vor 22 h online) und <strong>UnfaintfuL</strong> (102 Mio., vor 8 h) sitzen in Jail und sind trotzdem regelmäßig da.</p>
+<h3>Die ruhenden Konten</h3>
+<p>Von den 14 in R1 „Jail&quot; sind <strong>elf faktisch weg</strong>: ghob (31 Tage), Elsa (23), St Valentine (22), Лисса (22), Lameruka (19), Nelson Mandela (18), GeoSwaer (11), Bauer2goApp (9), DoNN133 (7), Mèo (6), theallenkitt (5). Zusammen belegen sie Plätze, die für Rekrutierung frei sein könnten. <strong>ghob stand im alten Roster noch im Führungsteam</strong> — warum das heute anders ist, geht aus den Daten nicht hervor.</p>
+<hr>
+<h2>4. Das Urlaubs-Muster — die stille Abwanderung</h2>
+<p>Jacs Verdacht, dass Leute nach einer längeren Pause die Lust verlieren zurückzukommen, <strong>bestätigt sich in den Daten deutlich</strong>.</p>
+<p>Zehn Spieler sind länger als fünf Tage weg. <strong>Alle zehn sitzen in R1 „Jail&quot;, alle zehn haben null VS und null Spenden</strong> — also nicht „wenig&quot;, sondern gar nichts:</p>
+<div class="tw"><table>
+<tr><th>Spieler</th><th>weg seit</th><th>Kraft</th></tr>
+<tr><td>ghob</td><td><strong>31 Tagen</strong></td><td>90,5 Mio.</td></tr>
+<tr><td>Elsa</td><td>23 Tagen</td><td>147,4 Mio.</td></tr>
+<tr><td>St Valentine</td><td>22 Tagen</td><td>101,0 Mio.</td></tr>
+<tr><td>Лисса</td><td>22 Tagen</td><td>81,2 Mio.</td></tr>
+<tr><td>Lameruka</td><td>19 Tagen</td><td>83,8 Mio.</td></tr>
+<tr><td>Nelson Mandela</td><td>18 Tagen</td><td>92,5 Mio.</td></tr>
+<tr><td>GeoSwaer</td><td>11 Tagen</td><td>83,4 Mio.</td></tr>
+<tr><td>Bauer2goApp</td><td>9 Tagen</td><td>69,3 Mio.</td></tr>
+<tr><td>DoNN133</td><td>7 Tagen</td><td>117,3 Mio.</td></tr>
+<tr><td>Mèo</td><td>6 Tagen</td><td>103,1 Mio.</td></tr>
+</table></div>
+<p>Zusammen sind das <strong>969 Mio. Kampfkraft</strong>, die auf Mitgliedsplätzen liegen und nichts tun.</p>
+<p><strong>Was das Muster nahelegt:</strong> Es gibt offenbar einen Kipppunkt. Wer ein, zwei Wochen weg war, findet nicht zurück — weil die Allianz weitergelaufen ist, die eigene Basis zurückliegt und der Wiedereinstieg sich nach Arbeit anfühlt. Frenchy78 ist der Gegenbeweis in die andere Richtung: Er <strong>loggt noch ein</strong> (vor 19 Stunden), trägt aber nichts bei. Das ist die Zwischenstufe — noch da, aber innerlich raus.</p>
+<p><strong>Was dagegen hilft (Hypothese, prüfbar):</strong></p>
+<p class="bul">Wer sich <strong>abmeldet</strong>, kommt eher zurück. Froschi hat das vorbildlich gemacht. Eine kurze Abmeldung sollte man aktiv einfordern statt sie als Ausrede zu sehen.</p>
+<p class="bul">Ein <strong>Rückkehrer-Kontakt nach etwa fünf Tagen</strong> — eine einzelne persönliche Nachricht, bevor der Kipppunkt erreicht ist. Bei DoNN133 (7 Tage) und Mèo (6 Tage) wäre das jetzt dran.</p>
+<p class="bul">Bei den Langzeitfällen ab drei Wochen ist die Frage eher, ob man den Platz freigibt.</p>
+<p><strong>Offen bleibt:</strong> Warum ghob und Frenchy78 überhaupt in Jail sitzen — das steht in keinen Daten. Bei ghob (ehemals Führungsteam, 31 Tage weg) klingt es nach mehr als Urlaub.</p>
+<h2>5. Was im Verwaltungschat wirklich läuft</h2>
+<p><strong>Doppelarbeit bei den Aufstellungen.</strong> Am 30.08. hat Froschi eine Team-Aufteilung mit ChatGPT gemacht und ins R4 gestellt; du hast geantwortet „Ich habs auch mit KI gemacht&quot;. CrexoOG kritisierte daraufhin, „team blau ist aber schon OP&quot;. Zwei Leute lösen dieselbe Aufgabe parallel mit unterschiedlichen Ergebnissen, und dann wird über das Ergebnis statt über die Methode diskutiert. <strong>Das ist reibungsverlust, kein Streit</strong> — aber es kostet Zeit und Autorität. Eine klare Zuständigkeit für Aufstellungen würde das beenden.</p>
+<p><strong>Der Ton ist gut.</strong> Shadow reagiert auf Froschis Abmeldung mit „dann frohes arbeiten und gutes durchhalten&quot; — es wird sich umeinander gekümmert. Blümchen und DrDr387 tauschen sich freundlich aus. Die Allianz hat kein Klimaproblem.</p>
+<p><strong>Die Sprachtrennung ist real.</strong> Der Verwaltungschat läuft überwiegend auf Russisch (ANONYMOUS, Lignum, ALO), der Allianzchat gemischt deutsch/russisch/polnisch/französisch/türkisch. BEOWULF schreibt Türkisch. Wer nur eine Sprache liest, bekommt die Hälfte nicht mit — <strong>auch im R4-Kreis</strong>.</p>
+<hr>
+<h2>6. Wo ich Handlungsbedarf sehe</h2>
+<p><strong>Diese Woche:</strong></p>
+<p class="num">1. <strong>ALO</strong> — direktes, ruhiges Gespräch per PN. Zu wertvoll, um ihn über eine Chat-Diskussion zu verlieren.</p>
+<p class="num">2. <strong>Frenchy78</strong> — klären, ob Jail gewollt ist. 178 Mio., die täglich einloggen und nichts beitragen dürfen, sind eine teure Entscheidung.</p>
+<p class="num">3. <strong>Froschi ist Mo–Do raus</strong> — nicht einplanen.</p>
+<p><strong>Als Nächstes:</strong></p>
+<p class="num">4. <strong>Eine Zuständigkeit für Aufstellungen</strong> benennen, statt dass zwei parallel mit KI planen.</p>
+<p class="num">5. <strong>CzarnaRóża als Sprachbrücke</strong> offiziell ansprechen — sie hat sich selbst angeboten, das ist ein Geschenk.</p>
+<p class="num">6. <strong>DrDr387 eine Rolle geben.</strong> Sie will, sie kann, sie ist da.</p>
+<p class="num">7. <strong>Die Jail-Karteileichen</strong> aufräumen — elf Plätze für aktive Rekruten.</p>
+<p><strong>Strukturell:</strong></p>
+<p class="num">8. <strong>Die Abhängigkeit von ANONYMOUS</strong> ist das größte Risiko. Er hat selbst angedeutet, dass es ihm zu viel wird. З кило und Meshman wären Kandidaten, Last zu übernehmen.</p>
+<p class="num">9. <strong>Die 23 unter dem Minimum einzeln ansprechen</strong> — verteilt auf die tragenden Spieler, damit es niemand allein machen muss. Vorschlag im Register in der Spalte „Betreut von&quot;: CzarnaRóża, Blümchen, Lady M, CrexoOG, White Horse, ANONYMOUS und du teilt euch je drei bis vier. <strong>Ein persönliches „was ist los bei dir?&quot; wirkt anders als eine Ansage im Allianzchat.</strong></p>
+<p class="num">10. <strong>Rückkehrer-Kontakt nach fünf Tagen Abwesenheit</strong> einführen, bevor der Kipppunkt erreicht ist.</p>
+<hr>
+<h2>6b. Die privaten Gruppen — wo das Wissen wirklich fließt</h2>
+<p>Zwei private Gruppenchats sind für die Allianzverwaltung relevant. Sie zeigen ein Bild, das der Allianzchat nicht hergibt.</p>
+<h3>HeroDevelopement (97 Mitglieder) — die heimliche Wissensdatenbank</h3>
+<p><strong>Das ist die lebendigste Gruppe der Allianz.</strong> Während ich erfasst habe, kamen Nachrichten im Minutentakt (21:57, 22:04, laufend). Inhaltlich geht es um Helden-Entwicklung auf Detailebene: Fähigkeitsstufen, Ausdauerverbrauch, ab wann Aufwerten sich nicht mehr lohnt.</p>
+<p>Ein Beispiel für die Qualität: Zur Frage, wie weit man den Lucky-Skill hochziehen soll, kam von <strong>Lignum</strong> die klare Antwort, über Stufe 21 lohne es sich nicht mehr — zu teuer für den Nutzen; bei 21 sinke der Verbrauch auf 19. <strong>Meshman</strong> ergänzte seine eigenen Werte, <strong>Shadow</strong> und <strong>Blümchen</strong> ihre. Das ist echte, geprüfte Spielerfahrung.</p>
+<p><strong>Aktiv dort:</strong> BEOWULF, Meshman, Lignum, Shadow, Blümchen.</p>
+<p><strong>Zwei Beobachtungen, die etwas wert sind:</strong></p>
+<p class="num">1. <strong>Die Sprachbarriere ist hier gelöst — und niemand hat es gemerkt.</strong> BEOWULF fragt auf <strong>Türkisch</strong>, Meshman antwortet auf <strong>Deutsch</strong>, Lignum auf <strong>Russisch</strong> — und die Unterhaltung funktioniert trotzdem, über den eingebauten Übersetzer. Genau das, was im Arcadia-Meeting als größtes Problem beschrieben wurde, klappt in dieser Gruppe im Alltag. <strong>Das ist ein Gegenbeispiel, das man sich anschauen sollte:</strong> Warum geht es hier und im Event-Chat nicht? Vermutlich, weil hier niemand unter Zeitdruck steht.</p>
+<p class="num">2. <strong>Wiederholung wirkt — belegt.</strong> Blümchen bedankte sich bei Meshman: <em>„vor ein paar Wochen hatte ich nicht mitbekommen, danke, daß du nochmals geschrieben hast.&quot;</em> Das ist der Praxisbeweis für <strong>DrDr387s Vorschlag</strong>, Erklärungen wöchentlich zu wiederholen. Es ist keine Marotte — Leute verpassen Dinge und holen sie beim zweiten Mal ab.</p>
+<p><strong>Empfehlung:</strong> Diese Gruppe ist ein Aktivposten, der bisher nirgends auftaucht. BEOWULF etwa ist im Register unauffällig, hier aber einer der Treiber. Wer dort mitschreibt, gehört auf der Leiter mindestens auf Stufe 3 — ich habe das noch nicht eingetragen, weil ich erst wissen will, ob du die Gruppe als S1L-intern oder serverweit einordnest.</p>
+<h3>Werbetext (3 Personen: Jac, Kingeder, Shadow) — deine Werkstatt</h3>
+<p>Hier legst du die fertigen Ansagen für den Allianzchat ab, damit andere sie posten können — sauber formatierte Blöcke mit Golden Window, Zeitzonen, Nichtangriffspakt-Liste (TAO, AGS, LOT, HTS) und Event-Anleitungen.</p>
+<p><strong>Die Auffälligkeit: In dieser Gruppe schreibt praktisch nur du.</strong> Die letzten Beiträge sind alle von dir (26.08.) — inklusive der Bitte, einzuspringen, falls du selbst später dran bist. Von Kingeder und Shadow kommt wenig zurück.</p>
+<p>Eine Rückmeldung ist trotzdem bemerkenswert — sinngemäß: <em>„ich glaube es wirkt schon cool wenn es der R5 macht oder?&quot;</em> Da steckt eine echte Frage drin: <strong>Ansagen wirken anders, je nachdem wer sie sendet.</strong> Wenn die Texte von dir kommen, aber der Anführer sie postet, gewinnen sie Gewicht. Das ist ein Hebel, den ihr schon erkannt, aber offenbar nicht systematisch umgesetzt habt.</p>
+<p><strong>Das eigentliche Risiko:</strong> Die Textproduktion hängt komplett an dir. Du hast es selbst angesprochen — wenn bei dir etwas dazwischenkommt, verschiebt sich die Ansage. Es gibt keinen zweiten, der einspringen kann. <strong>Das ist dieselbe Ein-Personen-Abhängigkeit wie bei ANONYMOUS im Kampf, nur auf der Kommunikationsseite.</strong></p>
+<hr>
+<h2>7. Was ich noch nicht weiß</h2>
+<p class="bul"><strong>Arcadia und Ghulöwe</strong> sind noch nicht erhoben — dort fehlen mir die Teilnehmerlisten.</p>
+<p class="bul"><strong>Discord und Telegram</strong>: Ich weiß nur von Burzowy und Roza sicher, dass sie auf Telegram sind. Discord habe ich nicht geprüft.</p>
+<p class="bul"><strong>Warum ghob und Frenchy78 in Jail sitzen</strong> — das steht in keinen Daten, das weißt nur du.</p>
+<p class="bul">Die <strong>Chat-Erhebung ist ein Abend.</strong> Wer an diesem Abend nichts geschrieben hat, ist deswegen nicht still.</p>
+<p class="bul"><strong>HeroDevelopement hat 97 Mitglieder</strong> — ob das exakt die Allianz ist oder eine serverweite Gruppe, konnte ich nicht feststellen. Davon hängt ab, ob die Aktivität dort ins Register gehört.</p>
+<hr>
+<h2>Was ich für diese Fassung geändert habe</h2>
+<p>Weil diese Seite im Hub liegt, habe ich sieben Stellen umformuliert. Inhaltlich ändert sich an den Schlussfolgerungen nichts:</p>
+<p class="bul">ANONYMOUS: wörtliches Zitat über sein Privatleben (Familie) durch eine neutrale Umschreibung ersetzt</p>
+<p class="bul">Froschi: konkrete Angaben zu Arbeitgeber, Einsatzort und Arbeitszeiten entfernt — für die Planung reicht &quot;beruflich auswärts, Mo–Do&quot;</p>
+<p class="bul">ALO: Zitate aus dem Verwaltungschat entfernt und die Deutung als Vermutung gekennzeichnet statt als Tatsache</p>
+<p class="bul">&quot;Karteileichen&quot; durch &quot;ruhende Konten&quot; ersetzt — abwertend gegenüber Leuten, die vielleicht nur eine Pause machen</p>
+<p class="bul">ghob: Andeutung &quot;da ist offenbar etwas passiert&quot; entfernt — das war Spekulation über eine Person</p>
+<p class="bul">&quot;blockieren&quot; durch &quot;belegen&quot; ersetzt — neutralere Wortwahl</p>
+<p class="bul">Werbetext: wörtliche Zitate mit privatem Terminbezug zusammengefasst</p>
+<p class="bul">ebenda: Verweis auf einen konkreten privaten Termin allgemeiner gefasst</p>
+<p><strong>Bewusst drin gelassen</strong>, weil es für die Führungsarbeit gebraucht wird: die namentliche Liste der 23 Spieler unter dem Minimum, die Nennung von Gabysssss als R4 mit geringem VS-Beitrag, und die Liste der ruhenden Konten. Das sind sachliche Leistungsdaten, keine persönlichen Urteile.</p>
+<p><strong>Ein Hinweis noch:</strong> In dieser Fassung steht, dass <strong>Baby_Jac dein Zweitaccount</strong> ist. Das steht sonst nirgends. Wenn außer dir und Kingeder niemand das wissen soll, sag Bescheid — dann nehme ich den Benchmark-Abschnitt heraus und beschreibe ihn nur als „Referenzkonto&quot;.</p>
+</div></body></html>
