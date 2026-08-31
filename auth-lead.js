@@ -1,6 +1,6 @@
 /* ============ S1L Info-Hub — Leitungs-Tor (drittes Passwort) ============
-   ZUSÄTZLICHES Tor über dem R4-Login. Gilt nur für die Seiten, die es einbinden
-   (Mitglieder-Register, Ist-Stand-Analyse). Zugelassen sind ausschließlich Jac und Kingeder.
+   ZUSÄTZLICHES Tor über dem R4-Login, für die Seiten die es einbinden.
+   Zugelassene Logins stehen als Hash unten — aktuell zwei.
 
    Jeder Eintrag = SHA-256 von "spielername:passwort", beides kleingeschrieben.
    Das Passwort steht NIE im Klartext hier — Quelltext ist öffentlich.
@@ -61,14 +61,14 @@ var LEAD_ALLOWED = [
       "background:linear-gradient(160deg,#152238,#0b1a2e);font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif");
     box.innerHTML=
       '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;padding:26px 24px;text-align:center">'+
-      '<div style="font-size:2rem;line-height:1">🔐</div>'+
-      '<h1 style="font-size:1.15rem;margin:8px 0 4px;color:#152238">Leitung</h1>'+
-      '<p style="color:#66788f;font-size:.87rem;margin:0 0 18px">Diese Seite enthält Einschätzungen zu einzelnen Mitgliedern.<br>Zugang nur für <b>Jac</b> und <b>Kingeder</b>.</p>'+
+      '<div style="font-size:2rem;line-height:1">🔒</div>'+
+      '<h1 style="font-size:1.15rem;margin:8px 0 4px;color:#152238">Anmelden</h1>'+
+      '<p style="color:#66788f;font-size:.87rem;margin:0 0 18px">Bitte Spielername und Passwort eingeben.</p>'+
       '<input id="lgN" placeholder="Spielername" autocomplete="off" style="width:100%;font:inherit;padding:9px 11px;border:1px solid #dde4ef;border-radius:9px;margin-bottom:9px">'+
       '<input id="lgP" type="password" placeholder="Passwort" autocomplete="off" style="width:100%;font:inherit;padding:9px 11px;border:1px solid #dde4ef;border-radius:9px">'+
       '<button id="lgB" type="button" style="width:100%;margin-top:13px;font:inherit;font-weight:700;padding:10px;border:0;border-radius:999px;background:#2563eb;color:#fff;cursor:pointer">Öffnen</button>'+
       '<div id="lgE" style="color:#dc2626;font-size:.85rem;min-height:20px;margin-top:9px"></div>'+
-      '<p style="color:#94a3b8;font-size:.75rem;margin:6px 0 0">Der Schutz läuft im Browser — er hält Neugierige ab, keinen Entschlossenen.</p>'+
+      ''+
       '</div>';
     document.body.appendChild(box);
     function go(){
@@ -76,7 +76,7 @@ var LEAD_ALLOWED = [
       var p=(document.getElementById("lgP").value||"").trim().toLowerCase();
       if(!n||!p){ document.getElementById("lgE").textContent="Bitte Name und Passwort eingeben."; return; }
       if(LEAD_ALLOWED.indexOf(sha256(n+":"+p))>=0) unlock(n);
-      else document.getElementById("lgE").textContent="Kein Zugang für diesen Namen.";
+      else document.getElementById("lgE").textContent="Name oder Passwort stimmt nicht.";
     }
     document.getElementById("lgB").addEventListener("click",go);
     box.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });

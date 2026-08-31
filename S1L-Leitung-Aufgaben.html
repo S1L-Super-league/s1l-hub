@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leitung — Aufgaben &amp; Ansprache</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--line:#dde4ef;--tx:#152238;--mut:#66788f;--acc:#2563eb;--acc2:#eef3fd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.rw{max-width:1120px;margin:0 auto;padding:20px 16px 80px}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+h1{font-size:1.45rem;margin:0}
+.sub{color:var(--mut);font-size:.88rem;margin:2px 0 16px}
+.btn{font:inherit;font-size:.85rem;padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--tx);text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--acc2)} .btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.x{color:#b91c1c;border-color:#f0c8c8}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:11px}
+.tabs button{font:inherit;font-size:.9rem;padding:7px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--tx)}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+section{display:none} section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;margin-bottom:14px}
+.card h2{font-size:1.03rem;margin:0 0 3px} .card h3{font-size:.93rem;margin:14px 0 5px}
+.hint{color:var(--mut);font-size:.85rem;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.pers{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 13px}
+.pers .nm{font-weight:750;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.pers .rl{font-size:.72rem;font-weight:800;padding:1px 8px;border-radius:999px;color:#fff}
+.r-R5{background:#dc2626}.r-R4{background:#7c3aed}.r-R3{background:#0891b2}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;min-height:26px}
+.tag{background:var(--acc2);border:1px solid #cddffa;color:#1d4ed8;border-radius:999px;padding:2px 9px;font-size:.78rem}
+.tag.empty{background:#f6f7f9;border-color:var(--line);color:#a3adbb;font-style:italic}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;font-size:.82rem;cursor:pointer;position:relative}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.chip .who{display:block;font-size:.68rem;opacity:.75;margin-top:1px}
+.chip.free{border-style:dashed;color:#b45309;border-color:#f0c98e;background:#fffdf5}
+.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:10px}
+input,select,textarea{font:inherit;font-size:.88rem;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--tx)}
+textarea{width:100%;min-height:130px;resize:vertical;line-height:1.55}
+table{border-collapse:collapse;width:100%;font-size:.87rem}
+th,td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#eaf0fa;font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;color:var(--mut)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--card)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.warn{background:#fff8e6;border:1px solid #f5d78e;border-left:5px solid #e8a317;border-radius:10px;padding:11px 14px;font-size:.87rem;color:#6b4c05;margin-bottom:14px}
+.ok{background:#eefaf3;border:1px solid #b7e4cd;border-left:5px solid #0f9d58;border-radius:10px;padding:11px 14px;font-size:.87rem;color:#0a5c38;margin-bottom:14px}
+.kop{position:relative}
+.kop .cp{position:absolute;right:9px;top:9px}
+.mini{color:var(--mut);font-size:.79rem}
+.frei{color:#b45309;font-weight:700}
+.st{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;color:#fff;font-weight:800;font-size:.72rem;background:#94a3b8}
+</style></head><body>
+<script src="auth-lead.js"></script>
+<div class="rw" hidden>
+
+<div class="top">
+  <div><h1>🧭 Leitung — Aufgaben &amp; Ansprache</h1>
+  <p class="sub">Wer macht was · wer spricht wen an · fertige Texte.</p></div>
+  <div style="display:flex;gap:7px">
+    <a class="btn" href="S1L-R4-Register.html">Register</a>
+    <a class="btn" href="S1L-Leitung-Analyse.html">Analyse</a>
+    <a class="btn" href="S1L-R4.html">← R4</a>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="on" data-t="a">Aufgaben verteilen</button>
+  <button data-t="k">Kanäle</button>
+  <button data-t="z">Wer spricht wen an ⏳</button>
+  <button data-t="t">Texte</button>
+</div>
+
+<!-- ================= AUFGABEN ================= -->
+<section id="s-a" class="on">
+  <div class="warn"><b>So funktioniert es:</b> Jede Person hat eine Karte. Klick auf eine Aufgabe darunter setzt oder entfernt sie —
+  <b>mehrere Aufgaben pro Person sind möglich, und eine Aufgabe darf mehrere Leute haben</b>. Unter jeder Aufgabe steht,
+  wer sie schon macht. <b class="frei">Gestrichelt und orange</b> heißt: macht bisher niemand.</div>
+  <div id="frei"></div>
+  <div class="card">
+    <h2>Aufgaben-Liste pflegen</h2>
+    <p class="hint">Neue Aufgabe anlegen oder eine bestehende entfernen. Entfernen löscht sie auch bei allen Personen.</p>
+    <div class="row">
+      <input id="newTask" placeholder="Neue Aufgabe, z. B. Rückkehrer-Kontakt" style="min-width:250px">
+      <button class="btn p" id="addTask" type="button">+ Aufgabe</button>
+      <select id="delTask"></select>
+      <button class="btn x" id="rmTask" type="button">Aufgabe löschen</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Personen</h2>
+    <p class="hint">Namen sind änderbar. Wer nicht mehr dabei ist, kann entfernt werden; neue lassen sich ergänzen.</p>
+    <div class="row">
+      <input id="newP" placeholder="Name" style="min-width:170px">
+      <select id="newR"><option>R4</option><option>R3 (trusted)</option><option>R5</option></select>
+      <button class="btn p" id="addP" type="button">+ Person</button>
+    </div>
+  </div>
+  <div class="grid" id="people"></div>
+</section>
+
+<!-- ================= KANÄLE ================= -->
+<section id="s-k">
+  <div class="warn"><b>Warum das hier steht:</b> Roza hat im Meeting beschrieben, dass sie in Telegram <i>und</i> Discord ist und
+  „nirgendwo sind immer Infos drinnen". Das Problem ist nicht der Kanal, sondern dass sich niemand fest zuständig fühlt.
+  <b>Ein Name pro Kanal löst das</b> — jemand, der jede wichtige Ansage verlässlich weiterträgt und in der Allianz als Ansprechpartner bekannt ist.</div>
+  <div class="grid" id="chans"></div>
+  <div class="card">
+    <h2>Was die Kanal-Verantwortlichen tun</h2>
+    <p class="bul">· Jede Ansage aus dem Allianzchat <b>innerhalb eines Tages</b> in ihren Kanal spiegeln.</p>
+    <p class="bul">· Fragen, die dort auflaufen, in die Allianz zurücktragen.</p>
+    <p class="bul">· Neue Mitglieder einladen und beim ersten Mal begleiten.</p>
+    <p class="bul">· Bei Ausfall Bescheid geben, damit jemand einspringt.</p>
+    <p class="hint" style="margin-top:10px">Wichtig: Es geht <b>nicht</b> darum, alle in einen Kanal zu zwingen. Nicht jeder will Discord — Roza hat das deutlich gesagt. Es geht darum, dass die Info dort ankommt, wo die Leute ohnehin sind.</p>
+  </div>
+</section>
+
+<!-- ================= ZUTEILUNG ================= -->
+<section id="s-z">
+  <div class="warn"><b>⏳ Diese Liste ist noch nicht final — bitte noch niemanden anschreiben.</b><br>
+  Sie vergleicht mit dem Benchmark-Zweitaccount <b>Baby_Jac</b>, der seine Tagespunkte <b>noch nicht fertig gespielt</b> hat.
+  Der endgültige Benchmark liegt höher, dadurch kommen eher <b>mehr</b> Namen dazu. Die Zuteilung unten zeigt, <b>wie</b> es
+  aufgeteilt wird — <b>wen</b> es trifft, steht erst fest, wenn der Benchmark komplett ist.</div>
+  <div class="ok"><b>Die Aufteilung selbst bleibt gültig:</b> die Namen werden auf 12 Leute verteilt, <b>je ein bis zwei pro Person</b>.
+  Bewusst klein — zwei persönliche Nachrichten schafft jeder, zwanzig schafft niemand. Russischsprachige gehen an russischsprachige Betreuer.</div>
+  <div class="tw"><table id="ztab"><thead><tr>
+    <th>Ansprechen</th><th>Wer schreibt</th><th class="num">Kraft</th><th class="num">Lv</th><th class="num">VS</th><th>Zuletzt</th><th>Rang</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="hint" style="margin-top:9px">Die Zuteilung ist ein Vorschlag. Ändern kannst du sie im Register in der Spalte „Betreut von".</p>
+</section>
+
+<!-- ================= TEXTE ================= -->
+<section id="s-t">
+  <div class="card">
+    <h2>Leitfaden statt Formbrief — warum</h2>
+    <p>Ein <b>wörtlich vorgegebener Text</b> wäre bequem, aber riskant: Wenn zwei der 23 sich austauschen und dieselbe Nachricht
+    bekommen haben, wirkt die Aktion wie ein Serienbrief — und genau das Gegenteil von „wir haben dich vermisst" kommt an.</p>
+    <p>Ein <b>reiner Leitfaden</b> überfordert dagegen die, die ungern schreiben, und dann passiert gar nichts.</p>
+    <p><b>Deshalb beides:</b> vier Regeln, die für alle gelten, und darunter Bausteine zum Anpassen. Jeder nimmt sich, was er braucht.</p>
+    <h3>Die vier Regeln</h3>
+    <p class="bul">· <b>Kein Vorwurf, keine Zahlen.</b> Niemand bekommt seine VS-Punkte vorgehalten. Wir fragen, wir bewerten nicht.</p>
+    <p class="bul">· <b>Eine echte Frage stellen</b> und die Antwort abwarten. „Wie läuft's bei dir gerade?" ist besser als jede Ansage.</p>
+    <p class="bul">· <b>Etwas anbieten</b> — Hilfe, eine Gruppe, einen Ansprechpartner. Nicht nur etwas einfordern.</p>
+    <p class="bul">· <b>In der Sprache der Person</b> schreiben, wenn möglich. Sonst kurz und einfach, damit der Übersetzer es schafft.</p>
+  </div>
+  <div class="card">
+    <h2>Bausteine</h2>
+    <p class="hint">Anklicken zum Kopieren. Text vorher anpassen — der Name gehört rein, sonst wirkt es wie eine Vorlage.</p>
+    <div id="txts"></div>
+  </div>
+</section>
+
+</div>
+<script>
+var R5=["Kingeder"], R4=["Jac", "Lignum", "ANONYMOUS", "CrexoOG", "ALO", "Gabysssss", "Yagyu", "Shadow", "Перчик", "Froschi"], TR3=["DrDr387", "CzarnaRóża", "Burzowy", "TilouTW", "Meshman", "З кило", "Blümchen", "Lady M", "BEOWULF", "White Horse"], ZU=[{"wer": "Trinket Lipslums", "an": "CzarnaRóża", "pw": 189.03, "lv": 30, "vs": 0, "rank": "R3", "seen": "Vor 1 d", "h": 24.0}, {"wer": "Mad0404", "an": "CzarnaRóża", "pw": 91.26, "lv": 24, "vs": 0.96868, "rank": "R2", "seen": "Vor 4 h", "h": 4.0}, {"wer": "Gabysssss", "an": "Burzowy", "pw": 183.98, "lv": 29, "vs": 1.47, "rank": "R4", "seen": "Vor 1 d", "h": 24.0}, {"wer": "DigeDag", "an": "Burzowy", "pw": 90.78, "lv": 25, "vs": 3.75, "rank": "R3", "seen": "Vor 20 h", "h": 20.0}, {"wer": "Frenchy78", "an": "DrDr387", "pw": 178.44, "lv": 30, "vs": 0, "rank": "R1", "seen": "Vor 19 h", "h": 19.0}, {"wer": "amr201436", "an": "DrDr387", "pw": 88.83, "lv": 24, "vs": 0, "rank": "R2", "seen": "Vor 3 d", "h": 72.0}, {"wer": "Neumi", "an": "Blümchen", "pw": 127.57, "lv": 26, "vs": 3.51, "rank": "R3", "seen": "Vor 25 m", "h": 0.42}, {"wer": "Elias A", "an": "Blümchen", "pw": 87.99, "lv": 26, "vs": 0, "rank": "R3", "seen": "Vor 2 d", "h": 48.0}, {"wer": "Sirdeath89", "an": "Lady M", "pw": 125.78, "lv": 27, "vs": 0.56812, "rank": "R3", "seen": "Vor 7 h", "h": 7.0}, {"wer": "jamal", "an": "Lady M", "pw": 83.62, "lv": 25, "vs": 0, "rank": "R1", "seen": "Vor 22 h", "h": 22.0}, {"wer": "Golbeus", "an": "Shadow", "pw": 121.26, "lv": 27, "vs": 4.49, "rank": "R3", "seen": "Vor 11 h", "h": 11.0}, {"wer": "Johnny88", "an": "Shadow", "pw": 80.49, "lv": 25, "vs": 0, "rank": "R3", "seen": "Vor 2 d", "h": 48.0}, {"wer": "Don Ponteleimon", "an": "Jac", "pw": 113.79, "lv": 26, "vs": 4.52, "rank": "R3", "seen": "Vor 2 h", "h": 2.0}, {"wer": "Der_Rosi", "an": "Jac", "pw": 77.53, "lv": 23, "vs": 2.29, "rank": "R3", "seen": "Vor 6 h", "h": 6.0}, {"wer": "JCarvalho", "an": "CrexoOG", "pw": 110.03, "lv": 26, "vs": 2.94, "rank": "R3", "seen": "Vor 15 h", "h": 15.0}, {"wer": "Miche", "an": "CrexoOG", "pw": 67.37, "lv": 22, "vs": 1.49, "rank": "R3", "seen": "Vor 6 h", "h": 6.0}, {"wer": "Qwe", "an": "Yagyu", "pw": 109.96, "lv": 26, "vs": 2.45, "rank": "R3", "seen": "Vor 9 h", "h": 9.0}, {"wer": "HateCore", "an": "Yagyu", "pw": 59.72, "lv": 24, "vs": 2.82, "rank": "R3", "seen": "Vor 51 m", "h": 0.85}, {"wer": "MaxPayne", "an": "Meshman", "pw": 99.2, "lv": 23, "vs": 2.46, "rank": "R3", "seen": "Vor 4 h", "h": 4.0}, {"wer": "Bodzio 73", "an": "Meshman", "pw": 59.71, "lv": 24, "vs": 1.63, "rank": "R3", "seen": "Vor 5 h", "h": 5.0}, {"wer": "Merowinger", "an": "TilouTW", "pw": 94.4, "lv": 25, "vs": 3.08, "rank": "R3", "seen": "Vor 8 h", "h": 8.0}, {"wer": "Darksen", "an": "TilouTW", "pw": 41.65, "lv": 24, "vs": 3.06, "rank": "R3", "seen": "Vor 13 m", "h": 0.22}, {"wer": "Мохентохен", "an": "ANONYMOUS", "pw": 93.23, "lv": 25, "vs": 2.85, "rank": "R3", "seen": "Vor 27 m", "h": 0.45}], TASKS_STD=["Rekrutierung", "Diplomatie / NAP", "Technik & Forschung", "Tagesdienst", "Wissen & Tipps", "Event-Planung", "Raid-Kommando", "Aufstellungen", "Discord-Kanal", "Telegram-Kanal", "Mitglieder ansprechen", "Übersetzung / Sprachbrücke", "Willkommen für Neue", "Hub-Pflege"];
+var FB={apiKey:"AIzaSyCeKoPKOVYKbN0OHkr3_T_nQwDtCALZD18",authDomain:"s1l-hub.firebaseapp.com",projectId:"s1l-hub",
+        storageBucket:"s1l-hub.firebasestorage.app",messagingSenderId:"761448020039",appId:"1:761448020039:web:b65a7e1c1bac2f31831962"};
+var col=null, ST={people:null, tasks:null, chans:null};
+function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML;}
+function who(){try{return sessionStorage.getItem("s1l_lead_name")||"Leitung";}catch(e){return "Leitung";}}
+function defPeople(){
+  var p=[];
+  R5.forEach(function(n){p.push({n:n,r:"R5",t:[]});});
+  R4.forEach(function(n){p.push({n:n,r:"R4",t:[]});});
+  TR3.forEach(function(n){p.push({n:n,r:"R3 (trusted)",t:[]});});
+  return p;
+}
+function state(){
+  return {people: ST.people||defPeople(), tasks: ST.tasks||TASKS_STD.slice(), chans: ST.chans||{Discord:"",Telegram:""}};
+}
+function save(){
+  var s=state();
+  if(col) col.doc("aufgaben").set({people:JSON.stringify(s.people),tasks:JSON.stringify(s.tasks),
+    chans:JSON.stringify(s.chans),editor:who(),tms:Date.now()}).catch(function(){});
+}
+function ldScript(src,cb){var s=document.createElement("script");s.src=src;s.onload=cb;s.onerror=cb;document.head.appendChild(s);}
+function boot(){
+  function go(){
+    try{
+      if(typeof firebase==="undefined") return render();
+      if(!firebase.apps.length) firebase.initializeApp(FB);
+      col=firebase.firestore().collection("leitung");
+      col.doc("aufgaben").onSnapshot(function(dc){
+        var v=dc.data();
+        if(v){ try{ ST.people=JSON.parse(v.people||"null"); ST.tasks=JSON.parse(v.tasks||"null"); ST.chans=JSON.parse(v.chans||"null"); }catch(e){} }
+        render();
+      },function(){col=null;render();});
+    }catch(e){col=null;render();}
+  }
+  if(typeof firebase!=="undefined") go();
+  else ldScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js",function(){
+    ldScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js",go);});
+}
+function whoDoes(t){
+  return state().people.filter(function(p){return p.t.indexOf(t)>=0;}).map(function(p){return p.n;});
+}
+function render(){
+  var s=state();
+  // Freie Aufgaben
+  var frei=s.tasks.filter(function(t){return whoDoes(t).length===0;});
+  document.getElementById("frei").innerHTML = frei.length
+    ? '<div class="warn"><b>Noch niemand zuständig:</b> '+frei.map(function(t){return '<b class="frei">'+esc(t)+'</b>';}).join(" · ")+'</div>'
+    : '<div class="ok"><b>Jede Aufgabe hat jemanden.</b></div>';
+  // Personen
+  document.getElementById("people").innerHTML = s.people.map(function(p,i){
+    return '<div class="pers"><div class="nm"><span class="pn" data-i="'+i+'" title="Klick zum Umbenennen" style="cursor:text">'+esc(p.n)+'</span>'+
+      '<span><span class="rl r-'+(p.r.indexOf("R4")>=0?"R4":p.r.indexOf("R5")>=0?"R5":"R3")+'">'+esc(p.r)+'</span> '+
+      '<button class="btn x" data-del="'+i+'" style="padding:1px 8px;font-size:.75rem">✕</button></span></div>'+
+      '<div class="tags">'+(p.t.length?p.t.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("")
+        :'<span class="tag empty">noch keine Aufgabe</span>')+'</div>'+
+      '<div class="chips" style="margin-top:9px">'+s.tasks.map(function(t){
+        var on=p.t.indexOf(t)>=0, andere=whoDoes(t).filter(function(x){return x!==p.n;});
+        return '<button class="chip'+(on?" on":"")+(whoDoes(t).length?"":" free")+'" data-p="'+i+'" data-t="'+esc(t)+'">'+esc(t)+
+          (andere.length?'<span class="who">auch: '+esc(andere.join(", "))+'</span>':'')+'</button>';
+      }).join("")+'</div></div>';
+  }).join("");
+  // Aufgaben-Löschliste
+  document.getElementById("delTask").innerHTML=s.tasks.map(function(t){return '<option>'+esc(t)+'</option>';}).join("");
+  // Kanäle
+  document.getElementById("chans").innerHTML=["Discord","Telegram"].map(function(c){
+    var v=s.chans[c]||"";
+    return '<div class="pers"><div class="nm">'+(c==="Discord"?"💬":"✈️")+' '+c+'</div>'+
+      '<p class="mini" style="margin:6px 0 8px">Verlässlich zuständig für '+c+':</p>'+
+      '<select data-ch="'+c+'" style="width:100%"><option value="">— noch niemand —</option>'+
+      s.people.map(function(p){return '<option'+(p.n===v?" selected":"")+'>'+esc(p.n)+'</option>';}).join("")+'</select>'+
+      (v?'<p class="mini" style="margin-top:8px">Ansprechpartner in der Allianz: <b>'+esc(v)+'</b></p>'
+         :'<p class="mini frei" style="margin-top:8px">Ohne Namen passiert erfahrungsgemäß nichts.</p>')+'</div>';
+  }).join("");
+  // Zuteilung
+  document.querySelector("#ztab tbody").innerHTML=ZU.map(function(z){
+    return '<tr><td><b>'+esc(z.wer)+'</b></td><td>'+esc(z.an)+'</td><td class="num">'+z.pw.toFixed(0)+' M</td>'+
+      '<td class="num">'+z.lv+'</td><td class="num">'+z.vs.toFixed(1)+'</td><td>'+esc(z.seen||"–")+'</td>'+
+      '<td><span class="rl r-'+z.rank+'">'+z.rank+'</span></td></tr>';
+  }).join("");
+}
+document.addEventListener("click",function(e){
+  var s=state(), t=e.target;
+  var chip=t.closest(".chip[data-t]");
+  if(chip){ var p=s.people[+chip.dataset.p], task=chip.dataset.t;
+    var k=p.t.indexOf(task); if(k>=0) p.t.splice(k,1); else p.t.push(task);
+    ST.people=s.people; save(); render(); return; }
+  if(t.dataset.del!==undefined && t.closest(".pers")){
+    if(!confirm("Diese Person aus der Liste nehmen?")) return;
+    s.people.splice(+t.dataset.del,1); ST.people=s.people; save(); render(); return; }
+  if(t.id==="addTask"){ var v=document.getElementById("newTask").value.trim();
+    if(v && s.tasks.indexOf(v)<0){ s.tasks.push(v); ST.tasks=s.tasks; document.getElementById("newTask").value=""; save(); render(); } return; }
+  if(t.id==="rmTask"){ var d=document.getElementById("delTask").value;
+    if(!d || !confirm('Aufgabe "'+d+'" löschen? Sie verschwindet auch bei allen Personen.')) return;
+    s.tasks=s.tasks.filter(function(x){return x!==d;});
+    s.people.forEach(function(p){ p.t=p.t.filter(function(x){return x!==d;}); });
+    ST.tasks=s.tasks; ST.people=s.people; save(); render(); return; }
+  if(t.id==="addP"){ var n=document.getElementById("newP").value.trim();
+    if(n){ s.people.push({n:n,r:document.getElementById("newR").value,t:[]}); ST.people=s.people;
+      document.getElementById("newP").value=""; save(); render(); } return; }
+  var pn=t.closest(".pn");
+  if(pn){ var i=+pn.dataset.i, neu=prompt("Name ändern:", s.people[i].n);
+    if(neu && neu.trim()){ s.people[i].n=neu.trim(); ST.people=s.people; save(); render(); } return; }
+  var tab=t.closest(".tabs button");
+  if(tab){ document.querySelectorAll(".tabs button").forEach(function(b){b.classList.remove("on");});
+    tab.classList.add("on");
+    document.querySelectorAll("section").forEach(function(x){x.classList.remove("on");});
+    document.getElementById("s-"+tab.dataset.t).classList.add("on"); return; }
+  var box=t.closest(".kop");
+  if(box){ var ta=box.querySelector("textarea"); ta.select(); document.execCommand("copy");
+    var c=box.querySelector(".cp"); if(c){ var o=c.textContent; c.textContent="kopiert ✓"; setTimeout(function(){c.textContent=o;},1200);} }
+});
+document.addEventListener("change",function(e){
+  var ch=e.target.dataset.ch;
+  if(ch){ var s=state(); s.chans[ch]=e.target.value; ST.chans=s.chans; save(); render(); }
+});
+/* ---- Textbausteine ---- */
+var TEXTE=[
+ {t:"A · Stark, aber gerade gar nicht dabei", w:"Für Trinket Lipslums, Frenchy78, Sirdeath89 — die mit viel Kraft und null Punkten.",
+  x:"Hey [Name],\n\nmir ist aufgefallen, dass du zwar da bist, aber bei den Events gerade nicht auftauchst. Kein Vorwurf — ich wollte einfach mal fragen, wie es bei dir läuft.\n\nGibt es was, das dich stört oder das dir das Mitmachen schwer macht? Wenn irgendwas unklar ist bei den Events, erklär ich es dir gern in Ruhe.\n\nDu bist einer der Stärksten bei uns — wenn du mitmachst, merken wir das sofort.\n\nLG [Dein Name]"},
+ {t:"B · Online, aber wenig Beitrag", w:"Für die meisten der 23 — sie spielen, aber es kommt wenig an.",
+  x:"Hallo [Name],\n\nich wollte mich mal kurz melden und fragen, wie es dir mit den Events geht. Kommst du gut mit oder ist manches unklar?\n\nFalls du nicht weißt, wann was läuft oder was sich lohnt — sag Bescheid, dann schick ich dir das Wichtigste kurz zusammengefasst.\n\nUnd wenn gerade wenig Zeit ist, ist das auch okay. Sag einfach kurz Bescheid, dann wissen wir es und planen anders.\n\nLG [Dein Name]"},
+ {t:"C · Rückkehrer nach einer Pause", w:"Nach etwa fünf Tagen Abwesenheit — bevor der Wiedereinstieg zu groß wirkt.",
+  x:"Hey [Name],\n\nlange nichts von dir gesehen — alles gut bei dir?\n\nFalls du wieder einsteigen willst: Du musst nichts nachholen, wir fangen einfach da an, wo du bist. Ich sag dir gern, was gerade läuft und worauf es diese Woche ankommt.\n\nWäre schön, dich wieder dabei zu haben.\n\nLG [Dein Name]"},
+ {t:"D · Kurz-Version (wenn Zeit knapp ist)", w:"Wenn eine lange Nachricht nicht drin ist. Besser kurz als gar nicht.",
+  x:"Hey [Name], alles okay bei dir? Hab dich bei den Events länger nicht gesehen. Wenn was unklar ist oder du Hilfe brauchst, meld dich einfach. LG [Dein Name]"},
+ {t:"EN · for English speakers", w:"Same as B, in simple English.",
+  x:"Hi [Name],\n\nI just wanted to check in and ask how things are going for you with the events. Are you keeping up, or is something unclear?\n\nIf you are not sure when things run or what is worth doing, just tell me and I will send you a short summary.\n\nAnd if you have little time right now, that is fine too — just let us know so we can plan around it.\n\n[Your name]"},
+ {t:"RU · для русскоязычных", w:"Wie B, auf Russisch — für ANONYMOUS, Lignum und З кило.",
+  x:"Привет, [Имя]!\n\nХотел просто спросить, как у тебя дела с ивентами. Всё получается или что-то непонятно?\n\nЕсли не знаешь, когда что проходит и что стоит делать — напиши, я коротко расскажу самое главное.\n\nЕсли сейчас мало времени — это тоже нормально, просто дай знать, и мы будем планировать с учётом этого.\n\n[Твоё имя]"}
+];
+document.getElementById("txts").innerHTML=TEXTE.map(function(t){
+  return '<div style="margin-bottom:16px"><h3 style="margin-bottom:2px">'+esc(t.t)+'</h3>'+
+    '<p class="mini" style="margin:0 0 6px">'+esc(t.w)+'</p>'+
+    '<div class="kop"><span class="cp mini">klicken zum Kopieren</span><textarea readonly>'+esc(t.x.replace(/\\n/g,"\n"))+'</textarea></div></div>';
+}).join("");
+boot(); render();
+</script></body></html>

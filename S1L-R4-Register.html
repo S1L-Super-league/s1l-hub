@@ -13,6 +13,7 @@ h1{font-size:1.4rem;margin:0}
 .warnbox{background:#fff8e6;border:1px solid #f5d78e;border-left:5px solid #e8a317;border-radius:10px;
  padding:11px 14px;margin:14px 0;font-size:.88rem;color:#6b4c05}
 .warnbox b{color:#5a3f00}
+.bmwarn{display:inline-block;background:#fde68a;border-radius:6px;padding:1px 7px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
 .panel h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0 0 9px}
 .qrow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:7px}
@@ -103,10 +104,10 @@ td.ed:hover{outline:2px solid var(--acc);outline-offset:-2px;border-radius:5px}
 <div class="hd">
   <div>
     <h1>🗂️ Mitglieder-Register <span style="font-size:.8rem;color:var(--mut);font-weight:400">[S1L] · nur R4</span></h1>
-    <p class="sub">Eine Zeile je Spieler. Felder mit Stift-Rand sind anklickbar und werden für alle gespeichert.</p>
+    <p class="sub">Eine Zeile je Spieler. Felder mit Stift-Rand sind anklickbar und werden gespeichert.</p>
   </div>
   <div style="display:flex;gap:8px;align-items:center">
-    <a class="btn" href="S1L-R4.html">← R4-Bereich</a>
+    <a class="btn" href="S1L-Leitung-Aufgaben.html">Aufgaben</a><a class="btn" href="S1L-Leitung-Analyse.html">Analyse</a>
     <button class="btn" id="lng" type="button">EN</button>
   </div>
 </div>
@@ -122,9 +123,11 @@ td.ed:hover{outline:2px solid var(--acc);outline-offset:-2px;border-radius:5px}
   <b id="snapN">eine</b>.<br>
   <b>Spenden zählen hier nicht als Beitrag</b> — der Topf ist ohnehin voll, wer spendet holt sich vor allem
   eigene Belohnungen. Die Spalte steht nur als Nebeninformation da. Was zählt: Events, VS, stärker werden, Chat.<br>
-  <b>Die Spalte „Gespräch?"</b> markiert, wer <b>online ist, aber weniger VS macht als der Benchmark-Zweitaccount
-  Baby_Jac</b> — obwohl er stärker ist. Baby_Jac spielt bewusst nur das Nötigste; wer darunter liegt, leistet weniger
-  als das Minimum. Diese Leute stehen mit einem Betreuer in der Spalte daneben und sollten <b>einzeln angeschrieben</b> werden.<br>
+  <b class="bmwarn">⏳ Die Spalte „Gespräch?" ist noch NICHT gültig.</b> Sie vergleicht mit dem Benchmark-Zweitaccount
+  <b>Baby_Jac</b> — der hat seine Tagespunkte aber <b>noch nicht fertig gespielt</b> (Stand der Erhebung: 4,58 Mio.).
+  Der endgültige Benchmark liegt <b>höher</b>. Sobald er feststeht, werden es eher <b>mehr</b> markierte Spieler,
+  nicht weniger. <b>Bitte auf dieser Grundlage noch niemanden anschreiben</b> — die Markierung zeigt vorerst nur,
+  wie die Auswertung später funktioniert.<br>
   <b>VS Woche:</b> erhoben am <b>Montag</b>, dem ersten Tag der Woche — das ist praktisch
   <b>ein einziger Tag</b>, kein Wochenwert. Wer hier wenig hat, hat womöglich nur noch nicht gespielt.
   <b>Bitte niemanden an diesen Zahlen messen</b>, bis „Ø Woche" und die SMA-Spalten gefüllt sind.
@@ -221,7 +224,7 @@ var COLS = [
  {k:"rrp",  t:"RR Punkte",      ty:"num"},
  {k:"sp",   t:"Spenden (neben.)",ty:"num", hint:"Nebeninfo — der Spendentopf ist ohnehin voll. Zählt NICHT als Beitrag."},
  {k:"betreut",t:"Betreut von",  ty:"sel",  o:"betreut", ed:1, hint:"Wer kümmert sich um diese Person?"},
- {k:"gespr", t:"Gespräch?",      ty:"gespr", hint:"Online, aber weniger VS als der Benchmark-Account Baby_Jac — obwohl stärker."},
+ {k:"gespr", t:"Gespräch? (vorl.)",ty:"gespr", hint:"VORLÄUFIG — der Benchmark-Account hat seine Tagespunkte noch nicht fertig. Noch nicht danach handeln."},
  {k:"chat", t:"Chat",           ty:"sel",  o:"chat",ed:1},
  {k:"disc", t:"Discord",        ty:"sel",  o:"jn",  ed:1},
  {k:"tg",   t:"Telegram",       ty:"sel",  o:"jn",  ed:1},
@@ -342,7 +345,7 @@ function cellHTML(r,c){
   var v=val(r,c.k);
   if(c.ty==="gespr"){
     return r.gespr==="ja"
-      ? '<td style="text-align:center"><span title="Leistet weniger als der Minimal-Account, obwohl stärker — bitte ansprechen." style="background:#fde68a;color:#92400e;font-weight:800;border-radius:6px;padding:1px 7px;font-size:.75rem">ansprechen</span></td>'
+      ? '<td style="text-align:center"><span title="VORLÄUFIG: liegt unter dem bisherigen Benchmark-Stand. Der endgültige Wert steht noch aus — noch nicht ansprechen." style="background:#fde68a;color:#92400e;font-weight:800;border-radius:6px;padding:1px 7px;font-size:.75rem">vorläufig</span></td>'
       : '<td style="text-align:center;color:#cbd5e1">–</td>';
   }
   if(c.ty==="quote"){
@@ -521,7 +524,7 @@ var PRESETS=[
  {n:"Raid-Rang noch offen",f:[{k:"raidrank",op:"ist",v:"unbekannt"}]},
  {n:"Discord unbekannt",   f:[{k:"disc",op:"ist",v:"unbekannt"}]},
  {n:"stark & still",       f:[{k:"pw",op:">=",v:"100"},{k:"chat",op:"ist",v:"unbekannt"}]},
- {n:"⚠ ansprechen",        f:[{k:"gespr",op:"ist",v:"ja"}]},
+ {n:"⏳ vorläufig markiert", f:[{k:"gespr",op:"ist",v:"ja"}]},
  {n:"ohne Betreuer",       f:[{k:"betreut",op:"ist",v:"unbekannt"}]}
 ];
 (function(){
