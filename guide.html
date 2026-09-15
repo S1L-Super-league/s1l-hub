@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[S1L] Field Guide — Tiles Survive</title>
+<style>
+  :root{
+    --bg:#0b0d10; --bg2:#101419; --panel:#141a21; --panel2:#182029;
+    --line:#26313c; --line2:#31404e;
+    --ink:#e8edf2; --mut:#8ea0b2; --dim:#64748b;
+    --amber:#ffb020; --amber-d:#3a2a08;
+    --rust:#e9552d; --rust-d:#3b1509;
+    --tox:#5ce07a; --tox-d:#0e2e19;
+    --cyan:#4fd6e8; --cyan-d:#0c2a31;
+    --red:#ff5c5c; --red-d:#3a1113;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{margin:0;color:var(--ink);
+       font:16px/1.6 "Segoe UI",Roboto,-apple-system,Helvetica,Arial,sans-serif;
+       background:
+         radial-gradient(1100px 500px at 50% -180px, #1b2a33 0%, transparent 70%),
+         repeating-linear-gradient(135deg, #0c0f13 0 2px, transparent 2px 9px),
+         var(--bg);
+       background-attachment:fixed}
+  .wrap{max-width:900px;margin:0 auto;padding:0 15px 70px}
+  b,strong{color:#fff}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ───── HUD nav ───── */
+  .bar{position:sticky;top:0;z-index:60;
+       background:linear-gradient(#0b0d10f2,#0b0d10e0);
+       backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+       box-shadow:0 1px 0 #000, 0 6px 18px #0008;margin:0 -15px 0;padding:8px 15px}
+  .bar .in{max-width:900px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .bar .in::-webkit-scrollbar{display:none}
+  .bar a{flex:0 0 auto;font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+         text-decoration:none;color:var(--mut);background:var(--panel);
+         border:1px solid var(--line);padding:6px 11px;white-space:nowrap;
+         clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+         transition:.15s}
+  .bar a:hover{color:#0b0d10;background:var(--amber);border-color:var(--amber)}
+
+  /* ───── hero ───── */
+  .hero{position:relative;margin:0 -15px 18px;border-bottom:2px solid var(--amber);overflow:hidden}
+  .hero img{display:block;width:100%;height:190px;object-fit:cover;opacity:.32;filter:saturate(.7) contrast(1.1)}
+  .hero .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+            padding:16px 15px;background:linear-gradient(180deg,#0b0d1099 0%,#0b0d10dd 60%,#0b0d10 100%)}
+  .hero h1{margin:0;font-size:31px;line-height:1;font-weight:900;letter-spacing:.02em;
+           text-transform:uppercase;text-shadow:0 2px 20px #000}
+  .hero h1 .tagname{color:var(--amber)}
+  .hero .sub{margin:7px 0 0;color:var(--mut);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase}
+  .hero .badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.12em;
+               background:var(--amber);color:#0b0d10;padding:3px 8px;margin-bottom:8px;width:max-content}
+
+  /* ───── AI notice ───── */
+  .ai{position:relative;background:var(--amber-d);border:1px solid #6b4d13;border-left:4px solid var(--amber);
+      padding:11px 14px;margin:0 0 16px;font-size:13px;line-height:1.5;color:#f3e2c2}
+  .ai>b:first-child{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
+  .ai b{color:#fff}
+
+  /* ───── headings ───── */
+  h2{position:relative;font-size:15px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+     margin:38px 0 0;padding:9px 13px;color:#0b0d10;background:var(--amber);
+     clip-path:polygon(0 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%)}
+  h3{font-size:17px;margin:20px 0 6px;font-weight:800;color:#fff}
+  h4{font-size:11.5px;margin:15px 0 4px;color:var(--amber);text-transform:uppercase;letter-spacing:.11em;font-weight:800}
+  p{margin:0 0 11px}
+
+  /* ───── intel strip ───── */
+  .conf{display:flex;flex-wrap:wrap;gap:5px 14px;align-items:center;
+        background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--cyan);
+        padding:8px 12px;margin:0 0 16px;font-size:11.5px;letter-spacing:.04em;
+        text-transform:uppercase;font-weight:700;color:var(--mut)}
+  .ck{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .bx{display:inline-block;width:13px;height:13px;border:1px solid var(--line2);
+      background:#0b0d10;line-height:11px;font-size:10px;font-weight:900;color:#0b0d10;text-align:center}
+  .bx.on{background:var(--tox);border-color:var(--tox);box-shadow:0 0 7px #5ce07a66}
+  .bx.on::after{content:"✓"}
+  .conf .dt{margin-left:auto;color:var(--dim);text-transform:none;letter-spacing:0;font-weight:600}
+
+  /* ───── tables ───── */
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0 13px;display:block;overflow-x:auto;
+        background:var(--panel);border:1px solid var(--line)}
+  th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
+     color:var(--amber);white-space:nowrap;font-weight:800}
+  tr:last-child td{border-bottom:0}
+  td.d{font-weight:900;white-space:nowrap;width:1%;color:var(--amber);font-family:ui-monospace,Menlo,monospace}
+  .num{text-align:right;white-space:nowrap;font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  /* ───── phase matrix ───── */
+  .mx{font-size:13px}
+  .mx th,.mx td{border-right:1px solid var(--line2)}
+  .mx th.a{text-align:left}
+  .mx th.p{color:var(--ink);background:var(--panel2);font-size:16px;font-weight:900;text-align:center;
+           font-family:ui-monospace,Menlo,monospace;width:1%;padding:6px 9px;letter-spacing:0}
+  .mx th.p7{color:var(--tox);border-left:2px solid var(--tox)}
+  .mx td{text-align:center;padding:6px 4px;font-weight:900;color:#2c3945}
+  .mx td.a{text-align:left;padding:7px 10px;font-weight:600;color:var(--ink);white-space:normal;min-width:190px}
+  .mx td.a i{font-style:normal;color:var(--dim);font-size:11.5px}
+  .mx td.x{color:var(--tox);background:#5ce07a1c;font-size:16px;text-shadow:0 0 8px #5ce07a66}
+  .mx td.c7{border-left:2px solid var(--tox)}
+  .mx tr.grp td{background:linear-gradient(90deg,var(--panel2),var(--panel));color:var(--amber);text-align:left;
+                font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;padding:8px 10px}
+  .mx tr.all td.x{color:var(--amber);background:#ffb0201c;text-shadow:0 0 8px #ffb02066}
+  .w{display:inline-block;min-width:22px;text-align:center;padding:2px 7px;
+     font-size:12px;font-weight:900;background:var(--panel2);color:var(--mut);border:1px solid var(--line2)}
+  .w.hi{background:var(--rust);color:#fff;border-color:var(--rust);box-shadow:0 0 9px #e9552d55}
+
+  /* ───── callout boxes ───── */
+  .box{padding:12px 14px;margin:12px 0;font-size:14.5px;border:1px solid var(--line);
+       border-left:4px solid var(--line2);background:var(--panel)}
+  .box b.t{display:block;margin-bottom:4px;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase}
+  .box.ok{border-left-color:var(--tox);background:linear-gradient(90deg,#0e2e1955,var(--panel) 55%)}
+  .box.ok b.t{color:var(--tox)}
+  .box.warn{border-left-color:var(--amber);background:linear-gradient(90deg,#3a2a0855,var(--panel) 55%)}
+  .box.warn b.t{color:var(--amber)}
+  .box.hot{border-left-color:var(--red);background:linear-gradient(90deg,#3a111355,var(--panel) 55%)}
+  .box.hot b.t{color:var(--red)}
+  .box.acc{border-left-color:var(--cyan);background:linear-gradient(90deg,#0c2a3155,var(--panel) 55%)}
+  .box.acc b.t{color:var(--cyan)}
+  ul.do,ol.do{margin:7px 0 10px;padding-left:20px}
+  ul.do li,ol.do li{margin-bottom:6px}
+  ul.do li::marker{color:var(--amber)}
+  ol.do li::marker{color:var(--amber);font-weight:800}
+
+  /* ───── disclosure ───── */
+  details{border:1px solid var(--line);margin:12px 0;background:var(--panel)}
+  details>summary{cursor:pointer;padding:11px 14px;font-weight:800;font-size:12px;
+                  letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);
+                  list-style:none;display:flex;align-items:center;gap:9px}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::before{content:"▶";font-size:9px;color:var(--amber);transition:transform .15s}
+  details[open]>summary::before{transform:rotate(90deg)}
+  details>summary:hover{background:var(--panel2);color:var(--amber)}
+  details[open]>summary{border-bottom:1px solid var(--line)}
+  .dbody{padding:2px 14px 14px}
+
+  /* ───── figures ───── */
+  figure{margin:13px 0;border:1px solid var(--line);background:#07090b;overflow:hidden}
+  figure img{display:block;width:100%;height:auto}
+  figcaption{font-size:11.5px;color:var(--mut);padding:8px 11px;border-top:1px solid var(--line);
+             background:var(--panel);letter-spacing:.02em}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:9px;margin:13px 0}
+  .gal figure{margin:0}
+
+  /* ───── event cards ───── */
+  .ev{border:1px solid var(--line);border-top:3px solid var(--rust);background:var(--panel);
+      padding:14px 16px;margin:0 0 13px}
+  .ev.solo{border-top-color:var(--tox)}
+  .ev h3{margin:0 0 4px}
+  .ev .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+           padding:3px 8px;background:var(--panel2);border:1px solid var(--line2);
+           color:var(--mut);margin-left:7px;vertical-align:3px}
+
+  /* ───── sources ───── */
+  .src{border:1px solid var(--line);border-left:4px solid var(--tox);background:var(--panel);padding:13px 15px;margin:0 0 11px}
+  .src.mid{border-left-color:var(--amber)}
+  .src h3{font-size:15.5px}
+  .src .u{font-size:11.5px;color:var(--cyan);margin:0 0 8px;word-break:break-all;font-family:ui-monospace,Menlo,monospace}
+  .pm{display:grid;grid-template-columns:1fr 1fr;gap:11px;font-size:13.5px}
+  .pm .h{font-weight:800;font-size:10.5px;letter-spacing:.1em;margin-bottom:4px}
+  .pm ul{margin:0;padding-left:16px}
+  .pm li{margin-bottom:4px}
+  .pm .p .h{color:var(--tox)} .pm .p li::marker{color:var(--tox)}
+  .pm .m .h{color:var(--red)} .pm .m li::marker{color:var(--red)}
+
+  .fig{margin:16px 0;border:1px solid var(--line);background:linear-gradient(#131920,#0e1319);
+       padding:12px 10px 8px;overflow-x:auto}
+  .fig svg{display:block;width:100%;min-width:620px;height:auto}
+  .fig figcaption{font-size:11.5px;color:var(--mut);padding:8px 4px 0;border-top:1px solid var(--line);margin-top:10px;background:none}
+  footer.end{margin-top:38px;border-top:1px solid var(--line);padding-top:13px;font-size:11.5px;color:var(--dim)}
+
+  @media (max-width:620px){
+    .pm{grid-template-columns:1fr}
+    body{font-size:15.5px}
+    .hero h1{font-size:24px}
+    .hero img{height:150px}
+    .conf .dt{margin-left:0;width:100%;padding-top:3px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="bar"><div class="in">
+  <a href="#start">Start here</a>
+  <a href="#vs">VS / Duel</a>
+  <a href="#turtle">Turbo Turtle</a>
+  <a href="#power">Power Play</a>
+  <a href="#gw">Golden Window</a>
+  <a href="#war">Alliance events</a>
+  <a href="#solo">Solo events</a>
+  <a href="#heroes">Heroes</a>
+  <a href="#gear">Gear &amp; reforge</a>
+  <a href="#sources">Sources</a>
+  <a href="#conf">Confidence</a>
+</div></nav>
+
+<div class="wrap">
+
+<div class="hero">
+  <img src="img/banner-hub.jpg" alt="">
+  <div class="ov">
+    <span class="badge">Alliance Field Manual</span>
+    <h1><span class="tagname">[S1L]</span> Field Guide</h1>
+    <p class="sub">Tiles Survive · v2 · 15 Sep 2026 · schedules live on the alliance board in game</p>
+  </div>
+</div>
+
+<div class="ai">
+  <b>Made with AI — please double-check</b>
+  This guide was assembled with an AI assistant from [S1L]'s own event notes and in-game screenshots taken by our members. AI can be wrong even when it sounds certain. The strip under each heading shows how solid that section is. <b>If the game shows something different, the game is right</b> — post a screenshot in alliance chat so it can be fixed.
+</div>
+
+
+
+<!-- ══════════════ START ══════════════ -->
+<h2 id="start">Start here — the 5 minutes that matter</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx"></span>From the internet</span>
+  <span class="ck"><span class="bx"></span>Official source</span>
+  <span class="dt">15 Sep 2026</span>
+</div>
+
+<p>Almost everything in this game comes down to one idea: <b>spend the resources you were going to spend anyway on the day they count two or three times.</b> Not spending more — spending on the right day.</p>
+
+<div class="box ok">
+  <b class="t">Every day, no matter what is running</b>
+  <ul class="do" style="margin-bottom:0">
+    <li>Finish your daily tasks and collect the milestone chests.</li>
+    <li><b>Collect both free 50-stamina packs.</b> Always — they are free and they expire.</li>
+    <li>Take the free gathering.</li>
+    <li>Give alliance help and donate to alliance tech.</li>
+  </ul>
+</div>
+<p style="margin-top:-3px;color:var(--mut);font-size:14px">These cost nothing, do not depend on winning anything, and are the most reliable points in the game.</p>
+
+<div class="box warn">
+  <b class="t">Stamina and spy missions — do not just burn them</b>
+  <p style="margin:0 0 6px"><b>Stamina:</b> collecting the two free packs is the daily habit. <b>Spending extra stamina out of your backpack belongs on duel day 1</b>, where stamina scores duel points — that is the day it counts twice.</p>
+  <p style="margin:0"><b>Spy missions:</b> the duel rewards them on <b>days 1, 3 and 5</b> and on no other day, so there is no reason to run them in between. On any day, do the <b>level 10 wandering infected</b> — the first kill of the day carries the rewards that matter. Beyond that, either save your spy missions for the next scoring day, or run only as many as a special event actually needs.</p>
+</div>
+
+<div class="box hot">
+  <b class="t">The four mistakes that cost the most</b>
+  <ul class="do" style="margin-bottom:0">
+    <li><b>Spending anything outside VS and Turbo Turtle.</b> Resources, speed-ups, gear upgrades — all of it. On the wrong day the same spending scores nothing.</li>
+    <li><b>Treating Power Play as a third big event.</b> It is a small bonus you take along when it happens to fit — not something to plan your week around.</li>
+    <li><b>Sitting unshielded on duel day 6.</b> A weak unshielded base is free kill points for the enemy.</li>
+    <li><b>Attacking anything under a non-aggression pact or marked on the map.</b> It damages our relationships — and we need allies for Arcadia. If in doubt, ask first.</li>
+  </ul>
+</div>
+
+<figure class="fig"><svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Priority tiers">
+<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5">WHAT COMES FIRST WHEN TIME IS SHORT</text>
+<rect x="12.0" y="40" width="860" height="72" rx="4" fill="#0e2e19" stroke="#5ce07a" stroke-width="1.5"/>
+<rect x="12.0" y="40" width="6" height="72" fill="#5ce07a"/>
+<text x="32.0" y="64" fill="#5ce07a" font-size="12" font-weight="900" letter-spacing="2">TIER 1</text>
+<text x="102.0" y="64" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6">EVERY DAY — FREE AND GUARANTEED</text>
+<text x="32.0" y="90" fill="#c3d0dc" font-size="12">daily tasks · both free stamina packs · free gathering · alliance help · tech donation</text>
+<path d="M440 116 l7 12 h-14 z" fill="#3d4a57" transform="rotate(180 440 122)"/>
+<rect x="102.0" y="126" width="680" height="72" rx="4" fill="#3a2a08" stroke="#ffb020" stroke-width="1.5"/>
+<rect x="102.0" y="126" width="6" height="72" fill="#ffb020"/>
+<text x="122.0" y="150" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="2">TIER 2</text>
+<text x="192.0" y="150" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6">THE GOLDEN WINDOW — HOARD, THEN DUMP</text>
+<text x="122.0" y="176" fill="#c3d0dc" font-size="12">speed-ups, scraps, shards — held back until the day they score two or three times</text>
+<path d="M440 202 l7 12 h-14 z" fill="#3d4a57" transform="rotate(180 440 208)"/>
+<rect x="192.0" y="212" width="500" height="72" rx="4" fill="#3b1509" stroke="#e9552d" stroke-width="1.5"/>
+<rect x="192.0" y="212" width="6" height="72" fill="#e9552d"/>
+<text x="212.0" y="236" fill="#e9552d" font-size="12" font-weight="900" letter-spacing="2">TIER 3</text>
+<text x="282.0" y="236" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6">ALLIANCE VICTORY — SHOW UP</text>
+<text x="212.0" y="262" fill="#c3d0dc" font-size="12">duel day 6, sieges, raids: coordination, not resources</text>
+<text x="12" y="292" fill="#8ea0b2" font-size="11.5">Tier 1 is never skipped. It costs nothing and does not depend on anyone else showing up.</text>
+</svg>
+  <figcaption>If you only have ten minutes, work from the bottom up. The green band is the part nobody should ever skip.</figcaption>
+</figure>
+
+<div class="box acc">
+  <b class="t">One habit that separates good players from strong ones</b>
+  <p style="margin:0">Before you spend a stack of anything, ask: <i>is there a day this week where this same action pays twice?</i> Nine times out of ten there is. That is the whole game.</p>
+</div>
+
+<!-- ══════════════ VS ══════════════ -->
+<h2 id="vs">VS — the Alliance Duel</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx on"></span>From the internet</span>
+  <span class="ck"><span class="bx"></span>Official source</span>
+  <span class="dt">Point values read from in-game screens, Jun 2026</span>
+</div>
+
+<p>Six days, one theme per day, alliance against alliance. The weights add up to <b>13</b>, so <b>7 wins the week</b> — day 6 plus two middle days is enough even after a bad start. The order of the days never changes.</p>
+
+<figure class="fig"><svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The six duel days and their weights">
+<defs><linearGradient id="gd6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9552d"/><stop offset="1" stop-color="#8e2a12"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5">THE DUEL WEEK — WHAT EACH DAY WANTS</text>
+<rect x="12" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
+<text x="24" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6">DAY 1</text>
+<text x="24" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">RADAR</text>
+<rect x="106" y="52" width="34" height="24" rx="3" fill="#26313c"/>
+<text x="123.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900">×1</text>
+<text x="24" y="118" fill="#b9c6d3" font-size="11.5">scraps</text>
+<text x="24" y="134" fill="#b9c6d3" font-size="11.5">spy</text>
+<text x="24" y="150" fill="#b9c6d3" font-size="11.5">stamina</text>
+<rect x="157" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
+<text x="169" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6">DAY 2</text>
+<text x="169" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">BUILD</text>
+<rect x="251" y="52" width="34" height="24" rx="3" fill="#26313c"/>
+<text x="268.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900">×2</text>
+<text x="169" y="118" fill="#b9c6d3" font-size="11.5">building speed-ups</text>
+<rect x="302" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
+<text x="314" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6">DAY 3</text>
+<text x="314" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">RESEARCH</text>
+<rect x="396" y="52" width="34" height="24" rx="3" fill="#26313c"/>
+<text x="413.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900">×2</text>
+<text x="314" y="118" fill="#b9c6d3" font-size="11.5">research speed-ups</text>
+<text x="314" y="134" fill="#b9c6d3" font-size="11.5">spy</text>
+<rect x="447" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
+<text x="459" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6">DAY 4</text>
+<text x="459" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">HEROES</text>
+<rect x="541" y="52" width="34" height="24" rx="3" fill="#26313c"/>
+<text x="558.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900">×2</text>
+<text x="459" y="118" fill="#b9c6d3" font-size="11.5">shards</text>
+<text x="459" y="134" fill="#b9c6d3" font-size="11.5">recruits</text>
+<rect x="592" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
+<text x="604" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6">DAY 5</text>
+<text x="604" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">TROOPS</text>
+<rect x="686" y="52" width="34" height="24" rx="3" fill="#26313c"/>
+<text x="703.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900">×2</text>
+<text x="604" y="118" fill="#b9c6d3" font-size="11.5">training</text>
+<text x="604" y="134" fill="#b9c6d3" font-size="11.5">spy</text>
+<rect x="737" y="42" width="138" height="150" rx="4" fill="url(#gd6)" stroke="#e9552d" stroke-width="2" filter="url(#gl)"/>
+<text x="749" y="66" fill="#ffd9cc" font-size="11" font-weight="800" letter-spacing="1.6">DAY 6</text>
+<text x="749" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5">COMBAT</text>
+<rect x="831" y="52" width="34" height="24" rx="3" fill="#fff"/>
+<text x="848.0" y="69" text-anchor="middle" fill="#e9552d" font-size="14" font-weight="900">×4</text>
+<text x="749" y="118" fill="#ffe8e0" font-size="11.5">kills</text>
+<text x="749" y="134" fill="#ffe8e0" font-size="11.5">shields on</text>
+<text x="12" y="216" fill="#8ea0b2" font-size="11" font-weight="700" letter-spacing="1.6">13 POINTS IN TOTAL — 7 WINS THE WEEK</text>
+<rect x="12.0" y="224" width="63.8" height="30" fill="#3d4a57"/>
+<text x="43.9" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">1</text>
+<rect x="77.8" y="224" width="129.7" height="30" fill="#4a5a68"/>
+<text x="142.7" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">2</text>
+<rect x="209.5" y="224" width="129.7" height="30" fill="#56697a"/>
+<text x="274.4" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">2</text>
+<rect x="341.2" y="224" width="129.7" height="30" fill="#62788c"/>
+<text x="406.1" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">2</text>
+<rect x="472.9" y="224" width="129.7" height="30" fill="#6e879e"/>
+<text x="537.8" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">2</text>
+<rect x="604.6" y="224" width="261.4" height="30" fill="#e9552d"/>
+<text x="735.3" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">4</text>
+<line x1="472.9" y1="216" x2="472.9" y2="262" stroke="#5ce07a" stroke-width="2.5" stroke-dasharray="5 4"/>
+<rect x="442.9" y="264" width="72" height="20" rx="3" fill="#5ce07a"/>
+<text x="478.9" y="278" text-anchor="middle" fill="#0b0d10" font-size="11" font-weight="900">7 = WIN</text>
+<text x="868" y="279" text-anchor="end" fill="#8ea0b2" font-size="11">day 6 alone is over a quarter of the week</text>
+</svg>
+  <figcaption>The order never changes. Day 6 carries four of the thirteen points — more than the first three days together.</figcaption>
+</figure>
+
+<div class="box hot">
+  <b class="t">Do everything the day offers</b>
+  <p style="margin:0">The list below is not a menu to pick from. What each item is worth depends on how often <i>you</i> can do it — what is small for one player is the main source for another. <b>Do everything you can that day. We need every point.</b></p>
+</div>
+
+<div class="box acc">
+  <b class="t">Which weekday is which day</b>
+  <p style="margin:0">At the moment <b>day 1 falls on Monday</b> — so hero development lands on Thursday, troops on Friday, and the decisive combat day on Saturday. <b>The alliance board in game is what counts</b>; check there if a week looks shifted.</p>
+</div>
+
+<table>
+  <tr><th>Day</th><th>Theme</th><th>Weight</th><th>Everything that scores that day</th></tr>
+  <tr><td class="d">1</td><td>Radar Training</td><td><span class="w">1</span></td><td>Equipment scraps · <b>spy mission</b> · commander stamina · food, wood, metal, fuel · diamonds from packs</td></tr>
+  <tr><td class="d">2</td><td>Base Building</td><td><span class="w">2</span></td><td>Building speed-ups · S-dispatch · A-delivery · power gained from building · diamonds from packs</td></tr>
+  <tr><td class="d">3</td><td>Technology Research</td><td><span class="w">2</span></td><td>Research speed-ups · <b>spy mission</b> · monster cells · monster EXP · battle medals · power from research · diamonds from packs</td></tr>
+  <tr><td class="d">4</td><td>Hero Development</td><td><span class="w">2</span></td><td>Legendary, epic and rare hero shards · wish, advanced and standard recruitment · hero skill manuals · diamonds from packs</td></tr>
+  <tr><td class="d">5</td><td>Battle Preparation</td><td><span class="w">2</span></td><td>Training troops, all tiers · <b>spy mission</b> · building, research and training speed-ups · power from building and research · diamonds from packs</td></tr>
+  <tr><td class="d">6</td><td>Defeat Enemies</td><td><span class="w hi">4</span></td><td>Killing enemy troops, scaled by tier. Your own losses feed the enemy. <b>Peace shields are mandatory</b> whenever you are not actively fighting.</td></tr>
+</table>
+
+<figure>
+  <img src="img/vs-spickzettel-de.png" alt="Alliance duel cheat sheet">
+  <figcaption>The duel cheat sheet as it was made for the alliance. German labels — the day order and weights are the same in every language.</figcaption>
+</figure>
+
+<div class="box warn">
+  <b class="t">The saving rule, in one sentence</b>
+  <p style="margin:0">Whatever you were going to build, research, train or upgrade anyway — <b>hold it until its day, then finish it</b>. Same resources, several times the points.</p>
+</div>
+
+<details>
+  <summary>Exact point values per day (base values, before your own bonus)</summary>
+  <div class="dbody">
+    <p style="margin-top:11px">These are <b>base</b> values. In game you normally see <b>green</b> numbers — those already include your personal research bonus, so two people doing the same thing correctly see different numbers.</p>
+
+    <h4>Day 1 — Radar Training</h4>
+    <table>
+      <tr><td>Equipment scraps used</td><td class="num">100 EP → +2,900 · 400 → +11,500 · 2,000 → +57,200 · 10,000 → +285,800 (≈29 per EP)</td></tr>
+      <tr><td>1 spy mission</td><td class="num">+37,500</td></tr>
+      <tr><td>1 commander stamina</td><td class="num">+300</td></tr>
+      <tr><td>100 food / 100 wood / 20 metal / 5 fuel</td><td class="num">+1 each</td></tr>
+    </table>
+
+    <h4>Day 2 — Base Building</h4>
+    <table>
+      <tr><td>1 S-dispatch (Dire Dispatch)</td><td class="num">+75,000 (once)</td></tr>
+      <tr><td>1 A-delivery (Doomsday Express)</td><td class="num">+50,000 (once)</td></tr>
+      <tr><td>Speed up building by 1 minute</td><td class="num">+250 (scales, unlimited)</td></tr>
+      <tr><td>+1 power from building</td><td class="num">+9</td></tr>
+    </table>
+    <p><b>The real lever here is building itself</b>, not the two one-off dispatches. Speed-ups scale; the dispatches do not.</p>
+
+    <h4>Day 3 — Technology Research</h4>
+    <table>
+      <tr><td>1 spy mission</td><td class="num">+30,000</td></tr>
+      <tr><td>1 monster cell used</td><td class="num">+12,000</td></tr>
+      <tr><td>100 monster EXP in one attempt</td><td class="num">+1,000</td></tr>
+      <tr><td>1 battle medal spent</td><td class="num">+2,500</td></tr>
+      <tr><td>Research timer −1 minute</td><td class="num">+250</td></tr>
+      <tr><td>+1 power from research</td><td class="num">+4</td></tr>
+    </table>
+
+    <h4>Day 4 — Hero Development</h4>
+    <table>
+      <tr><td>1 legendary hero shard</td><td class="num">+15,200</td></tr>
+      <tr><td>1 wish recruitment</td><td class="num">+13,400</td></tr>
+      <tr><td>1 advanced recruitment</td><td class="num">+3,000</td></tr>
+      <tr><td>1 hero skill manual</td><td class="num">+2,500</td></tr>
+      <tr><td>1 epic hero shard</td><td class="num">+1,600</td></tr>
+      <tr><td>1 standard recruitment</td><td class="num">+500</td></tr>
+      <tr><td>1 rare hero shard</td><td class="num">+160</td></tr>
+    </table>
+
+    <h4>Day 5 — Battle Preparation</h4>
+    <table>
+      <tr><td>1 spy mission</td><td class="num">+37,500</td></tr>
+      <tr><td>Train 1 troop, by tier</td><td class="num">T1 +6 · T2 +11 · T3 +17 · T4 +22 · T5 +26 · T6 +33 · T7 +37 · T8 +44 · T9 +52 · <b>T10 +60</b></td></tr>
+      <tr><td>Building / research / training −1 min</td><td class="num">+250 each</td></tr>
+    </table>
+
+    <h4>Day 6 — Defeat Enemies</h4>
+    <p style="margin-bottom:0">No task list. Points come from <b>killing enemy troops</b> (scaled by tier) and you lose points through your own losses. Shield discipline is what decides this day.</p>
+  </div>
+</details>
+
+<details>
+  <summary>Milestone chests — thresholds and exactly what is inside</summary>
+  <div class="dbody">
+    <p style="margin-top:11px">Daily tasks feed two things at once: <b>alliance points</b> for the day's race, and your <b>personal milestone chests</b>. The chests run from 50,000 to 5 million points. The number on a chest is its item value; what matters is what is actually in it.</p>
+
+    <div class="box ok">
+      <b class="t">The pattern worth knowing</b>
+      <p style="margin:0">Every third chest is the good one. The chests at <b>500k, 1.5M, 3M and 5M</b> hold hero fragments, skill manuals, monster cells and equipment scraps. The ones in between are gems and resources. If you are deciding whether one more push is worth it, look at which chest is next.</p>
+    </div>
+
+    <table>
+      <tr><th>Points</th><th>Value</th><th>What is inside</th></tr>
+      <tr><td class="d">50k</td><td class="num">25,500</td><td>100 gems · 50 battle medals · 20 wood · 20 food · 1 fuel · 4 metal <span style="color:var(--mut)">(resource units of 10,000)</span></td></tr>
+      <tr><td class="d">150k</td><td class="num">25,600</td><td>200 gems · 50 battle medals · 20 wood · 20 food · 1 fuel · 4 metal</td></tr>
+      <tr><td class="d">500k</td><td class="num">55,692</td><td><b>1 monster cell · 10 hero skill manuals · 100 battle medals · 10× 10,000 hero EXP · 5 equipment scraps · 3 elite hero fragments · 5 building speed-ups</b></td></tr>
+      <tr><td class="d">650k</td><td class="num">27,300</td><td>300 gems · 50 battle medals · 100 wood · 100 food · 5 fuel · 20 metal</td></tr>
+      <tr><td class="d">900k</td><td class="num">27,400</td><td>400 gems · 50 battle medals · 100 wood · 100 food · 5 fuel · 20 metal</td></tr>
+      <tr><td class="d">1.5M</td><td class="num">58,233</td><td><b>20 hero skill manuals · 2 monster cells · 2 epic hero fragments · 100 battle medals · 5 equipment scraps · 10× 10,000 hero EXP · 5 research speed-ups</b></td></tr>
+      <tr><td class="d">2M</td><td class="num">104,500</td><td>500 gems · 200 battle medals · 200 wood · 200 food · 10 fuel · 40 metal</td></tr>
+      <tr><td class="d">3M</td><td class="num">110,925</td><td><b>1 legendary hero fragment · 3 monster cells · 30 hero skill manuals · 200 battle medals · 5 equipment scraps · 20× 10,000 hero EXP · 5 training speed-ups</b></td></tr>
+      <tr><td class="d">5M</td><td class="num">210,925</td><td><b>1 legendary hero fragment · 3 monster cells · 30 hero skill manuals · 400 battle medals · 5 equipment scraps · 20× 10,000 hero EXP · 5 universal speed-ups</b></td></tr>
+    </table>
+
+    <h4>The three threshold bars as they appear in game</h4>
+    <div class="gal">
+      <figure><img src="img/vs-schwellen-1.webp" alt=""><figcaption>50k · 150k · 500k</figcaption></figure>
+      <figure><img src="img/vs-schwellen-2.webp" alt=""><figcaption>650k · 900k · 1.5M</figcaption></figure>
+      <figure><img src="img/vs-schwellen-3.webp" alt=""><figcaption>2M · 3M · 5M</figcaption></figure>
+    </div>
+
+    <h4>Every chest, opened</h4>
+    <div class="gal">
+      <figure><img src="img/vs-truhe-1-50k.webp" alt=""><figcaption><b>50k</b> — gems and resources</figcaption></figure>
+      <figure><img src="img/vs-truhe-2-150k.webp" alt=""><figcaption><b>150k</b> — gems and resources</figcaption></figure>
+      <figure><img src="img/vs-truhe-3-500k.webp" alt=""><figcaption><b>500k</b> — elite hero fragments, manuals, scraps</figcaption></figure>
+      <figure><img src="img/vs-truhe-4-650k.webp" alt=""><figcaption><b>650k</b> — gems and resources</figcaption></figure>
+      <figure><img src="img/vs-truhe-5-900k.webp" alt=""><figcaption><b>900k</b> — gems and resources</figcaption></figure>
+      <figure><img src="img/vs-truhe-6-1500k.webp" alt=""><figcaption><b>1.5M</b> — epic fragments, 20 manuals</figcaption></figure>
+      <figure><img src="img/vs-truhe-7-2000k.webp" alt=""><figcaption><b>2M</b> — gems and resources</figcaption></figure>
+      <figure><img src="img/vs-truhe-8-3000k.webp" alt=""><figcaption><b>3M</b> — legendary fragment, 30 manuals</figcaption></figure>
+      <figure><img src="img/vs-truhe-9-5000k.webp" alt=""><figcaption><b>5M</b> — legendary fragment, 400 medals</figcaption></figure>
+    </div>
+
+    <figure><img src="img/vs-labor-zweige.webp" alt=""><figcaption>The research branches that raise your duel point bonus. This is why two players doing the same thing see different numbers.</figcaption></figure>
+  </div>
+</details>
+
+<!-- ══════════════ TURTLE ══════════════ -->
+<h2 id="turtle">Turbo Turtle — the 7 phases</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx"></span>From the internet</span>
+  <span class="ck"><span class="bx on"></span>Official source <span style="color:var(--mut)">(in-game rules screen)</span></span>
+  <span class="dt">All seven phase lists read action by action from the in-game phase screens, 15 Sep 2026</span>
+</div>
+
+<p>Turbo Turtle turns <b>gear upgrades</b> into event points. Every upgrade pays twice — your stats go up and you score. <b>Blue scraps are worth roughly four times green ones.</b></p>
+
+<p><b>Each phase scores a different list of actions.</b> Not just a different topic &mdash; a different list. Phase&nbsp;1 and phase&nbsp;5 both want hero gear, but phase&nbsp;5 also wants common parts and precision blueprints while phase&nbsp;1 wants troop training instead. <b>Improving</b> gear (verbessern) and <b>strengthening</b> it (verst&auml;rken) are counted as two separate actions. Read the matrix, not the headline.</p>
+
+<p>What changes from week to week is only <b>how many phases run and which day carries which phase</b>. The list inside a phase stays the same, and the exact point values appear in game on the day itself.</p>
+
+<figure class="fig"><svg viewBox="0 0 880 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Turbo turtle phases">
+<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5">TURBO TURTLE — EVERY PHASE SCORES A DIFFERENT LIST</text>
+<rect x="12" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#4fd6e8" stroke-width="1.5"/>
+<rect x="12" y="42" width="118" height="5" fill="#4fd6e8"/>
+<text x="71.0" y="86" text-anchor="middle" fill="#4fd6e8" font-size="30" font-weight="900">1</text>
+<text x="71.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">gear</text>
+<text x="71.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5">research</text>
+<text x="71.0" y="144" text-anchor="middle" fill="#c3d0dc" font-size="11.5">troops</text>
+<rect x="135" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#ffb020" stroke-width="1.5"/>
+<rect x="135" y="42" width="118" height="5" fill="#ffb020"/>
+<text x="194.0" y="86" text-anchor="middle" fill="#ffb020" font-size="30" font-weight="900">2</text>
+<text x="194.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">gear</text>
+<text x="194.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" font-weight="900">BUILDING</text>
+<rect x="258" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#a78bfa" stroke-width="1.5"/>
+<rect x="258" y="42" width="118" height="5" fill="#a78bfa"/>
+<text x="317.0" y="86" text-anchor="middle" fill="#a78bfa" font-size="30" font-weight="900">3</text>
+<text x="317.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">monsters</text>
+<text x="317.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5">research</text>
+<rect x="381" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#f472b6" stroke-width="1.5"/>
+<rect x="381" y="42" width="118" height="5" fill="#f472b6"/>
+<text x="440.0" y="86" text-anchor="middle" fill="#f472b6" font-size="30" font-weight="900">4</text>
+<text x="440.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">hero draws</text>
+<text x="440.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5">manuals</text>
+<rect x="504" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#ffb020" stroke-width="1.5"/>
+<rect x="504" y="42" width="118" height="5" fill="#ffb020"/>
+<text x="563.0" y="86" text-anchor="middle" fill="#ffb020" font-size="30" font-weight="900">5</text>
+<text x="563.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">gear</text>
+<text x="563.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" font-weight="900">PARTS</text>
+<rect x="627" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#a78bfa" stroke-width="1.5"/>
+<rect x="627" y="42" width="118" height="5" fill="#a78bfa"/>
+<text x="686.0" y="86" text-anchor="middle" fill="#a78bfa" font-size="30" font-weight="900">6</text>
+<text x="686.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">monsters</text>
+<text x="686.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5">heroes</text>
+<text x="686.0" y="144" text-anchor="middle" fill="#c3d0dc" font-size="11.5">speed-ups</text>
+<rect x="750" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#5ce07a" stroke-width="1.5"/>
+<rect x="750" y="42" width="118" height="5" fill="#5ce07a"/>
+<text x="809.0" y="86" text-anchor="middle" fill="#5ce07a" font-size="30" font-weight="900">7</text>
+<text x="809.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5">everything</text>
+<rect x="12" y="176" width="856" height="30" rx="4" fill="#3a2a08" stroke="#ffb020"/>
+<text x="26" y="196" fill="#ffb020" font-size="12" font-weight="800">HERO GEAR SCORES IN FOUR PHASES — 1, 2, 5 AND 7.</text>
+<text x="500" y="196" fill="#c3d0dc" font-size="12">But not the same actions each time — see the matrix.</text>
+<text x="12" y="228" fill="#8ea0b2" font-size="11.5">Phase 7 scores everything — the day to empty whatever is left. Diamond packs score in all seven.</text>
+</svg>
+  <figcaption>Colour marks the theme of a phase. The theme is only a headline &mdash; the exact actions differ, which is what the matrix below shows.</figcaption>
+</figure>
+
+<h3 style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:22px 0 2px">The full phase matrix</h3>
+<p style="color:var(--mut);font-size:13.5px;margin:0 0 4px">Column = phase. <span style="color:var(--tox);font-weight:900">&times;</span> = that action scores turtle points in that phase. Everything else is dead weight that day.</p>
+<table class="mx">
+<tr><th class="a">Action / item</th><th class="p">1</th><th class="p">2</th><th class="p">3</th><th class="p">4</th><th class="p">5</th><th class="p">6</th><th class="p p7">7</th></tr>
+<tr class="grp"><td colspan="8">Speed-ups</td></tr>
+<tr><td class="a">Building speed-ups</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Research speed-ups</td><td class="x">&times;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr class="grp"><td colspan="8">Hero gear and forging</td></tr>
+<tr><td class="a"><b>Improve</b> hero gear <i>verbessern — raise the level</i></td><td class="x">&times;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a"><b>Strengthen</b> hero gear <i>verst&auml;rken — spend scraps</i></td><td class="x">&times;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Reforge hammers <i>Umschmiedeh&auml;mmer</i></td><td class="x">&times;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Reforge anchors <i>Umschmiedeanker</i></td><td class="x">&times;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Common parts <i>Allgemeine Teile</i></td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Precision blueprints <i>Pr&auml;zisionsentw&uuml;rfe</i></td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr class="grp"><td colspan="8">Monsters</td></tr>
+<tr><td class="a">Monster cells</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Monster serums</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Biogenic protein <i>phase 3 excludes the exclusive kind</i></td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr class="grp"><td colspan="8">Heroes</td></tr>
+<tr><td class="a">Draw vouchers <i>Ziehungsgutscheine</i></td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Advanced recruitment tokens</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Standard recruitment tokens</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Hero fragments <i>legendary · epic · rare</i></td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Hero skill manuals</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x">&times;</td><td>&middot;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+<tr class="grp"><td colspan="8">Troops and field</td></tr>
+<tr><td class="a">Train and upgrade troops</td><td class="x">&times;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="c7">&middot;</td></tr>
+<tr><td class="a">Kill infected and fanatics</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr><td class="a">Gather resources</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td>&middot;</td><td class="x c7">&times;</td></tr>
+<tr class="grp"><td colspan="8">Always</td></tr>
+<tr class="all"><td class="a">Diamond packs <i>every phase, no exception</i></td><td class="x">&times;</td><td class="x">&times;</td><td class="x">&times;</td><td class="x">&times;</td><td class="x">&times;</td><td class="x">&times;</td><td class="x c7">&times;</td></tr>
+</table>
+
+<div class="box ok">
+  <b class="t">New: the 10M milestone and prestige weapons</b>
+  <p style="margin:0">There is now a milestone at <b>10 million points</b> — confirmed on the event screen, where the ladder reads 10k / 1.0M / 2.0M / 3.5M / 5.0M / 10.0M. It gives a <b>fragment</b>. The chain from there: <b>5 fragments → 10 coins</b>, and <b>20 coins → one new prestige weapon</b> for a hero. Upgrading that weapon costs the same coins, so the coins stay useful long after the first weapon.</p>
+</div>
+
+<div class="box acc">
+  <b class="t">"Stage" means two different things — keep them apart</b>
+  <p style="margin:0 0 5px"><b>Rank tiers (5):</b> Bronze → Silver → Gold → Diamond → Legend. These decide how <i>rich</i> your milestone rewards are.</p>
+  <p style="margin:0"><b>Phases (1–7):</b> these decide <i>which actions</i> score today.</p>
+</div>
+
+<details>
+  <summary>How promotion, medals and milestones work</summary>
+  <div class="dbody">
+    <p style="margin-top:11px"><b>Promotion is by placement in your small group, not by a fixed score.</b> At the end of each phase the best of the group move up: Bronze top 4, Silver / Gold / Diamond top 3. Everyone else holds or drops. Watch your group standing, not only your total.</p>
+    <p><b>Three leaderboards run at once:</b> your group (4–5 players, decides promotion), your rank tier, and the overall event ranking which adds up all phases.</p>
+    <p><b>Race medals</b> come from the levels you reach. In the shop: 20 medals buy one top gear item once; single medals buy a 1-hour speed-up or a supply box ×10.</p>
+    <h4>Milestone ladder</h4>
+    <p>10,000 / 1.0M / 2.0M / 3.5M / 5.0M / <b>10M</b> points. Contents get richer with your rank tier (Bronze → Legend); the 10M step is the prestige fragment described above.</p>
+    <table>
+      <tr><th>Reward</th><th>Bronze</th><th>Silver</th><th>Gold</th><th>Diamond</th><th>Legend</th></tr>
+      <tr><td>Gems</td><td class="num">500</td><td class="num">1,000</td><td class="num">1,500</td><td class="num">2,000</td><td class="num">2,000</td></tr>
+      <tr><td>Hero EXP (10K)</td><td class="num">100</td><td class="num">140</td><td class="num">150</td><td class="num">200</td><td class="num">200</td></tr>
+      <tr><td>Hero manual</td><td class="num">40</td><td class="num">60</td><td class="num">70</td><td class="num">80</td><td class="num">100</td></tr>
+      <tr><td>Monster cell</td><td class="num">2</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">5</td></tr>
+    </table>
+    <p style="margin-bottom:0">The turtle emote unlocks from <b>Gold</b> upward. The event shop gives roughly one alloy box per week plus signature tokens and gear material.</p>
+  </div>
+</details>
+
+<!-- ══════════════ POWER PLAY ══════════════ -->
+<h2 id="power">Power Play — the 4-hour rounds</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx on"></span>From the internet</span>
+  <span class="ck"><span class="bx on"></span>Official source <span style="color:var(--mut)">(in-game rules and calendar)</span></span>
+  <span class="dt">Rounds and calendar read directly from the game</span>
+</div>
+
+<p>A solo ranking event with rotating themes. <b>Each round lasts 4 hours.</b> Every day at 00:00 UTC twelve players with similar power-plant levels are drawn into a group, and you are ranked inside that group for the day.</p>
+
+<div class="box warn">
+  <b class="t">Keep this in proportion</b>
+  <p style="margin:0">Power Play is a <b>bonus you take along when it happens to line up</b> with what you were doing for VS or Turbo Turtle anyway. It is not a third event to plan around, and it is not worth spending resources for on its own.</p>
+</div>
+
+<div class="box hot">
+  <b class="t">There is no schedule that fits everyone — open your own calendar</b>
+  <p style="margin:0 0 6px">You are grouped by <b>power plant level</b> (seen in game: "Group: Level 26–Lv.27"), and which theme lands in which slot is not the same for everyone any more. There is no alliance-wide timetable worth posting.</p>
+  <p style="margin:0"><b>Where to look:</b> open Power Play and press the <b>KALENDER</b> button at the left of the banner. It lists <i>Date · Activation time · Theme</i> for the coming days and highlights the round running right now — six slots a day, four hours apart. That table is yours; read it there, not here.</p>
+</div>
+
+<table>
+  <tr><th>The six rotating rounds</th></tr>
+  <tr><td>Hero Improvement · Settlement Building · Commander Collection · Technology Research · Gear Upgrading (equipment scraps) · Monster Growth</td></tr>
+</table>
+
+<p>The six themes used to run on a single alliance-wide rotation anchored to 00:00 UTC, shifting one step each day. <b>That no longer holds for everyone.</b> Treat the in-game calendar inside the event as the only authority for your own account.</p>
+
+<div class="box warn">
+  <b class="t">Do not confuse it with Turbo Turtle</b>
+  <p style="margin:0">Power Play runs in <b>4-hour rounds</b>. Turbo Turtle runs in <b>day-long phases</b>. They are different events and they often reward the same action — which is exactly what makes a Golden Window.</p>
+</div>
+
+<details>
+  <summary>Scoring detail, milestone chests and rank rewards</summary>
+  <div class="dbody">
+    <p style="margin-top:11px"><b>Point values depend on your level group</b> — do not take another player's numbers as yours. The figures below come from three different groups, to show how far apart they can be.</p>
+    <h4>Gear Upgrading round — group level 26–27, read 15 Sep 2026</h4>
+    <table>
+      <tr><td>Use 1 equipment scrap worth 100 EP</td><td class="num">714</td></tr>
+      <tr><td>Use 1 equipment scrap worth 400 EP</td><td class="num">2,857</td></tr>
+      <tr><td>Use 1 equipment scrap worth 2,000 EP</td><td class="num">14,286</td></tr>
+      <tr><td>Use 1 equipment scrap worth 10,000 EP</td><td class="num">71,429</td></tr>
+      <tr><td>1 diamond from pack purchases</td><td class="num">60</td></tr>
+    </table>
+    <p>Milestone chests in that round: 30,000 · 90,000 · 200,000. The daily goal bar sat at steps 2 / 8 / 18.</p>
+    <h4>Example: Troop Improvement round</h4>
+    <table>
+      <tr><td>Training speed-ups (per minute)</td><td class="num">42</td></tr>
+      <tr><td>Train 1 troop, tiers 1–6</td><td class="num">4 · 7 · 12 · 15 · 18 · 22</td></tr>
+    </table>
+    <p>Milestone chests in that round: 50,000 → 3,290 💎 · 150,000 → 5,690 💎 · 300,000 → 10,030 💎.</p>
+    <h4>Example: Monster Growth round</h4>
+    <table>
+      <tr><td>Monster cell</td><td class="num">2,800</td></tr>
+      <tr><td>Per 100 monster EXP</td><td class="num">200</td></tr>
+    </table>
+    <p>Milestone chests there: 30,000 → 3,290 💎 · 90,000 → 5,690 💎 · 200,000 → 10,030 💎.</p>
+    <h4>Daily rank rewards inside your group</h4>
+    <table>
+      <tr><td class="d">1st</td><td>Power Play medal ×1 · troop manual ×5 · 10K EXP ×5 · troop speed-up box ×5</td></tr>
+      <tr><td class="d">2nd</td><td>troop manual ×3 · 10K EXP ×3 · troop box ×3 — no medal</td></tr>
+      <tr><td class="d">3rd–5th</td><td>same items, decreasing amounts</td></tr>
+    </table>
+    <p style="margin-bottom:0"><b>Where to find it:</b> world map → <b>Events</b> (top right) → drag the tab bar right to <b>Power Play</b> → the "?" button shows the rules, the internal <b>Calendar</b> button shows the round rotation.</p>
+  </div>
+</details>
+
+<!-- ══════════════ GOLDEN WINDOW ══════════════ -->
+<h2 id="gw">The Golden Window</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx"></span>Tested in game</span>
+  <span class="ck"><span class="bx on"></span>From the internet</span>
+  <span class="ck"><span class="bx"></span>Official source</span>
+  <span class="dt">Reasoning from our own notes — not verified end to end</span>
+</div>
+
+<p>A Golden Window is a moment when one action pays into <b>three</b> things at once: the Alliance Duel day, the matching Power Play round or Turbo Turtle phase, and your actual progress.</p>
+
+<figure class="fig"><svg viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Golden window">
+<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5">THE GOLDEN WINDOW — ONE ACTION, THREE PAYOUTS</text>
+<rect x="12" y="78" width="210" height="96" rx="4" fill="#182029" stroke="#ffb020" stroke-width="2"/>
+<text x="117" y="112" text-anchor="middle" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="1.6">YOUR SAVED STACK</text>
+<text x="117" y="138" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">building speed-ups</text>
+<text x="117" y="158" text-anchor="middle" fill="#8ea0b2" font-size="11.5">spent once, on the right day</text>
+<path d="M232 126 C 290 126, 290 74, 348 74" fill="none" stroke="#4fd6e8" stroke-width="2" opacity=".75"/>
+<circle cx="348" cy="74" r="3.5" fill="#4fd6e8"/>
+<rect x="358" y="52" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
+<rect x="358" y="52" width="4" height="44" fill="#4fd6e8"/>
+<text x="376" y="71" fill="#4fd6e8" font-size="12" font-weight="900" letter-spacing="1.4">DUEL DAY 2</text>
+<text x="376" y="88" fill="#c3d0dc" font-size="12">Base Building · ×2 weight</text>
+<path d="M232 126 C 290 126, 290 130, 348 130" fill="none" stroke="#5ce07a" stroke-width="2" opacity=".75"/>
+<circle cx="348" cy="130" r="3.5" fill="#5ce07a"/>
+<rect x="358" y="108" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
+<rect x="358" y="108" width="4" height="44" fill="#5ce07a"/>
+<text x="376" y="127" fill="#5ce07a" font-size="12" font-weight="900" letter-spacing="1.4">POWER PLAY</text>
+<text x="376" y="144" fill="#c3d0dc" font-size="12">Settlement Building round</text>
+<path d="M232 126 C 290 126, 290 186, 348 186" fill="none" stroke="#ffb020" stroke-width="2" opacity=".75"/>
+<circle cx="348" cy="186" r="3.5" fill="#ffb020"/>
+<rect x="358" y="164" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
+<rect x="358" y="164" width="4" height="44" fill="#ffb020"/>
+<text x="376" y="183" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="1.4">REAL PROGRESS</text>
+<text x="376" y="200" fill="#c3d0dc" font-size="12">the building actually finishes</text>
+<rect x="800" y="96" width="68" height="60" rx="4" fill="#e9552d"/>
+<text x="834" y="138" text-anchor="middle" fill="#fff" font-size="30" font-weight="900">×3</text>
+<text x="12" y="228" fill="#8ea0b2" font-size="11.5">Same resources. Three times the return. This is why hoarding is the strategy, not stinginess.</text>
+</svg>
+  <figcaption>Building speed-ups are the clearest case, but the same shape applies to scraps on day 1, research on day 3 and hero material on day 4.</figcaption>
+</figure>
+
+<div class="box ok">
+  <b class="t">The clearest example</b>
+  <p style="margin:0 0 6px">Building speed-ups, finished on <b>duel day 2 (Base Building)</b>, inside a <b>Settlement Building</b> Power Play round. One stack, three payouts. This is why hoarding speed-ups is not stinginess &mdash; it is the strategy.</p><p style="margin:0">If Turbo Turtle is also running that day and the phase is <b>2, 6 or 7</b>, the same stack pays a fourth time. Those are the only phases that score building speed-ups &mdash; check the matrix before you spend.</p>
+</div>
+
+<p>The same logic applies to equipment scraps on day 1, research on day 3, hero material on day 4 and troop training on day 5. Two more overlaps worth knowing:</p>
+<ul class="do">
+  <li><b>Cave Conquest also awards Alliance Duel points</b> — so playing it on a duel day counts twice.</li>
+  <li><b>Stamina on duel day 1</b> feeds the Radar day and, when Sawblade Waltz is running, produces sawblades at the same time.</li>
+</ul>
+<p style="color:var(--mut);font-size:14px">Which windows are open this week is announced on the alliance board in game. This page deliberately carries no dates.</p>
+
+<!-- ══════════════ ALLIANCE EVENTS ══════════════ -->
+<h2 id="war">Alliance and battle events</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx on"></span>From the internet</span>
+  <span class="ck"><span class="bx on"></span>Official source <span style="color:var(--mut)">(partly)</span></span>
+  <span class="dt">Mixed — see each event</span>
+</div>
+
+<article class="ev">
+  <h3>Oil Clash <span class="tag">season event</span></h3>
+  <p><b>What wins it:</b> whoever holds the most deep-sea crude at the end. Everything resets at <b>00:00 UTC</b> — yesterday's ownership protects nothing.</p>
+  <div class="box ok" style="margin:9px 0">
+    <b class="t">What every member should understand</b>
+    <ul class="do" style="margin-bottom:0">
+      <li>We lose when we do not have enough anchors to attack together. Strength alone is not enough.</li>
+      <li><b>Half is enough</b> — holding a spot past its threshold is wasted effort.</li>
+      <li>Small players should drop into anything unoccupied immediately. An empty slot produces nothing; an occupied one produces around the clock, even offline.</li>
+      <li><b>Softening a target counts as much as taking it.</b> If you damage a spot, a big account can walk in afterwards with a single anchor. That saves exactly what we have least of.</li>
+      <li>There is no worthless attack. Even damage that does not kill a hideout still builds the alliance buff.</li>
+    </ul>
+  </div>
+  <details>
+    <summary>Points, thresholds, anchors and the night trick</summary>
+    <div class="dbody">
+      <p style="margin-top:11px"><b>How points are produced.</b> A tower has several slots — one centre plus one or more cranes. A hideout is a single spot.</p>
+      <table>
+        <tr><th>Slot</th><th>Output</th></tr>
+        <tr><td>Centre</td><td class="num">+2 points / minute</td></tr>
+        <tr><td>Crane</td><td class="num">+1 point / minute</td></tr>
+      </table>
+      <figure><img src="img/oil-plaetze-punkte.webp" alt="Territory slots and per-minute points"><figcaption>A territory header shows the sum, the slots below show +2 and +1 each with the holder's alliance tag.</figcaption></figure>
+
+      <h4>The threshold formula</h4>
+      <p><b>Daily threshold = points per minute × 720.</b> Once we pass it, the enemy can no longer catch up that day — and from then on <b>no more anchors go there</b>. Whoever is already sitting stays (sitting is free), we simply stop attacking. If the enemy passes it first, attacking there is pointless.</p>
+      <table>
+        <tr><th>Tower</th><th>Pts/min</th><th>Day max</th><th>Threshold</th></tr>
+        <tr><td>S tower</td><td class="num">3</td><td class="num">4,320</td><td class="num"><b>2,160</b></td></tr>
+        <tr><td>M/L tower</td><td class="num">4</td><td class="num">5,760</td><td class="num"><b>2,880</b></td></tr>
+        <tr><td>L/XL tower</td><td class="num">6</td><td class="num">8,640</td><td class="num"><b>4,320</b></td></tr>
+      </table>
+      <figure><img src="img/oil-schwelle-2160.webp" alt="In-game hint: hold to 2160 points"><figcaption>The in-game hint on an S tower says exactly this: hold to 2,160+.</figcaption></figure>
+
+      <h4>Two hard limits</h4>
+      <p><b>Connection rule:</b> you can only attack what borders our own territory — the alliance has to advance as a connected chain. <b>Occupied rule:</b> you cannot slide into an occupied spot, you have to take it. That is why free slots are so valuable.</p>
+      <p><b>Staggered unlocking:</b> towers carry countdown locks. Early on most of the map is closed; at the end everything opens at once and everyone fights simultaneously. <b>That is the real reason for anchor discipline.</b></p>
+
+      <h4>Anchor economy</h4>
+      <p>Every attack costs one anchor. Resupply is <b>+8 per day</b>, <b>+10 with the season pass</b>, at 00:00 UTC. The cap is <b>15</b> — anything above that is lost.</p>
+      <table>
+        <tr><th>Time (UTC)</th><th>Without pass</th><th>With pass</th></tr>
+        <tr><td>just before 00:00</td><td class="num">7</td><td class="num">5</td></tr>
+        <tr><td>after the refill</td><td class="num">15</td><td class="num">15</td></tr>
+        <tr><td>over the day</td><td class="num">−8 → 7</td><td class="num">−10 → 5</td></tr>
+      </table>
+      <p>End the evening at 15, spend your daily allowance, and the refill puts you back at 15. Never carry unused anchors into the night — if alliance targets are done, put the rest into your own daily chests.</p>
+
+      <h4>The night trick</h4>
+      <p>After the 00:00 UTC reset everything is free and most opponents are asleep. Dropping into three territories right then collects all night without a single fight. Best effort-to-points ratio in the event, explicitly including small accounts.</p>
+
+      <h4>Hideouts and the alliance buff</h4>
+      <p>The in-game text says it plainly: improving alliance buffs by attacking hideouts, and <b>those buffs also apply in PvP</b>. Progress runs on total alliance damage to the hideout.</p>
+      <table>
+        <tr><th>Buff</th><th>Lv.1</th><th>Lv.2</th></tr>
+        <tr><td>Hero attack in combat</td><td class="num">+1,500</td><td class="num">+3,000</td></tr>
+        <tr><td>Hero defence in combat</td><td class="num">+300</td><td class="num">+600</td></tr>
+        <tr><td>Hero HP in combat</td><td class="num">+150,000</td><td class="num">+300,000</td></tr>
+      </table>
+      <figure><img src="img/oil-allianz-buff.webp" alt="Alliance buff progress from hideout damage"><figcaption>Buff progress is fed by alliance damage — which is why every attack matters.</figcaption></figure>
+
+      <h4>Map markers — both mean the same thing for you</h4>
+      <p>R4 marks two different situations: <i>"do not attack, already ours"</i> and <i>"do not attack, belongs to another alliance"</i>. <b>For members both mean the same: hands off.</b> If in doubt, ask before attacking — a wrong attack costs an anchor and can break a deal.</p>
+      <div class="gal">
+        <figure><img src="img/oil-markierung.webp" alt="Marker: already ours"><figcaption>Marker: already secured</figcaption></figure>
+        <figure><img src="img/oil-markierung-fremd.webp" alt="Marker: other alliance"><figcaption>Marker: another alliance</figcaption></figure>
+        <figure><img src="img/oil-nicht-verbunden.webp" alt="Not connected message"><figcaption>"Not connected" — cannot attack</figcaption></figure>
+        <figure><img src="img/oil-gesperrte-tuerme.webp" alt="Locked towers"><figcaption>Locked towers with countdown</figcaption></figure>
+        <figure><img src="img/oil-karte.webp" alt="Oil clash map"><figcaption>The map</figcaption></figure>
+        <figure><img src="img/oil-xs-versteck.webp" alt="XS hideout"><figcaption>XS hideout</figcaption></figure>
+      </div>
+
+      <h4>Two reward tracks — both pay, both worth taking</h4>
+      <p><b>Alliance (crude):</b> chests at 2.0 / 5.0 / 10.0 / 15.0 / 20.0 / 30.0k. <b>Personal (merits):</b> chests at 5.0 / 20.0 / 100.0 / 150.0 / 200.0 / 300.0k. Personal rewards do not depend on winning — always clear them.</p>
+      <h4>Rank rewards at the end of the round</h4>
+      <table>
+        <tr><th>Place</th><th>Gold</th><th>Alliance silver (500)</th><th>Item</th><th>1h speed-up</th><th>1h healing</th></tr>
+        <tr><td class="d">1</td><td class="num">30,000</td><td class="num">40</td><td class="num">15</td><td class="num">30</td><td class="num">30</td></tr>
+        <tr><td class="d">2</td><td class="num">16,000</td><td class="num">30</td><td class="num">12</td><td class="num">25</td><td class="num">25</td></tr>
+        <tr><td class="d">3</td><td class="num">14,000</td><td class="num">28</td><td class="num">11</td><td class="num">23</td><td class="num">23</td></tr>
+      </table>
+      <figure><img src="img/oil-rangbelohnungen.webp" alt="Rank rewards"><figcaption>The middle item in the third column has not been identified yet — the icon is too small to name it with certainty.</figcaption></figure>
+      <div class="gal">
+        <figure><img src="img/oil-s-turm.webp" alt="S tower"><figcaption>An S tower with its oil value</figcaption></figure>
+        <figure><img src="img/oil-allianz-truhen.webp" alt="Alliance chests"><figcaption>Alliance chests</figcaption></figure>
+        <figure><img src="img/oil-eigene-truhen.webp" alt="Personal chests"><figcaption>Personal chests</figcaption></figure>
+        <figure><img src="img/oil-bestenliste.webp" alt="Leaderboard"><figcaption>Leaderboard</figcaption></figure>
+        <figure><img src="img/oil-tagesergebnis.webp" alt="Daily result"><figcaption>Daily result</figcaption></figure>
+      </div>
+      <p style="margin-bottom:0"><b>Still open:</b> thresholds for XXL towers and for hideouts (count the slots and multiply by 720), whether the oil value is fixed per territory type, and how many territories one player can hold at once.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev">
+  <h3>Reservoir Raid <span class="tag">30 v 30, cross-state</span></h3>
+  <p><b>What wins it:</b> the alliance with the most alliance pure water when the timer ends. Water comes from first control of a building and from <b>holding</b> it. Kills give only personal water — <b>holding wins, killing does not.</b></p>
+  <div class="box hot" style="margin:9px 0">
+    <b class="t">Alliance rule — this part is binding</b>
+    <p style="margin:0 0 6px">[S1L] plays by <b>coloured map zones, not by individual buildings</b>. There are four teams — <b>yellow</b> (top left), <b>orange</b> (top right), <b>red</b> (bottom left), <b>blue</b> (bottom right) — plus solo fighters and substitutes. <b>Every team has a leader.</b></p>
+    <p style="margin:0 0 6px">What a team leader is responsible for:</p>
+    <ul class="do" style="margin-bottom:6px">
+      <li><b>Coordinating with the other team leaders</b> — on Discord, or in chat when speaking is not possible for language reasons.</li>
+      <li><b>Opening the group</b> and checking that everyone who should be there is there.</li>
+      <li><b>Asking whether everyone knows what to do</b> — and assigning people if that is needed.</li>
+    </ul>
+    <p style="margin:0">Stay in your assigned zone. <b>Substitutes do not join on their own</b> — they wait for the leaders' instruction in case someone drops out or has to be swapped. <i>(Older standing rule, still worth knowing: substitutes join no earlier than 15 minutes after the start, because joining early takes a starter's slot.)</i></p>
+  </div>
+  <figure><img src="img/rr-zonen.jpg" alt="Reservoir raid zone map"><figcaption>The four colour zones. Who is in which team changes per event and is announced before each raid — it is not listed here on purpose.</figcaption></figure>
+
+  <div class="box acc" style="margin:9px 0">
+    <b class="t">How a team can divide the work — an option, not a rule</b>
+    <p style="margin:0 0 6px"><b>How a team organises itself inside its zone is up to its leader</b> — or to the members, who mostly know what they are doing. The following is one shape that works, not an instruction.</p>
+    <p style="margin:0 0 4px"><b>The four jobs in a zone:</b></p>
+    <ol class="do" style="margin-bottom:6px">
+      <li><b>Take our buildings</b> in the zone.</li>
+      <li><b>Collect the water tanks</b> in our quarter.</li>
+      <li><b>When a building is captured, the water it collected spreads around it</b> — you can see the water on the map around that building. Someone always has to jump there and pick it up.</li>
+      <li><b>When the central building shows water</b> and we have already collected a lot, everyone except the one person securing the main buildings jumps to the middle and collects the puddles.</li>
+    </ol>
+    <p style="margin:0 0 4px"><b>An example role split inside a team:</b></p>
+    <ul class="do" style="margin-bottom:0">
+      <li><b>Player 1</b> — stays at the water facilities at all times, even when everyone else leaves.</li>
+      <li><b>Player 2</b> — helps in the middle when needed, and back home when fights get bad.</li>
+      <li><b>Player 3</b> — jumps to the puddles.</li>
+      <li><b>Everyone else</b> — fights in our zone.</li>
+    </ul>
+  </div>
+  <details>
+    <summary>Building values, rules and what to prepare</summary>
+    <div class="dbody">
+      <table>
+        <tr><th>Building</th><th>Alliance water / min</th><th>Count</th></tr>
+        <tr><td>Central Reservoir</td><td class="num">1,800</td><td class="num">1</td></tr>
+        <tr><td>Large complex</td><td class="num">1,200</td><td class="num">2</td></tr>
+        <tr><td>Small facility</td><td class="num">600</td><td class="num">4</td></tr>
+        <tr><td>Munitions / Solar / Dev Compound / Helipad</td><td class="num">240 each</td><td class="num">—</td></tr>
+      </table>
+      <p><b>Bonus buildings:</b> Munitions Factory gives +20% attack and defence to everyone · Dev Compound sends an infected horde that weakens enemy defenders · Solar and Helipad give faster or free relocation.</p>
+      <p><b>Rules that catch people out:</b> troops do not die, they are only wounded and heal for free — so attack aggressively. Never leave the canyon mid-raid, that locks you out for 10 minutes. Before the start bring all marches home and do not reinforce outposts. You get <b>one free teleport every 10 minutes</b>, each further one costs escalating gems — save them for flips and the endgame.</p>
+      <p style="margin-bottom:0"><b>Say it in the reservoir chat</b> the moment you need help or get attacked — that is what decides close raids, not individual strength.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev">
+  <h3>Arcadian Conquest <span class="tag">3-hour siege</span></h3>
+  <p><b>What wins it:</b> holding central Arcadia plus four towers. The winner earns the right to appoint the governor. <b>Scoring: 10,000 points for every 60 seconds</b> you hold Arcadia or a tower.</p>
+  <details>
+    <summary>Roles, the relocation window and the realistic goal</summary>
+    <div class="dbody">
+      <p style="margin-top:11px"><b>Relocation window — this one is critical.</b> One hour before the start, settlements in the alarm zone are force-relocated. From 50 minutes before until the end, relocating is free <b>but peace torches are disabled</b>, and ones you activated earlier disappear.</p>
+      <p><b>Roles:</b> only the strongest 5–8 hold the centre. Two or three per tower. The bulk runs rally waves in groups of five teams. Weaker accounts take side objectives — <b>not</b> the centre. Rotate garrisons every 30–60 minutes and put AoE heroes into the garrison.</p>
+      <p style="margin-bottom:0"><b>Realistic goal:</b> reach 1.5 hours of occupation or the longest total hold — not surviving three hours against nobody.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev">
+  <h3>City Battle <span class="tag">PvP</span></h3>
+  <p><b>The one rule that saves you gems:</b> only the <b>first</b> capture of a city gives the instant bonus. Retaking a city gives none — so do not burn gems on extra march slots for a recapture. It still helps the alliance through the growth bonus and duel points.</p>
+  <details>
+    <summary>The two cases, step by step</summary>
+    <div class="dbody">
+      <p style="margin-top:11px"><b>Case A — city with monsters.</b> Everyone goes for the <b>small</b> ones first: one march each onto a <i>free</i> small monster, so points spread across the alliance. The big centre and the middle ones only on the commander's call. Once the big one is down to <b>25%</b>, everyone goes in together.</p>
+      <p>In more detail: the small ones can already be killed before the event. When the small one showing a percentage hits 50%, new small ones spawn — so clear small ones first, then that one. Then the medium-small ones until the city is at 75%, then down to 50%, and so on. From 25% and once the small ones are gone, the centre.</p>
+      <p><b>Case B — city held by an enemy alliance.</b> Everyone hits it together until it is ours, then <b>everyone sends troops in to defend for 30 minutes</b>. After that it is ours.</p>
+      <p style="margin-bottom:0"><b>Always:</b> come to the rally point when R4 calls, and keep watching alliance chat — plans change on the fly.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev">
+  <h3>Cave Conquest <span class="tag">also gives duel points</span></h3>
+  <p>Defeat tunnel puppets, collect sandworm eggs, earn tunnel points <b>and alliance duel points</b>. One-hour blocks alternate between clearing puppets and taking the tunnel. <b>Each alliance can control only one tunnel at a time.</b></p>
+  <details>
+    <summary>Rewards and the thing people get wrong</summary>
+    <div class="dbody">
+      <p style="margin-top:11px">Personal milestone chests at 15,000 (manual ×2, 5-min speed-up ×5, supply box ×30), 30,000 (supply box ×40) and 60,000 (coin, manual ×2, hero figure ×1, speed-ups). Control rewards are distributed by R4 and above.</p>
+      <p style="margin-bottom:0"><b>Common misunderstanding:</b> the sandworm eggs are a <b>points collectible</b>, not something that hatches into a behemoth. Behemoths come from cells and serum, not from caves.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev">
+  <h3>Underground Goldmine <span class="tag">cross-state</span></h3>
+  <p>Garrison mine tiles to gather gold; others can raid you and you can take revenge. Mines run level 1–6; levels 5 and 6 have a minimum recall time and multi-squad garrisons. Secure rare high-level mines early — it is first come, first served. Do not defend a low-value mine at the cost of two teleports.</p>
+</article>
+
+<!-- ══════════════ SOLO ══════════════ -->
+<h2 id="solo">Solo and growth events</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx"></span>From the internet</span>
+  <span class="ck"><span class="bx on"></span>Official source <span style="color:var(--mut)">(partly)</span></span>
+  <span class="dt">Mixed — see each event</span>
+</div>
+
+<article class="ev solo">
+  <h3>Lost Frontier <span class="tag">10 tries a day</span></h3>
+  <p>Beat <b>30 normal monsters per difficulty</b> to unlock the next one: Easy → Normal → Hard → Insane → Hell. You get <b>10 attempts per day</b>, reset at 00:00 UTC. Every fifth monster a supply hoarder appears — beat it with a raid. Use your <b>strongest team</b>, not a fixed formation.</p>
+  <div class="box warn" style="margin:9px 0">
+    <b class="t">The mistake</b>
+    <p style="margin:0">Burning attempts on a difficulty you cannot clear. You only unlock the next tier by clearing <b>all 30</b>. Raise heroes first, then push.</p>
+  </div>
+  <details>
+    <summary>The help mechanic — the most common question</summary>
+    <div class="dbody">
+      <p style="margin-top:11px">Asking for help happens <b>before</b> the raid starts, as an invitation; the rally only appears after the start. Two separate steps.</p>
+      <p style="margin-bottom:0">Find it via the green <b>Help</b> button in the event, or the small double arrows (») at the right edge of the chat banner — not by tapping the banner itself. To help others, look under the <b>Event</b> tab in the rally menu, not among normal rallies.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev solo">
+  <h3>Honor Expedition <span class="tag">resets Tue / Thu / Sat</span></h3>
+  <p>Three battlefields, each giving <b>+20%</b> to one hero class: Mountain Citadel → Valor heroes, Howling Sands → Rogue heroes, Azure Apex → Flight heroes. Complete the challenge on each for glory coins.</p>
+  <div class="box hot" style="margin:9px 0">
+    <b class="t">Two rules that decide your whole cycle</b>
+    <ul class="do" style="margin-bottom:0">
+      <li><b>You pick a difficulty once and cannot change it.</b> Pick the highest you can clear <i>safely</i> — overreaching wastes the cycle.</li>
+      <li><b>Each hero can only be used on one battlefield per cycle.</b> Spread them deliberately.</li>
+    </ul>
+  </div>
+  <p><b>Mountain Citadel is the key:</b> the other fields are gated behind its progress — Azure Apex stays locked until Mountain Citadel difficulty 13 is done. Push Mountain Citadel first. Spend glory coins on the best available gear rather than scattering them.</p>
+  <details>
+    <summary>Reward table by difficulty</summary>
+    <div class="dbody">
+      <p style="margin-top:11px">The pattern is identical on all three battlefields, so the table applies by tier. Coins rise by <b>+260 per tier up to T23</b>, then <b>+130 per tier</b>. Tiers 10 and 11 are calculated, not photographed.</p>
+      <table>
+        <tr><th>Tier</th><th>Glory coins</th><th>Chest A</th><th>Chest B</th><th>Scraps</th><th>Supply box</th></tr>
+        <tr><td class="d">1</td><td class="num">2,080</td><td class="num">5</td><td class="num">1</td><td class="num">62</td><td class="num">25</td></tr>
+        <tr><td class="d">5</td><td class="num">3,120</td><td class="num">5</td><td class="num">5</td><td class="num">120</td><td class="num">25</td></tr>
+        <tr><td class="d">9</td><td class="num">4,160</td><td class="num">2</td><td class="num">5</td><td class="num">178</td><td class="num">25</td></tr>
+        <tr><td class="d">13</td><td class="num">5,200</td><td class="num">2</td><td class="num">5</td><td class="num">224</td><td class="num">50</td></tr>
+        <tr><td class="d">20</td><td class="num">7,020</td><td class="num">5</td><td class="num">5</td><td class="num">247</td><td class="num">50</td></tr>
+        <tr><td class="d">25</td><td class="num">8,060</td><td class="num">5</td><td class="num">3</td><td class="num">268</td><td class="num">75</td></tr>
+        <tr><td class="d">32</td><td class="num">8,970</td><td class="num">5</td><td class="num">1</td><td class="num">310</td><td class="num">100</td></tr>
+        <tr><td class="d">70</td><td class="num">11,830</td><td class="num">6</td><td class="num">6</td><td class="num">416</td><td class="num">175</td></tr>
+      </table>
+      <p style="margin-bottom:0">Chest A is the rare honor chest, chest B the premium one; their drop tables are fixed regardless of tier — only the quantities change. Equipment scraps give +100 EP when upgrading hero gear. A supply box is 10,000 units of <b>one</b> resource.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev solo">
+  <h3>Ghoulion Pursuit <span class="tag">30 minutes</span></h3>
+  <p>An alliance boss rally where <b>your personal damage</b> decides your reward bracket. The event was cut from 24 hours to <b>30 minutes</b> and there is <b>no limit on simultaneous rallies</b> — so everyone who can lead one leads their own instead of waiting. Maximum hits per minute is the whole game here.</p>
+  <div class="box ok" style="margin:9px 0">
+    <b class="t">Before it starts</b>
+    <ul class="do" style="margin-bottom:0">
+      <li>Switch to single-target and boss-damage heroes, signature weapons and damage gear. Take the tank gear off.</li>
+      <li>Hold your damage buffs and attack consumables for these 30 minutes only.</li>
+      <li>Donate traps <b>before</b> the event — it raises the rewards.</li>
+    </ul>
+  </div>
+  <details>
+    <summary>Reward brackets</summary>
+    <div class="dbody">
+      <h4 style="margin-top:12px">Personal, by your own damage</h4>
+      <table>
+        <tr><th>Damage</th><th>Recruit marks</th><th>Parts</th><th>Scraps (+400)</th></tr>
+        <tr><td>1–3.99M</td><td class="num">1</td><td class="num">30</td><td class="num">10</td></tr>
+        <tr><td>10–19.99M</td><td class="num">1</td><td class="num">90</td><td class="num">15</td></tr>
+        <tr><td>20–39.99M</td><td class="num">2</td><td class="num">120</td><td class="num">18</td></tr>
+        <tr><td>40–79.99M</td><td class="num">2</td><td class="num">150</td><td class="num">20</td></tr>
+        <tr><td>80–119.99M</td><td class="num">2</td><td class="num">180</td><td class="num">21</td></tr>
+        <tr><td>120–159.99M</td><td class="num">2</td><td class="num">200</td><td class="num">22</td></tr>
+        <tr><td>160–199.99M</td><td class="num">3</td><td class="num">220</td><td class="num">23</td></tr>
+        <tr><td>200–239.99M</td><td class="num">3</td><td class="num">240</td><td class="num">24</td></tr>
+        <tr><td>240M and above</td><td class="num">3</td><td class="num">260</td><td class="num">25</td></tr>
+      </table>
+      <h4>Alliance, by total damage</h4>
+      <table>
+        <tr><th>Total</th><th>Scraps</th><th>Alliance honor</th></tr>
+        <tr><td>1–99.99M</td><td class="num">3</td><td class="num">300</td></tr>
+        <tr><td>400–999.99M</td><td class="num">6</td><td class="num">600</td></tr>
+        <tr><td>1.0–1.59B</td><td class="num">7</td><td class="num">700</td></tr>
+        <tr><td>2.0–2.39B</td><td class="num">9</td><td class="num">900</td></tr>
+        <tr><td>3.20–3.99B</td><td class="num">12</td><td class="num">1,100</td></tr>
+        <tr><td>4.0B and above</td><td class="num">15</td><td class="num">1,200</td></tr>
+      </table>
+      <p style="margin-bottom:0">The top player's damage multiplies the alliance reward: ×1 up to 99.99M, ×2 to 159.99M, ×3 to 239.99M, ×4 from 240M. So pushing the best player higher lifts everyone.</p>
+    </div>
+  </details>
+</article>
+
+<article class="ev solo">
+  <h3>Sawblade Waltz <span class="tag">hero event</span></h3>
+  <p>Spend <b>50 stamina</b> in the wilderness to get one sawblade. Use sawblades to summon marked elite infected, raid them with allies, and you have a chance at Lucky's shards. Enough shards unlock her.</p>
+  <div class="box acc" style="margin:9px 0">
+    <b class="t">The overlap worth planning around</b>
+    <p style="margin:0">Duel day 1 (Radar) rewards spending stamina. That is the same stamina you need for sawblades — so on Radar day, spend it deliberately and it counts twice.</p>
+  </div>
+  <p style="margin-bottom:0">Shard milestones sit on roamer levels 4, 7, 10, 13, 16, 19, 22, 25, 28 and 30. If you want Lucky, chase those. Raids are an alliance matter — say when you summon so it does not go to waste.</p>
+</article>
+
+<article class="ev solo">
+  <h3>Progression Exchange <span class="tag">5 free swaps</span></h3>
+  <p>A limited-time event that lets you <b>move progress from one hero to another</b> instead of losing it. Two modes:</p>
+  <ul class="do">
+    <li><b>Swap skill levels</b> between two heroes — their <b>maximum skill level has to be identical</b>.</li>
+    <li><b>Swap prestige gear levels</b> between two heroes.</li>
+  </ul>
+  <div class="box ok" style="margin:9px 0 0">
+    <b class="t">Why this matters more than it looks</b>
+    <p style="margin:0">This is the one mechanic that undoes a bad investment. If you levelled skills or prestige gear on a hero you no longer field, the exchange moves that work onto the hero you actually use. <b>You get 5 free attempts</b> — do not let them expire, and think before you spend one, because the swap goes both ways.</p>
+  </div>
+</article>
+
+<article class="ev solo">
+  <h3>Doomsday Express <span class="tag">4 + 4 per day</span></h3>
+  <p>Send your own trucks and raid other players' vehicles. <b>Four send attempts and four raid attempts per day</b>; delivery takes roughly 2.5 to 3 hours. Collecting a finished delivery does <b>not</b> cost an attempt.</p>
+  <details>
+    <summary>What you get</summary>
+    <div class="dbody">
+      <p style="margin-top:11px"><b>Your own delivery, collected:</b> 800,000 food · 800,000 wood · 160,000 metal · 40,000 fuel · 15-min speed-ups ×3 · medals ×8 · cells ×2.</p>
+      <p style="margin-bottom:0"><b>Raid rewards by class:</b> A tends toward premium items, B toward large resources, C mostly speed-ups. The preview shows the defender's power before you commit — check it.</p>
+    </div>
+  </details>
+</article>
+
+<!-- ══════════════ HEROES ══════════════ -->
+<h2 id="heroes">Heroes and troops</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx"></span>Tested in game</span>
+  <span class="ck"><span class="bx"></span>From the internet</span>
+  <span class="ck"><span class="bx"></span>Official source</span>
+  <span class="dt">From our own alliance channels, Sep 2026</span>
+</div>
+<p>This section comes from members of the alliance sharing what they found. It has not been re-checked screen by screen, so treat it as good advice rather than confirmed numbers.</p>
+
+<article class="ev solo">
+  <h3>Three heroes whose prestige gear helps everyone</h3>
+  <p style="margin-bottom:0">The prestige equipment of <b>Rosi, Jacob and Chiron</b> improves <b>all</b> heroes, not just the hero wearing it. Take that into account when you plan which prestige gear to upgrade first — spending there pays across your whole roster.</p>
+</article>
+
+<article class="ev solo">
+  <h3>Chiron's passive works on the whole march</h3>
+  <p style="margin-bottom:0">Chiron's passive <i>Penetrating Resonance</i> affects all allies and raises their attack and defence. "Allies" here means <b>the troops in the march</b>, not other players.</p>
+</article>
+
+<article class="ev solo">
+  <h3>Lucky reduces what the wilderness costs you</h3>
+  <p>Lucky's passive <i>Wild Hunt</i> lowers stamina consumption in the wilderness. Reported values: at <b>level 16</b> it saves 8 on fanatics and 9 on infected; at <b>level 21</b> it saves 9 on fanatics and 7 on infected.</p>
+  <p style="margin-bottom:0"><b>Upgrade her on the hero development day</b> — the same action then scores duel points as well.</p>
+</article>
+
+<article class="ev solo">
+  <h3>Turning an SR hero into an SSR hero</h3>
+  <p>In the ship seasons an <b>SR hero can be upgraded to SSR</b>. The hero has to be at <b>10 stars</b> first. In the current season that hero is <b>Lucky</b>; season 2 is expected to be <b>Sarge</b>.</p>
+  <p style="margin-bottom:0">After the upgrade the hero <b>restarts at 5 stars</b> and can be taken back to 10 with epic hero shards — but at <b>double</b> the quantity. Total needed: <b>2,520 fragments</b>. Worth knowing before you commit, because it is a long road.</p>
+</article>
+
+<article class="ev solo">
+  <h3>A line-up reported from another state <span class="tag">second hand</span></h3>
+  <p style="margin-bottom:0">Passed on from an experienced player on state 48, so <b>not our own measurement</b>: main team <b>Chiron, Layla, Candy, Jacob, Becca</b>; second team <b>Ray, Tarzan, Tara, Rosie, Nikola</b>. Reported to reach roughly 250 million hero strength per march. Useful as a direction, not as a target to copy blindly.</p>
+</article>
+
+<article class="ev solo">
+  <h3>Troops — and a warning about dismissing them</h3>
+  <p><b>Duel day 5 is the troop day:</b> you score as long as you have the space and the speed-ups to train.</p>
+  <div class="box hot" style="margin:9px 0 0">
+    <b class="t">Read this before you dismiss troops to free up space</b>
+    <p style="margin:0 0 6px">You reach your troops through the profile window, bottom left. Troops in the settlement can be reduced there.</p>
+    <p style="margin:0"><b>The settlement window pre-selects every troop for dismissal.</b> Change the number by hand and dismiss in small steps. Dismissed troops lower your combat strength in the alliance ranking — this is one of the few actions in the game you cannot undo.</p>
+  </div>
+</article>
+
+<!-- ══════════════ GEAR ══════════════ -->
+<h2 id="gear">Gear and reforging</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx on"></span>Tested in game</span>
+  <span class="ck"><span class="bx"></span>From the internet</span>
+  <span class="ck"><span class="bx on"></span>Official source <span style="color:var(--mut)">(in-game screens)</span></span>
+  <span class="dt">Read from the German game interface, Aug 2026</span>
+</div>
+<p>Reforging rerolls the special values on a piece of gear. The interface shows you the probability before you commit, and the result can be better <i>or worse</i> than what you had. Check the value pool first — the screenshots below show where those numbers are.</p>
+
+<div class="box ok">
+  <b class="t">How to reforge without wasting it</b>
+  <p style="margin:0 0 6px"><b>The value has to fit the hero.</b> An excellent value for precision shooters does nothing on a guardian hero. Rare values are worth more than common ones — but only on the right hero.</p>
+  <p style="margin:0">Keep rolling until the result is better than what you had, then <b>save</b>. After saving you can carry on rolling and hope for something better still, without risking what you already banked.</p>
+</div>
+
+<div class="box warn">
+  <b class="t">The probabilities — and the one rule that follows from them</b>
+  <p style="margin:0 0 7px">Each reforge draws from a value pool. The chance of landing a higher tier is:</p>
+  <table style="margin:0 0 7px">
+    <tr><td class="d">Common</td><td class="num">45 %</td><td class="d">Exquisite</td><td class="num">30 %</td><td class="d">Epic</td><td class="num">20 %</td><td class="d">Legendary</td><td class="num">5 %</td></tr>
+  </table>
+  <p style="margin:0">The game states that <b>the more often you reforge a piece, the higher its chance of getting higher-tier values</b>. So rolling is not a coin flip you repeat — it improves. That is the mechanical reason behind "keep rolling, save when it is better, then roll on".</p>
+</div>
+
+<div class="box acc">
+  <b class="t">Golden gear</b>
+  <p style="margin:0">Golden gear can be strengthened with further golden gear. The details — how many pieces, how reforging interacts, and how reforge anchors are used — are being worked out in the alliance and will follow here.</p>
+</div>
+<div class="gal">
+  <figure><img src="img/ruestung-umschmieden-start.webp" alt="Reforge start screen"><figcaption>Where reforging starts</figcaption></figure>
+  <figure><img src="img/ruestung-menue-wahrscheinlichkeit.webp" alt="Probability menu"><figcaption>The probability menu</figcaption></figure>
+  <figure><img src="img/ruestung-wahrscheinlichkeit.webp" alt="Probability display"><figcaption>Probability display</figcaption></figure>
+  <figure><img src="img/ruestung-wertepool.webp" alt="Value pool"><figcaption>The value pool you are rolling from</figcaption></figure>
+  <figure><img src="img/ruestung-info-spezialwerte.webp" alt="Special values info"><figcaption>Special values explained</figcaption></figure>
+  <figure><img src="img/ruestung-ergebnis-plus.webp" alt="Better result"><figcaption>A result that improved</figcaption></figure>
+  <figure><img src="img/ruestung-ergebnis-minus.webp" alt="Worse result"><figcaption>A result that got worse</figcaption></figure>
+</div>
+<p style="color:var(--mut);font-size:14px;margin-bottom:0">Button labels differ between languages — the screenshots come from the German interface.</p>
+
+<!-- ══════════════ SOURCES ══════════════ -->
+<h2 id="sources">Where to look things up</h2>
+<div class="conf">
+  <span class="ck"><span class="bx on"></span>From players</span>
+  <span class="ck"><span class="bx"></span>Tested in game</span>
+  <span class="ck"><span class="bx on"></span>From the internet</span>
+  <span class="ck"><span class="bx"></span>Official source</span>
+  <span class="dt">All sources opened and checked 15 Sep 2026</span>
+</div>
+
+<article class="src">
+  <h3>24Gaming4Fun — YouTube</h3>
+  <p class="u">youtube.com/@24Gaming4Fun</p>
+  <div class="pm">
+    <div class="p"><div class="h">+ GOOD FOR</div><ul><li>New updates and seasons, usually within days.</li><li>Seeing an event played instead of described.</li></ul></div>
+    <div class="m"><div class="h">− WEAK AT</div><ul><li>Looking one thing up quickly — it is video.</li><li>One player's opinion, not verified data.</li></ul></div>
+  </div>
+</article>
+
+<article class="src">
+  <h3>dandangers.ru — another alliance's wiki <span style="font-size:12px;color:var(--mut)">(Russian)</span></h3>
+  <p class="u">dandangers.ru</p>
+  <div class="pm">
+    <div class="p"><div class="h">+ GOOD FOR</div><ul><li>The deepest written guides anywhere — 18 of them plus data tables.</li><li>Long-term free-to-play build planning.</li></ul></div>
+    <div class="m"><div class="h">− WEAK AT</div><ul><li>Russian only — use your browser's translate button.</li><li>No update dates, and it reflects their state, not ours.</li></ul></div>
+  </div>
+</article>
+
+<article class="src">
+  <h3>TilesSurvive.net — fan database</h3>
+  <p class="u">tilessurvive.net</p>
+  <div class="pm">
+    <div class="p"><div class="h">+ GOOD FOR</div><ul><li>Numbers: hero EXP, star tables, skill books, VIP points.</li><li>Two working tools: event helper and speed-up calculator.</li></ul></div>
+    <div class="m"><div class="h">− WEAK AT</div><ul><li>No update date anywhere, so values may be old.</li><li>Faction names differ from the ones in game.</li></ul></div>
+  </div>
+</article>
+
+<article class="src">
+  <h3>Official Tiles Survive Discord</h3>
+  <p class="u">discord.com/invite/tilessurvive</p>
+  <div class="pm">
+    <div class="p"><div class="h">+ GOOD FOR</div><ul><li>Getting one specific question answered fast.</li><li>Patch news arrives there first.</li></ul></div>
+    <div class="m"><div class="h">− WEAK AT</div><ul><li>Answers are unverified opinions.</li><li>Very busy — things scroll away.</li></ul></div>
+  </div>
+</article>
+
+<article class="src mid">
+  <h3>PocketGamer hero tier list <span style="font-size:12px;color:var(--mut)">(editorial, not players)</span></h3>
+  <p class="u">pocketgamer.com/tiles-survive/tier-list/</p>
+  <div class="pm">
+    <div class="p"><div class="h">+ GOOD FOR</div><ul><li>A first orientation if you are new.</li><li>It states its date and game version — most pages do not.</li></ul></div>
+    <div class="m"><div class="h">− WEAK AT</div><ul><li>An editor's opinion with no method shown.</li><li>No season or time-limited content.</li></ul></div>
+  </div>
+</article>
+
+<div class="box hot">
+  <b class="t">Do not use these — and do not buy from them</b>
+  <p style="margin:0 0 5px">TOPUPlive, Packsify, LDShop, LootBar, BuffHub, GamsGo and similar sites all sell in-game currency. Their "guides" exist to bring you to their checkout.</p>
+  <p style="margin:0">More importantly: FunPlus's own terms say item licences <i>"may only be purchased from us or our representatives through the Games or as otherwise expressly authorised"</i>, and reserve the right to reverse payments and close accounts. <b>Buy waypoints only in the game or at the official FunPlus top-up centre.</b> A few euros saved is not worth your account.</p>
+</div>
+
+<!-- ══════════════ CONFIDENCE ══════════════ -->
+<h2 id="conf">How to read the confidence strip</h2>
+<p>Every section starts with a row of ticked boxes. It tells you where that information comes from, so you can judge it yourself instead of trusting it blindly.</p>
+<table>
+  <tr><td class="d"><span class="bx on"></span></td><td><b>From the internet</b> — found on guide sites. Useful, but nobody checked it for us.</td></tr>
+  <tr><td class="d"><span class="bx on"></span></td><td><b>Official source</b> — from FunPlus, patch notes, or a rules screen inside the game.</td></tr>
+  <tr><td class="d"><span class="bx on"></span></td><td><b>From players</b> — from people who actually play, including our own members.</td></tr>
+  <tr><td class="d"><span class="bx on"></span></td><td><b>Tested in game</b> — somebody opened the screen and confirmed it. The strongest tick.</td></tr>
+</table>
+<p>More ticks means more solid. A section with only the first box ticked is still worth reading — it just means: try it, do not bet the week on it.</p>
+
+<div class="box acc">
+  <b class="t">Help fix this page</b>
+  <p style="margin:0">If you open a screen in game and the numbers differ from this page, post a screenshot in alliance chat. That is how a box earns its "tested in game" tick. There is a list of open questions in every detail block — corrections are more welcome than praise.</p>
+</div>
+
+<footer class="end">
+  <p style="margin:0 0 5px"><b>Where this comes from:</b> [S1L]'s own event notes and in-game screenshots taken by our members, plus the external sources listed above. No text was copied from other guides. Point values were read from German-language screens and may be worded differently in your language.</p>
+  <p style="margin:0"><b>What this page deliberately does not contain:</b> dates and schedules. Those change every week and are announced on the alliance board in game. · [S1L] Field Guide · version 2 · 15 Sep 2026</p>
+</footer>
+
+</div>
+</body>
+</html>
