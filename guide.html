@@ -104,6 +104,24 @@
   .mx tr.grp td{background:linear-gradient(90deg,var(--panel2),var(--panel));color:var(--amber);text-align:left;
                 font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;padding:8px 10px}
   .mx tr.all td.x{color:var(--amber);background:#ffb0201c;text-shadow:0 0 8px #ffb02066}
+  /* ───── Wochen-Matrix: zwei Ereignisse, zwei Farben ───── */
+  .wk td{padding:5px 2px;white-space:nowrap;background:#12171d}
+  .wk td,.wk th{border-right:1px solid #38485a}
+  .wk td.a{background:var(--panel)}
+  .wk td:nth-child(odd){background:#161d25}
+  .wk td.a:nth-child(odd){background:var(--panel)}
+  .wk td i{font-style:normal;display:inline-block;width:14px;text-align:center;font-size:14px;font-weight:900}
+  .wk i.v{color:var(--cyan);text-shadow:0 0 7px #4fd6e877}
+  .wk i.t{color:var(--tox);text-shadow:0 0 7px #5ce07a77}
+  .wk i.o{color:#2c3945;font-size:11px}
+  .wk td.a i.fn{display:inline;width:auto;font-size:11.5px;font-weight:600;color:var(--dim);text-shadow:none}
+  .wk th.th2{text-align:center;color:var(--cyan);font-size:11px;background:#0c2a31;padding:3px 4px;letter-spacing:0}
+  .wk th.th2.p7{color:var(--dim);background:var(--panel2)}
+  .key{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12.5px;color:var(--mut);
+       background:var(--panel);border:1px solid var(--line);padding:9px 12px;margin:0 0 12px}
+  .key b{font-size:15px;font-weight:900}
+  .key .kv{color:var(--cyan);text-shadow:0 0 7px #4fd6e877}
+  .key .kt{color:var(--tox);text-shadow:0 0 7px #5ce07a77}
   .w{display:inline-block;min-width:22px;text-align:center;padding:2px 7px;
      font-size:12px;font-weight:900;background:var(--panel2);color:var(--mut);border:1px solid var(--line2)}
   .w.hi{background:var(--rust);color:#fff;border-color:var(--rust);box-shadow:0 0 9px #e9552d55}
@@ -228,6 +246,7 @@
     <button type="button" id="pdf" class="tbtn" title="PDF"><span class="ic">↓</span> PDF</button>
   </div>
   <a href="#start" data-t="t54acc2806d">Start here</a>
+  <a href="#week" data-t="t463051f7f3">The week</a>
   <a href="#vs" data-t="t091ef4e744">VS / Duel</a>
   <a href="#turtle" data-t="t9ee581e18f">Turbo Turtle</a>
   <a href="#power" data-t="te59834bc3d">Power Play</a>
@@ -275,6 +294,9 @@
 <div class="box ok">
   <b class="t" data-t="t403fbdc6a9">Every day, no matter what is running</b>
   <ul class="do" style="margin-bottom:0">
+    <li data-t="t0d9768e032"><b>Do your Alliance Duel tasks</b> &mdash; every day the duel is running. This is where the largest, most reliable share of your points comes from.</li>
+    <li data-t="t58390ba708"><b>Collect your duel chests.</b> The milestone rewards sit in the event window until you pick them up. They never arrive on their own, and an uncollected chest is the same as no chest.</li>
+    <li data-t="t65975dc89f"><b>Play Turbo Turtle up to 10 million when it runs and you can reach it.</b> That is the top milestone &mdash; it pays the prestige weapon fragment.</li>
     <li data-t="t1eb5b80ef4">Finish your daily tasks and collect the milestone chests.</li>
     <li data-t="t060f951037"><b>Collect both free 50-stamina packs.</b> Always — they are free and they expire.</li>
     <li data-t="t2c2dac95fc">Take the free gathering.</li>
@@ -283,16 +305,6 @@
   </ul>
 </div>
 <p style="margin-top:-3px;color:var(--mut);font-size:14px" data-t="taf5ecab24a">These cost nothing, do not depend on winning anything, and are the most reliable points in the game.</p>
-
-<details>
-  <summary data-t="td3bb4c7141">Underground Goldmine &mdash; the daily that runs permanently</summary>
-  <div class="dbody">
-    <p style="margin-top:11px" data-t="t7e1367822e"><b>The goldmine is not an event.</b> It runs the whole time, cross-state, and it is a daily job rather than something you plan a week around. Garrison a mine tile and it gathers gold for you while you are busy elsewhere.</p>
-    <p data-t="td93e35ae8e">Mines run <b>level 1&ndash;6</b>. Levels 5 and 6 have a minimum recall time and take multi-squad garrisons. Rare high-level mines are <b>first come, first served</b> &mdash; take them early.</p>
-    <p style="margin-bottom:0" data-t="t35c4c4aea6">Others can raid you and you can take revenge. <b>Do not defend a low-value mine at the cost of two teleports.</b> Losing a level 1 mine costs less than what it takes to win it back.</p>
-  </div>
-</details>
-
 <div class="box warn">
   <b class="t" data-t="tcdb250fc1e">Stamina and spy missions — do not just burn them</b>
   <p style="margin:0 0 6px" data-t="t54f7d58ce3"><b>Stamina:</b> collecting the two free packs is the daily habit. <b>Spending extra stamina out of your backpack belongs on duel day 1</b>, where stamina scores duel points — that is the day it counts twice.</p>
@@ -352,6 +364,166 @@
 </div>
 
 <!-- ══════════════ VS ══════════════ -->
+<!-- ══════════════ WOCHE ══════════════ -->
+<h2 id="week" data-t="t629ed3968f">The week at a glance</h2>
+<div class="conf">
+  <span class="ck" data-t="tb403b65635"><span class="bx on"></span>From players</span>
+  <span class="ck" data-t="tc7f105b9b6"><span class="bx on"></span>Tested in game</span>
+  <span class="ck" data-t="tc1db525e8f"><span class="bx"></span>From the internet</span>
+  <span class="ck" data-t="t2c4b80b37f"><span class="bx on"></span>Official source <span style="color:var(--mut)">(both event screens)</span></span>
+  <span class="dt" data-t="t2ed0cb7a2c">Duel days and all seven phase lists read from the game, 15 Sep 2026</span>
+</div>
+
+<p data-t="tb7668b7a56"><b>Two events score at the same time, and they do not want the same things.</b> The Alliance Duel runs days 1&ndash;6 in order. Turbo Turtle runs its phases alongside them &mdash; <b>duel day 1 and turtle phase 1 fall on the same day</b>, so one column below covers both. This is the one table to check before you spend anything.</p>
+
+<figure class="fig"><svg viewBox="0 0 880 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The week at a glance">
+<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t85a401de43">THE WEEK AT A GLANCE — DUEL DAY AND TURTLE PHASE SHARE A COLUMN</text>
+<rect x="12" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="71.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t356a192b79">1</text>
+<rect x="13" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="20" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="100" y="85" width="22" height="15" rx="2" fill="#26313c"/>
+<text x="111" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="t42a83dba06">×1</text>
+<text x="20" y="114" fill="#c3d0dc" font-size="10.5" data-t="tb3a2afbf05">Radar training</text>
+<rect x="13" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="20" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="20" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
+<text x="20" y="183" fill="#c3d0dc" font-size="10.5" data-t="t2c7bf1b777">research</text>
+<text x="20" y="196" fill="#c3d0dc" font-size="10.5" data-t="t622eecdcc1">troops</text>
+<rect x="135" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="194.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tda4b9237ba">2</text>
+<rect x="136" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="143" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="223" y="85" width="22" height="15" rx="2" fill="#26313c"/>
+<text x="234" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
+<text x="143" y="114" fill="#c3d0dc" font-size="10.5" data-t="t3d05232556">Base building</text>
+<rect x="136" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="143" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="143" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
+<text x="143" y="183" fill="#c3d0dc" font-size="10.5" font-weight="900" data-t="t915ac3e12b">BUILDING</text>
+<rect x="258" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="317.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t77de68daec">3</text>
+<rect x="259" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="266" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="346" y="85" width="22" height="15" rx="2" fill="#26313c"/>
+<text x="357" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
+<text x="266" y="114" fill="#c3d0dc" font-size="10.5" data-t="t951530f919">Tech research</text>
+<rect x="259" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="266" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="266" y="170" fill="#c3d0dc" font-size="10.5" data-t="tc7937c4cd5">monsters</text>
+<text x="266" y="183" fill="#c3d0dc" font-size="10.5" data-t="t2c7bf1b777">research</text>
+<rect x="381" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="440.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t1b64538924">4</text>
+<rect x="382" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="389" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="469" y="85" width="22" height="15" rx="2" fill="#26313c"/>
+<text x="480" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
+<text x="389" y="114" fill="#c3d0dc" font-size="10.5" data-t="t434c996ca8">Hero development</text>
+<rect x="382" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="389" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="389" y="170" fill="#c3d0dc" font-size="10.5" data-t="tbce7ff28b4">hero draws</text>
+<text x="389" y="183" fill="#c3d0dc" font-size="10.5" data-t="t1c6ad4beef">manuals</text>
+<rect x="504" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="563.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tac3478d69a">5</text>
+<rect x="505" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="512" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="592" y="85" width="22" height="15" rx="2" fill="#26313c"/>
+<text x="603" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
+<text x="512" y="114" fill="#c3d0dc" font-size="10.5" data-t="t748f26f08b">Battle preparation</text>
+<rect x="505" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="512" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="512" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
+<text x="512" y="183" fill="#c3d0dc" font-size="10.5" font-weight="900" data-t="tf121cf6b14">PARTS</text>
+<rect x="627" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#e9552d" stroke-width="2"/>
+<text x="686.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tc1dfd96eea">6</text>
+<rect x="628" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="635" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
+<rect x="715" y="85" width="22" height="15" rx="2" fill="#e9552d"/>
+<text x="726" y="96.5" text-anchor="middle" fill="#fff" font-size="10" font-weight="900" data-t="tedd0ab6240">×4</text>
+<text x="635" y="114" fill="#c3d0dc" font-size="10.5" data-t="t6741046ffc">Defeat enemies</text>
+<rect x="628" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="635" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="635" y="170" fill="#c3d0dc" font-size="10.5" data-t="tc7937c4cd5">monsters</text>
+<text x="635" y="183" fill="#c3d0dc" font-size="10.5" data-t="t591c3b251f">heroes</text>
+<text x="635" y="196" fill="#c3d0dc" font-size="10.5" data-t="t457930a23c">speed-ups</text>
+<rect x="750" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
+<text x="809.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t902ba3cda1">7</text>
+<rect x="751" y="80" width="116" height="58" fill="#0c2a31"/>
+<text x="809.0" y="113" text-anchor="middle" fill="#3d4a57" font-size="10.5" data-t="tacc25c9b77">no duel day</text>
+<rect x="751" y="140" width="116" height="61" fill="#0e2e19"/>
+<text x="758" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
+<text x="758" y="170" fill="#c3d0dc" font-size="10.5" data-t="td5a63c95d4">everything</text>
+<text x="12" y="222" fill="#8ea0b2" font-size="11.5" data-t="t09fa43ee85">The duel always runs days 1–6 in order. The turtle does not run every week, and it can stop before phase 7 — check the event screen.</text>
+</svg>
+  <figcaption data-t="tc49cc6f12d">Each column is one day: the cyan half is what the duel wants, the green half what the turtle wants. Day 6 is outlined because it carries four of the thirteen duel points.</figcaption>
+</figure>
+
+<div class="key" data-t="ta97bb1ed46">
+  <span><b class="kv">&times;</b> &nbsp;scores <b style="color:var(--cyan)">Alliance Duel</b> points</span>
+  <span><b class="kt">&times;</b> &nbsp;scores <b style="color:var(--tox)">Turbo Turtle</b> points</span>
+  <span><b class="kv">&times;</b><b class="kt">&times;</b> &nbsp;both at once &mdash; this is where a saved stack is worth the most</span>
+  <span style="color:var(--dim)">&middot; &nbsp;scores nothing that day</span>
+</div>
+
+<table class="mx wk">
+<tr><th class="a" rowspan="2" data-t="t95b0ee2424">Action / item</th><th class="p" data-t="t356a192b79">1</th><th class="p" data-t="tda4b9237ba">2</th><th class="p" data-t="t77de68daec">3</th><th class="p" data-t="t1b64538924">4</th><th class="p" data-t="tac3478d69a">5</th><th class="p" data-t="tc1dfd96eea">6</th><th class="p p7" data-t="t902ba3cda1">7</th></tr>
+<tr><th class="th2" data-t="ta2fae0591d">&times;1</th><th class="th2" data-t="t8d3bcce1e3">&times;2</th><th class="th2" data-t="t8d3bcce1e3">&times;2</th><th class="th2" data-t="t8d3bcce1e3">&times;2</th><th class="th2" data-t="t8d3bcce1e3">&times;2</th><th class="th2" data-t="t24557c642b">&times;4</th><th class="th2 p7" data-t="t08d8c48010">&ndash;</th></tr>
+<tr class="grp"><td colspan="8" data-t="t6055fed155">Speed-ups</td></tr>
+<tr><td class="a" data-t="taa6ce4e89c">Building speed-ups</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="tae38b8d754">Research speed-ups</td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="te335b2afcf">Training speed-ups</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="t55baf968cd">Hero gear and forging</td></tr>
+<tr><td class="a" data-t="t7da3b6da4a"><b>Improve</b> hero gear <i class="fn">verbessern — raise the level</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="te88116ac79"><b>Strengthen</b> hero gear <i class="fn">verst&auml;rken — spend scraps</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="tcd36d806e4">Equipment scraps used <i class="fn">the duel counts the scraps themselves</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t79fb191464">Reforge hammers <i class="fn">Umschmiedeh&auml;mmer</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="tba20dcd909">Reforge anchors <i class="fn">Umschmiedeanker</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="te2ec024e27">Common parts <i class="fn">Allgemeine Teile</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t9047a51fc5">Precision blueprints <i class="fn">Pr&auml;zisionsentw&uuml;rfe</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="tebea5fed56">Monsters</td></tr>
+<tr><td class="a" data-t="t331e5df8c4">Monster cells</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="tb8dc0c185d">Monster serums</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t2bb43d9c22">Monster EXP <i class="fn">100 EXP in one attempt</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t815b01c3d3">Biogenic protein <i class="fn">phase 3 excludes the exclusive kind</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="t765759c52c">Heroes</td></tr>
+<tr><td class="a" data-t="t8bd5a96338">Hero fragments <i class="fn">legendary · epic · rare</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t0def0ec1bb">Hero skill manuals</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t4361eb52aa">Advanced recruitment tokens</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t27b34c6d69">Standard recruitment tokens</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t946b01e047">Wish recruitment <i class="fn">duel only</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t6f196aadc1">Draw vouchers <i class="fn">Ziehungsgutscheine</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="tdb60e9c406">Troops, combat and field</td></tr>
+<tr><td class="a" data-t="t4423a4cd05">Train and upgrade troops</td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t53660b5ef1">Kill enemy troops <i class="fn">scaled by tier — your losses feed them</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t75152e82ba">Kill infected and fanatics</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t3c1521f360">Spy missions</td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="td14746b7f5">Commander stamina</td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t3fac4ae892">Battle medals</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="te6f7360ae0">Gather resources</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+<tr><td class="a" data-t="t2695508c12">Spend food, wood, metal, fuel</td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="tbeb2bf41f8">Passive and dispatch</td></tr>
+<tr><td class="a" data-t="t65ee9d9ad8">Power gained from building</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="tc06c68552a">Power gained from research</td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr><td class="a" data-t="t9385f5b27c">S-dispatch · A-delivery <i class="fn">Dire Dispatch · Doomsday Express</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t91f629ba30"><i class="v">&times;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td><td class="c7" data-t="t5e75bd517f"><i class="o">&middot;</i><i class="o">&middot;</i></td></tr>
+<tr class="grp"><td colspan="8" data-t="ta91bcce893">Always</td></tr>
+<tr><td class="a" data-t="tdbce931933">Diamond packs <i class="fn">duel day 6 is the exception</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="te21514ffee"><i class="v">&times;</i><i class="t">&times;</i></td><td class="" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td><td class="c7" data-t="td4eb599745"><i class="o">&middot;</i><i class="t">&times;</i></td></tr>
+</table>
+
+<div class="box acc">
+  <b class="t" data-t="t85478cb70d">How to read it in ten seconds</b>
+  <p style="margin:0 0 6px" data-t="teaf04319c0">Find today's column. Everything with a mark in it scores. Everything else is the same spending on a day where it counts for nothing.</p>
+  <p style="margin:0" data-t="tab533c0f20"><b>Two marks in one cell is the moment to empty a stack.</b> Building speed-ups on column 2, hero material on column 4, troops on column 5 &mdash; those are the cells that pay twice.</p>
+</div>
+
+<div class="box warn">
+  <b class="t" data-t="t3b514fcbf0">The limits of this table</b>
+  <ul class="do" style="margin-bottom:0">
+    <li data-t="t485237c89b"><b>Column 7 has no duel day.</b> The duel ends after day 6; a turtle phase 7 stands alone.</li>
+    <li data-t="t6240f29c0b"><b>The turtle does not run every week</b>, and it can stop before phase 7. The duel always runs all six days.</li>
+    <li data-t="t3357ae7b91"><b>Exact point values are not here</b> &mdash; they depend on your level group and are in the VS and Turbo Turtle sections below.</li>
+  </ul>
+</div>
+
 <h2 id="vs" data-t="t2e0adfaca3">VS — the Alliance Duel</h2>
 <div class="conf">
   <span class="ck" data-t="tb403b65635"><span class="bx on"></span>From players</span>
@@ -623,37 +795,10 @@
   <figcaption data-t="t3ae75e7f19">Colour marks the theme of a phase. The theme is only a headline &mdash; the exact actions differ, which is what the matrix below shows.</figcaption>
 </figure>
 
-<h3 style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:22px 0 2px" data-t="t2acd1cd8eb">The full phase matrix</h3>
-<p style="color:var(--mut);font-size:13.5px;margin:0 0 4px" data-t="t1e52363920">Column = phase. <span style="color:var(--tox);font-weight:900">&times;</span> = that action scores turtle points in that phase. Everything else is dead weight that day.</p>
-<table class="mx">
-<tr><th class="a" data-t="t95b0ee2424">Action / item</th><th class="p" data-t="t356a192b79">1</th><th class="p" data-t="tda4b9237ba">2</th><th class="p" data-t="t77de68daec">3</th><th class="p" data-t="t1b64538924">4</th><th class="p" data-t="tac3478d69a">5</th><th class="p" data-t="tc1dfd96eea">6</th><th class="p p7" data-t="t902ba3cda1">7</th></tr>
-<tr class="grp"><td colspan="8" data-t="t6055fed155">Speed-ups</td></tr>
-<tr><td class="a" data-t="taa6ce4e89c">Building speed-ups</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="tae38b8d754">Research speed-ups</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr class="grp"><td colspan="8" data-t="t55baf968cd">Hero gear and forging</td></tr>
-<tr><td class="a" data-t="t0a9b43820f"><b>Improve</b> hero gear <i>verbessern — raise the level</i></td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="tf42c9cbe79"><b>Strengthen</b> hero gear <i>verst&auml;rken — spend scraps</i></td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="td98400e1a8">Reforge hammers <i>Umschmiedeh&auml;mmer</i></td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t6c74e36049">Reforge anchors <i>Umschmiedeanker</i></td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t4ea4588b19">Common parts <i>Allgemeine Teile</i></td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t556a086c27">Precision blueprints <i>Pr&auml;zisionsentw&uuml;rfe</i></td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr class="grp"><td colspan="8" data-t="tebea5fed56">Monsters</td></tr>
-<tr><td class="a" data-t="t331e5df8c4">Monster cells</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="tb8dc0c185d">Monster serums</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t2355ce1752">Biogenic protein <i>phase 3 excludes the exclusive kind</i></td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr class="grp"><td colspan="8" data-t="t765759c52c">Heroes</td></tr>
-<tr><td class="a" data-t="ta8c0fdb9ac">Draw vouchers <i>Ziehungsgutscheine</i></td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t4361eb52aa">Advanced recruitment tokens</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t27b34c6d69">Standard recruitment tokens</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="tec0f503b40">Hero fragments <i>legendary · epic · rare</i></td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="t0def0ec1bb">Hero skill manuals</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr class="grp"><td colspan="8" data-t="t46138f1ac8">Troops and field</td></tr>
-<tr><td class="a" data-t="t4423a4cd05">Train and upgrade troops</td><td class="x" data-t="t77d7c9778f">&times;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="c7" data-t="t383f134e05">&middot;</td></tr>
-<tr><td class="a" data-t="t75152e82ba">Kill infected and fanatics</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr><td class="a" data-t="te6f7360ae0">Gather resources</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td data-t="t383f134e05">&middot;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-<tr class="grp"><td colspan="8" data-t="ta91bcce893">Always</td></tr>
-<tr class="all"><td class="a" data-t="t6575cfcae9">Diamond packs <i>every phase, no exception</i></td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x" data-t="t77d7c9778f">&times;</td><td class="x c7" data-t="t77d7c9778f">&times;</td></tr>
-</table>
+<div class="box acc">
+  <b class="t" data-t="tf876e8f226">The full phase list is in the week table</b>
+  <p style="margin:0" data-t="t0ea0f4147c">Every action of all seven phases &mdash; next to what the duel wants on the same day &mdash; is in <a href="#week"><b>The week at a glance</b></a>. It is kept in one place so the two never drift apart.</p>
+</div>
 
 <div class="box ok">
   <b class="t" data-t="t7d2f2b00bf">New: the 10M milestone and prestige weapons</b>
@@ -1147,6 +1292,12 @@
 </article>
 
 <!-- ══════════════ HEROES ══════════════ -->
+
+<article class="ev">
+  <h3 data-t="t93025e4e61">Underground Goldmine <span class="tag">runs permanently</span></h3>
+  <p data-t="t6ce94974ae">Not an event &mdash; it runs the whole time and is simply a daily habit. Garrison a mine tile and it gathers gold while you do other things. Mines run level 1&ndash;6; levels 5 and 6 have a minimum recall time. Rare high-level mines are first come, first served. <b>Do not defend a low-value mine at the cost of two teleports.</b></p>
+</article>
+
 <h2 id="heroes" data-t="te4dd5da868">Heroes and troops</h2>
 <div class="conf">
   <span class="ck" data-t="tb403b65635"><span class="bx on"></span>From players</span>
