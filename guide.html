@@ -35,6 +35,8 @@
        box-shadow:0 1px 0 #000, 0 6px 18px #0008;margin:0 -15px 0;padding:8px 15px}
   .bar .in{max-width:900px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
   .bar .in::-webkit-scrollbar{display:none}
+  @media (min-width:600px){.bar .in{flex-wrap:wrap;overflow:visible;gap:5px}.tools{position:static}.bar a,.bar .tbtn{padding:5px 8px;letter-spacing:.05em;font-size:11px}html{scroll-padding-top:var(--navh,110px)}}
+  @media (max-width:599px){.bar .in{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}}
   .bar a{flex:0 0 auto;font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
          text-decoration:none;color:var(--mut);background:var(--panel);
          border:1px solid var(--line);padding:6px 11px;white-space:nowrap;
@@ -164,6 +166,7 @@
              background:var(--panel);letter-spacing:.02em}
   .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:9px;margin:13px 0}
   .gal figure{margin:0}
+  figure img{cursor:zoom-in}
 
   /* ───── event cards ───── */
   .ev{border:1px solid var(--line);border-top:3px solid var(--rust);background:var(--panel);
@@ -201,6 +204,8 @@
         padding:5px 10px;cursor:pointer;line-height:1.3;white-space:nowrap;transition:.12s}
   .tbtn:hover{background:var(--amber);color:#0b0d10}
   .tbtn .ic{font-weight:900}
+  .tbtn.lg{padding-left:9px;padding-right:9px;opacity:.6}
+  .tbtn.lg.on{opacity:1;background:var(--amber);color:#0b0d10}
   #lang .flag{display:inline-block;min-width:20px;text-align:center}
   .printonly{display:none}
 
@@ -244,7 +249,7 @@
 
 <nav class="bar"><div class="in">
   <div class="tools">
-    <button type="button" id="lang" class="tbtn" aria-label="Sprache wechseln / switch language"><span class="flag">DE</span></button>
+    <button type="button" class="tbtn lg" data-lang="en" lang="en">EN</button><button type="button" class="tbtn lg" data-lang="de" lang="de">DE</button><button type="button" class="tbtn lg" data-lang="ru" lang="ru">RU</button>
     <button type="button" id="pdf" class="tbtn" title="PDF"><span class="ic">↓</span> PDF</button>
   </div>
   <a href="#start" data-t="t54acc2806d">Start here</a>
@@ -272,7 +277,7 @@
   </div>
 </div>
 
-<div class="box warn" id="print">
+<div class="box warn noprint" id="print">
   <b class="t" data-t="t75a95ff71d">Print sheets</b>
   <p style="margin:0 0 8px" data-t="t41334f1275"><b>The overview &mdash; the heart of this guide.</b> One table on one page: every item down the side, every day across the top. <b>✕</b> = counts in the Alliance Duel, <b>●</b> = counts in the Turtle, <b>✕ ●</b> on orange = counts in both, so spend it there. Open it, then print it or save it as a PDF: <a href="uebersicht-en.html">EN</a> · <a href="uebersicht-de.html">DE</a> · <a href="uebersicht-ru.html">RU</a></p>
   <p style="margin:0 0 8px" data-t="t1266026fb2"><a href="uebersicht-en.html"><img src="img/what-to-spend-en.png" alt="Overview: what to spend on which day" style="width:100%;max-width:560px;display:block;border:1px solid var(--line)"></a></p>
@@ -880,6 +885,10 @@
   <p style="margin:0 0 6px" data-t="t2ebf9f1a9c">You are grouped by <b>power plant level</b> (seen in game: "Group: Level 26–Lv.27"), and which theme lands in which slot is not the same for everyone any more. There is no alliance-wide timetable worth posting.</p>
   <p style="margin:0" data-t="t6e79cbc641"><b>Where to look:</b> open Power Play and press the <b>KALENDER</b> button at the left of the banner. It lists <i>Date · Activation time · Theme</i> for the coming days and highlights the round running right now — six slots a day, four hours apart. That table is yours; read it there, not here.</p>
 </div>
+<div class="gal">
+  <figure><img src="img/pp-kalender.webp" alt="Power Play calendar" loading="lazy"><figcaption data-t="td65111dc59">Example of one player's calendar — yours can differ. Times are shown in your device's local time.</figcaption></figure>
+  <figure><img src="img/pp-runde-punkte.webp" alt="Power Play round" loading="lazy"><figcaption data-t="tee9d042aed">A running round: theme, level group, chests and points per action</figcaption></figure>
+</div>
 
 <table>
   <tr><th data-t="t94a7ccbbce">The six rotating rounds</th></tr>
@@ -906,6 +915,13 @@
       <tr><td data-t="t4e6ed3bb60">1 diamond from pack purchases</td><td class="num" data-t="te6c3dd6304">60</td></tr>
     </table>
     <p data-t="t2792b221cf">Milestone chests in that round: 30,000 · 90,000 · 200,000. The daily goal bar sat at steps 2 / 8 / 18.</p>
+    <h4 data-t="tcf50a8b14a">Technology Research round — group level 28–29, read 28 Sep 2026</h4>
+    <table>
+      <tr><td data-t="t2d4430dd12">+1 power through research</td><td class="num" data-t="t77de68daec">3</td></tr>
+      <tr><td data-t="tde4ade8bcf">Research speed-up, per minute</td><td class="num" data-t="t92cfceb39d">42</td></tr>
+      <tr><td data-t="t4e6ed3bb60">1 diamond from pack purchases</td><td class="num" data-t="te6c3dd6304">60</td></tr>
+    </table>
+    <p data-t="t97ce234682">Milestone chests there: 30,000 → 3,290 💎 · 90,000 → 5,690 💎 · 200,000 → 10,030 💎.</p>
     <h4 data-t="t7344c09d19">Example: Monster Growth round</h4>
     <table>
       <tr><td data-t="taa9eb85554">Monster cell</td><td class="num" data-t="tfe0d3cec8e">2,800</td></tr>
@@ -1141,16 +1157,37 @@
 </article>
 
 <article class="ev">
-  <h3 data-t="ta8782e0f7b">Arcadian Conquest <span class="tag">3-hour siege</span></h3>
-  <p data-t="t835c66e2ec"><b>What wins it:</b> holding central Arcadia plus four towers. The winner earns the right to appoint the governor. <b>Scoring: 10,000 points for every 60 seconds</b> you hold Arcadia or a tower.</p>
+  <h3 data-t="td3bae5f417">Arcadian Conquest <span class="tag">2-hour siege</span></h3>
+  <p data-t="t382a78540b"><b>What wins it:</b> the alliance that holds Arcadia for <b>one hour without interruption</b> during the two-hour fight — or, if nobody manages that, the one with the <b>longest total occupation</b> at the end. Its leader automatically becomes governor. Holding the <b>towers</b> makes the attacks on Arcadia come more often. <b>Scoring: 10,000 points for every 60 seconds</b> you station troops in Arcadia or in a tower. It runs every week, server against server: one server guards Arcadia, another invades.</p>
+  <div class="gal">
+    <figure><img src="img/arcadia-uebersicht.webp" alt="Arcadian Conquest event screen" loading="lazy"><figcaption data-t="t306731a2a4">The event screen: the guarding server against the invading server</figcaption></figure>
+    <figure><img src="img/arcadia-punkte.webp" alt="Arcadian Conquest personal points" loading="lazy"><figcaption data-t="t2b7f088f10">Personal points and chests — 10,000 per minute in Arcadia or a tower</figcaption></figure>
+  </div>
   <details>
     <summary data-t="t2c0f7f07f2">Roles, the relocation window and the realistic goal</summary>
     <div class="dbody">
-      <p style="margin-top:11px" data-t="t65384577af"><b>Relocation window — this one is critical.</b> One hour before the start, settlements in the alarm zone are force-relocated. From 50 minutes before until the end, relocating is free <b>but peace torches are disabled</b>, and ones you activated earlier disappear.</p>
+      <p style="margin-top:11px" data-t="t427d4ed886"><b>Relocation window — this one is critical.</b> One hour before the start, settlements in the danger zone around Arcadia are moved to a random spot. From 50 minutes before the start until the end you can move into the danger zone freely, <b>but peace shields in the zone are removed and cannot be switched on again</b>. A settlement defeated inside the zone is moved to a random spot at once.</p>
       <p data-t="t60d02a8bd8"><b>Roles:</b> only the strongest 5–8 hold the centre. Two or three per tower. The bulk runs rally waves in groups of five teams. Weaker accounts take side objectives — <b>not</b> the centre. Rotate garrisons every 30–60 minutes and put AoE heroes into the garrison.</p>
-      <p style="margin-bottom:0" data-t="tc8eb23dd0a"><b>Realistic goal:</b> reach 1.5 hours of occupation or the longest total hold — not surviving three hours against nobody.</p>
+      <p style="margin-bottom:0" data-t="tecdfcb0460"><b>Realistic goal:</b> one hour of uninterrupted hold on Arcadia, or the longest total hold — not surviving two hours against nobody.</p>
     </div>
   </details>
+</article>
+
+<article class="ev">
+  <h3 data-t="t72f5c4ee7a">Alliance Siege <span class="tag">5 days · arena line-ups</span></h3>
+  <p data-t="tcb38935d6d"><b>Not the same as Arcadian Conquest.</b> Open only to alliances in the <b>top 36 of the state</b> with at least <b>30 commanders who have set an arena defence line-up</b>. Each week six alliances form a group, and every day your alliance faces another one from that group. Both sides take turns attacking the other side's defending commanders — each successful attack earns a victory point.</p>
+  <div class="box ok" style="margin:9px 0">
+    <b class="t" data-t="tebe0460047">What every member should do</b>
+    <ul class="do" style="margin-bottom:0">
+      <li data-t="te7d48a3f4a"><b>Set your arena defence line-up.</b> Your defender is your arena defence from the day before, or your strongest team in the 3-v-3 arena. Without it you do not count towards the 30.</li>
+      <li data-t="t000daa77a9"><b>Use your attack every day.</b> Each attacker earns at most one victory point per day, and each defender can be beaten only once — so every member's single hit counts.</li>
+      <li data-t="t453c50990a">Stronger defenders give more victory points. One special reinforcement defender can be attacked without limit but gives only a few points.</li>
+    </ul>
+  </div>
+  <p data-t="t5050a82a7c">At <b>23:55 UTC</b> the alliance with more victory points wins that day's bonus rewards and group points. After five days of fighting, the group ranking decides the weekly rewards and whether the alliance moves up a tier. Daily rewards are claimed on the event screen; group rewards come by mail. New members can only take part from the next Alliance Siege.</p>
+  <div class="gal">
+    <figure><img src="img/allianzbelagerung.webp" alt="Alliance Siege day match" loading="lazy"><figcaption data-t="t2da00f00de">A day match: our alliance against another alliance from the group</figcaption></figure>
+  </div>
 </article>
 
 <article class="ev">
@@ -1239,43 +1276,41 @@
 <article class="ev solo">
   <h3 data-t="taa403b4bd8">Ghoulion Pursuit <span class="tag">30 minutes</span></h3>
   <p data-t="te76c2482ac">An alliance boss rally where <b>your personal damage</b> decides your reward bracket. The event was cut from 24 hours to <b>30 minutes</b> and there is <b>no limit on simultaneous rallies</b> — so everyone who can lead one leads their own instead of waiting. Maximum hits per minute is the whole game here.</p>
+  <div class="gal">
+    <figure><img src="img/ghuloewe-uebersicht.webp" alt="Ghoulion Pursuit event screen" loading="lazy"><figcaption data-t="t92e162292a">The event screen — an R4 or higher reserves the start</figcaption></figure>
+  </div>
   <div class="box ok" style="margin:9px 0">
     <b class="t" data-t="t0919d33acb">Before it starts</b>
     <ul class="do" style="margin-bottom:0">
       <li data-t="t9aab2b70f5">Switch to single-target and boss-damage heroes, signature weapons and damage gear. Take the tank gear off.</li>
       <li data-t="t978a6ebdd1">Hold your damage buffs and attack consumables for these 30 minutes only.</li>
-      <li data-t="ta48c182060">Donate traps <b>before</b> the event — it raises the rewards.</li>
+      <li data-t="t64df484256">Donate <b>before</b> the event — donations strengthen the hunting field and give battle bonuses. The level resets when the event ends, and donations beyond the maximum level do not carry over.</li>
+      <li data-t="t68c44d5f2c">Only <b>R4 or higher</b> can start or schedule the hunt. Raids on the hunting field cost <b>no stamina</b>. Anyone who joined the alliance less than 48 hours ago cannot take part.</li>
     </ul>
   </div>
   <details>
     <summary data-t="ta7796963d6">Reward brackets</summary>
     <div class="dbody">
-      <h4 style="margin-top:12px" data-t="t11d9df800b">Personal, by your own damage</h4>
-      <table>
-        <tr><th data-t="t7bf6d1d3a5">Damage</th><th data-t="tf394f1ba67">Recruit marks</th><th data-t="te374280917">Parts</th><th data-t="t3aa61d37c2">Scraps (+400)</th></tr>
-        <tr><td data-t="tcaf36586c5">1–3.99M</td><td class="num" data-t="t356a192b79">1</td><td class="num" data-t="t22d200f867">30</td><td class="num" data-t="tb1d5781111">10</td></tr>
-        <tr><td data-t="t1b298bcfe7">10–19.99M</td><td class="num" data-t="t356a192b79">1</td><td class="num" data-t="t2d0c8af807">90</td><td class="num" data-t="tf1abd67035">15</td></tr>
-        <tr><td data-t="te728dd2e36">20–39.99M</td><td class="num" data-t="tda4b9237ba">2</td><td class="num" data-t="t775bc5c30e">120</td><td class="num" data-t="t9e6a55b6b4">18</td></tr>
-        <tr><td data-t="tbaa564907a">40–79.99M</td><td class="num" data-t="tda4b9237ba">2</td><td class="num" data-t="t13682ac418">150</td><td class="num" data-t="t91032ad7bb">20</td></tr>
-        <tr><td data-t="t56c7dce156">80–119.99M</td><td class="num" data-t="tda4b9237ba">2</td><td class="num" data-t="tec7f1f6506">180</td><td class="num" data-t="t472b07b9fc">21</td></tr>
-        <tr><td data-t="td3b113ec28">120–159.99M</td><td class="num" data-t="tda4b9237ba">2</td><td class="num" data-t="t9f9af02958">200</td><td class="num" data-t="t12c6fc06c9">22</td></tr>
-        <tr><td data-t="t26eece0ec3">160–199.99M</td><td class="num" data-t="t77de68daec">3</td><td class="num" data-t="tf37062d9a6">220</td><td class="num" data-t="td435a6cdd7">23</td></tr>
-        <tr><td data-t="t250e7e0af8">200–239.99M</td><td class="num" data-t="t77de68daec">3</td><td class="num" data-t="tcae91e45ae">240</td><td class="num" data-t="t4d134bc072">24</td></tr>
-        <tr><td data-t="ta66874b178">240M and above</td><td class="num" data-t="t77de68daec">3</td><td class="num" data-t="t09d66f6e54">260</td><td class="num" data-t="tf6e1126ced">25</td></tr>
-      </table>
-      <h4 data-t="t5a946f508f">Alliance, by total damage</h4>
-      <table>
-        <tr><th data-t="tb25928c699">Total</th><th data-t="t8b1eac865f">Scraps</th><th data-t="t9f9be48fad">Alliance honor</th></tr>
-        <tr><td data-t="tb64e185e72">1–99.99M</td><td class="num" data-t="t77de68daec">3</td><td class="num" data-t="te26973e6ee">300</td></tr>
-        <tr><td data-t="t57f374b883">400–999.99M</td><td class="num" data-t="tc1dfd96eea">6</td><td class="num" data-t="t15aa0c7e8f">600</td></tr>
-        <tr><td data-t="t5c93b095d9">1.0–1.59B</td><td class="num" data-t="t902ba3cda1">7</td><td class="num" data-t="td8e4bbea3a">700</td></tr>
-        <tr><td data-t="t0f8a99945f">2.0–2.39B</td><td class="num" data-t="t0ade7c2cf9">9</td><td class="num" data-t="t28cc2209b2">900</td></tr>
-        <tr><td data-t="t635a444ce1">3.20–3.99B</td><td class="num" data-t="t7b52009b64">12</td><td class="num" data-t="t9a2cb37b82">1,100</td></tr>
-        <tr><td data-t="t87a1e2a9ae">4.0B and above</td><td class="num" data-t="tf1abd67035">15</td><td class="num" data-t="t65be5d363d">1,200</td></tr>
-      </table>
+      <p style="margin-top:11px" data-t="t89a34e2ee2">Rewards are paid out at the end by <b>damage</b>: your own damage sets your personal bracket, and the alliance's total damage unlocks extra rewards for every member. The brackets and items grow with the Ghoulion level — read them in game under <b>Rewards</b>.</p>
+      <div class="gal">
+        <figure><img src="img/ghuloewe-einzel.webp" alt="Ghoulion personal rewards" loading="lazy"><figcaption data-t="tba78bd07cb">Personal rewards by your own damage</figcaption></figure>
+        <figure><img src="img/ghuloewe-allianz.webp" alt="Ghoulion alliance rewards" loading="lazy"><figcaption data-t="tbf9bca546e">Alliance rewards and the MVP damage bonus</figcaption></figure>
+      </div>
       <p style="margin-bottom:0" data-t="tc9ccdd7f87">The top player's damage multiplies the alliance reward: ×1 up to 99.99M, ×2 to 159.99M, ×3 to 239.99M, ×4 from 240M. So pushing the best player higher lifts everyone.</p>
     </div>
   </details>
+</article>
+
+<article class="ev solo">
+  <h3 data-t="td060509714">Pet Journey <span class="tag">pet event</span></h3>
+  <p data-t="tc165bda5a6">Bring any pet to the required level or star rating to earn adventure paths. The paths move your paw print along the map and unlock chests on the way. Unclaimed chests are mailed when the event ends — <b>unused paths are not</b>, so spend them before it closes.</p>
+  <div class="box acc" style="margin:9px 0">
+    <b class="t" data-t="t10d438d649">The overlap worth planning around</b>
+    <p style="margin:0" data-t="t6bdc77c419">Pet badges and pet food also score on duel day 2. When Pet Journey runs in the same week, do your pet levelling on duel day 2 and it counts twice.</p>
+  </div>
+  <div class="gal">
+    <figure><img src="img/haustierreise.webp" alt="Pet Journey map" loading="lazy"><figcaption data-t="tb00199e19f">The map: seven stops, each with a chest</figcaption></figure>
+  </div>
 </article>
 
 <article class="ev solo">
@@ -1493,11 +1528,13 @@
 </div>
 
 <script src="guide-i18n.js"></script>
+<script src="guide-i18n-ru.js"></script>
 <script>
 (function(){
   var SVG="http://www.w3.org/2000/svg", ORIG={}, cur="en";
-  var UI={en:{flag:"DE",pdf:"PDF",meta:"English version"},
-          de:{flag:"EN",pdf:"PDF",meta:"Deutsche Fassung"}};
+  var UI={en:{meta:"English version",loc:"en-GB"},
+          de:{meta:"Deutsche Fassung",loc:"de-AT"},
+          ru:{meta:"Русская версия",loc:"ru-RU"}};
   function put(el,v){
     if(el.namespaceURI===SVG) el.textContent=v.replace(/&amp;/g,"&").replace(/&mdash;/g,"\u2014")
         .replace(/&ndash;/g,"\u2013").replace(/&middot;/g,"\u00b7").replace(/&times;/g,"\u00d7")
@@ -1506,26 +1543,31 @@
     else el.innerHTML=v;
   }
   function apply(lang){
-    var D=window.S1L_DE||{}, n=0, miss=0;
+    var D=(lang==="de"?window.S1L_DE:lang==="ru"?window.S1L_RU:null)||{}, n=0, miss=0;
     Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(el){
       var k=el.getAttribute("data-t");
       if(!(k in ORIG)) ORIG[k]=(el.namespaceURI===SVG)?el.textContent:el.innerHTML;
-      if(lang==="de"){ if(D[k]!=null){ put(el,D[k]); n++; } else { put(el,ORIG[k]); miss++; } }
+      if(lang!=="en"){ if(D[k]!=null){ put(el,D[k]); n++; } else { put(el,ORIG[k]); miss++; } }
       else { put(el,ORIG[k]); n++; }
     });
     cur=lang;
     document.documentElement.setAttribute("lang",lang);
-    var b=document.getElementById("lang"); if(b) b.querySelector(".flag").textContent=UI[lang].flag;
-    var m=document.getElementById("pmeta"); if(m) m.textContent=UI[lang].meta+" \u00b7 "+new Date().toLocaleDateString(lang==="de"?"de-AT":"en-GB");
+    Array.prototype.forEach.call(document.querySelectorAll(".tbtn.lg"),function(x){ x.classList.toggle("on",x.getAttribute("data-lang")===lang); });
+    var m=document.getElementById("pmeta"); if(m) m.textContent=UI[lang].meta+" \u00b7 "+new Date().toLocaleDateString(UI[lang].loc);
     try{ localStorage.setItem("s1l-lang",lang); }catch(e){}
+    if(typeof navh==="function") navh();
     if(miss) console.log("[S1L] ohne Uebersetzung:",miss);
   }
+  function navh(){ var n=document.querySelector(".bar"); if(n) document.documentElement.style.setProperty("--navh",(n.offsetHeight+12)+"px"); }
+  window.addEventListener("resize",navh);
+  document.addEventListener("click",function(e){ var t=e.target; if(t && t.tagName==="IMG" && t.closest("figure")) window.open(t.src,"_blank","noopener"); });
   function start(){
-    var q=(location.search.match(/[?&]lang=(de|en)/)||[])[1], sv=null;
+    navh();
+    var q=(location.search.match(/[?&]lang=(de|en|ru)/)||[])[1], sv=null;
     try{ sv=localStorage.getItem("s1l-lang"); }catch(e){}
+    if(!UI[sv]) sv=null;
     apply(q||sv||"en");
-    var b=document.getElementById("lang");
-    if(b) b.addEventListener("click",function(){ apply(cur==="de"?"en":"de"); });
+    Array.prototype.forEach.call(document.querySelectorAll(".tbtn.lg"),function(x){ x.addEventListener("click",function(){ apply(x.getAttribute("data-lang")); }); });
     var p=document.getElementById("pdf");
     if(p) p.addEventListener("click",function(){ window.print(); });
   }
