@@ -1,9 +1,6 @@
 /* [S1L] Field Guide — deutsche Fassung. Schluessel = Hash des englischen Textes.
    Aendert sich der englische Text, faellt die Seite automatisch auf Englisch zurueck. */
 window.S1L_DE={
-"t41334f1275": "<b>Die Übersicht &mdash; das Herzstück dieses Guides.</b> Eine Tabelle auf einer Seite: links alles, was du einsetzen kannst, oben die Tage. <b>✕</b> = zählt im Allianzduell, <b>●</b> = zählt bei der Schildkröte, <b>✕ ●</b> auf Orange = zählt in beiden, also genau dann einsetzen. Öffnen, dann drucken oder als PDF speichern: <a href=\"uebersicht-de.html\">DE</a> · <a href=\"uebersicht-en.html\">EN</a> · <a href=\"uebersicht-ru.html\">RU</a>",
-"t1266026fb2": "<a href=\"uebersicht-de.html\"><img src=\"img/was-wann-einsetzen-de.png\" alt=\"Übersicht: was an welchem Tag einsetzen\" style=\"width:100%;max-width:560px;display:block;border:1px solid var(--line)\"></a>",
-"t027fdd1cad": "Dieselbe Tabelle als Bild zum Herunterladen: <a href=\"img/was-wann-einsetzen-de.png\" download>DE</a> · <a href=\"img/what-to-spend-en.png\" download>EN</a> · <a href=\"img/chto-kogda-tratit-ru.png\" download>RU</a><br>Kurzguide VS + Schildkröte (2 Seiten, als PDF speichern): <a href=\"kurzguide-de.html\">DE</a> · <a href=\"kurzguide-en.html\">EN</a> · <a href=\"kurzguide-ru.html\">RU</a>",
 "t75a95ff71d": "Druckblätter",
 "t589e5599a7": "Tiles Survive · v3 · 28.09.2026 · Termine stehen auf der Allianz-Tafel im Spiel",
 "t9d191dee81": "Duelltage und alle sieben Phasenlisten aus den Spiel-Screens gelesen, 21.–28.09.2026",
@@ -891,5 +888,8 @@ window.S1L_DE={
 "te4ca6da832": "täglich, 5 Gratis-Kämpfe",
 "tf1cb2ec4a3": "Saison II",
 "t2c49a9c404": "Event-Register",
-"t849c2d0685": "Haustiere"
+"t849c2d0685": "Haustiere",
+"t0dc92738b6": "Dieselbe Tabelle als Bild zum Herunterladen: <a href=\"img/was-wann-einsetzen-de.png?v=20260928b\" download>DE</a> · <a href=\"img/what-to-spend-en.png?v=20260928b\" download>EN</a> · <a href=\"img/chto-kogda-tratit-ru.png?v=20260928b\" download>RU</a><br>Kurzguide VS + Schildkröte (2 Seiten, als PDF speichern): <a href=\"kurzguide-de.html?v=20260928b\">DE</a> · <a href=\"kurzguide-en.html?v=20260928b\">EN</a> · <a href=\"kurzguide-ru.html?v=20260928b\">RU</a>",
+"tcd85832a46": "<a href=\"uebersicht-de.html?v=20260928b\"><img src=\"img/was-wann-einsetzen-de.png?v=20260928b\" alt=\"Übersicht: was an welchem Tag einsetzen\" style=\"width:100%;max-width:560px;display:block;border:1px solid var(--line)\"></a>",
+"ta10fb8d54f": "<b>Die Übersicht &mdash; das Herzstück dieses Guides.</b> Eine Tabelle auf einer Seite: links alles, was du einsetzen kannst, oben die Tage. <b>✕</b> = zählt im Allianzduell, <b>●</b> = zählt bei der Schildkröte, <b>✕ ●</b> auf Orange = zählt in beiden, also genau dann einsetzen. Öffnen, dann drucken oder als PDF speichern: <a href=\"uebersicht-de.html?v=20260928b\">DE</a> · <a href=\"uebersicht-en.html?v=20260928b\">EN</a> · <a href=\"uebersicht-ru.html?v=20260928b\">RU</a>"
 };

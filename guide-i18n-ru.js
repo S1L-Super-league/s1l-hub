@@ -17,9 +17,6 @@ window.S1L_RU={
 "t3a90c151cf": "<span class=\"tagname\">[S1L]</span> Полевое руководство",
 "t589e5599a7": "Tiles Survive · v3 · 28 сен 2026 · расписания находятся на доске альянса в игре",
 "t75a95ff71d": "Листы для печати",
-"t41334f1275": "<b>Обзор — главная часть этого руководства.</b> Одна таблица на одной странице: все предметы слева, все дни сверху. <b>✕</b> = засчитывается в Дуэли альянсов, <b>●</b> = засчитывается в Турбо-черепахе, <b>✕ ●</b> на оранжевом = засчитывается в обоих, поэтому тратьте именно там. Откройте её, затем распечатайте или сохраните как PDF: <a href=\"uebersicht-en.html\">EN</a> · <a href=\"uebersicht-de.html\">DE</a> · <a href=\"uebersicht-ru.html\">RU</a>",
-"t1266026fb2": "<a href=\"uebersicht-ru.html\"><img src=\"img/chto-kogda-tratit-ru.png\" alt=\"Обзор: что тратить в какой день\" style=\"width:100%;max-width:560px;display:block;border:1px solid var(--line)\"></a>",
-"t027fdd1cad": "Та же таблица в виде картинки для скачивания: <a href=\"img/what-to-spend-en.png\" download=\"\">EN</a> · <a href=\"img/was-wann-einsetzen-de.png\" download=\"\">DE</a> · <a href=\"img/chto-kogda-tratit-ru.png\" download=\"\">RU</a><br>Краткое руководство VS + черепаха (2 страницы, сохранить как PDF): <a href=\"kurzguide-en.html\">EN</a> · <a href=\"kurzguide-de.html\">DE</a> · <a href=\"kurzguide-ru.html\">RU</a>",
 "td09c106bb4": "Начните здесь — 5 важных минут",
 "tb403b65635": "<span class=\"bx on\"></span>От игроков",
 "tc7f105b9b6": "<span class=\"bx on\"></span>Проверено в игре",
@@ -891,5 +888,8 @@ window.S1L_RU={
 "te4ca6da832": "ежедневно, 5 бесплатных боёв",
 "tf1cb2ec4a3": "Сезон II",
 "t2c49a9c404": "Реестр событий",
-"t849c2d0685": "Питомцы"
+"t849c2d0685": "Питомцы",
+"t0dc92738b6": "Та же таблица в виде картинки для скачивания: <a href=\"img/what-to-spend-en.png?v=20260928b\" download=\"\">EN</a> · <a href=\"img/was-wann-einsetzen-de.png?v=20260928b\" download=\"\">DE</a> · <a href=\"img/chto-kogda-tratit-ru.png?v=20260928b\" download=\"\">RU</a><br>Краткое руководство VS + черепаха (2 страницы, сохранить как PDF): <a href=\"kurzguide-en.html?v=20260928b\">EN</a> · <a href=\"kurzguide-de.html?v=20260928b\">DE</a> · <a href=\"kurzguide-ru.html?v=20260928b\">RU</a>",
+"tcd85832a46": "<a href=\"uebersicht-ru.html?v=20260928b\"><img src=\"img/chto-kogda-tratit-ru.png?v=20260928b\" alt=\"Обзор: что тратить в какой день\" style=\"width:100%;max-width:560px;display:block;border:1px solid var(--line)\"></a>",
+"ta10fb8d54f": "<b>Обзор — главная часть этого руководства.</b> Одна таблица на одной странице: все предметы слева, все дни сверху. <b>✕</b> = засчитывается в Дуэли альянсов, <b>●</b> = засчитывается в Турбо-черепахе, <b>✕ ●</b> на оранжевом = засчитывается в обоих, поэтому тратьте именно там. Откройте её, затем распечатайте или сохраните как PDF: <a href=\"uebersicht-en.html?v=20260928b\">EN</a> · <a href=\"uebersicht-de.html?v=20260928b\">DE</a> · <a href=\"uebersicht-ru.html?v=20260928b\">RU</a>"
 };
