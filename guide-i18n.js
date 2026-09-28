@@ -890,5 +890,6 @@ window.S1L_DE={
 "t5685ebf1aa": "3-gegen-3-Arena",
 "te4ca6da832": "täglich, 5 Gratis-Kämpfe",
 "tf1cb2ec4a3": "Saison II",
-"t2c49a9c404": "Event-Register"
+"t2c49a9c404": "Event-Register",
+"t849c2d0685": "Haustiere"
 };
