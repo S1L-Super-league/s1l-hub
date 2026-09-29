@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[S1L] Downloads</title>
+<style>
+  :root{--bg:#0b0d10;--panel:#141a21;--panel2:#182029;--line:#26313c;--ink:#e8edf2;--mut:#8ea0b2;
+        --amber:#ffb020;--cyan:#4fd6e8;--tox:#5ce07a;--rust:#e9552d;--vio:#a78bfa}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font:16px/1.5 "Segoe UI",Roboto,-apple-system,Helvetica,Arial,sans-serif;
+       background:radial-gradient(1100px 500px at 50% -180px,#1b2a33 0%,transparent 70%),var(--bg);background-attachment:fixed}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px 16px 60px}
+  a{color:var(--cyan)}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .back{font-weight:700;text-decoration:none;font-size:14px}
+  h1{margin:4px 0 2px;font-size:26px;letter-spacing:.04em}
+  h1 span{color:var(--amber)}
+  .sub{color:var(--mut);font-size:14px;margin:0 0 6px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mut);margin:10px 0 22px;padding:10px 12px;
+          background:var(--panel);border:1px solid var(--line);border-radius:6px}
+  .legend b{color:var(--ink)}
+  section{margin:0 0 30px}
+  h2{font-size:17px;margin:0 0 4px;color:#fff;letter-spacing:.02em}
+  h2 small{color:var(--mut);font-weight:400;font-size:13px}
+  .desc{color:var(--mut);font-size:13.5px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .tile{display:flex;flex-direction:column;background:var(--panel2);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+        text-decoration:none;color:var(--ink);transition:transform .12s,border-color .12s}
+  .tile:hover,.tile:focus{transform:translateY(-2px);border-color:var(--amber);outline:none}
+  .thumb{position:relative;aspect-ratio:210/297;background:#0f1318;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .lang{position:absolute;top:8px;left:8px;background:var(--amber);color:#111;font-weight:900;font-size:13px;letter-spacing:.06em;
+        border-radius:4px;padding:2px 8px;box-shadow:0 2px 6px #0008}
+  .lang.en{background:var(--cyan)} .lang.ru{background:var(--vio)}
+  .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+  .name{font-weight:800;font-size:15px;line-height:1.3;color:#fff}
+  .meta{font-size:12.5px;color:var(--mut)}
+  .act{margin-top:auto;padding-top:8px;font-size:13px;font-weight:800;color:var(--tox)}
+  .act.open{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+  @media (max-width:520px){ .grid{grid-template-columns:repeat(2,1fr);gap:10px} .name{font-size:14px} h1{font-size:22px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="guide.html">← Guide</a>
+  </div>
+  <h1><span>[S1L]</span> Downloads</h1>
+  <p class="sub">Alle aktuellen Guides &amp; Druckblätter · All current guides &amp; print sheets · Все актуальные гайды и листы для печати</p>
+
+  <div class="legend">
+    <span><b>DE</b> Deutsch</span><span><b>EN</b> English</span><span><b>RU</b> Русский</span>
+    <span><b style="color:var(--tox)">↓</b> = Datei wird direkt geladen · downloads directly · скачивается сразу</span>
+    <span><b style="color:var(--amber)">↗</b> = öffnet Seite mit Knopf „PDF“ · opens page with “PDF” button · открывает страницу с кнопкой «PDF»</span>
+  </div>
+
+  <section>
+    <h2>Übersicht „Was wann einsetzen“ <small>· Overview “What to spend when” · Обзор «Что когда тратить»</small></h2>
+    <p class="desc">Das Herzstück: eine A4-Tabelle — welcher Gegenstand an welchem Tag im VS (✕) und bei der Schildkröte (●) zählt. · The heart of the guide: one A4 table. · Главная таблица на одну страницу A4.</p>
+    <div class="grid">
+      <a class="tile" href="uebersicht-de.html?v=20260929"><div class="thumb"><img src="img/dl-uebersicht-de.webp" alt="" loading="lazy"><span class="lang">DE</span></div>
+        <div class="info"><span class="name">Übersicht: Was wann einsetzen</span><span class="meta">1 Seite A4 · Stand 28.09.2026</span><span class="act open">↗ Öffnen → „PDF speichern“</span></div></a>
+      <a class="tile" href="uebersicht-en.html?v=20260929"><div class="thumb"><img src="img/dl-uebersicht-en.webp" alt="" loading="lazy"><span class="lang en">EN</span></div>
+        <div class="info"><span class="name">Overview: What to spend when</span><span class="meta">1 page A4 · 28 Sep 2026</span><span class="act open">↗ Open → “Save PDF”</span></div></a>
+      <a class="tile" href="uebersicht-ru.html?v=20260929"><div class="thumb"><img src="img/dl-uebersicht-ru.webp" alt="" loading="lazy"><span class="lang ru">RU</span></div>
+        <div class="info"><span class="name">Обзор: что когда тратить</span><span class="meta">1 стр. A4 · 28.09.2026</span><span class="act open">↗ Открыть → «Сохранить PDF»</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dieselbe Übersicht als Bild <small>· Same overview as picture · Тот же обзор картинкой</small></h2>
+    <p class="desc">Gut fürs Handy oder zum Teilen im Chat. · Good for phones and chat. · Удобно для телефона и чата.</p>
+    <div class="grid">
+      <a class="tile" href="img/was-wann-einsetzen-de.png?v=20260929" download="S1L-Was-wann-einsetzen-DE.png"><div class="thumb"><img src="img/dl-bild-de.webp" alt="" loading="lazy"><span class="lang">DE</span></div>
+        <div class="info"><span class="name">Was wann einsetzen (Bild)</span><span class="meta">PNG · 0,6 MB</span><span class="act">↓ Herunterladen</span></div></a>
+      <a class="tile" href="img/what-to-spend-en.png?v=20260929" download="S1L-What-to-spend-EN.png"><div class="thumb"><img src="img/dl-bild-en.webp" alt="" loading="lazy"><span class="lang en">EN</span></div>
+        <div class="info"><span class="name">What to spend when (picture)</span><span class="meta">PNG · 0.5 MB</span><span class="act">↓ Download</span></div></a>
+      <a class="tile" href="img/chto-kogda-tratit-ru.png?v=20260929" download="S1L-Chto-kogda-tratit-RU.png"><div class="thumb"><img src="img/dl-bild-ru.webp" alt="" loading="lazy"><span class="lang ru">RU</span></div>
+        <div class="info"><span class="name">Что когда тратить (картинка)</span><span class="meta">PNG · 0,5 МБ</span><span class="act">↓ Скачать</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Kurzguide VS + Schildkröte <small>· Short guide VS + Turtle · Краткий гид VS + Черепаха</small></h2>
+    <p class="desc">2 Seiten zum Ausdrucken: Tage, Punkte, was man spart. · 2 pages to print. · 2 страницы для печати.</p>
+    <div class="grid">
+      <a class="tile" href="kurzguide-de.html?v=20260929"><div class="thumb"><img src="img/dl-kurz-de.webp" alt="" loading="lazy"><span class="lang">DE</span></div>
+        <div class="info"><span class="name">Kurzguide VS + Schildkröte</span><span class="meta">2 Seiten A4 · Stand 28.09.2026</span><span class="act open">↗ Öffnen → „PDF speichern“</span></div></a>
+      <a class="tile" href="kurzguide-en.html?v=20260929"><div class="thumb"><img src="img/dl-kurz-en.webp" alt="" loading="lazy"><span class="lang en">EN</span></div>
+        <div class="info"><span class="name">Short guide VS + Turtle</span><span class="meta">2 pages A4 · 28 Sep 2026</span><span class="act open">↗ Open → “Save PDF”</span></div></a>
+      <a class="tile" href="kurzguide-ru.html?v=20260929"><div class="thumb"><img src="img/dl-kurz-ru.webp" alt="" loading="lazy"><span class="lang ru">RU</span></div>
+        <div class="info"><span class="name">Краткий гид VS + Черепаха</span><span class="meta">2 стр. A4 · 28.09.2026</span><span class="act open">↗ Открыть → «Сохранить PDF»</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Field Guide (komplett) <small>· Field Guide (full) · Полевое руководство (полное)</small></h2>
+    <p class="desc">Der ganze Guide, ca. 47 Seiten. Oben auf der Seite: Knopf „↓ PDF“. · The whole guide, ~47 pages; use the “↓ PDF” button. · Весь гид, ок. 47 стр.; кнопка «↓ PDF».</p>
+    <div class="grid">
+      <a class="tile" href="guide.html?lang=de"><div class="thumb"><img src="img/dl-guide-de.webp" alt="" loading="lazy"><span class="lang">DE</span></div>
+        <div class="info"><span class="name">S1L Field Guide</span><span class="meta">ca. 47 Seiten · Stand 29.09.2026</span><span class="act open">↗ Öffnen → „↓ PDF“</span></div></a>
+      <a class="tile" href="guide.html?lang=en"><div class="thumb"><img src="img/dl-guide-en.webp" alt="" loading="lazy"><span class="lang en">EN</span></div>
+        <div class="info"><span class="name">S1L Field Guide</span><span class="meta">~47 pages · 29 Sep 2026</span><span class="act open">↗ Open → “↓ PDF”</span></div></a>
+      <a class="tile" href="guide.html?lang=ru"><div class="thumb"><img src="img/dl-guide-ru.webp" alt="" loading="lazy"><span class="lang ru">RU</span></div>
+        <div class="info"><span class="name">Полевое руководство S1L</span><span class="meta">ок. 47 стр. · 29.09.2026</span><span class="act open">↗ Открыть → «↓ PDF»</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Operation Abpraller — Lösungen <small>· Minigame solutions · Решения мини-игры</small></h2>
+    <p class="desc">Getestete Schusswege Level 4-10 und 5-1 bis 5-9, ein langes Bild zum Scrollen am Handy. Nur Deutsch. · Tested shot paths, German only. · Проверенные траектории, только на немецком.</p>
+    <div class="grid">
+      <a class="tile" href="img/abpraller-loesungen-de.jpg?v=20260929" download="S1L-Operation-Abpraller-Loesungen-DE.jpg"><div class="thumb"><img src="img/dl-abpraller-de.webp" alt="" loading="lazy"><span class="lang">DE</span></div>
+        <div class="info"><span class="name">Operation Abpraller: Lösungswege</span><span class="meta">JPG · 10 Level · Stand 29.09.2026</span><span class="act">↓ Herunterladen</span></div></a>
+    </div>
+  </section>
+
+  <p class="note">Mit KI erstellt — bitte im Spiel gegenprüfen. · Made with AI — please double-check in game. · Создано ИИ — проверяйте в игре.</p>
+</div>
+</body>
+</html>
