@@ -244,6 +244,164 @@
     .hero img{height:150px}
     .conf .dt{margin-left:0;width:100%;padding-top:3px}
   }
+
+  /* ───── Grafiken als HTML (29.09.2026): PC nebeneinander, Handy gestapelt ───── */
+  .fig.gx{overflow:visible;padding:14px 14px 10px}
+  .gx-t{color:var(--amber);font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin:0 0 14px;line-height:1.35}
+  .gx-fn{color:var(--mut);font-size:12.5px;line-height:1.45;margin:10px 0 0}
+  .gx-fn+.gx-fn{margin-top:4px}
+  /* 1 Prioritaeten */
+  .gp{display:grid;grid-template-columns:1fr 204px;gap:14px;align-items:stretch}
+  .gp-tier{--c:var(--tox);--cd:var(--tox-d);position:relative;background:var(--cd);border:1.5px solid var(--c);border-left:6px solid var(--c);
+           border-radius:4px;padding:11px 14px 12px}
+  .gp-tier.p2{--c:var(--amber);--cd:var(--amber-d)} .gp-tier.p3{--c:var(--rust);--cd:var(--rust-d)}
+  .gp-tier+.gp-tier{margin-top:20px}
+  .gp-tier+.gp-tier::before{content:"";position:absolute;left:50%;top:-16px;margin-left:-7px;border:7px solid transparent;border-top:10px solid #3d4a57;border-bottom:0}
+  .gp-h{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;margin-bottom:4px}
+  .gp-n{color:var(--c);font-size:12px;font-weight:900;letter-spacing:.17em}
+  .gp-ti{color:#fff;font-size:14px;font-weight:800;letter-spacing:.05em}
+  .gp-d{color:#c3d0dc;font-size:13px;line-height:1.45}
+  .gp-ev{background:#1d1430;border:2px solid #a78bfa;border-top-width:7px;border-radius:4px;padding:14px 12px 12px;text-align:center;
+         display:flex;flex-direction:column;justify-content:center}
+  .gp-el{color:#a78bfa;font-size:11px;font-weight:900;letter-spacing:.22em}
+  .gp-eb{color:#fff;font-size:27px;font-weight:900;letter-spacing:.04em;line-height:1.15;padding-bottom:8px;border-bottom:1px solid #a78bfa80;margin-bottom:8px}
+  .gp-es{color:#a78bfa;font-size:11.5px;font-weight:800;letter-spacing:.05em;margin-bottom:3px}
+  .gp-ev ul{list-style:none;margin:0;padding:0;color:#d8cffb;font-size:12.5px;line-height:1.5}
+  .gp-en{color:var(--mut);font-size:11px;margin-top:8px}
+  /* 2 Woche */
+  .gw{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .gw-d{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .gw-d.d6{border:2px solid var(--rust)}
+  .gw-n{text-align:center;font-size:24px;font-weight:900;padding:6px 0 4px;color:var(--ink)}
+  .gw-vs{background:var(--cyan-d);padding:6px 7px 8px;min-height:62px}
+  .gw-tt{background:var(--tox-d);padding:6px 7px 8px;flex:1}
+  .gw-lb{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;letter-spacing:.14em;color:var(--cyan);margin-bottom:3px}
+  .gw-tt .gw-lb{color:var(--tox)}
+  .gw-w{background:var(--line);color:var(--cyan);border-radius:2px;padding:0 5px;letter-spacing:0;font-size:11px}
+  .gw-d.d6 .gw-w{background:var(--rust);color:#fff}
+  .gw-th,.gw-it{color:#c3d0dc;font-size:12px;line-height:1.35}
+  .gw-it span{display:block} .gw-it .hi{font-weight:900;color:#fff}
+  .gw-no{display:flex;align-items:center;justify-content:center}
+  .gw-no .gw-th{color:#4a5a68;text-align:center}
+  /* 3 Duell */
+  .gd{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  .gd-c{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:10px 10px 12px;min-height:128px}
+  .gd-c.d6{background:linear-gradient(#e9552d,#8e2a12);border:2px solid var(--rust);box-shadow:0 0 16px #e9552d66}
+  .gd-day{color:var(--mut);font-size:11px;font-weight:800;letter-spacing:.14em}
+  .gd-c.d6 .gd-day{color:#ffd9cc}
+  .gd-w{position:absolute;top:8px;right:8px;background:var(--line);color:var(--amber);font-size:14px;font-weight:900;border-radius:3px;padding:1px 6px}
+  .gd-c.d6 .gd-w{background:#fff;color:var(--rust)}
+  .gd-ti{color:#fff;font-size:16px;font-weight:900;letter-spacing:.03em;margin:6px 0 6px;line-height:1.15;overflow-wrap:anywhere}
+  .gd-it{color:#b9c6d3;font-size:12px;line-height:1.4} .gd-it span{display:block}
+  .gd-c.d6 .gd-it{color:#ffe8e0}
+  .gd-sh{color:var(--mut);font-size:11px;font-weight:700;letter-spacing:.14em;margin:16px 0 6px}
+  .gd-bar{position:relative;display:flex;gap:2px;height:30px}
+  .gd-bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800}
+  .gd-bar .s1{flex:1;background:#3d4a57}.gd-bar .s2{flex:2;background:#4a5a68}.gd-bar .s3{flex:2;background:#56697a}
+  .gd-bar .s4{flex:2;background:#62788c}.gd-bar .s5{flex:2;background:#6e879e}.gd-bar .s6{flex:4;background:var(--rust)}
+  .gd-win{position:absolute;left:calc(7 / 13 * 100%);top:-7px;bottom:-7px;border-left:2.5px dashed var(--tox)}
+  .gd-lg{position:relative;display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-top:9px;min-height:22px}
+  .gd-wl{position:absolute;left:calc(7 / 13 * 100%);transform:translateX(-50%);background:var(--tox);color:#0b0d10;font-size:11px;font-weight:900;
+         border-radius:3px;padding:1px 7px;white-space:nowrap}
+  .gd-nt{margin-left:auto;color:var(--mut);font-size:11.5px;text-align:right;max-width:38%}
+  /* 4 Schildkroete */
+  .gt{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .gt-c{background:var(--panel2);border:1.5px solid var(--c);border-top-width:5px;border-radius:4px;text-align:center;padding:8px 4px 10px}
+  .gt-n{color:var(--c);font-size:30px;font-weight:900;line-height:1.1;margin-bottom:4px}
+  .gt-it{color:#c3d0dc;font-size:12px;line-height:1.35} .gt-it span{display:block} .gt-it .hi{font-weight:900;color:#fff}
+  .gt-ban{margin-top:12px;background:var(--amber-d);border:1px solid var(--amber);border-radius:4px;padding:8px 12px;font-size:12.5px;color:#c3d0dc;line-height:1.45}
+  .gt-ban b{color:var(--amber);font-weight:800;margin-right:6px}
+  /* 5 Goldenes Fenster */
+  .gg{display:grid;grid-template-columns:200px 1fr 70px;gap:0 30px;align-items:center}
+  .gg-src{background:var(--panel2);border:2px solid var(--amber);border-radius:4px;padding:16px 10px;text-align:center}
+  .gg-sl{color:var(--amber);font-size:11.5px;font-weight:900;letter-spacing:.14em}
+  .gg-sb{color:#fff;font-size:15px;font-weight:800;margin:5px 0 3px}
+  .gg-ss{color:var(--mut);font-size:11.5px}
+  .gg-tg{position:relative;display:flex;flex-direction:column;gap:8px;padding-left:18px;border-left:2px solid #3d4a57}
+  .gg-tg::before{content:"";position:absolute;left:-32px;top:50%;width:30px;border-top:2px solid #3d4a57}
+  .gg-t{position:relative;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:4px;padding:6px 12px 7px}
+  .gg-t::before{content:"";position:absolute;left:-23px;top:50%;width:18px;border-top:2px solid var(--c);opacity:.8}
+  .gg-t::after{content:"";position:absolute;left:-8px;top:50%;margin-top:-4px;width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .gg-tl{color:var(--c);font-size:12px;font-weight:900;letter-spacing:.12em}
+  .gg-td{color:#c3d0dc;font-size:12.5px;line-height:1.35}
+  .gg-x{background:var(--rust);color:#fff;font-size:30px;font-weight:900;text-align:center;border-radius:4px;padding:8px 0}
+
+  /* ───── Handy ───── */
+  @media (max-width:620px){
+    .fig.gx{padding:12px 11px 9px}
+    .gx-t{font-size:12px;letter-spacing:.13em}
+    .gp{grid-template-columns:1fr}
+    .gp-ev{padding:10px 10px 11px}
+    .gp-eb{font-size:22px;padding-bottom:5px;margin-bottom:6px}
+    .gp-ev ul{display:flex;flex-wrap:wrap;justify-content:center;gap:1px 0}
+    .gp-ev li:not(:last-child)::after{content:"·";margin:0 7px;color:#a78bfa}
+    .gw{grid-template-columns:1fr;gap:5px}
+    .gw-d{display:grid;grid-template-columns:34px 1fr 1fr;flex-direction:row}
+    .gw-n{display:flex;align-items:center;justify-content:center;padding:0;font-size:21px}
+    .gw-vs{min-height:0}
+    .gw-it span{display:inline} .gw-it span:not(:last-child)::after{content:" · ";color:#5ce07a99;font-weight:400}
+    .gd{grid-template-columns:repeat(3,1fr);gap:6px}
+    .gd-c{min-height:0;padding:8px 8px 10px}
+    .gd-day{font-size:10px;letter-spacing:.1em}
+    .gd-w{top:6px;right:6px;font-size:12px;padding:0 4px}
+    .gd-ti{font-size:13.5px;margin:5px 0 4px}
+    .gd-it{font-size:11.5px}
+    .gd-lg{flex-direction:column;align-items:stretch;gap:4px}
+    .gd-wl{position:relative;left:auto;transform:none;align-self:flex-start;margin-left:calc(7 / 13 * 100% - 30px)}
+    .gd-nt{margin-left:0;max-width:none;text-align:left}
+    .gt{grid-template-columns:repeat(4,1fr);gap:5px}
+    .gt-n{font-size:24px}
+    .gt-it{font-size:11.5px}
+    .gg{grid-template-columns:1fr;gap:0}
+    .gg-src{padding:10px}
+    .gg-tg{margin:0 0 0 14px;padding:14px 0 14px 16px}
+    .gg-tg::before{left:-2px;top:-1px;width:0;height:0;border:0}
+    .gg-t::before{left:-21px;width:16px}
+    .gg-x{font-size:24px;padding:4px 0}
+  }
+
+  /* ───── Tabellen am Handy ───── */
+  @media (max-width:620px){
+    th{white-space:normal;letter-spacing:.06em}
+    th,td{padding:7px 8px}
+    td.num{white-space:normal;text-align:left}
+    /* erste Spalte bleibt beim Seitwaertswischen stehen */
+    table:not(.vsx):not(.prq) tr>:first-child{position:sticky;left:0;z-index:1;background:var(--panel2);box-shadow:1px 0 0 var(--line2)}
+    .mx td.a{min-width:128px;max-width:150px}
+    .mx td.a i,.wk td.a i.fn{display:none}
+    .mx th,.mx td{padding-left:3px;padding-right:3px}
+    .mx th.a,.mx td.a{padding-left:8px;padding-right:6px}
+    .mx tr.grp td{position:static;box-shadow:none;background:linear-gradient(90deg,var(--panel2),var(--panel))}
+    .mx tr.grp td>*,.mx tr.grp td{white-space:nowrap}
+    /* VS-Tabelle: jede Zeile eine Karte */
+    .vsx,.vsx tbody{display:block}
+    .vsx tr:first-child{display:none}
+    .vsx tr{display:grid;grid-template-columns:auto 1fr auto;align-items:center;border-bottom:1px solid var(--line2)}
+    .vsx tr:last-child{border-bottom:0}
+    .vsx td{border:0}
+    .vsx td:nth-child(2){font-weight:800;color:#fff}
+    .vsx td:nth-child(4){grid-column:1/-1;padding-top:0;font-size:13.5px;color:#c3d0dc}
+    /* Wahrscheinlichkeiten: zwei Paare pro Zeile */
+    .prq,.prq tbody{display:block}
+    .prq tr{display:grid;grid-template-columns:1fr auto 1fr auto}
+  }
+  @media (max-width:620px){
+    .prq td{width:auto;white-space:normal}
+    .wk td i{width:12px}
+    .mx td.a{min-width:112px;max-width:132px;font-size:12.5px;line-height:1.3}
+  }
+  @media (max-width:620px){ .ck{white-space:normal} }
+  /* Menueleiste steht ausserhalb von .wrap: negativer Rand machte die Seite 15 px zu breit (Handy wackelt seitlich) */
+  body>.bar{margin:0}
+  .gt-c,.gd-c,.gw-d>div{min-width:0}
+  .gt-it,.gd-it,.gd-ti,.gw-th,.gw-it{hyphens:auto;overflow-wrap:break-word}
+  @media (max-width:620px){
+    /* Russisch hat laengere Woerter: weniger Spalten statt Silbentrennung mitten im Wort */
+    html[lang="ru"] .gd{grid-template-columns:repeat(2,1fr)}
+    html[lang="ru"] .gt{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (max-width:620px){ html[lang="ru"] .gt-it .hi{font-size:10.5px} }
+  @media (max-width:620px){ .gt-c{padding-left:2px;padding-right:2px} html[lang="ru"] .gt-it .hi{font-size:10px;letter-spacing:-.02em} }
 </style>
 </head>
 <body>
@@ -340,42 +498,16 @@
   </ul>
 </div>
 
-<figure class="fig"><svg viewBox="0 0 880 332" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Priority tiers">
-<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t324a1d7007">WHAT COMES FIRST WHEN TIME IS SHORT</text>
-<rect x="12" y="40" width="640" height="72" rx="4" fill="#0e2e19" stroke="#5ce07a" stroke-width="1.5"/>
-<rect x="12" y="40" width="6" height="72" fill="#5ce07a"/>
-<text x="32" y="66" fill="#5ce07a" font-size="12" font-weight="900" letter-spacing="2" data-t="t56586f3a95">TIER 1</text>
-<text x="104" y="66" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6" data-t="t74e32c8acf">EVERY DAY — FREE AND GUARANTEED</text>
-<text x="32" y="92" fill="#c3d0dc" font-size="12" data-t="te3403fd4c0">daily tasks · both free stamina packs · free gathering · alliance help · tech donation · goldmine</text>
-<path d="M332 118 l7 12 h-14 z" fill="#3d4a57" transform="rotate(180 332 124)"/>
-<rect x="12" y="126" width="640" height="72" rx="4" fill="#3a2a08" stroke="#ffb020" stroke-width="1.5"/>
-<rect x="12" y="126" width="6" height="72" fill="#ffb020"/>
-<text x="32" y="152" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="2" data-t="t5d9904614b">TIER 2</text>
-<text x="104" y="152" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6" data-t="tbecd57fdda">VS — THE ALLIANCE DUEL</text>
-<text x="32" y="178" fill="#c3d0dc" font-size="12" data-t="tea27345dd0">six days, 13 points, 7 wins the week — spend on the day that matches</text>
-<path d="M332 204 l7 12 h-14 z" fill="#3d4a57" transform="rotate(180 332 210)"/>
-<rect x="12" y="212" width="640" height="72" rx="4" fill="#3b1509" stroke="#e9552d" stroke-width="1.5"/>
-<rect x="12" y="212" width="6" height="72" fill="#e9552d"/>
-<text x="32" y="238" fill="#e9552d" font-size="12" font-weight="900" letter-spacing="2" data-t="t7e6acaf8ab">TIER 3</text>
-<text x="104" y="238" fill="#fff" font-size="13.5" font-weight="800" letter-spacing=".6" data-t="tb95f63510a">TURBO TURTLE</text>
-<text x="32" y="264" fill="#c3d0dc" font-size="12" data-t="t410ae2420d">gear, speed-ups and monsters — but only on a phase that scores them</text>
-<rect x="666" y="40" width="202" height="240" rx="4" fill="#1d1430" stroke="#a78bfa" stroke-width="2"/>
-<rect x="666" y="40" width="202" height="6" fill="#a78bfa"/>
-<text x="767.0" y="70" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="900" letter-spacing="2.4" data-t="t1dda368af5">ALWAYS ON TOP</text>
-<text x="767.0" y="104" text-anchor="middle" fill="#fff" font-size="27" font-weight="900" letter-spacing="1" data-t="tc5f548a22c">EVENTS</text>
-<line x1="688" y1="120" x2="846" y2="120" stroke="#a78bfa" stroke-width="1" opacity=".5"/>
-<text x="767.0" y="142" text-anchor="middle" fill="#a78bfa" font-size="11.5" font-weight="800" letter-spacing=".6" data-t="t93cd324d1c">BEST REWARDS IN THE GAME</text>
-<text x="767.0" y="160" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="t67a7e115c1">Oil Clash</text>
-<text x="767.0" y="175" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="t6b70b90339">Reservoir Raid</text>
-<text x="767.0" y="190" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="t983be3408f">Arcadian Conquest</text>
-<text x="767.0" y="205" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="t73c4b003b2">Alliance Siege</text>
-<text x="767.0" y="220" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="t017ae68e1c">Ghoulion Pursuit</text>
-<text x="767.0" y="235" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="te8f9705c01">City Battle</text>
-<text x="767.0" y="250" text-anchor="middle" fill="#d8cffb" font-size="11.5" data-t="tdfd71bec76">Cave Conquest</text>
-<text x="767.0" y="272" text-anchor="middle" fill="#8ea0b2" font-size="10.5" data-t="t119fb6690a">never traded away for a tier</text>
-<text x="12" y="306" fill="#8ea0b2" font-size="11.5" data-t="tcfe23c5fad">Tier 1 is never skipped — it costs nothing and needs nobody else. Tier 2 before tier 3: the duel is the week the alliance is judged on.</text>
-<text x="12" y="324" fill="#8ea0b2" font-size="11.5" data-t="t449a05af88">Events run on their own schedule. When one is live it outranks the whole ladder — that is where the best rewards in the game are.</text>
-</svg>
+<figure class="fig gx">
+<div class="gx-t" data-t="t324a1d7007">WHAT COMES FIRST WHEN TIME IS SHORT</div>
+<div class="gp"><div class="gp-l">
+<div class="gp-tier p1"><div class="gp-h"><span class="gp-n" data-t="t56586f3a95">TIER 1</span><span class="gp-ti" data-t="t74e32c8acf">EVERY DAY — FREE AND GUARANTEED</span></div><div class="gp-d" data-t="te3403fd4c0">daily tasks · both free stamina packs · free gathering · alliance help · tech donation · goldmine</div></div>
+<div class="gp-tier p2"><div class="gp-h"><span class="gp-n" data-t="t5d9904614b">TIER 2</span><span class="gp-ti" data-t="tbecd57fdda">VS — THE ALLIANCE DUEL</span></div><div class="gp-d" data-t="tea27345dd0">six days, 13 points, 7 wins the week — spend on the day that matches</div></div>
+<div class="gp-tier p3"><div class="gp-h"><span class="gp-n" data-t="t7e6acaf8ab">TIER 3</span><span class="gp-ti" data-t="tb95f63510a">TURBO TURTLE</span></div><div class="gp-d" data-t="t410ae2420d">gear, speed-ups and monsters — but only on a phase that scores them</div></div>
+</div>
+<div class="gp-ev"><div class="gp-el" data-t="t1dda368af5">ALWAYS ON TOP</div><div class="gp-eb" data-t="tc5f548a22c">EVENTS</div><div class="gp-es" data-t="t93cd324d1c">BEST REWARDS IN THE GAME</div><ul><li data-t="t67a7e115c1">Oil Clash</li><li data-t="t6b70b90339">Reservoir Raid</li><li data-t="t983be3408f">Arcadian Conquest</li><li data-t="t73c4b003b2">Alliance Siege</li><li data-t="t017ae68e1c">Ghoulion Pursuit</li><li data-t="te8f9705c01">City Battle</li><li data-t="tdfd71bec76">Cave Conquest</li></ul><div class="gp-en" data-t="t119fb6690a">never traded away for a tier</div></div></div>
+<p class="gx-fn" data-t="tcfe23c5fad">Tier 1 is never skipped — it costs nothing and needs nobody else. Tier 2 before tier 3: the duel is the week the alliance is judged on.</p>
+<p class="gx-fn" data-t="t449a05af88">Events run on their own schedule. When one is live it outranks the whole ladder — that is where the best rewards in the game are.</p>
   <figcaption data-t="tefe13431e3">If you only have ten minutes, work from the top down &mdash; the green band is the part nobody should ever skip. The violet column sits beside the whole ladder: a live event beats all three tiers, because that is where the best rewards are.</figcaption>
 </figure>
 
@@ -509,86 +641,18 @@
 
 <p data-t="tb7668b7a56"><b>Two events score at the same time, and they do not want the same things.</b> The Alliance Duel runs days 1&ndash;6 in order. Turbo Turtle runs its phases alongside them &mdash; <b>duel day 1 and turtle phase 1 fall on the same day</b>, so one column below covers both. This is the one table to check before you spend anything.</p>
 
-<figure class="fig"><svg viewBox="0 0 880 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The week at a glance">
-<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t85a401de43">THE WEEK AT A GLANCE — DUEL DAY AND TURTLE PHASE SHARE A COLUMN</text>
-<rect x="12" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="71.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t356a192b79">1</text>
-<rect x="13" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="20" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="100" y="85" width="22" height="15" rx="2" fill="#26313c"/>
-<text x="111" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="t42a83dba06">×1</text>
-<text x="20" y="114" fill="#c3d0dc" font-size="10.5" data-t="tb3a2afbf05">Radar training</text>
-<rect x="13" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="20" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="20" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
-<text x="20" y="183" fill="#c3d0dc" font-size="10.5" data-t="t2c7bf1b777">research</text>
-<text x="20" y="196" fill="#c3d0dc" font-size="10.5" data-t="t622eecdcc1">troops</text>
-<rect x="135" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="194.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tda4b9237ba">2</text>
-<rect x="136" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="143" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="223" y="85" width="22" height="15" rx="2" fill="#26313c"/>
-<text x="234" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="143" y="114" fill="#c3d0dc" font-size="10.5" data-t="t3d05232556">Base building</text>
-<rect x="136" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="143" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="143" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
-<text x="143" y="183" fill="#c3d0dc" font-size="10.5" font-weight="900" data-t="t915ac3e12b">BUILDING</text>
-<text x="143" y="196" fill="#c3d0dc" font-size="10.5" data-t="ta8acce245e">pets</text>
-<rect x="258" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="317.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t77de68daec">3</text>
-<rect x="259" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="266" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="346" y="85" width="22" height="15" rx="2" fill="#26313c"/>
-<text x="357" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="266" y="114" fill="#c3d0dc" font-size="10.5" data-t="t951530f919">Tech research</text>
-<rect x="259" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="266" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="266" y="170" fill="#c3d0dc" font-size="10.5" data-t="tc7937c4cd5">monsters</text>
-<text x="266" y="183" fill="#c3d0dc" font-size="10.5" data-t="t2c7bf1b777">research</text>
-<rect x="381" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="440.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t1b64538924">4</text>
-<rect x="382" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="389" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="469" y="85" width="22" height="15" rx="2" fill="#26313c"/>
-<text x="480" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="389" y="114" fill="#c3d0dc" font-size="10.5" data-t="t434c996ca8">Hero development</text>
-<rect x="382" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="389" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="389" y="170" fill="#c3d0dc" font-size="10.5" data-t="tbce7ff28b4">hero draws</text>
-<text x="389" y="183" fill="#c3d0dc" font-size="10.5" data-t="t1c6ad4beef">manuals</text>
-<rect x="504" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="563.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tac3478d69a">5</text>
-<rect x="505" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="512" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="592" y="85" width="22" height="15" rx="2" fill="#26313c"/>
-<text x="603" y="96.5" text-anchor="middle" fill="#4fd6e8" font-size="10" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="512" y="114" fill="#c3d0dc" font-size="10.5" data-t="t748f26f08b">Battle preparation</text>
-<rect x="505" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="512" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="512" y="170" fill="#c3d0dc" font-size="10.5" data-t="td0e143026d">gear</text>
-<text x="512" y="183" fill="#c3d0dc" font-size="10.5" font-weight="900" data-t="tf121cf6b14">PARTS</text>
-<rect x="627" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#e9552d" stroke-width="2"/>
-<text x="686.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="tc1dfd96eea">6</text>
-<rect x="628" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="635" y="95" fill="#4fd6e8" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tb8a1e1dc56">VS</text>
-<rect x="715" y="85" width="22" height="15" rx="2" fill="#e9552d"/>
-<text x="726" y="96.5" text-anchor="middle" fill="#fff" font-size="10" font-weight="900" data-t="tedd0ab6240">×4</text>
-<text x="635" y="114" fill="#c3d0dc" font-size="10.5" data-t="t6741046ffc">Defeat enemies</text>
-<rect x="628" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="635" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="635" y="170" fill="#c3d0dc" font-size="10.5" data-t="tc7937c4cd5">monsters</text>
-<text x="635" y="183" fill="#c3d0dc" font-size="10.5" data-t="t591c3b251f">heroes</text>
-<text x="635" y="196" fill="#c3d0dc" font-size="10.5" data-t="t457930a23c">speed-ups</text>
-<rect x="750" y="40" width="118" height="162" rx="4" fill="#141a21" stroke="#26313c" stroke-width="1"/>
-<text x="809.0" y="70" text-anchor="middle" fill="#e8edf2" font-size="24" font-weight="900" data-t="t902ba3cda1">7</text>
-<rect x="751" y="80" width="116" height="58" fill="#0c2a31"/>
-<text x="809.0" y="113" text-anchor="middle" fill="#3d4a57" font-size="10.5" data-t="tacc25c9b77">no duel day</text>
-<rect x="751" y="140" width="116" height="61" fill="#0e2e19"/>
-<text x="758" y="155" fill="#5ce07a" font-size="9.5" font-weight="900" letter-spacing="1.4" data-t="tabae157dd3">TURTLE</text>
-<text x="758" y="170" fill="#c3d0dc" font-size="10.5" data-t="td5a63c95d4">everything</text>
-<text x="12" y="222" fill="#8ea0b2" font-size="11.5" data-t="t09fa43ee85">The duel always runs days 1–6 in order. The turtle does not run every week, and it can stop before phase 7 — check the event screen.</text>
-</svg>
+<figure class="fig gx">
+<div class="gx-t" data-t="t85a401de43">THE WEEK AT A GLANCE — DUEL DAY AND TURTLE PHASE SHARE A COLUMN</div>
+<div class="gw">
+<div class="gw-d"><div class="gw-n" data-t="t356a192b79">1</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="t42a83dba06">×1</span></div><div class="gw-th" data-t="tb3a2afbf05">Radar training</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="td0e143026d">gear</span><span data-t="t2c7bf1b777">research</span><span data-t="t622eecdcc1">troops</span></div></div></div>
+<div class="gw-d"><div class="gw-n" data-t="tda4b9237ba">2</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="tefa7c75fbc">×2</span></div><div class="gw-th" data-t="t3d05232556">Base building</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="td0e143026d">gear</span><span class="hi" data-t="t915ac3e12b">BUILDING</span><span data-t="ta8acce245e">pets</span></div></div></div>
+<div class="gw-d"><div class="gw-n" data-t="t77de68daec">3</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="tefa7c75fbc">×2</span></div><div class="gw-th" data-t="t951530f919">Tech research</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="tc7937c4cd5">monsters</span><span data-t="t2c7bf1b777">research</span></div></div></div>
+<div class="gw-d"><div class="gw-n" data-t="t1b64538924">4</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="tefa7c75fbc">×2</span></div><div class="gw-th" data-t="t434c996ca8">Hero development</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="tbce7ff28b4">hero draws</span><span data-t="t1c6ad4beef">manuals</span></div></div></div>
+<div class="gw-d"><div class="gw-n" data-t="tac3478d69a">5</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="tefa7c75fbc">×2</span></div><div class="gw-th" data-t="t748f26f08b">Battle preparation</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="td0e143026d">gear</span><span class="hi" data-t="tf121cf6b14">PARTS</span></div></div></div>
+<div class="gw-d d6"><div class="gw-n" data-t="tc1dfd96eea">6</div><div class="gw-vs"><div class="gw-lb"><span data-t="tb8a1e1dc56">VS</span><span class="gw-w" data-t="tedd0ab6240">×4</span></div><div class="gw-th" data-t="t6741046ffc">Defeat enemies</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="tc7937c4cd5">monsters</span><span data-t="t591c3b251f">heroes</span><span data-t="t457930a23c">speed-ups</span></div></div></div>
+<div class="gw-d d7"><div class="gw-n" data-t="t902ba3cda1">7</div><div class="gw-vs gw-no"><div class="gw-th" data-t="tacc25c9b77">no duel day</div></div><div class="gw-tt"><div class="gw-lb"><span data-t="tabae157dd3">TURTLE</span></div><div class="gw-it"><span data-t="td5a63c95d4">everything</span></div></div></div>
+</div>
+<p class="gx-fn" data-t="t09fa43ee85">The duel always runs days 1–6 in order. The turtle does not run every week, and it can stop before phase 7 — check the event screen.</p>
   <figcaption data-t="tc49cc6f12d">Each column is one day: the cyan half is what the duel wants, the green half what the turtle wants. Day 6 is outlined because it carries four of the thirteen duel points.</figcaption>
 </figure>
 
@@ -673,69 +737,19 @@
 
 <p data-t="t64f5dd45c3">Six days, one theme per day, alliance against alliance. The weights add up to <b>13</b>, so <b>7 wins the week</b> — day 6 plus two middle days is enough even after a bad start. The order of the days never changes.</p>
 
-<figure class="fig"><svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The six duel days and their weights">
-<defs><linearGradient id="gd6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9552d"/><stop offset="1" stop-color="#8e2a12"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t5fa320aeac">THE DUEL WEEK — WHAT EACH DAY WANTS</text>
-<rect x="12" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
-<text x="24" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6" data-t="t22b3fba149">DAY 1</text>
-<text x="24" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="t75e89d04de">RADAR</text>
-<rect x="106" y="52" width="34" height="24" rx="3" fill="#26313c"/>
-<text x="123.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900" data-t="t42a83dba06">×1</text>
-<text x="24" y="118" fill="#b9c6d3" font-size="11.5" data-t="t4bea10bb62">scraps</text>
-<text x="24" y="134" fill="#b9c6d3" font-size="11.5" data-t="t3e6a717447">spy</text>
-<text x="24" y="150" fill="#b9c6d3" font-size="11.5" data-t="t00bb4c1b74">stamina</text>
-<rect x="157" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
-<text x="169" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6" data-t="t1d49242be1">DAY 2</text>
-<text x="169" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="t9b8dfdff73">BUILD</text>
-<rect x="251" y="52" width="34" height="24" rx="3" fill="#26313c"/>
-<text x="268.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="169" y="118" fill="#b9c6d3" font-size="11.5" data-t="t7290337235">building speed-ups</text>
-<rect x="302" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
-<text x="314" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6" data-t="t1c12c15980">DAY 3</text>
-<text x="314" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="tc873bcc8c3">RESEARCH</text>
-<rect x="396" y="52" width="34" height="24" rx="3" fill="#26313c"/>
-<text x="413.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="314" y="118" fill="#b9c6d3" font-size="11.5" data-t="td7bf4f120d">research speed-ups</text>
-<text x="314" y="134" fill="#b9c6d3" font-size="11.5" data-t="t3e6a717447">spy</text>
-<rect x="447" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
-<text x="459" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6" data-t="tcee6f6be6a">DAY 4</text>
-<text x="459" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="t0ab3fdc400">HEROES</text>
-<rect x="541" y="52" width="34" height="24" rx="3" fill="#26313c"/>
-<text x="558.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="459" y="118" fill="#b9c6d3" font-size="11.5" data-t="tc9fa074cd8">shards</text>
-<text x="459" y="134" fill="#b9c6d3" font-size="11.5" data-t="t9cfc49e63f">recruits</text>
-<rect x="592" y="42" width="138" height="150" rx="4" fill="#182029" stroke="#26313c" stroke-width="1"/>
-<text x="604" y="66" fill="#8ea0b2" font-size="11" font-weight="800" letter-spacing="1.6" data-t="t52ea17ef15">DAY 5</text>
-<text x="604" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="td9d3d89d44">TROOPS</text>
-<rect x="686" y="52" width="34" height="24" rx="3" fill="#26313c"/>
-<text x="703.0" y="69" text-anchor="middle" fill="#ffb020" font-size="14" font-weight="900" data-t="tefa7c75fbc">×2</text>
-<text x="604" y="118" fill="#b9c6d3" font-size="11.5" data-t="t0a2b9827e5">training</text>
-<text x="604" y="134" fill="#b9c6d3" font-size="11.5" data-t="t3e6a717447">spy</text>
-<rect x="737" y="42" width="138" height="150" rx="4" fill="url(#gd6)" stroke="#e9552d" stroke-width="2" filter="url(#gl)"/>
-<text x="749" y="66" fill="#ffd9cc" font-size="11" font-weight="800" letter-spacing="1.6" data-t="tf7200711c4">DAY 6</text>
-<text x="749" y="92" fill="#fff" font-size="17" font-weight="900" letter-spacing=".5" data-t="t1c8e3dccad">COMBAT</text>
-<rect x="831" y="52" width="34" height="24" rx="3" fill="#fff"/>
-<text x="848.0" y="69" text-anchor="middle" fill="#e9552d" font-size="14" font-weight="900" data-t="tedd0ab6240">×4</text>
-<text x="749" y="118" fill="#ffe8e0" font-size="11.5" data-t="t4b11e02d76">kills</text>
-<text x="749" y="134" fill="#ffe8e0" font-size="11.5" data-t="t99770d2f38">shields on</text>
-<text x="12" y="216" fill="#8ea0b2" font-size="11" font-weight="700" letter-spacing="1.6" data-t="t40aaf4ba7f">13 POINTS IN TOTAL — 7 WINS THE WEEK</text>
-<rect x="12.0" y="224" width="63.8" height="30" fill="#3d4a57"/>
-<text x="43.9" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="t356a192b79">1</text>
-<rect x="77.8" y="224" width="129.7" height="30" fill="#4a5a68"/>
-<text x="142.7" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="tda4b9237ba">2</text>
-<rect x="209.5" y="224" width="129.7" height="30" fill="#56697a"/>
-<text x="274.4" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="tda4b9237ba">2</text>
-<rect x="341.2" y="224" width="129.7" height="30" fill="#62788c"/>
-<text x="406.1" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="tda4b9237ba">2</text>
-<rect x="472.9" y="224" width="129.7" height="30" fill="#6e879e"/>
-<text x="537.8" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="tda4b9237ba">2</text>
-<rect x="604.6" y="224" width="261.4" height="30" fill="#e9552d"/>
-<text x="735.3" y="244" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" data-t="t1b64538924">4</text>
-<line x1="472.9" y1="216" x2="472.9" y2="262" stroke="#5ce07a" stroke-width="2.5" stroke-dasharray="5 4"/>
-<rect x="442.9" y="264" width="72" height="20" rx="3" fill="#5ce07a"/>
-<text x="478.9" y="278" text-anchor="middle" fill="#0b0d10" font-size="11" font-weight="900" data-t="t22cc41e15a">7 = WIN</text>
-<text x="868" y="279" text-anchor="end" fill="#8ea0b2" font-size="11" data-t="t54b806093a">day 6 alone is over a quarter of the week</text>
-</svg>
+<figure class="fig gx">
+<div class="gx-t" data-t="t5fa320aeac">THE DUEL WEEK — WHAT EACH DAY WANTS</div>
+<div class="gd">
+<div class="gd-c"><div class="gd-day" data-t="t22b3fba149">DAY 1</div><span class="gd-w" data-t="t42a83dba06">×1</span><div class="gd-ti" data-t="t75e89d04de">RADAR</div><div class="gd-it"><span data-t="t4bea10bb62">scraps</span><span data-t="t3e6a717447">spy</span><span data-t="t00bb4c1b74">stamina</span></div></div>
+<div class="gd-c"><div class="gd-day" data-t="t1d49242be1">DAY 2</div><span class="gd-w" data-t="tefa7c75fbc">×2</span><div class="gd-ti" data-t="t9b8dfdff73">BUILD</div><div class="gd-it"><span data-t="t7290337235">building speed-ups</span></div></div>
+<div class="gd-c"><div class="gd-day" data-t="t1c12c15980">DAY 3</div><span class="gd-w" data-t="tefa7c75fbc">×2</span><div class="gd-ti" data-t="tc873bcc8c3">RESEARCH</div><div class="gd-it"><span data-t="td7bf4f120d">research speed-ups</span><span data-t="t3e6a717447">spy</span></div></div>
+<div class="gd-c"><div class="gd-day" data-t="tcee6f6be6a">DAY 4</div><span class="gd-w" data-t="tefa7c75fbc">×2</span><div class="gd-ti" data-t="t0ab3fdc400">HEROES</div><div class="gd-it"><span data-t="tc9fa074cd8">shards</span><span data-t="t9cfc49e63f">recruits</span></div></div>
+<div class="gd-c"><div class="gd-day" data-t="t52ea17ef15">DAY 5</div><span class="gd-w" data-t="tefa7c75fbc">×2</span><div class="gd-ti" data-t="td9d3d89d44">TROOPS</div><div class="gd-it"><span data-t="t0a2b9827e5">training</span><span data-t="t3e6a717447">spy</span></div></div>
+<div class="gd-c d6"><div class="gd-day" data-t="tf7200711c4">DAY 6</div><span class="gd-w" data-t="tedd0ab6240">×4</span><div class="gd-ti" data-t="t1c8e3dccad">COMBAT</div><div class="gd-it"><span data-t="t4b11e02d76">kills</span><span data-t="t99770d2f38">shields on</span></div></div>
+</div>
+<div class="gd-sh" data-t="t40aaf4ba7f">13 POINTS IN TOTAL — 7 WINS THE WEEK</div>
+<div class="gd-bar"><span class="s1" data-t="t356a192b79">1</span><span class="s2" data-t="tda4b9237ba">2</span><span class="s3" data-t="tda4b9237ba">2</span><span class="s4" data-t="tda4b9237ba">2</span><span class="s5" data-t="tda4b9237ba">2</span><span class="s6" data-t="t1b64538924">4</span><i class="gd-win"></i></div>
+<div class="gd-lg"><span class="gd-wl" data-t="t22cc41e15a">7 = WIN</span><span class="gd-nt" data-t="t54b806093a">day 6 alone is over a quarter of the week</span></div>
   <figcaption data-t="te8559de479">The order never changes. Day 6 carries four of the thirteen points — more than the first three days together.</figcaption>
 </figure>
 
@@ -749,7 +763,7 @@
   <p style="margin:0" data-t="tca867b3a44"><b>Which weekday is which duel day:</b> open VS in game &mdash; the <b>Results</b> tab shows the week, and the alliance board announces it.</p>
 </div>
 
-<table>
+<table class="vsx">
   <tr><th data-t="t987b9ced08">Day</th><th data-t="ta797e30923">Theme</th><th data-t="t69c0b81540">Weight</th><th data-t="t3fafd4ebca">Everything that scores that day</th></tr>
   <tr><td class="d" data-t="t356a192b79">1</td><td data-t="t0c63ddda44">Radar Training</td><td data-t="tf4c26fecd2"><span class="w">1</span></td><td data-t="t7d619ac786">Equipment scraps · <b>spy mission</b> · commander stamina · gathering food, wood, metal, fuel · diamonds from packs</td></tr>
   <tr><td class="d" data-t="tda4b9237ba">2</td><td data-t="te02bcc3b20">Base Building</td><td data-t="t71c74fcf5a"><span class="w">2</span></td><td data-t="t010e7d8ceb">Pet badges and pet food · building speed-ups · S-dispatch · A-delivery · power gained from building · diamonds from packs</td></tr>
@@ -902,49 +916,19 @@
 
 <p data-t="t5ce0deb504">What changes from week to week is only <b>how many phases run and which day carries which phase</b>. The list inside a phase stays the same, and the exact point values appear in game on the day itself.</p>
 
-<figure class="fig"><svg viewBox="0 0 880 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Turbo turtle phases">
-<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t295e601c4d">TURBO TURTLE — EVERY PHASE SCORES A DIFFERENT LIST</text>
-<rect x="12" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#4fd6e8" stroke-width="1.5"/>
-<rect x="12" y="42" width="118" height="5" fill="#4fd6e8"/>
-<text x="71.0" y="86" text-anchor="middle" fill="#4fd6e8" font-size="30" font-weight="900" data-t="t356a192b79">1</text>
-<text x="71.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="td0e143026d">gear</text>
-<text x="71.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t2c7bf1b777">research</text>
-<text x="71.0" y="144" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t622eecdcc1">troops</text>
-<rect x="135" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#ffb020" stroke-width="1.5"/>
-<rect x="135" y="42" width="118" height="5" fill="#ffb020"/>
-<text x="194.0" y="86" text-anchor="middle" fill="#ffb020" font-size="30" font-weight="900" data-t="tda4b9237ba">2</text>
-<text x="194.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="td0e143026d">gear</text>
-<text x="194.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" font-weight="900" data-t="t915ac3e12b">BUILDING</text>
-<rect x="258" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#a78bfa" stroke-width="1.5"/>
-<rect x="258" y="42" width="118" height="5" fill="#a78bfa"/>
-<text x="317.0" y="86" text-anchor="middle" fill="#a78bfa" font-size="30" font-weight="900" data-t="t77de68daec">3</text>
-<text x="317.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="tc7937c4cd5">monsters</text>
-<text x="317.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t2c7bf1b777">research</text>
-<rect x="381" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#f472b6" stroke-width="1.5"/>
-<rect x="381" y="42" width="118" height="5" fill="#f472b6"/>
-<text x="440.0" y="86" text-anchor="middle" fill="#f472b6" font-size="30" font-weight="900" data-t="t1b64538924">4</text>
-<text x="440.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="tbce7ff28b4">hero draws</text>
-<text x="440.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t1c6ad4beef">manuals</text>
-<rect x="504" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#ffb020" stroke-width="1.5"/>
-<rect x="504" y="42" width="118" height="5" fill="#ffb020"/>
-<text x="563.0" y="86" text-anchor="middle" fill="#ffb020" font-size="30" font-weight="900" data-t="tac3478d69a">5</text>
-<text x="563.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="td0e143026d">gear</text>
-<text x="563.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" font-weight="900" data-t="tf121cf6b14">PARTS</text>
-<rect x="627" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#a78bfa" stroke-width="1.5"/>
-<rect x="627" y="42" width="118" height="5" fill="#a78bfa"/>
-<text x="686.0" y="86" text-anchor="middle" fill="#a78bfa" font-size="30" font-weight="900" data-t="tc1dfd96eea">6</text>
-<text x="686.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="tc7937c4cd5">monsters</text>
-<text x="686.0" y="128" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t591c3b251f">heroes</text>
-<text x="686.0" y="144" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="t457930a23c">speed-ups</text>
-<rect x="750" y="42" width="118" height="120" rx="4" fill="#182029" stroke="#5ce07a" stroke-width="1.5"/>
-<rect x="750" y="42" width="118" height="5" fill="#5ce07a"/>
-<text x="809.0" y="86" text-anchor="middle" fill="#5ce07a" font-size="30" font-weight="900" data-t="t902ba3cda1">7</text>
-<text x="809.0" y="112" text-anchor="middle" fill="#c3d0dc" font-size="11.5" data-t="td5a63c95d4">everything</text>
-<rect x="12" y="176" width="856" height="30" rx="4" fill="#3a2a08" stroke="#ffb020"/>
-<text x="26" y="196" fill="#ffb020" font-size="12" font-weight="800" data-t="t3c1be45ab1">HERO GEAR SCORES IN FOUR PHASES — 1, 2, 5 AND 7.</text>
-<text x="500" y="196" fill="#c3d0dc" font-size="12" data-t="tc6b132d851">But not the same actions each time — see the matrix.</text>
-<text x="12" y="228" fill="#8ea0b2" font-size="11.5" data-t="tf580fd26b1">Phase 7 scores everything — the day to empty whatever is left. Diamond packs score in all seven.</text>
-</svg>
+<figure class="fig gx">
+<div class="gx-t" data-t="t295e601c4d">TURBO TURTLE — EVERY PHASE SCORES A DIFFERENT LIST</div>
+<div class="gt">
+<div class="gt-c" style="--c:#4fd6e8"><div class="gt-n" data-t="t356a192b79">1</div><div class="gt-it"><span data-t="td0e143026d">gear</span><span data-t="t2c7bf1b777">research</span><span data-t="t622eecdcc1">troops</span></div></div>
+<div class="gt-c" style="--c:#ffb020"><div class="gt-n" data-t="tda4b9237ba">2</div><div class="gt-it"><span data-t="td0e143026d">gear</span><span class="hi" data-t="t915ac3e12b">BUILDING</span></div></div>
+<div class="gt-c" style="--c:#a78bfa"><div class="gt-n" data-t="t77de68daec">3</div><div class="gt-it"><span data-t="tc7937c4cd5">monsters</span><span data-t="t2c7bf1b777">research</span></div></div>
+<div class="gt-c" style="--c:#f472b6"><div class="gt-n" data-t="t1b64538924">4</div><div class="gt-it"><span data-t="tbce7ff28b4">hero draws</span><span data-t="t1c6ad4beef">manuals</span></div></div>
+<div class="gt-c" style="--c:#ffb020"><div class="gt-n" data-t="tac3478d69a">5</div><div class="gt-it"><span data-t="td0e143026d">gear</span><span class="hi" data-t="tf121cf6b14">PARTS</span></div></div>
+<div class="gt-c" style="--c:#a78bfa"><div class="gt-n" data-t="tc1dfd96eea">6</div><div class="gt-it"><span data-t="tc7937c4cd5">monsters</span><span data-t="t591c3b251f">heroes</span><span data-t="t457930a23c">speed-ups</span></div></div>
+<div class="gt-c" style="--c:#5ce07a"><div class="gt-n" data-t="t902ba3cda1">7</div><div class="gt-it"><span data-t="td5a63c95d4">everything</span></div></div>
+</div>
+<div class="gt-ban"><b data-t="t3c1be45ab1">HERO GEAR SCORES IN FOUR PHASES — 1, 2, 5 AND 7.</b> <span data-t="tc6b132d851">But not the same actions each time — see the matrix.</span></div>
+<p class="gx-fn" data-t="tf580fd26b1">Phase 7 scores everything — the day to empty whatever is left. Diamond packs score in all seven.</p>
   <figcaption data-t="t3ae75e7f19">Colour marks the theme of a phase. The theme is only a headline &mdash; the exact actions differ, which is what the matrix below shows.</figcaption>
 </figure>
 
@@ -1069,41 +1053,15 @@
 
 <p data-t="td6117bffbf">A Golden Window is a moment when one action pays into <b>four</b> things at once: the Alliance Duel day, the Turbo Turtle phase, the matching Power Play round, and your actual progress. The turtle is the one most people forget &mdash; and on the right day it is often the biggest of the four, because turtle points come in automatically for something you were going to do anyway.</p>
 
-<figure class="fig"><svg viewBox="0 0 880 306" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Golden window">
-<text x="12" y="20" fill="#ffb020" font-size="13" font-weight="800" letter-spacing="2.5" data-t="t0cb4c67a6a">THE GOLDEN WINDOW — ONE ACTION, FOUR PAYOUTS</text>
-<rect x="12" y="102" width="210" height="96" rx="4" fill="#182029" stroke="#ffb020" stroke-width="2"/>
-<text x="117" y="136" text-anchor="middle" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="1.6" data-t="tc8dc427d9e">YOUR SAVED STACK</text>
-<text x="117" y="162" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" data-t="t7290337235">building speed-ups</text>
-<text x="117" y="182" text-anchor="middle" fill="#8ea0b2" font-size="11.5" data-t="t1f7b7e2e4c">spent once, on the right day</text>
-<path d="M232 150 C 290 150, 290 66, 348 66" fill="none" stroke="#4fd6e8" stroke-width="2" opacity=".75"/>
-<circle cx="348" cy="66" r="3.5" fill="#4fd6e8"/>
-<rect x="358" y="44" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
-<rect x="358" y="44" width="4" height="44" fill="#4fd6e8"/>
-<text x="376" y="63" fill="#4fd6e8" font-size="12" font-weight="900" letter-spacing="1.4" data-t="t949cc76fd5">DUEL DAY 2</text>
-<text x="376" y="80" fill="#c3d0dc" font-size="12" data-t="t26936b62b2">Base Building · ×2 weight</text>
-<path d="M232 150 C 290 150, 290 122, 348 122" fill="none" stroke="#5ce07a" stroke-width="2" opacity=".75"/>
-<circle cx="348" cy="122" r="3.5" fill="#5ce07a"/>
-<rect x="358" y="100" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
-<rect x="358" y="100" width="4" height="44" fill="#5ce07a"/>
-<text x="376" y="119" fill="#5ce07a" font-size="12" font-weight="900" letter-spacing="1.4" data-t="tb95f63510a">TURBO TURTLE</text>
-<text x="376" y="136" fill="#c3d0dc" font-size="12" data-t="t33a7d8db72">phase 2, 6 or 7 — check the matrix</text>
-<path d="M232 150 C 290 150, 290 178, 348 178" fill="none" stroke="#a78bfa" stroke-width="2" opacity=".75"/>
-<circle cx="348" cy="178" r="3.5" fill="#a78bfa"/>
-<rect x="358" y="156" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
-<rect x="358" y="156" width="4" height="44" fill="#a78bfa"/>
-<text x="376" y="175" fill="#a78bfa" font-size="12" font-weight="900" letter-spacing="1.4" data-t="t2ee7ecaff8">POWER PLAY</text>
-<text x="376" y="192" fill="#c3d0dc" font-size="12" data-t="td910bd57e2">Settlement Building round</text>
-<path d="M232 150 C 290 150, 290 234, 348 234" fill="none" stroke="#ffb020" stroke-width="2" opacity=".75"/>
-<circle cx="348" cy="234" r="3.5" fill="#ffb020"/>
-<rect x="358" y="212" width="430" height="44" rx="4" fill="#182029" stroke="#26313c"/>
-<rect x="358" y="212" width="4" height="44" fill="#ffb020"/>
-<text x="376" y="231" fill="#ffb020" font-size="12" font-weight="900" letter-spacing="1.4" data-t="tc531089bdb">REAL PROGRESS</text>
-<text x="376" y="248" fill="#c3d0dc" font-size="12" data-t="t08d8d715a3">the building actually finishes</text>
-<rect x="800" y="120" width="68" height="60" rx="4" fill="#e9552d"/>
-<text x="834" y="162" text-anchor="middle" fill="#fff" font-size="30" font-weight="900" data-t="tedd0ab6240">×4</text>
-<text x="12" y="282" fill="#8ea0b2" font-size="11.5" data-t="t61b9f54ec0">Same resources. Four times the return. This is why hoarding is the strategy, not stinginess.</text>
-<text x="12" y="300" fill="#8ea0b2" font-size="11.5" data-t="tae1413b5be">The turtle only pays if the running phase scores that item — phases 2, 6 and 7 for building speed-ups. Otherwise it is three.</text>
-</svg>
+<figure class="fig gx">
+<div class="gx-t" data-t="t0cb4c67a6a">THE GOLDEN WINDOW — ONE ACTION, FOUR PAYOUTS</div>
+<div class="gg">
+<div class="gg-src"><div class="gg-sl" data-t="tc8dc427d9e">YOUR SAVED STACK</div><div class="gg-sb" data-t="t7290337235">building speed-ups</div><div class="gg-ss" data-t="t1f7b7e2e4c">spent once, on the right day</div></div>
+<div class="gg-tg"><div class="gg-t" style="--c:#4fd6e8"><div class="gg-tl" data-t="t949cc76fd5">DUEL DAY 2</div><div class="gg-td" data-t="t26936b62b2">Base Building · ×2 weight</div></div><div class="gg-t" style="--c:#5ce07a"><div class="gg-tl" data-t="tb95f63510a">TURBO TURTLE</div><div class="gg-td" data-t="t33a7d8db72">phase 2, 6 or 7 — check the matrix</div></div><div class="gg-t" style="--c:#a78bfa"><div class="gg-tl" data-t="t2ee7ecaff8">POWER PLAY</div><div class="gg-td" data-t="td910bd57e2">Settlement Building round</div></div><div class="gg-t" style="--c:#ffb020"><div class="gg-tl" data-t="tc531089bdb">REAL PROGRESS</div><div class="gg-td" data-t="t08d8d715a3">the building actually finishes</div></div></div>
+<div class="gg-x" data-t="tedd0ab6240">×4</div>
+</div>
+<p class="gx-fn" data-t="t61b9f54ec0">Same resources. Four times the return. This is why hoarding is the strategy, not stinginess.</p>
+<p class="gx-fn" data-t="tae1413b5be">The turtle only pays if the running phase scores that item — phases 2, 6 and 7 for building speed-ups. Otherwise it is three.</p>
   <figcaption data-t="t6b86d20daa">Building speed-ups are the clearest case, but the same shape applies to scraps on day 1, research on day 3 and hero material on day 4. Check the phase matrix first &mdash; the turtle only joins in if the running phase scores that item.</figcaption>
 </figure>
 
@@ -1549,7 +1507,7 @@
 <div class="box warn">
   <b class="t" data-t="te4bc2b087f">The probabilities — and the one rule that follows from them</b>
   <p style="margin:0 0 7px" data-t="tf4a3a03a81">Each reforge draws from a value pool. The chance of landing a higher tier is:</p>
-  <table style="margin:0 0 7px">
+  <table class="prq" style="margin:0 0 7px">
     <tr><td class="d" data-t="t7de90a6524">Common</td><td class="num" data-t="t32a4fdf710">45 %</td><td class="d" data-t="t1d13713a5c">Exquisite</td><td class="num" data-t="t422bac4974">30 %</td><td class="d" data-t="tb3efd0d2dd">Epic</td><td class="num" data-t="t35ca6f792e">20 %</td><td class="d" data-t="tb7e8916505">Legendary</td><td class="num" data-t="t611dee0e5d">5 %</td></tr>
   </table>
   <p style="margin:0" data-t="tc75b9195ed">The game states that <b>the more often you reforge a piece, the higher its chance of getting higher-tier values</b>. So rolling is not a coin flip you repeat — it improves. That is the mechanical reason behind "keep rolling, save when it is better, then roll on".</p>
