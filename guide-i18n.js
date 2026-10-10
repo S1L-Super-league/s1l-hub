@@ -917,7 +917,6 @@ window.S1L_DE={
 "t9bc0ddc4aa": "<b>24</b> Stern — Lesezeichen: alle, Allianz, persönliche Markierungen.",
 "t4d174bf42f": "<b>25</b> Koordinaten — zu Staat und X / Y springen.",
 "tfbcd0f0453": "<b>26</b> Märsche — deine Märsche mit Restzeit; der blaue Pfeil ruft einen Marsch zurück.",
-"tcf03cf2e9c": "Navigation",
 "tdbe1c51cc6": "Vor jedem Raid:",
 "t19ff59223a": "Während des Raids:",
 "te4ab1fbca1": "Alle Teamleiter sind zusammen im <b>Sprachchat</b>. Sie entscheiden den Plan und geben ihn im Teamchat und im Reservoir-Chat bekannt.",
