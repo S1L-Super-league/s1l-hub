@@ -983,5 +983,12 @@ window.S1L_DE={
 "t1b91edc9c7": "<b>Eine schon geschaffte Schwierigkeit nochmal zu spielen bringt keinen Fortschritt.</b> Das Spiel lässt sie dich wählen, warnt aber: Wenn du sie schaffst, schaltest du nichts Neues frei.",
 "teb3ffaac4b": "<b>Hinweis: Dieses Bild stammt aus einem anderen Spiel (State of Survival). Die Zahlen sind nicht 1:1 unsere, aber sehr nah dran. Die Wirkungen sind grundsätzlich gleich — nur die Zahlen können etwas anders sein.</b>",
 "t12bcc9b0a2": "Gebäude-Details aus einem anderen Spiel mit derselben Karte. Namen dort: Water Treatment Center = Treatment Plant · Water Processing Plant = Water Process · Munition Factory = Ammunition Factory · Solar Power Station = Power Station · Dev Compound = Development Complex.",
-"t489674cd05": "<b>Wassertanks</b> erscheinen, wenn die Uhr 36 Minuten zeigt, und noch zweimal bei 26 und 16 Minuten. Solange du einen Tank hältst, bringt er 240 Wasser pro Minute."
+"t489674cd05": "<b>Wassertanks</b> erscheinen, wenn die Uhr 36 Minuten zeigt, und noch zweimal bei 26 und 16 Minuten. Solange du einen Tank hältst, bringt er 240 Wasser pro Minute.",
+"t2326346415": "Keine Truppen mehr? Aufgeben und voll zurückkommen",
+"te0ec28727f": "Hast du im Raid keine Truppen mehr, <b>gib absichtlich auf</b>. Nach 10 Minuten kannst du wieder rein — dann sind <b>alle deine Truppen wieder voll</b>.",
+"te508aba0bb": "Oben auf den Wassertropfen mit der Uhr tippen.",
+"t0e45ac5833": "In den Kampfdetails auf den roten Knopf links tippen („AUFGEBEN“).",
+"tcf7c54e5f0": "10 Minuten warten, dann wieder in den Raid gehen.",
+"t0ca98e5461": "Auf den Wassertropfen mit der Uhr tippen",
+"t93c4d43f91": "Roter Knopf links: aufgeben"
 };

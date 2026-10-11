@@ -982,5 +982,12 @@ window.S1L_CS={
 "t875eb4f9ee": "<b>Co tahle stránka záměrně neobsahuje:</b> data a rozpisy. Ty se mění každý týden a oznamují se na nástěnce aliance ve hře. · [S1L] Field Guide · verze 3 · 28. 9. 2026",
 "teb3ffaac4b": "<b>Pozor: tento obrázek je z jiné hry (State of Survival). Čísla nejsou přesně naše, ale jsou velmi blízko. Účinky jsou v zásadě stejné — jen čísla se můžou trochu lišit.</b>",
 "t12bcc9b0a2": "Údaje o budovách z jiné hry se stejnou mapou. Názvy tam: Water Treatment Center = Treatment Plant · Water Processing Plant = Water Process · Munition Factory = Ammunition Factory · Solar Power Station = Power Station · Dev Compound = Development Complex.",
-"t489674cd05": "<b>Vodní nádrže</b> se objeví, když časovač ukazuje 36 minut, a pak ještě dvakrát na 26 a 16 minutách. Dokud nádrž držíš, dává 240 vody za minutu."
+"t489674cd05": "<b>Vodní nádrže</b> se objeví, když časovač ukazuje 36 minut, a pak ještě dvakrát na 26 a 16 minutách. Dokud nádrž držíš, dává 240 vody za minutu.",
+"t2326346415": "Nemáš jednotky? Vzdej to a vrať se s plnými",
+"te0ec28727f": "Když ti v raidu nezbudou žádné jednotky, <b>vzdej to schválně</b>. Po 10 minutách se můžeš vrátit — a <b>všechny jednotky máš zase plné</b>.",
+"te508aba0bb": "Nahoře klepni na kapku vody s časovačem.",
+"t0e45ac5833": "V detailech boje klepni na červené tlačítko vlevo (v německém klientu: „AUFGEBEN“).",
+"tcf7c54e5f0": "Počkej 10 minut a pak se vrať do raidu.",
+"t0ca98e5461": "Klepni na kapku vody s časovačem",
+"t93c4d43f91": "Červené tlačítko vlevo: vzdát se"
 };
