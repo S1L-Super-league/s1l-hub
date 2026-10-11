@@ -692,7 +692,7 @@ window.S1L_CS={
 "t644ee2d6d1": "<b>PLAN 1 — jsme mnohem silnější:</b> zůstaneme v pěti týmech a držíme všechno.",
 "t8206919b4f": "<b>PLAN 2 — podobná síla, nebo se nepřítel brání:</b> obsadíme jen důležité budovy (mapa níže) a tam sbíráme a chráníme naši vodu. Ke konci, na pokyn vedoucích, zaútočíme na ostatní budovy a ukradneme jejich vodu.",
 "t307df884ad": "<b>PLAN 3 — nepřítel je silnější:</b> budovy necháme být, držíme jen střed a sbíráme nádrže s vodou. Pak jedna ze dvou cest: <b>když jsme dost silní</b>, necháme nepřítele budovy naplnit a ke konci ukradneme vodu z těch důležitých. <b>Když jsme na to moc slabí</b>, útočíme znovu a znovu, aby nepřítel nikdy nedržel budovu 2,5 minuty — pak nenasbírá nic. Kterou cestou a podrobnosti pošlou vedoucí během raidu do chatu reservoiru.",
-"t7d836ee829": "Které budovy jsou nejdůležitější. <b>1</b> = důležitá, drž ji · <b>2</b> = střední, drž ji, když to jde — bonus k útoku a obraně, nebo k rychlejšímu skákání · <b>3</b> = méně důležitá, místo držení z ní ukradni vodu. Vedoucí to můžou během raidu změnit.",
+"tcabee5ff48": "Které budovy jsou nejdůležitější. <b>1</b> = důležitá, drž ji · <b>2</b> = střední, drž ji, když to jde — bonus k poškození, k rychlejšímu skákání nebo k rychlejšímu obsazení · <b>3</b> = méně důležitá, místo držení z ní ukradni vodu. Vedoucí to můžou během raidu změnit.",
 "t1e95b41ac9": "Úkoly v každé zóně",
 "t7eaab3b40b": "<b>Kdo dělá který úkol, rozhoduje vedoucí týmu.</b>",
 "t4258a3cf9e": "<b>Obsaď naše budovy</b> v zóně.",
@@ -717,7 +717,7 @@ window.S1L_CS={
 "tfae673bc2f": "Ammunition Factory / Power Station / Development Complex / Helipad",
 "t7ae276e7da": "240 každá",
 "t1b93795b97": "—",
-"t2ce82ddc4f": "<b>Bonusové budovy:</b> Ammunition Factory dává všem +20% k útoku a obraně · Development Complex pošle hordu infikovaných, která oslabí nepřátelské obránce · Power Station a Helipad dávají rychlejší nebo zdarma přesun.",
+"t4818ab1230": "<b>Bonusové budovy:</b> Ammunition Factory dává všem +20 % k útoku a obraně · Development Complex posílá vlny infikovaných, které oslabí nepřátelské jednotky v jejich budovách · Helipad: teleport zdarma máš zpátky dvakrát rychleji (−50 % čekací doba) · Power Station: budovy obsadíš za poloviční čas (−50 % doba obsazení).",
 "t113092422a": "<b>Pravidla, na která se často zapomíná:</b> jednotky, které v raidu ztratíš, jsou ztracené jen uvnitř raidu — <b>když odejdeš, máš jednotky zpátky jako předtím</b>. Takže útoč odvážně. Když odejdeš, můžeš se vrátit až po 10 minutách, pak zase se všemi jednotkami. Před startem stáhni všechny pochody domů a neposílej posily do outpostů. <b>Teleporty zdarma</b> přicházejí každých pár minut — přesný čas zkontroluj ve hře a šetři je na louže a na konec.",
 "td3bae5f417": "Arcadian Conquest <span class=\"tag\">2hodinové obléhání</span>",
 "t382a78540b": "<b>Co rozhoduje o výhře:</b> aliance, která drží Arcadii <b>jednu hodinu bez přerušení</b> během dvouhodinového boje — nebo, pokud to nikdo nezvládne, ta s <b>nejdelší celkovou dobou obsazení</b> na konci. Její vůdce se automaticky stane guvernérem. Držení <b>věží</b> způsobí, že útoky na Arcadii přicházejí častěji. <b>Body: 10,000 bodů za každých 60 sekund</b>, kdy máš jednotky v Arcadii nebo ve věži. Běží každý týden, server proti serveru: jeden server Arcadii hlídá, druhý útočí.",
@@ -979,5 +979,8 @@ window.S1L_CS={
 "t68e398b2bc": "Pomoz tuhle stránku opravit",
 "t1e352cfe68": "Když ve hře otevřeš obrazovku a čísla se liší od této stránky, pošli snímek do chatu aliance. Tak si políčko vyslouží zaškrtnutí „otestováno ve hře“. V každém detailním bloku je seznam otevřených otázek — opravy jsou vítanější než chvála.",
 "t2ecd0b8f2f": "<b>Odkud to pochází:</b> vlastní poznámky [S1L] k eventům a snímky ze hry od našich členů, plus externí zdroje uvedené výše. Žádný text nebyl zkopírován z jiných návodů. Bodové hodnoty byly čteny z obrazovek v němčině a ve tvém jazyce můžou být formulované jinak.",
-"t875eb4f9ee": "<b>Co tahle stránka záměrně neobsahuje:</b> data a rozpisy. Ty se mění každý týden a oznamují se na nástěnce aliance ve hře. · [S1L] Field Guide · verze 3 · 28. 9. 2026"
+"t875eb4f9ee": "<b>Co tahle stránka záměrně neobsahuje:</b> data a rozpisy. Ty se mění každý týden a oznamují se na nástěnce aliance ve hře. · [S1L] Field Guide · verze 3 · 28. 9. 2026",
+"teb3ffaac4b": "<b>Pozor: tento obrázek je z jiné hry (State of Survival). Čísla nejsou přesně naše, ale jsou velmi blízko. Účinky jsou v zásadě stejné — jen čísla se můžou trochu lišit.</b>",
+"t12bcc9b0a2": "Údaje o budovách z jiné hry se stejnou mapou. Názvy tam: Water Treatment Center = Treatment Plant · Water Processing Plant = Water Process · Munition Factory = Ammunition Factory · Solar Power Station = Power Station · Dev Compound = Development Complex.",
+"t489674cd05": "<b>Vodní nádrže</b> se objeví, když časovač ukazuje 36 minut, a pak ještě dvakrát na 26 a 16 minutách. Dokud nádrž držíš, dává 240 vody za minutu."
 };

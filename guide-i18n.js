@@ -937,11 +937,11 @@ window.S1L_DE={
 "t95986085ae": "Die Teamleiter entscheiden im Sprachchat und schreiben <b>PLAN 1</b>, <b>PLAN 2</b> oder <b>PLAN 3</b>. Der Plan kann sich während des Raids ändern. <b>Wassertanks sammeln wir in jedem Plan.</b>",
 "t644ee2d6d1": "<b>PLAN 1 — wir sind deutlich stärker:</b> Wir bleiben in fünf Teams und halten alles.",
 "t8206919b4f": "<b>PLAN 2 — ähnlich stark, oder der Gegner wehrt sich:</b> Wir nehmen nur die wichtigen Gebäude (Karte unten) und sammeln und sichern dort unser Wasser. Gegen Ende greifen wir auf Ansage der Teamleiter die anderen Gebäude an und stehlen ihr Wasser.",
-"t7d836ee829": "Welche Gebäude am meisten zählen. <b>1</b> = wichtig, halten · <b>2</b> = mittel, halten, wenn es geht — Bonus für Angriff und Verteidigung oder für schnelleres Springen · <b>3</b> = weniger wichtig, Wasser stehlen statt halten. Die Teamleiter können das während des Raids ändern.",
+"tcabee5ff48": "Welche Gebäude am meisten zählen. <b>1</b> = wichtig, halten · <b>2</b> = mittel, halten, wenn es geht — Bonus für Schaden, für schnelleres Springen oder für schnelleres Einnehmen · <b>3</b> = weniger wichtig, Wasser stehlen statt halten. Die Teamleiter können das während des Raids ändern.",
 "tf473232376": "Treatment Plant (groß)",
 "t01f825f4af": "Water Process (klein)",
 "tfae673bc2f": "Ammunition Factory / Power Station / Development Complex / Helipad",
-"t2ce82ddc4f": "<b>Bonusgebäude:</b> Die Ammunition Factory gibt allen +20 % Angriff und Verteidigung · der Development Complex schickt eine Infizierten-Horde, die gegnerische Verteidiger schwächt · Power Station und Helipad bringen schnelleres oder kostenloses Verlegen.",
+"t4818ab1230": "<b>Bonusgebäude:</b> Die Ammunition Factory gibt allen +20 % Angriff und Verteidigung · der Development Complex schickt Infizierten-Wellen, die gegnerische Truppen in ihren Gebäuden schwächen · Helipad: dein kostenloser Teleport ist doppelt so schnell wieder da (−50 % Abklingzeit) · Power Station: du nimmst Gebäude in der halben Zeit ein (−50 % Besetzungszeit).",
 "tf3cc76846d": "<b>Was gewinnt:</b> die Allianz mit dem meisten Allianz-Wasser, wenn der Timer abläuft. <b>Nur das Wasser entscheidet den Sieg.</b> Wasser an einem Gebäude ist <b>noch nicht sicher</b> — solange es über dem Gebäude steht, kann der Gegner es stehlen. Wasser aus <b>Pfützen</b> und <b>Wassertanks</b> ist sicher und kann nicht gestohlen werden. Kills bringen Punkte für die Einzelwertung, nicht für den Sieg.",
 "t6b22118541": "[S1L] spielt in <b>fünf Teams</b>: vier Farbzonen — <b>Gelb</b> (oben links), <b>Orange</b> (oben rechts), <b>Rot</b> (unten links), <b>Blau</b> (unten rechts) — dazu das <b>Mitte-Team</b>, das sich frei bewegt. In Phase 2 legen wir je zwei Teams zu einem zusammen. Welche Teams zusammengehen, wird vor dem Raid angesagt. <b>Jedes Team hat einen Teamleiter.</b>",
 "tc6b6c7f688": "<b>Im Reservoir-Chat schreiben nur Teamleiter</b> (oder Spieler, die sie benennen) — die wichtigsten Informationen für alle. Alle anderen schreiben dort nur im Notfall.",
@@ -980,5 +980,8 @@ window.S1L_DE={
 "t81a044cf97": "Reiter „Entwicklung“: Schub läuft, Restzeit",
 "t33ea7dd42e": "Auswahl: +50 % oder Mega +100 %",
 "t19c0880d23": "<b>Die angezeigte Belohnung je Schwierigkeit ist die Summe aller 20 Stationen.</b> Jede Station zahlt ihren Anteil, die letzte am meisten. Einen Extra-Bonus fürs Abschließen gibt es nicht. Bleibst du kurz vor dem Ende hängen, fehlt dir nur der Anteil der Stationen, die du nicht geschafft hast.",
-"t1b91edc9c7": "<b>Eine schon geschaffte Schwierigkeit nochmal zu spielen bringt keinen Fortschritt.</b> Das Spiel lässt sie dich wählen, warnt aber: Wenn du sie schaffst, schaltest du nichts Neues frei."
+"t1b91edc9c7": "<b>Eine schon geschaffte Schwierigkeit nochmal zu spielen bringt keinen Fortschritt.</b> Das Spiel lässt sie dich wählen, warnt aber: Wenn du sie schaffst, schaltest du nichts Neues frei.",
+"teb3ffaac4b": "<b>Hinweis: Dieses Bild stammt aus einem anderen Spiel (State of Survival). Die Zahlen sind nicht 1:1 unsere, aber sehr nah dran. Die Wirkungen sind grundsätzlich gleich — nur die Zahlen können etwas anders sein.</b>",
+"t12bcc9b0a2": "Gebäude-Details aus einem anderen Spiel mit derselben Karte. Namen dort: Water Treatment Center = Treatment Plant · Water Processing Plant = Water Process · Munition Factory = Ammunition Factory · Solar Power Station = Power Station · Dev Compound = Development Complex.",
+"t489674cd05": "<b>Wassertanks</b> erscheinen, wenn die Uhr 36 Minuten zeigt, und noch zweimal bei 26 und 16 Minuten. Solange du einen Tank hältst, bringt er 240 Wasser pro Minute."
 };
