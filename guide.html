@@ -446,7 +446,7 @@
 <nav class="bar" id="bar"><div class="in">
   <button type="button" id="menu" class="tbtn mbtn" aria-expanded="false" aria-controls="drawer" data-t="tac2a0e7681">☰ Menu</button>
   <div class="srch" role="search"><input id="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"><div id="qres" class="qres" hidden></div></div>
-  <div class="tools"><button type="button" class="tbtn lg" data-lang="en" lang="en">EN</button><button type="button" class="tbtn lg" data-lang="de" lang="de">DE</button><button type="button" class="tbtn lg" data-lang="ru" lang="ru">RU</button></div>
+  <div class="tools"><button type="button" class="tbtn lg" data-lang="en" lang="en">EN</button><button type="button" class="tbtn lg" data-lang="de" lang="de">DE</button><button type="button" class="tbtn lg" data-lang="ru" lang="ru">RU</button><button type="button" class="tbtn lg" data-lang="cs" lang="cs">CS</button></div>
   <button type="button" id="pdf" class="tbtn pdfb" title="PDF"><span class="ic">↓</span> PDF</button>
 </div>
 <div id="drawer" class="drawer" hidden>
@@ -1858,8 +1858,9 @@
 
 </div>
 
-<script src="guide-i18n.js?v=20261011d"></script>
-<script src="guide-i18n-ru.js?v=20261011d"></script>
+<script src="guide-i18n.js?v=20261011e"></script>
+<script src="guide-i18n-ru.js?v=20261011e"></script>
+<script src="guide-i18n-cs.js?v=20261011e"></script>
 <script>
 (function(){
   var SVG="http://www.w3.org/2000/svg", ORIG={}, cur="en";
@@ -1868,6 +1869,8 @@
               g1:"Getting started",g2:"The weekly cycle",g3:"Events",g4:"Heroes & gear",g5:"Look things up"},
           de:{meta:"Deutsche Fassung",loc:"de-AT",ph:"Suchen …",none:"Nichts gefunden. Probier ein anderes Wort.",ov:"Ganzes Kapitel",
               g1:"Einstieg",g2:"Wochenablauf",g3:"Events",g4:"Helden & Ausrüstung",g5:"Nachschlagen"},
+          cs:{meta:"Česká verze",loc:"cs-CZ",ph:"Hledat …",none:"Nic nenalezeno. Zkus jiné slovo.",ov:"Celá kapitola",
+              g1:"Začínáme",g2:"Týdenní cyklus",g3:"Eventy",g4:"Hrdinové a výbava",g5:"K vyhledání"},
           ru:{meta:"Русская версия",loc:"ru-RU",ph:"Поиск …",none:"Ничего не найдено. Попробуйте другое слово.",ov:"Вся глава",
               g1:"Начало",g2:"Недельный цикл",g3:"События",g4:"Герои и снаряжение",g5:"Справка"}};
   function put(el,v){
@@ -1878,7 +1881,7 @@
     else el.innerHTML=v;
   }
   function apply(lang){
-    var D=(lang==="de"?window.S1L_DE:lang==="ru"?window.S1L_RU:null)||{}, n=0, miss=0;
+    var D=(lang==="de"?window.S1L_DE:lang==="ru"?window.S1L_RU:lang==="cs"?window.S1L_CS:null)||{}, n=0, miss=0;
     Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(el){
       var k=el.getAttribute("data-t");
       if(!(k in ORIG)) ORIG[k]=(el.namespaceURI===SVG)?el.textContent:el.innerHTML;
@@ -1899,7 +1902,7 @@
   document.addEventListener("click",function(e){ var t=e.target; if(t && t.tagName==="IMG" && t.closest("figure")) window.open(t.src,"_blank","noopener"); });
   function start(){
     navh();
-    var q=(location.search.match(/[?&]lang=(de|en|ru)/)||[])[1], sv=null;
+    var q=(location.search.match(/[?&]lang=(de|en|ru|cs)/)||[])[1], sv=null;
     try{ sv=localStorage.getItem("s1l-lang"); }catch(e){}
     if(!UI[sv]) sv=null;
     Array.prototype.forEach.call(document.querySelectorAll(".tbtn.lg"),function(x){ x.addEventListener("click",function(){ apply(x.getAttribute("data-lang")); }); });
