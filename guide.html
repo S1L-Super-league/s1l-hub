@@ -244,6 +244,11 @@
   .tbtn .ic{font-weight:900}
   .tbtn.lg{padding-left:9px;padding-right:9px;opacity:.6}
   .tbtn.lg.on{opacity:1;background:var(--amber);color:#0b0d10}
+  /* Sprachknöpfe leuchten (Jac 15.10.2026): niemand soll sie übersehen */
+  .tools{padding:3px;border-radius:6px;background:rgba(255,176,46,.12);box-shadow:0 0 0 1px var(--amber),0 0 14px rgba(255,176,46,.55);animation:langpulse 1.6s ease-in-out 6}
+  @keyframes langpulse{0%,100%{box-shadow:0 0 0 1px var(--amber),0 0 14px rgba(255,176,46,.55)}50%{box-shadow:0 0 0 2px var(--amber),0 0 30px rgba(255,176,46,.95)}}
+  .tbtn.lg{opacity:1;text-shadow:0 0 8px rgba(255,176,46,.7)}
+  .tbtn.lg.on{text-shadow:none;box-shadow:0 0 12px rgba(255,176,46,.95)}
   #lang .flag{display:inline-block;min-width:20px;text-align:center}
   .printonly{display:none}
 
